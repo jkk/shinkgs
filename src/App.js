@@ -62,16 +62,7 @@ class App extends Component {
     let nextState = this._store.getState();
     if (!this.state.initialized && nextState.initialized) {
       // Just loaded - sync URL with state if necessary
-      if (!nextState.currentUser) {
-        this._history.replace('/');
-      } else {
-        let path = this._history.location.pathname.slice(1);
-        if (!isValidNav(path)) {
-          this._history.replace('/' + nextState.nav);
-        } else if (path !== nextState.nav) {
-          this._actions.onChangeNav(path, {push: false});
-        }
-      }
+      this._syncNav();
     }
     this.setState(nextState);
   }
@@ -108,6 +99,20 @@ class App extends Component {
     }
     window.removeEventListener('beforeunload', this._onUnload);
     document.removeEventListener('visibilitychange', this._onVisibilityChange);
+  }
+
+  _syncNav = () => {
+    let state = this._store.getState();
+    if (!state.currentUser) {
+      this._history.replace('/');
+    } else {
+      let path = this._history.location.pathname.slice(1);
+      if (!isValidNav(path)) {
+        this._history.replace('/' + state.nav);
+      } else if (path !== state.nav) {
+        this._actions.onChangeNav(path, {push: false});
+      }
+    }
   }
 
   _loadMainComponent = () => {
