@@ -1,7 +1,6 @@
 {
   "name": "shinkgs",
   "version": "0.1.0",
-  "private": true,
   "devDependencies": {
     "flow-bin": "0.44.0",
     "node-sass": "4.5.2",
