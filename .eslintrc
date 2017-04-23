@@ -1,0 +1,54 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "node": true,
+    "es6": true,
+    "browser": true
+  },
+  "globals": {
+    "it": true,
+    "test": true,
+    "expect": true
+  },
+  "plugins": [
+    "flowtype",
+    "react"
+  ],
+  "extends": [
+    "eslint:recommended"
+  ],
+  "rules": {
+    "flowtype/define-flow-type": 1,
+    "flowtype/use-flow-type": 1,
+    "flowtype/space-after-type-colon": [1, "always"],
+    "flowtype/space-before-type-colon": [1, "never"],
+    "react/react-in-jsx-scope": 1,
+    "react/jsx-uses-react": 1,
+    "react/jsx-uses-vars": 2,
+    "react/jsx-no-undef": 2,
+    "react/no-multi-comp": 0,
+    "react/prop-types": 0,
+    "react/display-name": 0,
+    "react/wrap-multilines": 0,
+    "react/self-closing-comp": 0,
+    "jsx-quotes": ["error", "prefer-single"],
+    // overrides
+    "quotes": [2, "single", {"avoidEscape": true, "allowTemplateLiterals": true}],
+    "indent": ["error", 2],
+    "semi": 2,
+    "curly": 2,
+    "dot-notation": 2,
+    "eqeqeq": 2,
+    "valid-typeof": 2,
+    "consistent-return": 0,
+    "no-shadow": 2,
+    "no-undef": 2,
+    "no-cond-assign": 2,
+    "no-unused-vars": 2,
+    "no-extra-semi": 2,
+    "no-unreachable": 2,
+    "no-useless-constructor": 2,
+    "no-console": 0,
+    "no-use-before-define": 2
+  }
+}

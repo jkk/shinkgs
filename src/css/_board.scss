@@ -1,0 +1,770 @@
+.BoardNav {
+  display: flex;
+  padding-right: 10px;
+  // flex-direction: row;
+}
+
+.BoardNav-move {
+  width: 75px;
+  padding: 10px 0;
+}
+
+.BoardNav-slide {
+  flex: 1;
+  padding: 7px 0;
+  input {
+    width: 100%;
+  }
+}
+
+.Board {
+  background: $board-bg;
+  position: relative;
+  padding-top: 100%;
+}
+
+.Board-inner {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  right: 20px;
+  bottom: 20px;
+}
+
+.Board-grid {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.Board-grid-lines-y,
+.Board-grid-lines-x {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  @include pie-clearfix;
+}
+
+.Board-coords {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 0;
+}
+
+.Board-star-points {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  // top: -(100% / 19);
+  // left: -(100% / 19);
+}
+
+.Board-star-point {
+  position: absolute;
+  width: 0.9%;
+  height: 0.9%;
+  border-radius: 100%;
+  background: darken($board-border, 5%);
+  margin-left: -0.6%;
+  margin-top: -0.6%;
+}
+
+.Board-stones {
+  @include pie-clearfix;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.Board-size-19 {
+
+  .Board-grid-lines-y {
+    width: (100% - (100% / 19));
+    left: (100% / 19 / 2.1);
+    top: -(100% / 19 / 2);
+    bottom: (100% / 19 / 2);
+  }
+
+  .Board-grid-lines-x {
+    height: (100% - (100% / 19.25));
+    top: (100% / 20 / 2);
+    left: -(100% / 19 / 2);
+    right: (100% / 19 / 2);
+  }
+
+  .Board-grid-line-y {
+    height: (100% / 19);
+    border-bottom: 1px solid $board-border;
+    box-sizing: border-box;
+  }
+
+  .Board-grid-line-x {
+    width: (100% / 19);
+    height: 100%;
+    border-right: 1px solid $board-border;
+    box-sizing: border-box;
+    float: left;
+  }
+
+  .Board-coords-top,
+  .Board-coords-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -(100% / 19 / 2.25);
+    height: (100% / 19);
+    // border-bottom: 1px solid $board-border;
+    box-sizing: border-box;
+    .Board-coord-label {
+      display: inline-block;
+      width: (100% / 19);
+    }
+  }
+
+  .Board-coords-bottom {
+    top: auto;
+    bottom: -(100% / 17.5);
+  }
+
+  .Board-coords-left,
+  .Board-coords-right {
+    position: absolute;
+    // top: (100% / 19 / 2);
+    top: 0;
+    bottom: 0;
+    left: -(100% / 24);
+    width: (100% / 19);
+    // line-height: 1;
+    // border-bottom: 1px solid $board-border;
+    box-sizing: border-box;
+    .Board-coord-label {
+      padding-top: 25%;
+    }
+  }
+
+  .Board-coords-right {
+    left: auto;
+    right: -(100% / 24);
+  }
+
+  .Board-coord-label {
+    text-align: center;
+    height: (100% / 19);
+    font-size: 11px;
+    color: $board-border;
+    box-sizing: border-box;
+  }
+
+  .Board-star-point-0 {
+    left: (100% / 19 * 4 - (100% / 19 / 2));
+    top: (100% / 19 * 4 - (100% / 19 / 2));
+  }
+
+  .Board-star-point-1 {
+    left: (100% / 19 * 10 - (100% / 19 / 2));
+    top: (100% / 19 * 4 - (100% / 19 / 2));
+  }
+
+  .Board-star-point-2 {
+    left: (100% / 19 * 16 - (100% / 19 / 2));
+    top: (100% / 19 * 4 - (100% / 19 / 2));
+  }
+
+  .Board-star-point-3 {
+    left: (100% / 19 * 4 - (100% / 19 / 2));
+    top: (100% / 19 * 10 - (100% / 19 / 2));
+  }
+
+  .Board-star-point-4 {
+    left: (100% / 19 * 10 - (100% / 19 / 2));
+    top: (100% / 19 * 10 - (100% / 19 / 2));
+  }
+
+  .Board-star-point-5 {
+    left: (100% / 19 * 16 - (100% / 19 / 2));
+    top: (100% / 19 * 10 - (100% / 19 / 2));
+  }
+
+  .Board-star-point-6 {
+    left: (100% / 19 * 4 - (100% / 19 / 2));
+    top: (100% / 19 * 16 - (100% / 19 / 2));
+  }
+
+  .Board-star-point-7 {
+    left: (100% / 19 * 10 - (100% / 19 / 2));
+    top: (100% / 19 * 16 - (100% / 19 / 2));
+  }
+
+  .Board-star-point-8 {
+    left: (100% / 19 * 16 - (100% / 19 / 2));
+    top: (100% / 19 * 16 - (100% / 19 / 2));
+  }
+
+  .Board-stones-line {
+    height: (100% / 19);
+    box-sizing: border-box;
+  }
+
+  .Board-stone-slot {
+    width: (100% / 19);
+    padding-top: (100% / 19);
+    float: left;
+    position: relative;
+    cursor: default;
+  }
+}
+
+.Board-size-9 {
+
+  .Board-grid-lines-y {
+    width: (100% - (100% / 9));
+    left: (100% / 9 / 2.1);
+    top: -(100% / 9 / 2);
+    bottom: (100% / 9 / 2);
+  }
+
+  .Board-grid-lines-x {
+    height: (100% - (100% / 9.25));
+    top: (100% / 10 / 2);
+    left: -(100% / 9 / 2);
+    right: (100% / 9 / 2);
+  }
+
+  .Board-grid-line-y {
+    height: (100% / 9);
+    border-bottom: 1px solid $board-border;
+    box-sizing: border-box;
+  }
+
+  .Board-grid-line-x {
+    width: (100% / 9);
+    height: 100%;
+    border-right: 1px solid $board-border;
+    box-sizing: border-box;
+    float: left;
+  }
+
+  .Board-coords-top,
+  .Board-coords-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -(100% / 9 / 4);
+    height: (100% / 9);
+    // border-bottom: 1px solid $board-border;
+    box-sizing: border-box;
+    .Board-coord-label {
+      display: inline-block;
+      width: (100% / 9);
+    }
+  }
+
+  .Board-coords-bottom {
+    top: auto;
+    bottom: -(100% / 9);
+  }
+
+  .Board-coords-left,
+  .Board-coords-right {
+    position: absolute;
+    // top: (100% / 9 / 2);
+    top: 0;
+    bottom: 0;
+    left: -(100% / 14);
+    width: (100% / 9);
+    // line-height: 1;
+    // border-bottom: 1px solid $board-border;
+    box-sizing: border-box;
+    .Board-coord-label {
+      padding-top: 25%;
+    }
+  }
+
+  .Board-coords-right {
+    left: auto;
+    right: -(100% / 14);
+  }
+
+  .Board-coord-label {
+    text-align: center;
+    height: (100% / 9);
+    font-size: 11px;
+    color: $board-border;
+    box-sizing: border-box;
+  }
+
+  .Board-star-point-0 {
+    left: (100% / 9 * 3 - (100% / 9 / 2));
+    top: (100% / 9 * 3 - (100% / 9 / 2));
+  }
+
+  .Board-star-point-1 {
+    left: (100% / 9 * 5 - (100% / 9 / 2));
+    top: (100% / 9 * 3 - (100% / 9 / 2));
+  }
+
+  .Board-star-point-2 {
+    left: (100% / 9 * 7 - (100% / 9 / 2));
+    top: (100% / 9 * 3 - (100% / 9 / 2));
+  }
+
+  .Board-star-point-3 {
+    left: (100% / 9 * 3 - (100% / 9 / 2));
+    top: (100% / 9 * 5 - (100% / 9 / 2));
+  }
+
+  .Board-star-point-4 {
+    left: (100% / 9 * 5 - (100% / 9 / 2));
+    top: (100% / 9 * 5 - (100% / 9 / 2));
+  }
+
+  .Board-star-point-5 {
+    left: (100% / 9 * 7 - (100% / 9 / 2));
+    top: (100% / 9 * 5 - (100% / 9 / 2));
+  }
+
+  .Board-star-point-6 {
+    left: (100% / 9 * 3 - (100% / 9 / 2));
+    top: (100% / 9 * 7 - (100% / 9 / 2));
+  }
+
+  .Board-star-point-7 {
+    left: (100% / 9 * 5 - (100% / 9 / 2));
+    top: (100% / 9 * 7 - (100% / 9 / 2));
+  }
+
+  .Board-star-point-8 {
+    left: (100% / 9 * 7 - (100% / 9 / 2));
+    top: (100% / 9 * 7 - (100% / 9 / 2));
+  }
+
+  .Board-stones-line {
+    height: (100% / 9);
+    box-sizing: border-box;
+  }
+
+  .Board-stone-slot {
+    width: (100% / 9);
+    padding-top: (100% / 9);
+    float: left;
+    position: relative;
+    cursor: default;
+  }
+}
+
+.Board-size-13 {
+
+  .Board-grid-lines-y {
+    width: (100% - (100% / 13));
+    left: (100% / 13 / 2.1);
+    top: -(100% / 13 / 2);
+    bottom: (100% / 13 / 2);
+  }
+
+  .Board-grid-lines-x {
+    height: (100% - (100% / 13.25));
+    top: (100% / 14 / 2);
+    left: -(100% / 13 / 2);
+    right: (100% / 13 / 2);
+  }
+
+  .Board-grid-line-y {
+    height: (100% / 13);
+    border-bottom: 1px solid $board-border;
+    box-sizing: border-box;
+  }
+
+  .Board-grid-line-x {
+    width: (100% / 13);
+    height: 100%;
+    border-right: 1px solid $board-border;
+    box-sizing: border-box;
+    float: left;
+  }
+
+  .Board-coords-top,
+  .Board-coords-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -(100% / 13 / 2.25);
+    height: (100% / 13);
+    // border-bottom: 1px solid $board-border;
+    box-sizing: border-box;
+    .Board-coord-label {
+      display: inline-block;
+      width: (100% / 13);
+    }
+  }
+
+  .Board-coords-bottom {
+    top: auto;
+    bottom: -(100% / 11.5);
+  }
+
+  .Board-coords-left,
+  .Board-coords-right {
+    position: absolute;
+    // top: (100% / 13 / 2);
+    top: 0;
+    bottom: 0;
+    left: -(100% / 18);
+    width: (100% / 13);
+    // line-height: 1;
+    // border-bottom: 1px solid $board-border;
+    box-sizing: border-box;
+    .Board-coord-label {
+      padding-top: 25%;
+    }
+  }
+
+  .Board-coords-right {
+    left: auto;
+    right: -(100% / 18);
+  }
+
+  .Board-coord-label {
+    text-align: center;
+    height: (100% / 13);
+    font-size: 11px;
+    color: $board-border;
+    box-sizing: border-box;
+  }
+
+  .Board-star-point-0 {
+    left: (100% / 13 * 4 - (100% / 13 / 2));
+    top: (100% / 13 * 4 - (100% / 13 / 2));
+  }
+
+  .Board-star-point-1 {
+    left: (100% / 13 * 7 - (100% / 13 / 2));
+    top: (100% / 13 * 4 - (100% / 13 / 2));
+  }
+
+  .Board-star-point-2 {
+    left: (100% / 13 * 10 - (100% / 13 / 2));
+    top: (100% / 13 * 4 - (100% / 13 / 2));
+  }
+
+  .Board-star-point-3 {
+    left: (100% / 13 * 4 - (100% / 13 / 2));
+    top: (100% / 13 * 7 - (100% / 13 / 2));
+  }
+
+  .Board-star-point-4 {
+    left: (100% / 13 * 7 - (100% / 13 / 2));
+    top: (100% / 13 * 7 - (100% / 13 / 2));
+  }
+
+  .Board-star-point-5 {
+    left: (100% / 13 * 10 - (100% / 13 / 2));
+    top: (100% / 13 * 7 - (100% / 13 / 2));
+  }
+
+  .Board-star-point-6 {
+    left: (100% / 13 * 4 - (100% / 13 / 2));
+    top: (100% / 13 * 10 - (100% / 13 / 2));
+  }
+
+  .Board-star-point-7 {
+    left: (100% / 13 * 7 - (100% / 13 / 2));
+    top: (100% / 13 * 10 - (100% / 13 / 2));
+  }
+
+  .Board-star-point-8 {
+    left: (100% / 13 * 10 - (100% / 13 / 2));
+    top: (100% / 13 * 10 - (100% / 13 / 2));
+  }
+
+  .Board-stones-line {
+    height: (100% / 13);
+    box-sizing: border-box;
+  }
+
+  .Board-stone-slot {
+    width: (100% / 13);
+    padding-top: (100% / 13);
+    float: left;
+    position: relative;
+    cursor: default;
+  }
+}
+
+.no-touch .Board-clickable .Board-stone-slot:hover {
+  cursor: pointer;
+  &:after {
+    content: " ";
+    position: absolute;
+    left: 2%;
+    top: 2%;
+    width: 96%;
+    height: 96%;
+    border-radius: 100%;
+    box-shadow: 0 0 0 2px $link-color;
+    z-index: 2;
+  }
+}
+
+.Board-stone,
+.Board-stone-mark-pendingBlack,
+.Board-stone-mark-pendingWhite {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  line-height: 0;
+  // padding-top: 50%;
+  &:before {
+    content: " ";
+    position: absolute;
+    left: 2%;
+    top: 2%;
+    width: 96%;
+    height: 96%;
+    border-radius: 100%;
+    box-shadow: 1px 2px 2px rgba(#000, 0.4);
+    z-index: 1;
+  }
+}
+
+.Board-stone-white,
+.Board-stone-mark-pendingWhite {
+  &:before {
+    background-color: #eee;
+  }
+  &:after {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 85%;
+    height: 85%;
+    border-radius: 100%;
+    z-index: 1;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,1) 20%,rgba(255,255,255,0) 70%);
+  }
+}
+
+.Board-stone-black,
+.Board-stone-mark-pendingBlack {
+  &:before {
+    background-color: $stone-black;
+  }
+  &:after {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80%;
+    height: 80%;
+    border-radius: 100%;
+    z-index: 1;
+    background: radial-gradient(ellipse at center, rgba(#505050, 1) 10%,rgba(#505050,0) 55%);
+  }
+}
+
+.Board-stone-mark-pendingBlack,
+.Board-stone-mark-pendingWhite {
+  opacity: 0.7;
+}
+
+.Board-stone-mark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  line-height: 0;
+  z-index: 2;
+  &:after {
+    content: " ";
+    position: absolute;
+    left: 35%;
+    top: 35%;
+    width: 30%;
+    height: 30%;
+    // border: 2px solid $board-mark;
+    // background: red;
+    box-sizing: border-box;
+  }
+}
+
+.Board-stone-mark-square {
+  &:after {
+    content: " ";
+    position: absolute;
+    left: 35%;
+    top: 35%;
+    width: 30%;
+    height: 30%;
+    border: 2px solid $board-mark;
+    // background: red;
+    box-sizing: border-box;
+  }
+}
+
+.Board-stone-mark-circle {
+  &:after {
+    content: " ";
+    position: absolute;
+    left: 30%;
+    top: 30%;
+    width: 40%;
+    height: 40%;
+    border: 2px solid $board-mark;
+    border-radius: 40%;
+    // background: red;
+    box-sizing: border-box;
+  }
+}
+
+.Board-stone-mark-triangle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  line-height: 200%;
+  color: $board-mark;
+  font-weight: bold;
+  font-size: 16px;
+  &:before {
+    content: "▵";
+  }
+}
+
+.Board-stone-mark-cross {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  line-height: 200%;
+  color: $board-mark;
+  font-weight: bold;
+  font-size: 16px;
+  &:before {
+    content: "×";
+  }
+}
+
+.Board-stone-mark-whiteTerritory {
+  z-index: 3;
+  &:after {
+    content: " ";
+    position: absolute;
+    left: 35%;
+    top: 35%;
+    width: 30%;
+    height: 30%;
+    background: $stone-white;
+    box-sizing: border-box;
+  }
+}
+
+.Board-stone-mark-blackTerritory {
+  z-index: 3;
+  &:after {
+    content: " ";
+    position: absolute;
+    left: 35%;
+    top: 35%;
+    width: 30%;
+    height: 30%;
+    background: $stone-black;
+    box-sizing: border-box;
+  }
+}
+
+.Board-stone-mark-dead {
+  &:after {
+    content: " ";
+    position: absolute;
+    left: 2%;
+    top: 2%;
+    width: 96%;
+    height: 96%;
+    border-radius: 100%;
+    box-shadow: 1px 2px 2px rgba($board-bg, 0.4);
+    z-index: 1;
+    background-color: rgba($board-bg, 0.5);
+  }
+}
+
+.Board-stone-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  line-height: 200%;
+  z-index: 3;
+  font-size: 16px;
+  font-weight: bold;
+  color: $board-mark;
+}
+
+@media only screen and (max-width: 999px) {
+  .Board-stone-label,
+  .Board-stone-mark-cross,
+  .Board-stone-mark-triangle {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .Board-stone-label,
+  .Board-stone-mark-cross,
+  .Board-stone-mark-triangle {
+    font-size: 12px;
+    line-height: 170%;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .Board-stone-label,
+  .Board-stone-mark-cross,
+  .Board-stone-mark-triangle {
+    font-size: 10px;
+  }
+}
+
+.Board-stone-mark-active {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  line-height: 0;
+  z-index: 3;
+  // padding-top: 50%;
+  &:after {
+    content: " ";
+    position: absolute;
+    left: 35%;
+    top: 35%;
+    width: 30%;
+    height: 30%;
+    // border: 2px solid $link-color;
+    background: $link-color;
+    box-sizing: border-box;
+  }
+}

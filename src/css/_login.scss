@@ -1,0 +1,167 @@
+.LoginScreen {
+  margin: 0 auto;
+  max-width: 300px;
+  text-align: center;
+}
+
+.LoginScreen-title {
+  margin: 40px 0;
+}
+
+.LoginScreen-title-icon {
+  opacity: 0;
+  transition: all 0.6s;
+  // transition-delay: 0.2s;
+  transform: translateY(-5px) rotate(-45deg);
+}
+
+.LoginScreen-title-text {
+  display: inline-block;
+  margin: 5px 0 0 0;
+  font-size: 24px;
+  position: relative;
+  opacity: 0;
+  transition: all 0.4s;
+  transform: translateY(5px);
+}
+
+.LoginScreen-title-text-beta {
+  position: absolute;
+  right: -35px;
+  top: -8px;
+  height: 18px;
+  line-height: 18px;
+  font-size: 10px;
+  text-transform: uppercase;
+  padding: 0 6px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  background: $unseen-badge-major;
+  color: #fff;
+  // border: 1px solid $off-white;
+  box-shadow: 0 0 0 1px $off-white;
+  opacity: 0;
+  transition: all 0.3s;
+  transition-delay: 0.6s;
+  transform: scale(0.8);
+}
+
+.LoginScreen-title-logo-loaded {
+  .LoginScreen-title-icon {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+  .LoginScreen-title-text {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .LoginScreen-title-text-beta {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.LoginScreen-form {
+  position: relative;
+  text-align: left;
+  input[type=text], input[type=password] {
+    width: 100%;
+    // margin: 0 0 5px 0;
+    border: none;
+    border-radius: 0;
+    padding: 12px;
+    &:nth-child(1) {
+      border-bottom: 1px solid #ddd;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+    }
+    &:nth-child(2) {
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+  }
+}
+
+.LoginScreen-form {
+  background: $inverted-bg;
+  color: $inverted-fg;
+  padding: 10px;
+  margin: 0 0 20px 0;
+  border-radius: 4px;
+}
+
+.LoginScreen-save-password {
+  position: absolute;
+  right: 17px;
+  bottom: 12px;
+  font-size: 14px;
+  color: $muted;
+  margin: 5px 0 10px 0;
+  .CheckboxInput label:before {
+    background: #444;
+    border: 1px solid $semi-muted;
+    border-radius: 2px;
+  }
+}
+
+.LoginScreen-form-button {
+  margin: 10px 0 0 0;
+  .Button {
+    padding: 10px 35px;
+  }
+}
+
+.LoginScreen-help {
+  text-align: center;
+  // position: absolute;
+  // right: 22px;
+  // bottom: 30px;
+  font-size: 14px;
+  color: $very-muted;
+  a {
+    color: $semi-muted;
+    &:active {
+      color: $content-fg;
+    }
+  }
+}
+
+.no-touch .LoginScreen-help a {
+  &:hover, &:focus {
+    color: $content-fg;
+  }
+}
+
+.LoginScreen-error {
+  padding: 20px;
+  margin: 0 0 10px 0;
+  background: $error-bg;
+  color: $error-fg;
+  text-align: left;
+}
+
+.LoginScreen-footer {
+  border-top: 1px solid $very-muted;
+  margin: 80px 0 0 0;
+  padding: 20px 0 80px 0;
+  font-size: 14px;
+  color: $very-muted;
+  a {
+    color: $semi-muted;
+    &:active {
+      color: $content-fg;
+    }
+  }
+}
+
+.no-touch .LoginScreen-footer a {
+  &:hover, &:focus {
+    color: $content-fg;
+  }
+}
+
+@media #{$mobile-query} {
+  body.LoginScreen-body {
+    background: $off-white;
+  }
+}

@@ -1,0 +1,979 @@
+
+.WatchScreen,
+.PlayScreen {
+  padding: 0 0 80px 0;
+}
+
+.GameScreen-header {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.GameScreen-back a {
+  display: block;
+  color: $link-color;
+}
+
+.GameScreen-back-icon {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 16px;
+  padding: 0 7px;
+}
+
+.GameScreen-back-label {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+.GameScreen-board-step {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 0;
+}
+
+a.GameScreen-board-prev,
+a.GameScreen-board-next {
+  display: block;
+  background: $semi-muted;
+  color: $inverted-fg;
+  padding: 5px 20px;
+  font-size: 16px;
+  display: inline-block;
+  border-radius: 4px;
+  margin: 4px 4px 0 0;
+  &:active {
+    background: $muted;
+  }
+}
+
+.no-touch {
+  a.GameScreen-board-prev,
+  a.GameScreen-board-next {
+    &:hover {
+      background: $muted;
+    }
+  }
+}
+
+.GameScreen-board {
+  background: #555;
+  margin: 0 auto;
+  // width: 100%;
+  // padding-top: 100%;
+  position: relative;
+}
+
+.GameScreen-board-inner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.GameScreen-board-bar {
+  position: relative;
+  height: 36px;
+  background: $inverted-bg-off;
+}
+
+.GameScreen-board-nav {
+  margin: 0 auto;
+  padding: 0 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: $muted;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 110px;
+}
+
+.GamePlayActions {
+  height: 60px;
+  padding: 10px;
+  box-sizing: border-box;
+  // background: $off-white;
+  // border-top: 1px solid $muted;
+  // border-bottom: 1px solid $very-muted;
+}
+
+.GamePlayActions-item {
+  width: 23%;
+  margin-left: 2.666%;
+  height: 40px;
+  display: inline-block;
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.GamePlayActions-item-button {
+  display: block;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  // background: $very-muted;
+  // color: $link-color;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.GamePlayActions-pass {
+  background: lighten($link-color, 33%);
+  color: darken($link-color, 10%);
+  &:active {
+    background: lighten($link-color, 28%);
+    color: darken($link-color, 15%);
+  }
+}
+
+.no-touch .GamePlayActions-pass:hover {
+  background: lighten($link-color, 28%);
+  color: darken($link-color, 15%);
+}
+
+.GamePlayActions-pass-disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.no-touch .GamePlayActions-pass-disabled:hover {
+  background: lighten($link-color, 33%);
+  color: darken($link-color, 10%);
+}
+
+.GamePlayActions-done {
+  background: $link-color;
+  color: $inverted-fg;
+  &:active {
+    background: darken($link-color, 5%);
+    color: $inverted-fg;
+  }
+}
+
+.no-touch .GamePlayActions-done:hover {
+  background: darken($link-color, 5%);
+  color: $inverted-fg;
+}
+
+.GamePlayActions-undo {
+  background: lighten($warning-bg, 38%);
+  color: darken($warning-bg, 10%);
+  &:active {
+    background: lighten($warning-bg, 33%);
+    color: darken($warning-bg, 15%);
+  }
+}
+
+.no-touch .GamePlayActions-undo:hover {
+  background: lighten($warning-bg, 33%);
+  color: darken($warning-bg, 15%);
+}
+
+.GamePlayActions-resign {
+  background: lighten($error-bg, 35%);
+  color: darken($error-bg, 10%);
+  &:active {
+    background: lighten($error-bg, 30%);
+    color: darken($error-bg, 15%);
+  }
+}
+
+.no-touch .GamePlayActions-resign:hover {
+  background: lighten($error-bg, 30%);
+  color: darken($error-bg, 15%);
+}
+
+.GamePlayActions-more {
+  background: #eee;
+  color: $semi-muted;
+  &:active {
+    background: darken(#eee, 5%);
+    color: darken($semi-muted, 5%);
+  }
+}
+
+.no-touch .GamePlayActions-more:hover {
+  background: darken(#eee, 5%);
+  color: darken($semi-muted, 5%);
+}
+
+.GamePlayActions-more-container {
+  position: relative;
+}
+
+.GamePlayActions-more-menu {
+  // display: none;
+  position: absolute;
+  margin: 2px 0 0 0;
+  z-index: 1;
+  background: #eee;
+  right: 0;
+  padding: 5px 5px 10px 5px;
+  text-align: right;
+  width: 150px;
+  border-radius: 4px;
+  box-shadow: 0 5px 20px rgba($shadow-bg, 0.3);
+}
+
+.GamePlayActions-more-item {
+  display: block;
+  padding: 8px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.no-touch .GamePlayActions-more-item:hover {
+  background: darken(#eee, 5%);
+}
+
+.GamePlayActions-more-menu-separator {
+  border-top: 1px solid $very-muted;
+  margin: 5px;
+}
+
+.GameScreen-tabs {
+  display: none;
+}
+
+@media #{$nonmobile-query} {
+  .GameScreen {
+    position: fixed;
+    top: 50px;
+    bottom: 0;
+    left: 50%;
+    width: $max-width;
+    margin-left: -($max-width / 2);
+    box-sizing: border-box;
+  }
+  .GameScreen-header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: 40px;
+    right: 350px;
+    z-index: 1;
+  }
+  .GameScreen-back {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 14px;
+    a {
+      padding: 9px 10px;
+    }
+  }
+  .GameScreen-title {
+    padding: 9px 0;
+    box-sizing: border-box;
+    text-align: center;
+    color: $muted;
+    font-size: 14px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .GameScreen-title-score {
+    // font-weight: bold;
+    color: $inverted-fg;
+    margin-right: 5px;
+  }
+  .GameScreen-board-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 350px;
+    padding-top: 35px;
+    padding-bottom: 30px;
+    box-sizing: border-box;
+    background: #333;
+  }
+  .GameScreen-access-denied {
+    position: absolute;
+    left: 0;
+    top: 185px;
+    right: 350px;
+    padding: 10px 0;
+    box-sizing: border-box;
+    text-align: center;
+    background: $warning-bg;
+    color: $warning-fg;
+  }
+  .GameScreen-side-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 350px;
+    padding-bottom: 40px;
+    background: $content-bg;
+    border-right: 1px solid $very-muted;
+    box-sizing: border-box;
+  }
+  .GameScreen-players-users {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 210px;
+    box-sizing: border-box;
+    border-bottom: 1px solid $very-muted;
+  }
+  .GameScreen-players {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 63%;
+    bottom: 0;
+    padding: 10px;
+    box-sizing: border-box;
+    background: $very-muted;
+  }
+  .GameScreen-users {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 37%;
+    bottom: 0;
+    padding: 10px 0 10px 10px;
+    background: $content-bg;
+    // border-left: 1px solid $very-muted;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    box-sizing: border-box;
+    font-size: 13px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .GameScreen-playing {
+    .GameScreen-chat {
+      top: 265px;
+    }
+  }
+  .GamePlayActions {
+    position: absolute;
+    top: 210px;
+    left: 0;
+    right: 0;
+  }
+  .GameScreen-chat {
+    position: absolute;
+    left: 0;
+    top: 210px;
+    right: 0;
+    bottom: 0;
+    background: $content-bg;
+    box-sizing: border-box;
+  }
+  .GameScreen-chat-scroll {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 74px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+  .GameScreen-chat-message-bar {
+    position: absolute;
+    left: 10px;
+    bottom: 29px;
+    right: 10px;
+  }
+  .GameScreen-board-bar {
+    // width: 85%;
+    margin: 0 auto;
+  }
+  .GameScreen-undo-prompt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 350px;
+  }
+}
+
+@media only screen and (max-width: 999px) {
+  .GameScreen {
+    left: 0;
+    right: 0;
+    width: auto;
+    margin: 0;
+  }
+  .GameScreen-back a {
+    padding-left: 0;
+  }
+  .GameScreen-title {
+    max-width: 220px;
+    font-size: 13px;
+    line-height: 1.3;
+    color: $muted;
+  }
+  .GameScreen-title-score {
+    font-weight: bold;
+    color: $content-fg;
+  }
+}
+
+.GameScreen-chat-info {
+  margin: 0 10px;
+  // border: 1px solid $very-muted;
+  border-bottom: 1px solid $very-muted;
+  // border-radius: 4px;
+  padding: 20px 0 18px 0;
+  // background: $off-white;
+}
+
+.GameInfo-table {
+  td, th {
+    // border-bottom: 1px solid $very-muted;
+    font-size: 14px;
+    padding: 2px;
+    line-height: 1.3;
+  }
+  th {
+    text-align: left;
+    padding-left: 10px;
+    font-weight: bold;
+    width: 50px;
+  }
+}
+
+.GamePlayersInfo-color {
+  position: relative;
+  padding-right: 50px;
+  // height: 65px;
+  margin: 0 0 10px 0;
+  padding: 5px 5px 7px 5px;
+  border-radius: 4px;
+  overflow: hidden;
+  min-height: 77px;
+  // text-align: center;
+  // word-break: break-all;
+  // border: 1px solid $very-muted;
+  // border-bottom: 2px solid $muted;
+  background: $inverted-bg;
+  box-sizing: border-box;
+  &:before {
+    // content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 28px;
+    background: $very-muted;
+  }
+}
+
+.GamePlayersInfo-avatar {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.GamePlayersInfo-avatar {
+  width: 53px;
+  height: 77px;
+  // border: 1px solid $muted;
+  box-sizing: border-box;
+  .UserAvatar-missing {
+    font-size: 32px;
+  }
+}
+
+.GamePlayersInfo-players {
+  font-weight: bold;
+  font-size: 13px;
+  // width: 200px;
+  // padding-left: 17px;
+  position: relative;
+  z-index: 1;
+  .UserName {
+    display: inline-block;
+    vertical-align: middle;
+    color: $inverted-fg;
+  }
+}
+
+.GamePlayersInfo-players-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 4px;
+  box-shadow: 1px 1.5px 1px $shadow-bg;
+  width: 13px;
+  height: 13px;
+  position: relative;
+  border-radius: 13px;
+  // position: absolute;
+  // left: 0;
+  .Board-stone-black:after {
+    background: radial-gradient(ellipse at center, rgba(#666, 1) 10%,rgba(#505050,0) 65%);
+  }
+}
+
+.GamePlayersInfo-player2 {
+  margin-left: 1.4em;
+}
+
+.GamePlayersInfo-captures-clock {
+  position: relative;
+  margin: 0 0 0 5px;
+}
+
+.GamePlayersInfo-captures,
+.GamePlayersInfo-role {
+  font-size: 13px;
+  color: $muted;
+  margin: 4px 0;
+}
+
+.GamePlayersInfo-winner-clock {
+  // margin: 0 auto;
+  position: relative;
+  // width: 100px;
+  margin-right: 57px;
+  height: 26px;
+}
+
+.GamePlayersInfo-winner-badge {
+  position: absolute;
+  padding: 5px;
+  text-align: center;
+  background: $won-color;
+  color: $inverted-fg;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.GamePlayersInfo-clock {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+
+.GameClock {
+  font-size: 14px;
+  padding: 5px;
+  background: #000;
+  color: $semi-muted;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.GameClock-active {
+  // background: $inverted-bg;
+  color: $muted;
+}
+
+.GameClock-running {
+  background: #000;
+  color: $inverted-fg;
+  // border-left: 3px solid $link-color;
+  &:after {
+    position: absolute;
+    left: 4px;
+    top: 5px;
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 0 8px 8px;
+    border-color: transparent transparent transparent $link-color;
+  }
+  .TimeCountdown-urgent {
+    background: #f55;
+  }
+}
+
+.GameClock-time {
+  display: inline-block;
+}
+
+.TimeCountdown {
+  padding: 0 5px;
+}
+
+.GameChat {
+  padding: 10px;
+  .ChatMessage-item {
+    font-size: 13px;
+  }
+  .ChatMessages-item-time {
+    display: none;
+  }
+}
+
+.GameChat-section-title {
+  margin: 10px;
+  font-size: 14px;
+  color: $muted;
+}
+
+.GameChat-section-actions-item {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 10px;
+}
+
+.GameUndoPrompt {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  padding: 5px;
+  background: $content-bg;
+  font-size: 14px;
+  border-radius: 4px;
+  z-index: 1;
+  width: 300px;
+  margin-left: -150px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba($shadow-bg, 0.3);
+}
+
+.GameUndoPrompt-label {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.GameUndoPrompt-buttons {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@media #{$mobile-query} {
+  .GameScreen-body .MainNav {
+    position: absolute;
+  }
+  .WatchScreen {
+    background: $off-white;
+  }
+  .GameScreen-board {
+    width: 100% !important;
+    padding-top: 100%;
+    height: auto !important;
+  }
+  .GameScreen-board-bar {
+    width: 100% !important;
+  }
+  .GameScreen-access-denied {
+    position: absolute;
+    left: 0;
+    top: 185px;
+    right: 0;
+    padding: 10px 0;
+    box-sizing: border-box;
+    text-align: center;
+    background: $warning-bg;
+    color: $warning-fg;
+  }
+  .GameScreen-header {
+    display: block;
+    background: $off-white;
+    text-align: center;
+    height: 35px;
+    line-height: 35px;
+  }
+  .GameScreen-title {
+    display: inline-block;
+    padding: 2px 5px;
+    // font-weight: bold;
+    // div {
+    //   display: inline-block;
+    // }
+  }
+  .GameScreen-back {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .GameScreen-back-icon {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 18px;
+    padding: 0 5px;
+  }
+  .GameScreen-back-label {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 13px;
+    padding-bottom: 1px;
+    font-weight: bold;
+  }
+  .GameScreen-players {
+    background: $very-muted;
+    font-size: 0;
+  }
+  .GamePlayActions {
+    height: 36px;
+    padding: 3px 10px;
+    background: #111;
+  }
+  .GamePlayActions-item {
+    height: 30px;
+  }
+  .GamePlayActions-item-button {
+    height: 30px;
+    line-height: 30px;
+  }
+  .GamePlayActions-more-menu {
+    bottom: 102%;
+  }
+  .GamePlayActions-pass {
+    background: darken($link-color, 10%);
+    color: lighten($link-color, 33%);
+  }
+  .GamePlayActions-undo {
+    background: darken($warning-bg, 10%);
+    color: lighten($warning-bg, 38%);
+  }
+  .GamePlayActions-resign {
+    background: darken($error-bg, 10%);
+    color: lighten($error-bg, 35%);
+  }
+  .GamePlayActions-more {
+    background: #aaa;
+    color: #f8f8f8;
+  }
+  .GamePlayersInfo-color {
+    width: 50%;
+    min-height: 63px;
+    padding: 5px 5px 7px 10px;
+    display: inline-block;
+    border-radius: 0;
+    margin: 0;
+    background: #333;
+    border-bottom: none;
+  }
+  .GamePlayersInfo-players-icon {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 0;
+  }
+  .GamePlayersInfo-players a {
+    color: $inverted-fg;
+  }
+  .GamePlayersInfo-player2 {
+    margin-left: 0;
+  }
+  .GamePlayersInfo-avatar {
+    width: 43px;
+    height: 63px;
+  }
+  .GamePlayersInfo-captures-clock {
+    margin: 0;
+  }
+  .GamePlayersInfo-captures,
+  .GamePlayersInfo-role {
+    font-size: 11px;
+    margin: 2px 0;
+    color: $semi-muted;
+  }
+  .GamePlayersInfo-winner-clock {
+    height: 20px;
+  }
+  .GameClock {
+    padding: 2px 5px;
+  }
+  .GamePlayersInfo-winner-badge {
+    padding: 2px 5px;
+  }
+  .GameClock-running {
+    &:after {
+      top: 2px;
+    }
+  }
+  .GameScreen-side-container {
+    background: $content-bg;
+  }
+  .GameScreen-chat-scroll {
+    min-height: 100px;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+  .GameScreen-tabs {
+    display: block;
+    padding: 10px 0 0 0;
+    border-bottom: 2px solid $very-muted;
+    text-align: center;
+    background: $off-white;
+    a.GameScreen-tab {
+      min-width: 60px;
+      text-align: center;
+      position: relative;
+      top: 2px;
+      display: inline-block;
+      padding: 5px 10px;
+      font-size: 15px;
+      color: $semi-muted;
+      border-bottom: 3px solid transparent;
+      &.GameScreen-tab-active {
+        color: $content-fg;
+        border-bottom: 3px solid $link-color;
+      }
+    }
+  }
+  .GameScreen-tab-content-chat {
+    .GameScreen-chat-info {
+      display: none;
+    }
+  }
+  .GameScreen-chat-info {
+    min-height: 200px;
+  }
+  .GameScreen-users {
+    display: none;
+    padding: 20px;
+    line-height: 1.5;
+    min-height: 200px;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border-bottom: 1px solid $very-muted;
+    &.GameScreen-tab-content {
+      display: block;
+    }
+  }
+  .GameScreen-chat,
+  .GameScreen-chat-message-bar {
+    display: none;
+    &.GameScreen-tab-content {
+      display: block;
+    }
+  }
+  .GameInfo-table {
+    td, th {
+      font-size: 16px;
+    }
+  }
+  .GameScreen-undo-prompt {
+    position: absolute;
+    left: 0;
+    top: 50px;
+    right: 0;
+  }
+}
+
+.ChallengeEditor {
+  // padding: 20px;
+  background: $off-white;
+  // background: $inverted-bg;
+  // color: $inverted-fg;
+}
+
+.ChallengeEditor-intro {
+  padding: 10px 20px;
+  background: $modal-top-bar-bg;
+  color: $modal-top-bar-fg;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+  // background: #e8e8e8;
+  // padding: 10px;
+  // margin: 10px 0 0 0;
+}
+
+.ChallengeEditor-proposal-main {
+  padding: 0 10px;
+  background: $content-bg;
+  color: $content-fg;
+  margin: 0 10px 10px 10px;
+  border-radius: 4px;
+}
+
+.ChallengeEditor-buttons {
+  padding: 10px 20px 20px 20px;
+}
+
+.ChallengeEditor-room-name {
+  font-size: 13px;
+  color: $semi-muted;
+  margin: 5px 0 0 0;
+  text-transform: uppercase;
+}
+
+.ChallengeEditor-game-type {
+  margin: 0 0 0 -3px;
+}
+
+.ChallengeEditor-game-type-icon,
+.ChallengeEditor-game-type-name {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 5px 0 0;
+  font-size: 14px;
+}
+
+.ChallengeEditor-proposal-table {
+  // margin: 20px 0;
+  border-bottom: 1px solid $very-muted;
+  td, th {
+    border-bottom: 1px solid $very-muted;
+    font-size: 14px;
+    padding: 10px 0;
+    line-height: 1.3;
+  }
+  tr:last-child {
+    td, th {
+      border: none;
+    }
+  }
+  th {
+    text-align: left;
+    padding-left: 5px;
+    font-weight: bold;
+    width: 70px;
+    vertical-align: top;
+  }
+}
+
+.ChallengeEditor-proposal-rules .ChallengeEditor-proposal-table {
+  border: none;
+}
+
+.ChallengeEditor-accepted {
+  padding: 10px;
+  background: $success-bg;
+  color: $success-fg;
+  margin: 20px 0;
+}
+
+.ChallengeEditor-declined {
+  padding: 10px;
+  background: $warning-bg;
+  color: $warning-fg;
+  margin: 20px 0;
+}
+
+.PlayScreen-unfinished-list {
+  padding: 10px;
+  background: $very-muted;
+}
+
+.PlayScreen-unfinished-heading {
+  color: $semi-muted;
+  padding: 0 0 10px 0;
+  font-size: 15px;
+  font-weight: bold;
+}

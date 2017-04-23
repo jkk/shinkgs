@@ -1,0 +1,544 @@
+$max-width: 1000px;
+
+$content-bg: #fff;
+$content-fg: #333;
+$off-white: #f8f8f8;
+
+$accent: #48c39c;
+
+$nav-bg: $content-bg;
+
+$shadow-bg: #000;
+
+$muted: #aaa;
+$very-muted: lighten($muted, 20%);
+$semi-muted: #888;
+
+$inverted-bg: #444;
+$inverted-bg-off: #666;
+$inverted-fg: #fff;
+
+$gray-badge-fg: $inverted-fg;
+$gray-badge-bg: $muted;
+
+$link-color: $accent;
+$hover-bg: #fffbe6;
+
+$med-line: #bbb;
+
+$chat-divider: #eee;
+$chat-message-bar-outline: $very-muted;
+$chat-message-bar-outline-focus: #aaa;
+$chat-message-bg: #f4f4f4;
+$chat-message-time: #ccc;
+
+$modal-shade: rgba(#444, 0.7);
+$modal-top-bar-bg: #000;
+$modal-top-bar-fg: #fff;
+$modal-close: #ccc;
+$modal-close-active: #fff;
+
+$input-border: $med-line;
+$input-bg: $content-bg;
+$input-fg: $content-fg;
+$input-placeholder: $muted;
+$input-focus: $link-color;
+
+$button-bg: $link-color;
+$button-fg: $inverted-fg;
+$button-disabled-bg: #ccc;
+
+$ranked-color: $link-color;
+$free-color: #4eb8d0;
+$rengo-color: #d2d171;
+$simul-color: #a28ce6;
+$demo-color: #c34897;
+$tournament-color: #ff9f28;
+
+$board-bg: #e8bf62;
+$board-border: #a78a48; //darken($board-bg, 25%);
+$board-mark: #f3512c;
+
+$stone-white: #fff;
+$stone-black: #333;
+
+$won-color: #5c5;
+$lost-color: #d77;
+
+$error-bg: #d24d4d;
+$error-fg: $inverted-fg;
+
+$success-bg: #3fca8c;
+$success-fg: $inverted-fg;
+
+$warning-bg: #ffa500;
+$warning-fg: $inverted-fg;
+
+$unseen-badge-major: #d24d4d;
+$unseen-badge-minor: #bbb;
+
+$mobile-query: "only screen and (max-width: 736px)";
+$tablet-query: "only screen and (max-width: 1024px)";
+$desktop-query: "only screen and (min-width: 1025px)";
+$nonmobile-query: "only screen and (min-width: 737px)";
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  font-size: 16px;
+  background: $off-white;
+  color: $content-fg;
+  touch-action: manipulation;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+@media #{$mobile-query} {
+  body {
+    background: $content-bg;
+  }
+}
+
+@media #{$nonmobile-query} {
+  body.no-scroll {
+    overflow: hidden;
+  }
+}
+
+a {
+  color: $content-fg;
+  text-decoration: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  &:active {
+    color: darken($link-color, 5%);
+  }
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+input[type=text], input[type=email], input[type=password], textarea, select {
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 2px;
+  border: 1px solid $input-border;
+  font-family: sans-serif;
+  background: $input-bg;
+  color: $input-fg;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  max-width: 100%;
+  display: inline-block;
+  margin: 0;
+  @include placeholder {
+    color: $input-placeholder;
+    opacity: 1;
+  }
+  &:focus {
+    outline: 0;
+    border: 1px solid $input-focus;
+  }
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+textarea {
+  width: 100%;
+}
+
+@keyframes spin {
+  from {
+    transform:rotate(0deg);
+  }
+  to {
+    transform:rotate(360deg);
+  }
+}
+
+.no-touch .Button {
+  &:hover, &:focus {
+    background: darken($button-bg, 5%);
+    border: 1px solid darken($button-bg, 5%);
+    color: $button-fg;
+    outline: 0;
+  }
+  &.Button-danger {
+    background: $error-bg;
+    color: $error-fg;
+    border: 1px solid $error-bg;
+    &:hover, &:focus {
+      background: darken($error-bg, 10%);
+      border: 1px solid darken($error-bg, 10%);
+    }
+  }
+  &.Button-muted {
+    &:hover, &:focus {
+      background: darken($muted, 10%);
+      border: 1px solid darken($muted, 10%);
+    }
+  }
+  &.Button-secondary {
+    font-weight: 600;
+    &:hover, &:focus {
+      color: darken($button-bg, 10%);
+      border: 1px solid darken($button-bg, 10%);
+      outline: 0;
+    }
+    &.Button-danger {
+      &:hover, &:focus {
+        background: $error-bg;
+        color: $error-fg;
+        border: 1px solid $error-bg;
+      }
+    }
+  }
+}
+
+.touch .Button, .no-touch .Button {
+  display: inline-block;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 2px;
+  border: 1px solid $button-bg;
+  background: $button-bg;
+  color: $button-fg;
+  font-family: sans-serif;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  margin: 0;
+  cursor: pointer;
+  &:active {
+    background: darken($button-bg, 5%);
+    border: 1px solid darken($button-bg, 5%);
+    color: $button-fg;
+    outline: 0;
+  }
+  &[disabled] {
+    background: $button-disabled-bg;
+    border: 1px solid $button-disabled-bg;
+    cursor: default;
+  }
+  .Button-icon {
+    display: inline-block;
+    margin-right: 5px;
+    line-height: 16px;
+  }
+  &.Button-danger {
+    background: $error-bg;
+    color: $error-fg;
+    border: 1px solid $error-bg;
+    &:active {
+      background: darken($error-bg, 10%);
+      border: 1px solid darken($error-bg, 10%);
+    }
+  }
+  &.Button-muted {
+    background: $muted;
+    color: $inverted-fg;
+    border: 1px solid $muted;
+    &:active {
+      background: darken($muted, 10%);
+      border: 1px solid darken($muted, 10%);
+    }
+  }
+  &.Button-secondary {
+    background: transparent;
+    color: $button-bg;
+    border: 1px solid $button-bg;
+    &:active {
+      color: darken($button-bg, 10%);
+      border: 1px solid darken($button-bg, 10%);
+      outline: 0;
+    }
+    &[disabled] {
+      color: $button-disabled-bg;
+      border: 1px solid $button-disabled-bg;
+      cursor: default;
+    }
+    &.Button-danger {
+      &:active {
+        background: $error-bg;
+        color: $error-fg;
+        border: 1px solid $error-bg;
+      }
+    }
+  }
+  &.Button-small {
+    padding: 7px 15px 7px 15px;
+    font-size: 14px;
+  }
+  &.Button-no-label {
+    .Button-icon {
+      margin-right: 0;
+    }
+  }
+  &.Button-loading {
+    .Button-icon {
+      animation: spin 1s infinite linear;
+      opacity: 0.5;
+    }
+  }
+}
+
+.SelectInput {
+  display: inline-block;
+  position: relative;
+  max-width: 100%;
+  select {
+    padding-right: 35px;
+  }
+}
+
+.SelectInput-icon {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 15px;
+  pointer-events: none;
+}
+
+.CheckboxInput-control,
+.CheckboxInput-label {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.CheckboxInput-label {
+  margin-left: 5px;
+}
+
+.CheckboxInput {
+  label {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    &:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 18px;
+      height: 18px;
+      box-sizing: border-box;
+      border: 1px solid $input-border;
+      background: $input-bg;
+    }
+    &:after {
+      content: "";
+      border: solid;
+      border-width: 0 0 3px 3px;
+      background: transparent;
+      width: 8px;
+      height: 4px;
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      transform: rotate(-45deg);
+    }
+  }
+  .CheckboxInput-control {
+    position: relative;
+    width: 18px;
+    height: 18px;
+  }
+  input[type=checkbox] {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    margin: 0;
+  }
+  &.CheckboxInput-unchecked {
+    label:after {
+      display: none;
+    }
+  }
+}
+
+img {
+  display: inline-block;
+  max-width: 100%;
+  border: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+form {
+  margin: 0;
+  padding: 0;
+}
+
+.StonesIcon {
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+.StonesIcon-black {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 20px;
+  background-color: $stone-black;
+}
+
+.StonesIcon-white {
+  position: absolute;
+  bottom: 1px;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 16px;
+  border: 1px solid $stone-black;
+}
+
+@media #{$mobile-query} {
+  .StonesIcon {
+    width: 22px;
+    height: 22px;
+    position: relative;
+  }
+
+  .StonesIcon-black {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 12px;
+    height: 12px;
+    border-radius: 24px;
+    background-color: $stone-black;
+  }
+
+  .StonesIcon-white {
+    position: absolute;
+    bottom: 1px;
+    right: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 18px;
+    border: 1.5px solid $stone-black;
+  }
+}
+
+.Spinner {
+  color: $very-muted;
+  font-size: 32px;
+  text-align: center;
+}
+
+.Spinner-icon {
+  animation: spin 1s infinite linear;
+}
+
+.RichContent {
+  a {
+    color: $link-color;
+  }
+}
+
+.RichContent-heading {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.no-touch .RichContent a:hover {
+  text-decoration: underline;
+}
+
+.Modal,
+.UserDetailsModal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  background: $modal-shade;
+  box-shadow: 0 5px 20px rgba($shadow-bg, 0.2);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.UserDetailsModal {
+  z-index: 5;
+}
+
+.Modal-main,
+.UserDetailsModal-main {
+  background: $content-bg;
+  position: relative;
+  margin: 50px auto 40px auto;
+  max-width: 500px;
+  box-sizing: border-box;
+}
+
+.UserDetailsModal-main {
+  min-height: 340px;
+  padding: 20px 20px 0 20px;
+}
+
+.Modal-title {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  padding: 20px;
+  background: $modal-top-bar-bg;
+  color: $modal-top-bar-fg;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.Modal-close,
+.UserDetailsModal-close {
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 5px 20px;
+  font-size: 30px;
+  color: $modal-close;
+  &:active {
+    color: $modal-close-active;
+  }
+}
+
+.no-touch {
+  .Modal-with-title .Modal-close:hover,
+  .UserDetailsModal-close:hover {
+    color: $modal-close-active;
+  }
+}
+
+@media #{$mobile-query} {
+  .Modal {
+    padding: 10px;
+  }
+  .Modal-main,
+  .UserDetailsModal-main {
+    margin: 0 auto 40px auto;
+  }
+  .UserDetailsModal-main {
+    padding: 20px 10px 0 10px;
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "shinkgs-server",
+  "version": "0.1.0",
+  "dependencies": {
+    "compression": "1.6.1",
+    "express": "4.13.4",
+    "http-proxy": "1.16.2"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}

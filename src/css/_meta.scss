@@ -1,0 +1,126 @@
+
+.Main {
+  position: relative;
+}
+
+.MoreMenu-item {
+  display: block;
+  padding: 7px 20px;
+}
+
+.MoreMenu-about-title {
+  font-weight: bold;
+  padding: 7px 20px;
+}
+
+.MoreMenu-about {
+  margin: 10px 0;
+  padding: 10px 0;
+  border-top: 1px solid $very-muted;
+}
+
+.MoreScreen {
+  padding: 20px 0 0 0;
+  text-align: center;
+  font-size: 18px;
+  background: $content-bg;
+  .MoreMenu-about {
+    background: $off-white;
+    margin: 20px 0;
+    padding: 20px 0;
+  }
+}
+
+.MoreScreen-account {
+  font-weight: bold;
+  a {
+    display: block;
+    padding: 7px 20px;
+  }
+  .UserName {
+    display: inline-block;
+  }
+}
+
+.MoreScreen-body {
+  background: $off-white;
+}
+
+.Main-content {
+  max-width: $max-width;
+  margin: 0 auto;
+  padding-top: 50px;
+  // overflow-x: auto;
+  // -webkit-overflow-scrolling: touch;
+  &.Main-offline {
+    opacity: 0.5;
+  }
+}
+
+.OfflineAlert {
+  position: fixed;
+  bottom: 60px;
+  left: 10%;
+  width: 280px;
+  min-height: 30px;
+  padding: 20px;
+  background: #222;
+  color: $inverted-fg;
+  font-size: 13px;
+  line-height: 1.2;
+  border-radius: 2px;
+  box-shadow: 0 5px 20px rgba($shadow-bg, 0.2);
+  z-index: 10;
+}
+
+.OfflineAlert-text {
+  margin-right: 70px;
+}
+
+.OfflineAlert-logout {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  .Button {
+    font-size: 13px;
+  }
+}
+
+@media #{$mobile-query} {
+  .OfflineAlert {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: auto;
+    margin: 0;
+    border-radius: 0;
+  }
+}
+
+.NotImplementedModal,
+.UnderConstructionModal {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.NotImplementedModal-title,
+.UnderConstructionModal-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.NotImplementedModal-desc,
+.UnderConstructionModal-desc {
+  color: $semi-muted;
+  a {
+    color: $link-color;
+  }
+}
+
+.UnderConstructionModal-desc {
+  max-width: 300px;
+  margin: 0 auto;
+  line-height: 1.4;
+  // text-align: left;
+}

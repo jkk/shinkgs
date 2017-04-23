@@ -1,0 +1,312 @@
+.UserName-icons {
+  display: inline-block;
+  .UserIcons {
+    display: inline-block;
+    margin-left: 4px;
+  }
+}
+
+.Username-with-prefix-icons {
+  .UserName-robot,
+  .UserName-guest,
+  .UserName-selfish {
+    margin-right: 4px;
+  }
+}
+
+.UserName-robot {
+  display: inline-block;
+  margin-left: 4px;
+  line-height: 1;
+  filter: grayscale(1) brightness(1.2) contrast(0.85);
+}
+
+.UserName-guest {
+  display: inline-block;
+  margin-left: 4px;
+  line-height: 1;
+  filter: grayscale(1) brightness(1.4) contrast(0.85);
+}
+
+.UserName-selfish {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 12px;
+  background: $gray-badge-bg;
+  color: $gray-badge-fg;
+  line-height: 1;
+  text-align: center;
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.UserName-selfish-icon {
+  vertical-align: top;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  line-height: 0.9;
+}
+
+.UserList-item-offline {
+  a {
+    opacity: 0.5;
+  }
+}
+
+.no-touch .UserList-item-offline a:hover {
+  opacity: 1;
+}
+
+.UserList-item-icons,
+.UserList-item-name {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.UserList-item-icons {
+  margin-left: 4px;
+}
+
+.UserIcons-icon {
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.UserDetailsModal-top-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  background: $modal-top-bar-bg;
+  height: 80px;
+}
+
+.UserDetailsModal-status {
+  position: absolute;
+  right: 25px;
+  bottom: 10px;
+  color: $muted;
+  font-size: 14px;
+}
+
+.UserDetailsModal-avatar {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 80px;
+  height: 114px;
+  border: 2px solid $inverted-fg;
+  border-radius: 2px;
+}
+
+.UserAvatar {
+  background: $semi-muted;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+  }
+  &:before {
+    content: "";
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+.UserAvatar-missing {
+  font-size: 64px;
+  color: $very-muted;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.UserDetailsModal-actions {
+  position: absolute;
+  right: 20px;
+  top: 90px;
+}
+
+.UserDetailsModal-friending {
+  display: none;
+}
+
+.UserDetailsModal-details {
+  margin: 130px 0 0 0;
+  line-height: 1.4;
+}
+
+.UserDetailsModal-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.UserDetailsModal-subname {
+  color: $semi-muted;
+}
+
+.UserDetailsModal-realname,
+.UserDetailsModal-authname {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.UserDetailsModal-realname {
+  margin-right: 10px;
+}
+
+.UserDetailsModal-authname {
+  font-size: 12px;
+  background: $gray-badge-bg;
+  color: $gray-badge-fg;
+  padding: 1px 7px;
+  border-radius: 2px;
+}
+
+.UserDetailsModal-info-bullets {
+  position: absolute;
+  right: 25px;
+  top: 130px;
+  text-align: right;
+  margin: 20px 0;
+  font-size: 13px;
+  color: $semi-muted;
+  a {
+    color: $semi-muted;
+  }
+}
+
+.UserDetailsModal-loading,
+.UserDetailsModal-not-found {
+  margin: 40px 0;
+  color: $muted;
+}
+
+.UserDetailsModal-tabs {
+  margin: 30px 0 0 0;
+  border-bottom: 2px solid $very-muted;
+  // text-align: center;
+  a.UserDetailsModal-tab {
+    min-width: 80px;
+    text-align: center;
+    position: relative;
+    top: 2px;
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 15px;
+    color: $semi-muted;
+    border-bottom: 3px solid transparent;
+    &.UserDetailsModal-tab-active {
+      color: $content-fg;
+      border-bottom: 3px solid $link-color;
+    }
+  }
+}
+
+.UserDetailsModal-tabs-inner {
+  // display: inline-block;
+  padding: 0 20px;
+}
+
+.UserDetailsModal-tabs,
+.UserDetailsModal-tab-content {
+  margin-left: -20px;
+  margin-right: -20px;
+}
+
+.UserDetailsModal-tab-content {
+  background: $off-white;
+}
+
+.UserDetailsModal-bio {
+  font-size: 14px;
+  max-height: 300px;
+  min-height: 60px;
+  padding: 20px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.UserDetailsModal-games-list {
+  padding: 20px 10px;
+  max-height: 300px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+@media #{$mobile-query} {
+  .UserDetailsModal-info-bullets {
+    right: 10px;
+    // position: relative;
+    // right: auto;
+    // top: auto;
+    // text-align: left;
+  }
+  .UserDetailsModal-tabs {
+    a.UserDetailsModal-tab {
+      font-size: 16px;
+    }
+  }
+  .UserDetailsModal-close {
+    padding: 5px 15px;
+  }
+  .UserDetailsModal-status {
+    right: 15px;
+  }
+  .UserDetailsModal-actions {
+    right: 10px;
+  }
+  .UserDetailsModal-avatar {
+    left: 10px;
+  }
+  .UserDetailsModal-name {
+    font-size: 16px;
+    .UserName-icons {
+      font-size: 14px;
+    }
+  }
+  .UserDetailsModal-subname {
+    font-size: 14px;
+  }
+  .UserDetailsModal-games-list {
+    padding: 20px 0;
+  }
+  .UserDetailsModal-tabs-inner {
+    padding: 0 10px;
+  }
+  .UserDetailsModal-tabs,
+  .UserDetailsModal-tab-content {
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+}
+
+.UserDetailsEditForm {
+  padding: 60px 20px 20px 20px;
+}
+
+.UserDetailsEditForm-fields {
+  margin: 20px 0;
+  input, textarea {
+    width: 100%;
+    margin: 0 0 5px 0;
+  }
+}
+
+.UserDetailsEditForm-checkbox {
+  margin: 0 0 10px 0;
+  font-size: 15px;
+  line-height: 16px;
+}

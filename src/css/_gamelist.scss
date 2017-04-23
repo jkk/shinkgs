@@ -1,0 +1,442 @@
+
+.GameTypeIcon {
+  position: relative;
+  padding: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 16px;
+  line-height: 8px;
+  font-size: 12px;
+
+  background: $gray-badge-bg;
+  color: $gray-badge-fg;
+  text-align: center;
+  .Icon {
+    line-height: 8px;
+  }
+}
+
+.GameTypeIcon-code {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+}
+
+.GameTypeIcon-text {
+  margin-left: 30px;
+}
+
+.GameTypeIcon-ranked {
+  background-color: $ranked-color;
+}
+
+.GameTypeIcon-free {
+  background-color: $free-color;
+}
+
+.GameTypeIcon-rengo {
+  background-color: $rengo-color;
+}
+
+.GameTypeIcon-simul {
+  background-color: $simul-color;
+}
+
+.GameTypeIcon-demonstration,
+.GameTypeIcon-review,
+.GameTypeIcon-teaching,
+.GameTypeIcon-review_rengo {
+  background-color: $demo-color;
+}
+
+.GameTypeIcon-tournament {
+  background-color: $tournament-color;
+}
+
+.GameList,
+.GameSummaryList {
+  border-top: 1px solid $very-muted;
+}
+
+.GameList-empty {
+  color: $muted;
+  padding: 20px;
+}
+
+.GameList-item,
+.GameSummaryList-item {
+  display: block;
+  border-bottom: 1px solid $very-muted;
+  color: $content-fg;
+  padding: 5px 10px;
+  line-height: 1.4;
+  background: $content-bg;
+  overflow: hidden;
+  &:active {
+    background: $hover-bg;
+    color: $content-fg;
+  }
+}
+
+.no-touch .GameList-item,
+.no-touch .GameSummaryList-item {
+  &:hover, &:focus {
+    background: $hover-bg;
+    color: $content-fg;
+  }
+}
+
+.GameList-item-type,
+.GameSummaryList-item-type {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.GameList-item-players,
+.GameSummaryList-item-players {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0px 0 0 20px;
+  font-size: 15px;
+  line-height: 1.6;
+  width: 160px;
+}
+
+.GameSummaryList-item-players {
+  width: 140px;
+}
+
+.GameList-item-info,
+.GameSummaryList-item-info {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 15px;
+  line-height: 1.6;
+  color: $muted;
+  padding: 0 0 0 20px;
+}
+
+.GameSummaryList-item-info {
+  padding-left: 0;
+}
+
+.GameList-item-room {
+  // display: inline-block;
+  display: none;
+  vertical-align: middle;
+  font-size: 15px;
+  line-height: 1.6;
+  color: $muted;
+  padding: 0 0 0 20px;
+}
+
+.GameList-item-name {
+  color: $content-fg;
+}
+
+.GameList-item-adjourned {
+  opacity: 0.5;
+}
+
+.GameList-item {
+  .GameRulesDisplay-komi {
+    display: none;
+  }
+}
+
+.GameList-item-active {
+  .GameList-item-move,
+  .GameList-item-result,
+  .GameList-item-observers,
+  .GameList-item-rules {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .GameList-item-move,
+  .GameList-item-result {
+    width: 80px;
+  }
+  .GameList-item-observers {
+    width: 80px;
+  }
+  .GameRulesDisplay-time {
+    display: none;
+  }
+}
+
+.GameList-item-challenge {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  .GameList-item-rules {
+    width: 160px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .GameList-item-name {
+    max-width: 300px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .GameTimeSystem-icon {
+    display: block;
+    margin: 0;
+    position: absolute;
+    right: 100%;
+    padding-right: 15px;
+    white-space: nowrap;
+  }
+  .GameList-item-room {
+    display: none;
+  }
+}
+
+.GamePlayersList-winner {
+  // font-weight: bold;
+  position: relative;
+  &:before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 6px;
+    background: $semi-muted;
+    position: absolute;
+    left: -10px;
+    top: 8px;
+  }
+}
+
+.GameSummaryList-item-won {
+  .GameSummaryList-item-result {
+    position: relative;
+    &:before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 6px;
+      background: $won-color;
+      position: absolute;
+      left: -15px;
+      top: 8px;
+    }
+  }
+}
+
+.GameSummaryList-item-lost {
+  .GameSummaryList-item-result {
+    position: relative;
+    &:before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 6px;
+      background: $lost-color;
+      position: absolute;
+      left: -15px;
+      top: 8px;
+    }
+  }
+}
+
+.GameSummaryList-item-date-now {
+  font-weight: bold;
+  color: $content-fg;
+}
+
+// Uncomment for both players on one line
+@media #{$nonmobile-query} {
+//   .GameList-item-active {
+//     padding-top: 10px;
+//     padding-bottom: 10px;
+//     .GameList-item-players {
+//       width: 320px;
+//     }
+//     .GamePlayersList-player1,
+//     .GamePlayersList-player2,
+//     .GamePlayersList-white2,
+//     .GamePlayersList-black2 {
+//       display: inline-block;
+//       vertical-align: middle;
+//       width: 160px;
+//     }
+//   }
+}
+
+@media #{$mobile-query} {
+  .GameList-item,
+  .GameSummaryList-item {
+    padding: 5px;
+  }
+  .GameList-item-players,
+  .GameSummaryList-item-players {
+    font-size: 14px;
+    width: 140px;
+    padding-left: 10px;
+  }
+  .GameSummaryList-item-players {
+    width: 125px;
+  }
+  .GameList-item-info,
+  .GameSummaryList-item-info {
+    font-size: 13px;
+    width: 170px;
+    color: $muted;
+  }
+  .GameSummaryList-item-result,
+  .GameSummaryList-item-rules {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .GameSummaryList-item-result {
+    margin-right: 10px;
+  }
+  .GameRulesDisplay-time {
+    margin-right: 10px;
+  }
+  .GameRulesDisplay-time,
+  .GameRulesDisplay-size,
+  .GameRulesDisplay-handicap {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .GameList-item-active {
+    .GameList-item-move,
+    .GameList-item-result {
+      width: 65px;
+    }
+    .GameList-item-observers {
+      width: 50px;
+    }
+  }
+  .GameList-item-challenge {
+    .GameTimeSystem-icon {
+      position: absolute;
+      right: 100%;
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+  }
+  .GameList-item-room {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 374px) {
+  .GameList-item-info,
+  .GameSummaryList-item-info {
+    width: 115px;
+  }
+  .GameSummaryList-item-info {
+    width: auto;
+  }
+}
+
+@media #{$nonmobile-query} {
+  .GameSummaryList-item-players {
+    font-size: 14px;
+  }
+  .GameSummaryList-item-info {
+    font-size: 14px;
+  }
+  .GameSummaryList-item-result-rules,
+  .GameSummaryList-item-date {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .GameSummaryList-item-result-rules {
+    width: 100px;
+  }
+}
+
+.GameTimeSystem {
+  position: relative;
+}
+
+.GameTimeSystem-icon {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.GameListFilter {
+  padding: 15px 0;
+  background: $off-white;
+  select {
+    font-size: 14px;
+  }
+}
+
+.GameListFilter-room {
+  width: 200px;
+}
+
+.GameListFilter-room,
+.GameListFilter-bots {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 20px;
+  font-size: 14px;
+}
+
+.GameListFilter-room-select {
+  position: relative;
+  width: 100%;
+  .SelectInput, select {
+    width: 100%;
+  }
+  .SelectInput-icon {
+    color: $muted;
+  }
+}
+
+.GameListFilter-room-clear {
+  display: none;
+}
+
+.GameListFilter-room-select-active {
+  select {
+    background: $link-color;
+    color: $inverted-fg;
+    border-color: $link-color;
+  }
+  .SelectInput-icon {
+    color: $inverted-fg;
+  }
+  a.GameListFilter-room-clear {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    font-size: 20px;
+    z-index: 1;
+    line-height: 38px;
+    text-align: center;
+    font-weight: bold;
+    color: $inverted-fg;
+    background: $link-color;
+    background: darken($link-color, 5%);
+  }
+}
+
+@media #{$mobile-query} {
+  .GameListFilter {
+    select {
+      font-size: 16px;
+    }
+  }
+  .GameListFilter-bots {
+    font-size: 16px;
+    .CheckboxInput-label {
+      margin-top: -1px;
+    }
+  }
+}
+
+@media only screen and (max-width: 999px) {
+  .GameListFilter {
+    padding-left: 10px;
+  }
+}
