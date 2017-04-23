@@ -33,7 +33,9 @@ Available at https://shinkgs.com/
 
 ## Contributing
 
-Contributions welcome. Please check the [Trello board](https://trello.com/b/SW8QKjyE/shin-kgs) and create an issue to help coordinate efforts.
+Contributions welcome. Please check the [Project Board](https://github.com/jkk/shinkgs/projects/1) and [Issues](https://github.com/jkk/shinkgs/issues) to help coordinate efforts. Feel free to create an issue if there isn't one already for what you have in mind.
+
+There's a [difficulty: starter] label for issues that are good tasks to cut your teeth on.
 
 ## Code Overview
 
