@@ -104,16 +104,6 @@ export function handleSessionMessage(prevState: AppState, msg: KgsMessage): AppS
       nav: msg.nav,
       userDetailsRequest: null
     };
-  case 'SHOW_NOT_IMPLEMENTED':
-    return {
-      ...prevState,
-      showNotImplemented: true
-    };
-  case 'HIDE_NOT_IMPLEMENTED':
-    return {
-      ...prevState,
-      showNotImplemented: false
-    };
   case 'SHOW_UNDER_CONSTRUCTION':
     return {
       ...prevState,

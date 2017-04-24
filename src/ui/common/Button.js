@@ -75,7 +75,7 @@ export class Button extends Component {
           className={className}
           disabled={disabled}
           onClick={onClick}>
-          {iconEl} {children}
+          {iconEl} <div className='Button-content'>{children}</div>
         </button>
       );
     }

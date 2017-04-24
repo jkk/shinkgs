@@ -977,3 +977,31 @@ a.GameScreen-board-next {
   font-size: 15px;
   font-weight: bold;
 }
+
+.PlayScreen-list {
+  position: relative;
+}
+
+.PlayScreen-action-buttons {
+  position: absolute;
+  right: 0;
+  top: 14px;
+}
+
+@media only screen and (max-width: 999px) {
+  .PlayScreen-action-buttons {
+    right: 10px;
+  }
+}
+
+@media #{$mobile-query} {
+  .no-touch .PlayScreen-action-buttons,
+  .touch .PlayScreen-action-buttons {
+    .Button-content {
+      display: none;
+    }
+    .Button-icon {
+      margin: 0;
+    }
+  }
+}

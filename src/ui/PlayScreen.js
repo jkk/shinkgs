@@ -1,6 +1,6 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
-import {Modal} from './common';
+import {Modal, Button} from './common';
 import ChallengeEditor from './game/ChallengeEditor';
 import GameList from './game/GameList';
 import GameSummaryList from './game/GameSummaryList';
@@ -95,6 +95,11 @@ export default class PlayScreen extends Component {
               roomsById={roomsById}
               filter={playFilter}
               onChange={actions.onShowGames} />
+            <div className='PlayScreen-action-buttons'>
+              <Button primary icon='plus' onClick={this._onCreateChallenge}>
+                Create Challenge
+              </Button>
+            </div>
             {unfinishedGames.length ?
               <div className='PlayScreen-unfinished-list'>
                 <div className='PlayScreen-unfinished-heading'>
@@ -120,6 +125,10 @@ export default class PlayScreen extends Component {
     if (playChallengeId) {
       this.props.actions.onCloseChallenge(playChallengeId);
     }
+  }
+
+  _onCreateChallenge = () => {
+    this.props.actions.onShowUnderConstruction();
   }
 
   _onSubmitChallenge = (proposal: GameProposal) => {

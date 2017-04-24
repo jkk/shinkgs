@@ -23,7 +23,6 @@ export function getEmptyServerState() {
     playbacks: [],
     activeConversationId: null,
     userDetailsRequest: null,
-    showNotImplemented: false,
     showUnderConstruction: false
   };
 }

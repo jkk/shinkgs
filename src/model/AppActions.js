@@ -111,8 +111,6 @@ export class AppActions {
         name: state.currentUser.name
       });
     }
-
-    this.onShowUnderConstruction();
   }
 
   onShowUnderConstruction = () => {
@@ -247,7 +245,7 @@ export class AppActions {
     let challenge: ?GameChannel = state.gamesById[challengeId];
     let proposal: ?GameProposal = challenge && challenge.initialProposal;
     if (proposal && (proposal.gameType === 'rengo' || proposal.gameType === 'simul')) {
-      this.onShowNotImplemented();
+      this.onShowUnderConstruction();
       return;
     }
     this._store.dispatch({
@@ -338,7 +336,7 @@ export class AppActions {
 
   onLoadGame = (timestamp: string) => {
     console.log('TODO - Ask for room/private, then load game', timestamp);
-    this.onShowNotImplemented();
+    this.onShowUnderConstruction();
   }
 
   onUserDetail = (name: string) => {
@@ -579,14 +577,6 @@ export class AppActions {
       type: 'GAME_TIME_EXPIRED',
       channelId: gameId
     });
-  }
-
-  onShowNotImplemented = () => {
-    this._store.dispatch({type: 'SHOW_NOT_IMPLEMENTED'});
-  }
-
-  onHideNotImplemented = () => {
-    this._store.dispatch({type: 'HIDE_NOT_IMPLEMENTED'});
   }
 
   onUpdateProfileDetails = (user: User, details: UserDetails) => {

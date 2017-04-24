@@ -2,7 +2,6 @@
 import React, {PureComponent as Component} from 'react';
 import Nav from './meta/Nav';
 import OfflineAlert from './meta/OfflineAlert';
-import NotImplementedModal from './meta/NotImplementedModal';
 import UnderConstructionModal from './meta/UnderConstructionModal';
 import WatchScreen from './WatchScreen';
 import PlayScreen from './PlayScreen';
@@ -31,7 +30,6 @@ export default class Main extends Component {
       nav,
       clientState,
       userDetailsRequest,
-      showNotImplemented,
       showUnderConstruction
     } = appState;
     let screenProps = {...appState, actions};
@@ -78,10 +76,6 @@ export default class Main extends Component {
         </div>
         {userDetailsRequest ?
           <UserDetailsModal {...screenProps} /> :
-          null}
-        {showNotImplemented ?
-          <NotImplementedModal
-            onClose={actions.onHideNotImplemented} /> :
           null}
         {showUnderConstruction ?
           <UnderConstructionModal

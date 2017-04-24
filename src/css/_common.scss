@@ -233,6 +233,9 @@ textarea {
     margin-right: 5px;
     line-height: 16px;
   }
+  .Button-content {
+    display: inline-block;
+  }
   &.Button-danger {
     background: $error-bg;
     color: $error-fg;

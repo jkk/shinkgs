@@ -98,19 +98,16 @@
   }
 }
 
-.NotImplementedModal,
 .UnderConstructionModal {
   text-align: center;
   padding: 40px 20px;
 }
 
-.NotImplementedModal-title,
 .UnderConstructionModal-title {
   font-size: 24px;
   font-weight: bold;
 }
 
-.NotImplementedModal-desc,
 .UnderConstructionModal-desc {
   color: $semi-muted;
   a {
@@ -119,7 +116,7 @@
 }
 
 .UnderConstructionModal-desc {
-  max-width: 300px;
+  max-width: 350px;
   margin: 0 auto;
   line-height: 1.4;
   // text-align: left;

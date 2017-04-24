@@ -448,7 +448,6 @@ export type AppState = {
   nav: NavOption,
   activeConversationId: ?number,
   userDetailsRequest: ?UserDetailsRequest,
-  showNotImplemented: boolean,
   showUnderConstruction: boolean
 };
 
