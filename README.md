@@ -10,9 +10,9 @@ Available at https://shinkgs.com/
 
 * First-class web and mobile experience
 * Retain community vibe of KGS
-* Resilience to network failure and flakiness
 * Start small, release early
 * Work towards native versions (Electron, React Native, Cordova)
+* [Bus factor](https://en.wikipedia.org/wiki/Bus_factor) > 1
 
 ## Progress
 
