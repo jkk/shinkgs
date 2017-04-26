@@ -40,3 +40,16 @@ export function getInitialState(clientState: KgsClientState): AppState {
     ...getEmptyServerState()
   };
 }
+
+export function prepareSavedAppState(appState: AppState): AppState {
+  // Always pretend we're online when saving state, so after restoration
+  // we can try a network request before finding out what the true
+  // state of the network is.
+  return {
+    ...appState,
+    clientState: {
+      ...appState.clientState,
+      network: 'online'
+    }
+  };
+}
