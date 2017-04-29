@@ -18,6 +18,7 @@ import {
   getGamePlayerRole,
   getGameRoleColor
 } from '../../model/game';
+import { sortUsers } from '../../model/user';
 import type {
   GameChannel,
   GameChatSection,
@@ -106,6 +107,7 @@ export default class GameScreen extends Component {
     } = this.props;
     let {tab, chatSections} = this.state;
     let users = game.users ? game.users.map(name => usersByName[name]) : [];
+    sortUsers(users);
     let tree = game.tree;
     let moveNum;
     let isOurMove;
