@@ -235,6 +235,7 @@ export class KgsClient {
       xhr.addEventListener('abort', onError);
       xhr.addEventListener('timeout', onError);
       xhr.open('GET', API_URL, true);
+      xhr.setRequestHeader('Accept', 'application/json;charset=UTF-8');
       xhr.withCredentials = true;
       xhr.send();
     });
