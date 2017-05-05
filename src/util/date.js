@@ -65,7 +65,7 @@ export function timeAgo(date: Date, suffix?: string) {
   let unit;
 
   if (seconds < 60) {
-    return 'Just now';
+    return 'just now';
   } else if (seconds < 60 * 60) {
     content = Math.round(seconds / 60);
     unit = 'minute';
