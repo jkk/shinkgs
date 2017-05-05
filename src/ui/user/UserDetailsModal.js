@@ -126,7 +126,7 @@ export default class UserDetailsModal extends Component {
                 <div className='UserDetailsModal-locale'>
                   {locale.language} / {locale.country.replace('United States', 'US')}
                 </div> : null}
-              {details.email ?
+              {details.email && !details.privateEmail ?
                 <div className='UserDetailsModal-email'>
                   <a href={`mailto:${details.email}`}>{details.email}</a>
                 </div> : null}
