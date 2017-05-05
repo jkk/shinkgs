@@ -5,6 +5,7 @@ import {A, Icon, StonesIcon} from '../common';
 import ChatUnseenBadge from '../chat/ChatUnseenBadge';
 import UserName from '../user/UserName';
 import {isAncestor} from '../../util/dom';
+import {InvariantError} from '../../util/error';
 import type {
   User,
   NavOption,
@@ -57,7 +58,7 @@ export default class Nav extends Component {
     } = this.props;
     let {showingMoreMenu} = this.state;
     if (!currentUser) {
-      throw Error('currentUser is required');
+      throw new InvariantError('currentUser is required');
     }
     return (
       <div className='MainNav'>

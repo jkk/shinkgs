@@ -3,6 +3,7 @@ import React, {PureComponent as Component} from 'react';
 import {A} from '../common';
 import MoreMenu from './MoreMenu';
 import UserName from '../user/UserName';
+import {InvariantError} from '../../util/error';
 import type {User, AppActions} from '../../model';
 
 export default class MoreScreen extends Component {
@@ -27,7 +28,7 @@ export default class MoreScreen extends Component {
   render() {
     let {currentUser, actions} = this.props;
     if (!currentUser) {
-      throw new Error('currentUser is required');
+      throw new InvariantError('currentUser is required');
     }
     return (
       <div className='MoreScreen'>

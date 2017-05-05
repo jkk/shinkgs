@@ -1,6 +1,6 @@
 // @flow
 import type {KgsClientState, KgsMessage} from './types';
-import {isJsError} from '../util/error';
+import {isJsError, InvariantError} from '../util/error';
 import {escapeUnicode} from '../util/string';
 
 const API_URL = process.env.REACT_APP_API_URL || '/json/access';
@@ -112,7 +112,7 @@ export class KgsClient {
       await this._sendMessage(msg, opts);
       this.setState({...this.state, network: 'online', retryTimes: 0});
     } catch (err) {
-      if (isJsError(err)) {
+      if (isJsError(err) || err.name === 'InvariantError') {
         // Likely an error in the app, not with network or client
         throw err;
       }
@@ -175,7 +175,7 @@ export class KgsClient {
         console.log('[KGS Client] Stopped polling');
       }
     } catch (err) {
-      if (isJsError(err)) {
+      if (isJsError(err) || err.name === 'InvariantError') {
         // Likely an error in the app, not with network or client
         throw err;
       }

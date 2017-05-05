@@ -9,6 +9,7 @@ import {
   formatGameRuleset,
   getMatchupInfo
 } from '../../model/game';
+import {InvariantError} from '../../util/error';
 import type {
   GameChannel,
   GameProposal,
@@ -41,7 +42,7 @@ export default class ChallengeEditor extends Component {
     let {challenge, currentUser, usersByName} = props;
     let initialProposal = challenge.initialProposal;
     if (!initialProposal || !currentUser) {
-      throw Error('No initialProposal in challenge');
+      throw new InvariantError('No initialProposal in challenge');
     }
     let proposal = {...initialProposal};
     let players = [];

@@ -6,6 +6,7 @@ import GameList from './game/GameList';
 import GameSummaryList from './game/GameSummaryList';
 import GameListFilter from './game/GameListFilter';
 import GameScreen from './game/GameScreen';
+import {InvariantError} from '../util/error';
 import type {
   User,
   GameChannel,
@@ -62,7 +63,7 @@ export default class PlayScreen extends Component {
       actions
     } = this.props;
     if (!currentUser) {
-      throw Error('currentUser is required');
+      throw new InvariantError('currentUser is required');
     }
     let challenge = playChallengeId ? gamesById[playChallengeId] : null;
     let activeGame = playGameId ? gamesById[playGameId] : null;
