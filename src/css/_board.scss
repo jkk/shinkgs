@@ -516,6 +516,28 @@
   }
 }
 
+.Board-stone-mark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  line-height: 0;
+  z-index: 2;
+  &:after {
+    content: " ";
+    position: absolute;
+    left: 35%;
+    top: 35%;
+    width: 30%;
+    height: 30%;
+    // border: 2px solid $board-mark;
+    // background: red;
+    box-sizing: border-box;
+  }
+}
+
 .Board-stone,
 .Board-stone-mark-pendingBlack,
 .Board-stone-mark-pendingWhite {
@@ -573,28 +595,6 @@
     border-radius: 100%;
     z-index: 1;
     background: radial-gradient(ellipse at center, rgba(#505050, 1) 10%,rgba(#505050,0) 55%);
-  }
-}
-
-.Board-stone-mark {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  text-align: center;
-  line-height: 0;
-  z-index: 2;
-  &:after {
-    content: " ";
-    position: absolute;
-    left: 35%;
-    top: 35%;
-    width: 30%;
-    height: 30%;
-    // border: 2px solid $board-mark;
-    // background: red;
-    box-sizing: border-box;
   }
 }
 
