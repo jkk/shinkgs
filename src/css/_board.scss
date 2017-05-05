@@ -543,15 +543,15 @@
 .Board-stone-white,
 .Board-stone-mark-pendingWhite {
   &:before {
-    background-color: #eee;
+    background-color: #e8e8e8;
   }
   &:after {
     content: " ";
     position: absolute;
     left: 0;
     top: 0;
-    width: 85%;
-    height: 85%;
+    width: 90%;
+    height: 90%;
     border-radius: 100%;
     z-index: 1;
     background: radial-gradient(ellipse at center, rgba(255,255,255,1) 20%,rgba(255,255,255,0) 70%);
