@@ -77,6 +77,7 @@ $warning-fg: $inverted-fg;
 $unseen-badge-major: #d24d4d;
 $unseen-badge-minor: #bbb;
 
+$narrow-mobile-query: "only screen and (max-width: 374px)";
 $mobile-query: "only screen and (max-width: 736px)";
 $tablet-query: "only screen and (max-width: 1024px)";
 $desktop-query: "only screen and (min-width: 1025px)";
