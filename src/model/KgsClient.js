@@ -1,6 +1,6 @@
 // @flow
 import type {KgsClientState, KgsMessage} from './types';
-import {isJsError, InvariantError} from '../util/error';
+import {isJsError} from '../util/error';
 import {escapeUnicode} from '../util/string';
 
 const API_URL = process.env.REACT_APP_API_URL || '/json/access';
