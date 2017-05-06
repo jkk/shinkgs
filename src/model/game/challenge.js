@@ -76,6 +76,9 @@ export function proposalsEqual(p1: GameProposal, p2: GameProposal) {
   ) {
     return false;
   }
+  if (p1.nigiri) {
+    return true;
+  }
   for (let i = 0; i < p1.players.length; i++) {
     if (p1.players[i].role !== p2.players[i].role) {
       return false;
