@@ -172,12 +172,9 @@ export function handleConversationMessage(
       return {...prevState, conversationsById};
     }
   } else if (msg.type === 'DRAFT_CHAT') {
-    console.log('Drafting chat');
-    console.log(msg);
     let convoId = msg.conversationId;
     let conversationsById: Index<Conversation> = {...prevState.conversationsById};
     if (conversationsById[convoId]) {
-      console.log('Found conversation!');
       conversationsById[convoId] = {
         ...conversationsById[convoId],
         draft: msg.text

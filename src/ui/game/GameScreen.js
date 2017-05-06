@@ -229,7 +229,6 @@ export default class GameScreen extends Component {
                   chatsDisabled: !game.tree
                 }}
                 onSubmit={this._onChat}
-                onDraft={()=>{}}
               />
             </div>
           </div>

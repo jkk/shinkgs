@@ -6,7 +6,7 @@ import type {Conversation} from '../../model';
 type Props = {
   conversation: ?Conversation,
   onSubmit: string => any;
-  onDraft: string => any;
+  onDraft?: string => any;
 };
 
 export default class ChatMessageBar extends Component {
@@ -23,9 +23,9 @@ export default class ChatMessageBar extends Component {
     }
   }
 
-  _onChange(event: SyntheticEvent) {
+  _onChange = (event: SyntheticEvent) => {
     let target: EventTarget = event.target;
-    if (target instanceof HTMLInputElement) {
+    if (target instanceof HTMLInputElement && this.props.onDraft) {
       this.props.onDraft(target.value);
     }
   }
@@ -53,7 +53,7 @@ export default class ChatMessageBar extends Component {
               type='text'
               placeholder={placeholder}
               value={draft === '' ? null : draft}
-              onChange={this._onChange.bind(this)}
+              onChange={this._onChange}
               autoFocus={!isTouchDevice()} />
           </form>
         </div>
