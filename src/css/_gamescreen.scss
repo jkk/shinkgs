@@ -707,6 +707,11 @@ a.GameScreen-board-next {
   }
   .GameScreen-board-bar {
     width: 100% !important;
+    z-index: 2;
+  }
+  .GameScreen-board-step {
+    height: 47px;
+    padding-left: 7px;
   }
   .GameScreen-access-denied {
     position: absolute;
