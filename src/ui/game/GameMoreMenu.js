@@ -38,6 +38,7 @@ export default class GameMoreMenu extends Component {
     let {game} = this.props;
     let {moreShowing} = this.state;
     let sgfUrl = game.summary ? getKgsSgfUrl(game.summary) : '#';
+    let eidogoUrl = 'http://eidogo.com/#url:' + sgfUrl;
     return (
       <div className='GameMoreMenu' ref={this._setMoreEl}>
         <A className='GameMoreMenu-trigger' onClick={this._onToggleDropdown}>
@@ -50,8 +51,11 @@ export default class GameMoreMenu extends Component {
         </A>
         {moreShowing ?
           <div className='GameMoreMenu-dropdown'>
-            <a download className='GameMoreMenu-dropdown-item' href={sgfUrl} onClick={this._onToggleDropdown}>
+            <a className='GameMoreMenu-dropdown-item' download href={sgfUrl} onClick={this._onToggleDropdown}>
               Download SGF
+            </a>
+            <a className='GameMoreMenu-dropdown-item' target='_blank' rel='noopener' href={eidogoUrl} onClick={this._onToggleDropdown}>
+              Open in EidoGo
             </a>
           </div> : null}
       </div>

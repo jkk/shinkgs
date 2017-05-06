@@ -43,10 +43,12 @@ a.GameMoreMenu-trigger {
   text-align: right;
   width: 170px;
   box-shadow: 0 5px 20px rgba($shadow-bg, 0.3);
+  line-height: 1.4;
 }
 
 a.GameMoreMenu-dropdown-item {
   // color: $inverted-fg;
+  display: block;
   padding: 5px 10px;
 }
 
