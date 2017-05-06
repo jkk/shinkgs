@@ -18,6 +18,7 @@ function createConversation(msg: KgsMessage) {
   let convo: Conversation = {
     id: msg.channelId,
     messages: [],
+    draft: '',
     status: isTempId(msg.channelId) ? 'pending' : 'created'
   };
   if (msg.callbackKey) {
@@ -170,6 +171,20 @@ export function handleConversationMessage(
       };
       return {...prevState, conversationsById};
     }
+  } else if (msg.type === 'DRAFT_CHAT') {
+    console.log('Drafting chat');
+    console.log(msg);
+    let convoId = msg.conversationId;
+    let conversationsById: Index<Conversation> = {...prevState.conversationsById};
+    if (conversationsById[convoId]) {
+      console.log('Found conversation!');
+      conversationsById[convoId] = {
+        ...conversationsById[convoId],
+        draft: msg.text
+      };
+      return {...prevState, conversationsById};
+    }
   }
+
   return prevState;
 }

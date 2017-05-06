@@ -29,6 +29,7 @@ export default class RoomChat extends Component {
     onSelectChallenge: number => any,
     onShowGames: (filter: GameFilter) => any,
     onSendChat: string => any,
+    onDraftChat: string => any,
     setMessagesDivRef: HTMLElement => any,
     setMessageInputRef: HTMLElement => any
   };
@@ -41,6 +42,7 @@ export default class RoomChat extends Component {
       usersByName,
       games,
       onUserDetail,
+      onDraftChat,
       onSendChat,
       onJoinGame,
       onSelectChallenge,
@@ -81,6 +83,7 @@ export default class RoomChat extends Component {
         <div className='RoomChat-message-bar' ref={setMessageInputRef}>
           <ChatMessageBar
             conversation={conversation}
+            onDraft={onDraftChat}
             onSubmit={onSendChat} />
         </div>
         {!isMobileScreen() ?

@@ -426,6 +426,14 @@ export class AppActions {
     this._client.sendMessage({type: 'CHAT', text: body, channelId: conversationId});
   }
 
+  onDraftChat = (body: string, conversationId: number) => {
+    this._store.dispatch({
+      type: 'DRAFT_CHAT',
+      conversationId: conversationId,
+      text: body
+    });
+  }
+
   onSendGameChat = (body: string, gameId: number) => {
     if (this._isOffline()) {
       return;

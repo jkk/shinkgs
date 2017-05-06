@@ -400,6 +400,7 @@ export default class ChatScreen extends Component {
               usersByName={usersByName}
               onUserDetail={actions.onUserDetail}
               onSendChat={this._onSendChat}
+              onDraftChat={this._onDraftChat}
               setMessagesDivRef={this._setMessagesDivRef}
               setMessageInputRef={this._setMessageInputRef} /> : null}
           {activeConv && activeRoom ?
@@ -420,6 +421,7 @@ export default class ChatScreen extends Component {
                 onJoinGame={actions.onJoinGame}
                 onSelectChallenge={actions.onSelectChallenge}
                 onSendChat={this._onSendChat}
+                onDraftChat={this._onDraftChat}
                 setMessagesDivRef={this._setMessagesDivRef}
                 setMessageInputRef={this._setMessageInputRef} />) : null}
         </div>
@@ -454,6 +456,14 @@ export default class ChatScreen extends Component {
       return;
     }
     this.props.actions.onSendChat(body, activeConversationId);
+  }
+
+  _onDraftChat = (body: string) => {
+    let {activeConversationId} = this.state;
+    if (!activeConversationId) {
+      return;
+    }
+    this.props.actions.onDraftChat(body, activeConversationId);
   }
 
   _onShowList = () => {
