@@ -3,6 +3,7 @@ import React, {PureComponent as Component} from 'react';
 import GameInfo from './GameInfo';
 import GamePlayersInfo from './GamePlayersInfo';
 import GameChat from './GameChat';
+import GameMoreMenu from './GameMoreMenu';
 import GamePlayActions from './GamePlayActions';
 import GameUndoPrompt from './GameUndoPrompt';
 import BoardContainer from '../board/BoardContainer';
@@ -142,6 +143,10 @@ export default class GameScreen extends Component {
                 {game.name || (moveNum ? `Move ${moveNum}` : null)}
               </div>}
           </div>
+          {playing ? null :
+            <GameMoreMenu
+              game={game}
+              actions={actions} />}
         </div>
         <div className='GameScreen-main'>
           <BoardContainer

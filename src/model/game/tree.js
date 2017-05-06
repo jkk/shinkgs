@@ -7,6 +7,7 @@ import {formatGameScore} from './display';
 import {InvariantError} from '../../util/error';
 import type {
   GameChannel,
+  GameSummary,
   GameTree,
   GameNodeComputedState,
   GameRuleSet,
@@ -279,4 +280,25 @@ export function getGameRoleColor(role: GameRole): ?PlayerColor {
     return 'black';
   }
   return null;
+}
+
+export function getKgsSgfUrl(summary: GameSummary) {
+  let [y, m, d] = summary.timestamp.split('-');
+  let url = 'http://files.gokgs.com/games/' +
+    y + '/' +
+    parseInt(m, 10) + '/' +
+    parseInt(d, 10) + '/' +
+    summary.players.white.name;
+  if (
+    summary.type !== 'demonstration' &&
+    summary.type !== 'review' &&
+    summary.type !== 'rengo_review'
+  ) {
+    url += '-' + summary.players.black.name;
+  }
+  if (summary.revision) {
+    url += '-' + (parseInt(summary.revision, 10) + 1);
+  }
+  url += '.sgf';
+  return url;
 }
