@@ -116,7 +116,7 @@ export function getGameTimeSpeed(rules: GameRules): GameTimeSpeed {
     if (pace >= 48) {
       return 'slow';
     }
-    if (pace >= 16.8) {
+    if (pace >= 14.4) {
       return 'normal';
     }
     if (mainTime >= 10 * 60) {
