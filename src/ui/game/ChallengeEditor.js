@@ -7,7 +7,7 @@ import ChallengePlayers from './ChallengePlayers';
 import {
   formatGameType,
   formatGameRuleset,
-  getMatchupInfo
+  getStartingProposal
 } from '../../model/game';
 import {InvariantError} from '../../util/error';
 import type {
@@ -44,55 +44,7 @@ export default class ChallengeEditor extends Component {
     if (!initialProposal || !currentUser) {
       throw new InvariantError('No initialProposal in challenge');
     }
-    let proposal = {...initialProposal};
-    let players = [];
-    let otherUser;
-    let challenging = false;
-
-    // Put players into expected format (name only, not full user)
-    // and while we're at it, figure out who the other user is and if
-    // we're challening or receiving challenges
-    for (let player of proposal.players) {
-      let newPlayer = {...player};
-      if (newPlayer.user) {
-        newPlayer.name = newPlayer.user.name;
-        delete newPlayer.user;
-      } else if (!newPlayer.name) {
-        newPlayer.name = currentUser.name;
-        challenging = true;
-      }
-      if (newPlayer.name !== currentUser.name) {
-        otherUser = usersByName[newPlayer.name];
-      }
-      players.push(newPlayer);
-    }
-
-    // If sending a challenge, auto-set handicap and komi as appropriate
-    if (challenging && otherUser && currentUser) {
-      let matchupInfo = getMatchupInfo(currentUser, otherUser);
-      let {handicap, komi, nigiri, white, black, unranked} = matchupInfo;
-      proposal.rules = {
-        ...proposal.rules,
-        handicap: handicap,
-        komi: komi
-      };
-      proposal.nigiri = nigiri;
-      if (unranked && proposal.gameType === 'ranked') {
-        proposal.gameType = 'free';
-      }
-      for (let player of players) {
-        if (!player.name) {
-          continue;
-        }
-        if (player.name === white) {
-          player.role = 'white';
-        } else if (player.name === black) {
-          player.role = 'black';
-        }
-      }
-    }
-
-    proposal.players = players;
+    let proposal = getStartingProposal(initialProposal, currentUser, usersByName);
     return {
       proposal
     };
