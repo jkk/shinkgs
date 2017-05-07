@@ -3,8 +3,6 @@ import type {KgsClientState, KgsMessage} from './types';
 import {isJsError} from '../util/error';
 import {escapeUnicode} from '../util/string';
 
-const API_URL = process.env.REACT_APP_API_URL || '/json/access';
-
 export class ApiError extends Error {
   type: string;
   xhr: XMLHttpRequest;
@@ -35,9 +33,24 @@ export class KgsClient {
   _onMessages: ?(messages: Array<KgsMessage>) => any;
 
   _debug: boolean = process.env.NODE_ENV === 'development';
+  _apiUrl: string;
 
   constructor(state?: KgsClientState = initialClientState) {
     this.state = state;
+
+    if (process.env.REACT_APP_API_URL) {
+      this._apiUrl = process.env.REACT_APP_API_URL;
+    } else {
+      let isProd = window.location.host.indexOf('gokgs.com') !== -1;
+      let isSafari = window.navigator.vendor && window.navigator.vendor.indexOf('Apple') > -1;
+      if (isProd || !isSafari) {
+        this._apiUrl = 'https://www.gokgs.com/json-cors/access';
+      } else {
+        // Dev proxy for Safari
+        this._apiUrl = '/json/access';
+      }
+    }
+    console.log('[KGS Client] Using endpoint ' + this._apiUrl);
   }
 
   setState = (nextState: KgsClientState) => {
@@ -234,7 +247,7 @@ export class KgsClient {
       xhr.addEventListener('error', onError);
       xhr.addEventListener('abort', onError);
       xhr.addEventListener('timeout', onError);
-      xhr.open('GET', API_URL, true);
+      xhr.open('GET', this._apiUrl, true);
       xhr.setRequestHeader('Accept', 'application/json;charset=UTF-8');
       xhr.withCredentials = true;
       xhr.send();
@@ -261,7 +274,7 @@ export class KgsClient {
       xhr.addEventListener('error', onError);
       xhr.addEventListener('abort', onError);
       xhr.addEventListener('timeout', onError);
-      xhr.open('POST', API_URL, opts.sync === undefined ? true : opts.sync);
+      xhr.open('POST', this._apiUrl, opts.sync === undefined ? true : opts.sync);
       xhr.withCredentials = true;
       xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
       xhr.send(escapeUnicode(JSON.stringify(msg)));

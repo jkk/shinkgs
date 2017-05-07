@@ -35,7 +35,7 @@ Available at https://shin.gokgs.com/
 
 Contributions welcome. Please check the [Project Board](https://github.com/jkk/shinkgs/projects/1) and [Issues](https://github.com/jkk/shinkgs/issues) to help coordinate efforts. Feel free to create an issue if there isn't one already for what you have in mind.
 
-There's a [difficulty: starter](https://github.com/jkk/shinkgs/issues?q=is%3Aopen+is%3Aissue+label%3A%22difficulty%3A+starter%22) label for issues that are good tasks to cut your teeth on.
+Issues with the ["difficulty: starter"](https://github.com/jkk/shinkgs/issues?q=is%3Aopen+is%3Aissue+label%3A%22difficulty%3A+starter%22) label are good tasks to get started on. Reach out if you need any guidance!
 
 ## Code Overview
 
@@ -54,15 +54,15 @@ yarn
 yarn start
 ```
 
-Note: the dev server will use HTTPS, which is required to interact with the KGS API.
+Note: the dev server will use HTTPS, which is required to interact with the KGS API. You will have to trust the self-signed certificate.
 
-Requests are proxied to the KGS API by default. To use a custom API endpoint:
+Requests are sent to the official KGS API by default. To use a custom API endpoint:
 
 ```
 REACT_APP_API_URL=https://example.com/api/access yarn start
 ```
 
-(Note: if you use a cross-origin endpoint, the app won't work reliably in Safari, even with CORS headers. Safari does not allow cookies from an unvisited third-party domain.)
+(Note: Safari does not allow cookies from unvisited third-party domains, so in development mode requests will be proxied through a local server.)
 
 If you don't have eslint or flow in your editor, you can check for errors with:
 
@@ -72,7 +72,7 @@ yarn lint
 
 ## Deploying the Web App
 
-The easiest way is to use the [▲now service](https://zeit.co/now):
+The easiest way to deploy the app is to use the [▲now service](https://zeit.co/now):
 
 ```
 yarn global add now
