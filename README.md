@@ -2,7 +2,7 @@
 
 An unofficial JavaScript client for [KGS Go Server](http://www.gokgs.com/).
 
-Available at https://shinkgs.com/
+Available at https://shin.gokgs.com/
 
 <img src="https://s3.amazonaws.com/shinkgs.com/assets/screenshot-ios-safari.png" alt="Screenshot - iOS Safari" width="375" height="667">
 
