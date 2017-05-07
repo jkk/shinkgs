@@ -75,7 +75,7 @@ function parseGameComments(
       lineMsgs.push({
         id: uuidV4(),
         sender: username,
-        body: body,
+        body: body.trim(),
         date: commentDate
       });
     }
