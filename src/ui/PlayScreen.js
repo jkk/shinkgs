@@ -1,6 +1,6 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
-import {Modal, Button} from './common';
+import {ScreenModal, Button} from './common';
 import ChallengeEditor from './game/ChallengeEditor';
 import GameList from './game/GameList';
 import GameSummaryList from './game/GameSummaryList';
@@ -70,16 +70,18 @@ export default class PlayScreen extends Component {
     return (
       <div className='PlayScreen'>
         {challenge ?
-          <Modal onClose={this._onCloseChallenge}>
-            <ChallengeEditor
-              currentUser={currentUser}
-              challenge={challenge}
-              usersByName={usersByName}
-              roomsById={roomsById}
-              onUserDetail={actions.onUserDetail}
-              onSubmit={this._onSubmitChallenge}
-              onCancel={this._onCloseChallenge} />
-          </Modal> : null}
+          <div className='PlayScreen-challenge'>
+            <ScreenModal onClose={this._onCloseChallenge}>
+              <ChallengeEditor
+                currentUser={currentUser}
+                challenge={challenge}
+                usersByName={usersByName}
+                roomsById={roomsById}
+                onUserDetail={actions.onUserDetail}
+                onSubmit={this._onSubmitChallenge}
+                onCancel={this._onCloseChallenge} />
+            </ScreenModal>
+          </div> : null}
         {activeGame ?
           <div className='PlayScreen-game'>
             <GameScreen

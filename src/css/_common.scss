@@ -469,7 +469,8 @@ form {
 }
 
 .Modal,
-.UserDetailsModal {
+.UserDetailsModal,
+.ScreenModal {
   position: fixed;
   left: 0;
   top: 0;
@@ -487,8 +488,13 @@ form {
   z-index: 5;
 }
 
+.ScreenModal {
+  top: 50px;
+}
+
 .Modal-main,
-.UserDetailsModal-main {
+.UserDetailsModal-main,
+.ScreenModal-main {
   background: $content-bg;
   position: relative;
   margin: 50px auto 40px auto;
@@ -501,7 +507,8 @@ form {
   padding: 20px 20px 0 20px;
 }
 
-.Modal-title {
+.Modal-title,
+.ScreenModal-title {
   position: absolute;
   left: 0;
   top: 0;
@@ -514,7 +521,8 @@ form {
 }
 
 .Modal-close,
-.UserDetailsModal-close {
+.UserDetailsModal-close,
+.ScreenModal-close {
   display: block;
   position: absolute;
   right: 0;
@@ -529,17 +537,20 @@ form {
 
 .no-touch {
   .Modal-with-title .Modal-close:hover,
-  .UserDetailsModal-close:hover {
+  .UserDetailsModal-close:hover,
+  .ScreenModal-with-title .ScreenModal-close:hover {
     color: $modal-close-active;
   }
 }
 
 @media #{$mobile-query} {
-  .Modal {
+  .Modal,
+  .ScreenModal {
     padding: 10px;
   }
   .Modal-main,
-  .UserDetailsModal-main {
+  .UserDetailsModal-main,
+  .ScreenModal-main {
     margin: 0 auto 40px auto;
   }
   .UserDetailsModal-main {
