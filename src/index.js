@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Fastclick from 'fastclick';
 import App from './App';
 import {isTouchDevice} from './util/dom';
 import './index.css';
@@ -11,6 +12,11 @@ if (document.body) {
 
   // Lets us style hovers only for non-touch
   document.body.classList.add(isTouchDevice() ? 'touch' : 'no-touch');
+
+  // Remove tap delay on iOS standalone
+  if (window.navigator.standalone && /iPad|iPhone|iPod/.test(window.navigator.userAgent)) {
+    Fastclick.attach(document.body);
+  }
 }
 
 ReactDOM.render(

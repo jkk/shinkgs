@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "autolinker.js": "0.7.0",
+    "fastclick": "^1.0.6",
     "font-awesome": "4.7.0",
     "history": "4.6.1",
     "idb-keyval": "2.3.0",
