@@ -18,6 +18,7 @@ import type {
   PlayerColor
 } from './types';
 import {distinct} from '../util/collection';
+import {debounce} from '../util/debounce';
 
 const APP_STATE_SAVE_KEY = 'savedAppState';
 
@@ -426,13 +427,13 @@ export class AppActions {
     this._client.sendMessage({type: 'CHAT', text: body, channelId: conversationId});
   }
 
-  onDraftChat = (body: string, conversationId: number) => {
+  onDraftChat = debounce((body: string, conversationId: number) => {
     this._store.dispatch({
-      type: 'DRAFT_CHAT',
+      type: 'SAVE_CHAT_DRAFT',
       conversationId: conversationId,
       text: body
     });
-  }
+  }, 250)
 
   onSendGameChat = (body: string, gameId: number) => {
     if (this._isOffline()) {

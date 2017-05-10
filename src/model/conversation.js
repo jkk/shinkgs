@@ -171,7 +171,7 @@ export function handleConversationMessage(
       };
       return {...prevState, conversationsById};
     }
-  } else if (msg.type === 'DRAFT_CHAT') {
+  } else if (msg.type === 'SAVE_CHAT_DRAFT') {
     let convoId = msg.conversationId;
     let conversationsById: Index<Conversation> = {...prevState.conversationsById};
     if (conversationsById[convoId]) {

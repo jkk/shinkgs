@@ -9,24 +9,34 @@ type Props = {
   onDraft?: string => any;
 };
 
+type State = {
+  draft: string
+};
+
 export default class ChatMessageBar extends Component {
 
   props: Props;
+  state: State = {draft: ''};
 
   _input: ?HTMLInputElement;
 
   componentDidUpdate(prevProps: Props) {
     let prevConvoId = prevProps.conversation && prevProps.conversation.id;
     let convoId = this.props.conversation && this.props.conversation.id;
+    let newDraft = this.props.conversation && this.props.conversation.draft;
     if (convoId !== prevConvoId && this._input && !isTouchDevice()) {
       this._input.focus();
+      this.setState({draft: newDraft || ''});
     }
   }
 
   _onChange = (event: SyntheticEvent) => {
     let target: EventTarget = event.target;
-    if (target instanceof HTMLInputElement && this.props.onDraft) {
-      this.props.onDraft(target.value);
+    if (target instanceof HTMLInputElement) {
+      this.setState({draft: target.value});
+      if (this.props.onDraft) {
+        this.props.onDraft(target.value);
+      }
     }
   }
 
@@ -38,11 +48,6 @@ export default class ChatMessageBar extends Component {
     } else {
       placeholder = 'Type a message...';
     }
-    // FIXME: This draft handling is a workaround for game chat
-    // storing conversation state differently from user and room chat.
-    // Ideally they'd work the same way and game chat drafts would be
-    // saved as well.
-    let draft = conversation ? conversation.draft : '';
     return (
       <div className='ChatMessageBar'>
         <div className='ChatMessageBar-inner'>
@@ -52,7 +57,7 @@ export default class ChatMessageBar extends Component {
               className='ChatMessageBar-input'
               type='text'
               placeholder={placeholder}
-              value={draft === '' ? null : draft}
+              value={this.state.draft}
               onChange={this._onChange}
               autoFocus={!isTouchDevice()} />
           </form>
