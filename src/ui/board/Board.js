@@ -50,7 +50,8 @@ export default class Board extends Component {
   props: {
     board: BoardState,
     markup: BoardMarkup,
-    onClickPoint?: ?(Point => any)
+    width: number,
+    onClickPoint?: ?((loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => any)
   };
 
   render() {

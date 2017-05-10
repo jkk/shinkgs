@@ -101,6 +101,7 @@ export default class BoardContainer extends Component {
               <Board
                 board={board}
                 markup={markup}
+                width={boardWidth}
                 onClickPoint={onClickPoint ? this._onClickPoint : undefined} /> : null}
           </div>
         </div>
