@@ -16,6 +16,7 @@ import GameSummaryList from '../game/GameSummaryList';
 import {getUserStatusText, getUserAuthName} from '../../model/user';
 import {isAncestor} from '../../util/dom';
 import {formatLocaleDate, timeAgo} from '../../util/date';
+import {InvariantError} from '../../util/error';
 import type {
   UserDetailsRequest,
   User,
@@ -81,7 +82,7 @@ export default class UserDetailsModal extends Component {
       actions
     } = this.props;
     if (!currentUser || !userDetailsRequest) {
-      throw new Error('currentUser and userDetailsRequest required');
+      throw new InvariantError('currentUser and userDetailsRequest required');
     }
     let {tab, editing} = this.state;
     let content;
@@ -137,7 +138,7 @@ export default class UserDetailsModal extends Component {
                 <div className='UserDetailsModal-locale'>
                   {locale.language} / {locale.country.replace('United States', 'US')}
                 </div> : null}
-              {details.email ?
+              {details.email && !details.privateEmail ?
                 <div className='UserDetailsModal-email'>
                   <a href={`mailto:${details.email}`}>{details.email}</a>
                 </div> : null}

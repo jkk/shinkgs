@@ -4,8 +4,10 @@ import {
   applyPropsToBoard
 } from './board';
 import {formatGameScore} from './display';
+import {InvariantError} from '../../util/error';
 import type {
   GameChannel,
+  GameSummary,
   GameTree,
   GameNodeComputedState,
   GameRuleSet,
@@ -22,7 +24,7 @@ import type {
 export function getGameLine(tree: GameTree, nodeId: number): Array<number> {
   let node = tree.nodes[nodeId];
   if (!node) {
-    throw Error('No node with id ' + nodeId);
+    throw new InvariantError('No node with id ' + nodeId);
   }
 
   // Go to end of line first
@@ -31,7 +33,7 @@ export function getGameLine(tree: GameTree, nodeId: number): Array<number> {
     nodeId = child;
     node = tree.nodes[child];
     if (!node) {
-      throw Error('No node with id ' + nodeId);
+      throw new InvariantError('No node with id ' + nodeId);
     }
     child = node.children[0];
   }
@@ -57,7 +59,7 @@ export function validateRuleSet(ruleset: mixed): GameRuleSet {
   ) {
     return ruleset;
   }
-  throw Error('Invalid ruleset ' + String(ruleset));
+  throw new InvariantError('Invalid ruleset ' + String(ruleset));
 }
 
 
@@ -123,7 +125,7 @@ export function computeGameNodeStates(
 ): {[nodeId: number]: GameNodeComputedState} {
   let line = getGameLine(tree, nodeId);
   if (!line.length) {
-    throw Error('Unexpected empty game line');
+    throw new InvariantError('Unexpected empty game line');
   }
 
   // Determine rules to use
@@ -278,4 +280,25 @@ export function getGameRoleColor(role: GameRole): ?PlayerColor {
     return 'black';
   }
   return null;
+}
+
+export function getKgsSgfUrl(summary: GameSummary) {
+  let [y, m, d] = summary.timestamp.split('-');
+  let url = 'http://files.gokgs.com/games/' +
+    y + '/' +
+    parseInt(m, 10) + '/' +
+    parseInt(d, 10) + '/' +
+    summary.players.white.name;
+  if (
+    summary.type !== 'demonstration' &&
+    summary.type !== 'review' &&
+    summary.type !== 'rengo_review'
+  ) {
+    url += '-' + summary.players.black.name;
+  }
+  if (summary.revision) {
+    url += '-' + (parseInt(summary.revision, 10) + 1);
+  }
+  url += '.sgf';
+  return url;
 }

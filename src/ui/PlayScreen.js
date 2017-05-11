@@ -1,11 +1,12 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
-import {Modal, Button} from './common';
+import {ScreenModal, Button} from './common';
 import ChallengeEditor from './game/ChallengeEditor';
 import GameList from './game/GameList';
 import GameSummaryList from './game/GameSummaryList';
 import GameListFilter from './game/GameListFilter';
 import GameScreen from './game/GameScreen';
+import {InvariantError} from '../util/error';
 import type {
   User,
   GameChannel,
@@ -62,23 +63,25 @@ export default class PlayScreen extends Component {
       actions
     } = this.props;
     if (!currentUser) {
-      throw Error('currentUser is required');
+      throw new InvariantError('currentUser is required');
     }
     let challenge = playChallengeId ? gamesById[playChallengeId] : null;
     let activeGame = playGameId ? gamesById[playGameId] : null;
     return (
       <div className='PlayScreen'>
         {challenge ?
-          <Modal onClose={this._onCloseChallenge}>
-            <ChallengeEditor
-              currentUser={currentUser}
-              challenge={challenge}
-              usersByName={usersByName}
-              roomsById={roomsById}
-              onUserDetail={actions.onUserDetail}
-              onSubmit={this._onSubmitChallenge}
-              onCancel={this._onCloseChallenge} />
-          </Modal> : null}
+          <div className='PlayScreen-challenge'>
+            <ScreenModal onClose={this._onCloseChallenge}>
+              <ChallengeEditor
+                currentUser={currentUser}
+                challenge={challenge}
+                usersByName={usersByName}
+                roomsById={roomsById}
+                onUserDetail={actions.onUserDetail}
+                onSubmit={this._onSubmitChallenge}
+                onCancel={this._onCloseChallenge} />
+            </ScreenModal>
+          </div> : null}
         {activeGame ?
           <div className='PlayScreen-game'>
             <GameScreen

@@ -9,6 +9,7 @@ import UserName from '../user/UserName';
 import UserList from '../user/UserList';
 import {sortUsers, getUserStatusText} from '../../model/user';
 import {isMobileScreen} from '../../util/dom';
+import {InvariantError} from '../../util/error';
 import type {
   Room,
   User,
@@ -317,7 +318,7 @@ export default class ChatScreen extends Component {
     } = this.state;
 
     if (!currentUser) {
-      throw Error('currentUser is required');
+      throw new InvariantError('currentUser is required');
     }
 
     let users;

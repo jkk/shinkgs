@@ -1,6 +1,6 @@
 // @flow
 import {userHasRank, userUnranked} from '../user';
-import type {User, GameProposal} from '../types';
+import type {User, GameProposal, Index} from '../types';
 
 export const DEFAULT_KOMI = 6.5;
 
@@ -15,7 +15,8 @@ type MatchupInfo = {
 
 export function getMatchupInfo(
   user1: User,
-  user2: User
+  user2: User,
+  initialKomi?: number
 ): MatchupInfo {
   let rank1 = user1.rankVal;
   let rank2 = user2.rankVal;
@@ -31,7 +32,7 @@ export function getMatchupInfo(
       white: user1.name,
       black: user2.name,
       handicap: 0,
-      komi: DEFAULT_KOMI,
+      komi: initialKomi || DEFAULT_KOMI,
       nigiri: true,
       unranked
     };
@@ -76,6 +77,9 @@ export function proposalsEqual(p1: GameProposal, p2: GameProposal) {
   ) {
     return false;
   }
+  if (p1.nigiri) {
+    return true;
+  }
   for (let i = 0; i < p1.players.length; i++) {
     if (p1.players[i].role !== p2.players[i].role) {
       return false;
@@ -87,4 +91,62 @@ export function proposalsEqual(p1: GameProposal, p2: GameProposal) {
     }
   }
   return true;
+}
+
+export function getStartingProposal(
+  initialProposal: GameProposal,
+  currentUser: User,
+  usersByName: Index<User>
+) {
+  let proposal = {...initialProposal};
+  let players = [];
+  let otherUser;
+  let challenging = false;
+
+  // Put players into expected format (name only, not full user)
+  // and while we're at it, figure out who the other user is and if
+  // we're challening or receiving challenges
+  for (let player of proposal.players) {
+    let newPlayer = {...player};
+    if (newPlayer.user) {
+      newPlayer.name = newPlayer.user.name;
+      delete newPlayer.user;
+    } else if (!newPlayer.name) {
+      newPlayer.name = currentUser.name;
+      challenging = true;
+    }
+    if (newPlayer.name !== currentUser.name) {
+      otherUser = usersByName[newPlayer.name];
+    }
+    players.push(newPlayer);
+  }
+
+  // If sending a challenge, auto-set handicap and komi as appropriate
+  if (challenging && otherUser && currentUser) {
+    let matchupInfo = getMatchupInfo(currentUser, otherUser, proposal.rules.komi);
+    let {handicap, komi, nigiri, white, black, unranked} = matchupInfo;
+    proposal.rules = {
+      ...proposal.rules,
+      handicap,
+      komi
+    };
+    proposal.nigiri = nigiri;
+    if (unranked && proposal.gameType === 'ranked') {
+      proposal.gameType = 'free';
+    }
+    for (let player of players) {
+      if (!player.name) {
+        continue;
+      }
+      if (player.name === white) {
+        player.role = 'white';
+      } else if (player.name === black) {
+        player.role = 'black';
+      }
+    }
+  }
+
+  proposal.players = players;
+
+  return proposal;
 }

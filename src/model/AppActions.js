@@ -2,6 +2,7 @@
 import {AppStore} from './AppStore';
 import {KgsClient} from './KgsClient';
 import {tempId, isTempId} from './tempId';
+import {prepareSavedAppState} from './appState';
 import {isGamePlayer, isGameProposalPlayer, proposalsEqual} from './game';
 import type {
   GameChannel,
@@ -38,7 +39,7 @@ export class AppActions {
   }
 
   onSaveAppState = () => {
-    this._store.saveState(APP_STATE_SAVE_KEY);
+    this._store.saveState(APP_STATE_SAVE_KEY, prepareSavedAppState);
   }
 
   onRestoreAppState = () => {

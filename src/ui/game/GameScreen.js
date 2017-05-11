@@ -3,6 +3,7 @@ import React, {PureComponent as Component} from 'react';
 import GameInfo from './GameInfo';
 import GamePlayersInfo from './GamePlayersInfo';
 import GameChat from './GameChat';
+import GameMoreMenu from './GameMoreMenu';
 import GamePlayActions from './GamePlayActions';
 import GameUndoPrompt from './GameUndoPrompt';
 import BoardContainer from '../board/BoardContainer';
@@ -18,6 +19,7 @@ import {
   getGamePlayerRole,
   getGameRoleColor
 } from '../../model/game';
+import { sortUsers } from '../../model/user';
 import type {
   GameChannel,
   GameChatSection,
@@ -106,6 +108,7 @@ export default class GameScreen extends Component {
     } = this.props;
     let {tab, chatSections} = this.state;
     let users = game.users ? game.users.map(name => usersByName[name]) : [];
+    sortUsers(users);
     let tree = game.tree;
     let moveNum;
     let isOurMove;
@@ -140,6 +143,10 @@ export default class GameScreen extends Component {
                 {game.name || (moveNum ? `Move ${moveNum}` : null)}
               </div>}
           </div>
+          {playing ? null :
+            <GameMoreMenu
+              game={game}
+              actions={actions} />}
         </div>
         <div className='GameScreen-main'>
           <BoardContainer

@@ -3,6 +3,7 @@ import React, {PureComponent as Component} from 'react';
 import GameList from './game/GameList';
 import GameListFilter from './game/GameListFilter';
 import GameScreen from './game/GameScreen';
+import {InvariantError} from '../util/error';
 import type {
   GameChannel,
   GameFilter,
@@ -53,7 +54,7 @@ export default class WatchScreen extends Component {
       actions
     } = this.props;
     if (!currentUser) {
-      throw Error('currentUser is required');
+      throw new InvariantError('currentUser is required');
     }
     let activeGame = watchGameId ? gamesById[watchGameId] : null;
     return (

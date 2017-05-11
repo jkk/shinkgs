@@ -1,6 +1,7 @@
 // @flow
 import uuidV4 from 'uuid/v4';
 import {isTempId} from './tempId';
+import {InvariantError} from '../util/error';
 import type {
   AppState,
   KgsMessage,
@@ -12,7 +13,7 @@ import type {
 
 function createConversation(msg: KgsMessage) {
   if (!msg.channelId) {
-    throw new Error('Missing channelId');
+    throw new InvariantError('Missing channelId');
   }
   let convo: Conversation = {
     id: msg.channelId,

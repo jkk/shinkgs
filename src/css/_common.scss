@@ -55,7 +55,7 @@ $simul-color: #a28ce6;
 $demo-color: #c34897;
 $tournament-color: #ff9f28;
 
-$board-bg: #e8bf62;
+$board-bg: hsl(42, 64%, 65%);
 $board-border: #a78a48; //darken($board-bg, 25%);
 $board-mark: #f3512c;
 
@@ -77,6 +77,7 @@ $warning-fg: $inverted-fg;
 $unseen-badge-major: #d24d4d;
 $unseen-badge-minor: #bbb;
 
+$narrow-mobile-query: "only screen and (max-width: 374px)";
 $mobile-query: "only screen and (max-width: 736px)";
 $tablet-query: "only screen and (max-width: 1024px)";
 $desktop-query: "only screen and (min-width: 1025px)";
@@ -468,7 +469,8 @@ form {
 }
 
 .Modal,
-.UserDetailsModal {
+.UserDetailsModal,
+.ScreenModal {
   position: fixed;
   left: 0;
   top: 0;
@@ -486,8 +488,13 @@ form {
   z-index: 5;
 }
 
+.ScreenModal {
+  top: 50px;
+}
+
 .Modal-main,
-.UserDetailsModal-main {
+.UserDetailsModal-main,
+.ScreenModal-main {
   background: $content-bg;
   position: relative;
   margin: 50px auto 40px auto;
@@ -500,7 +507,8 @@ form {
   padding: 20px 20px 0 20px;
 }
 
-.Modal-title {
+.Modal-title,
+.ScreenModal-title {
   position: absolute;
   left: 0;
   top: 0;
@@ -513,7 +521,8 @@ form {
 }
 
 .Modal-close,
-.UserDetailsModal-close {
+.UserDetailsModal-close,
+.ScreenModal-close {
   display: block;
   position: absolute;
   right: 0;
@@ -528,17 +537,20 @@ form {
 
 .no-touch {
   .Modal-with-title .Modal-close:hover,
-  .UserDetailsModal-close:hover {
+  .UserDetailsModal-close:hover,
+  .ScreenModal-with-title .ScreenModal-close:hover {
     color: $modal-close-active;
   }
 }
 
 @media #{$mobile-query} {
-  .Modal {
+  .Modal,
+  .ScreenModal {
     padding: 10px;
   }
   .Modal-main,
-  .UserDetailsModal-main {
+  .UserDetailsModal-main,
+  .ScreenModal-main {
     margin: 0 auto 40px auto;
   }
   .UserDetailsModal-main {

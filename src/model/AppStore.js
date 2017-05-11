@@ -58,8 +58,11 @@ export class AppStore {
     return this._state.appState;
   }
 
-  saveState = (saveKey: string) => {
+  saveState = (saveKey: string, prepareSavedState?: AppState => AppState) => {
     let saveState = {...this.getState(), savedAt: new Date()};
+    if (prepareSavedState) {
+      saveState = prepareSavedState(saveState);
+    }
     if (this._debug) {
       console.log('Saving app state...', {state: saveState});
     }

@@ -1,4 +1,5 @@
 // @flow
+import {InvariantError} from '../../util/error';
 import type {
   SgfLoc,
   SgfProp,
@@ -171,7 +172,7 @@ export function applyPropsToBoard(
 ) {
   if (!ruleset) {
     // TODO - actually use ruleset
-    throw Error('Rule set required');
+    throw new InvariantError('Rule set required');
   }
   let blackCaps = 0;
   let whiteCaps = 0;
@@ -180,7 +181,7 @@ export function applyPropsToBoard(
     let loc: ?SgfLoc = prop.loc;
     if (prop.name === 'MOVE' || prop.name === 'ADDSTONE') {
       if (!loc || !prop.color) {
-        throw Error('Missing loc or color on MOVE/ADDSTONE prop');
+        throw new InvariantError('Missing loc or color on MOVE/ADDSTONE prop');
       }
       let color: SgfColor = prop.color;
       if (loc !== 'PASS') {

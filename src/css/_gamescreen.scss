@@ -14,17 +14,42 @@
   color: $link-color;
 }
 
-.GameScreen-back-icon {
+.GameScreen-back-icon,
+.GameMoreMenu-trigger-icon {
   display: inline-block;
   vertical-align: middle;
   font-size: 16px;
   padding: 0 7px;
 }
 
-.GameScreen-back-label {
+.GameScreen-back-label,
+.GameMoreMenu-trigger-label {
   display: inline-block;
   vertical-align: middle;
   font-size: 14px;
+}
+
+a.GameMoreMenu-trigger {
+  color: $muted;
+  display: block;
+}
+
+.GameMoreMenu-dropdown {
+  position: absolute;
+  z-index: 1;
+  background: #eee;
+  right: 1px;
+  padding: 10px 0;
+  text-align: right;
+  width: 170px;
+  box-shadow: 0 5px 20px rgba($shadow-bg, 0.3);
+  line-height: 1.4;
+}
+
+a.GameMoreMenu-dropdown-item {
+  // color: $inverted-fg;
+  display: block;
+  padding: 5px 10px;
 }
 
 .GameScreen-board-step {
@@ -258,17 +283,18 @@ a.GameScreen-board-next {
     left: 0;
     top: 0;
     bottom: 0;
-    height: 40px;
+    height: 35px;
     right: 350px;
-    z-index: 1;
+    z-index: 4;
   }
   .GameScreen-back {
     position: absolute;
     left: 0;
     top: 0;
-    font-size: 14px;
     a {
-      padding: 9px 10px;
+      padding: 0 10px;
+      height: 35px;
+      line-height: 35px;
     }
   }
   .GameScreen-title {
@@ -284,6 +310,17 @@ a.GameScreen-board-next {
     // font-weight: bold;
     color: $inverted-fg;
     margin-right: 5px;
+  }
+  .GameMoreMenu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 35px;
+  }
+  a.GameMoreMenu-trigger {
+    padding: 0 10px;
+    height: 35px;
+    line-height: 35px;
   }
   .GameScreen-board-container {
     position: absolute;
@@ -505,6 +542,7 @@ a.GameScreen-board-next {
     display: inline-block;
     vertical-align: middle;
     color: $inverted-fg;
+    text-shadow: 1px 1px $inverted-bg;
   }
 }
 
@@ -669,6 +707,11 @@ a.GameScreen-board-next {
   }
   .GameScreen-board-bar {
     width: 100% !important;
+    z-index: 2;
+  }
+  .GameScreen-board-step {
+    height: 47px;
+    padding-left: 7px;
   }
   .GameScreen-access-denied {
     position: absolute;
@@ -687,6 +730,7 @@ a.GameScreen-board-next {
     text-align: center;
     height: 35px;
     line-height: 35px;
+    z-index: 4;
   }
   .GameScreen-title {
     display: inline-block;
@@ -702,18 +746,33 @@ a.GameScreen-board-next {
     left: 0;
     top: 0;
   }
-  .GameScreen-back-icon {
+  .GameScreen-back-icon,
+  .GameMoreMenu-trigger-icon {
     display: inline-block;
     vertical-align: middle;
     font-size: 18px;
     padding: 0 5px;
   }
-  .GameScreen-back-label {
+  .GameScreen-back-label,
+  .GameMoreMenu-trigger-label {
     display: inline-block;
     vertical-align: middle;
     font-size: 13px;
     padding-bottom: 1px;
     font-weight: bold;
+  }
+  .GameMoreMenu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 35px;
+  }
+  a.GameMoreMenu-trigger {
+    height: 35px;
+  }
+  .GameMoreMenu-dropdown {
+    right: 0;
+    box-shadow: 0 0 20px rgba($shadow-bg, 0.3);
   }
   .GameScreen-players {
     background: $very-muted;
@@ -753,22 +812,12 @@ a.GameScreen-board-next {
   .GamePlayersInfo-color {
     width: 50%;
     min-height: 63px;
-    padding: 5px 5px 7px 10px;
+    padding: 5px 5px 7px 5px;
     display: inline-block;
     border-radius: 0;
     margin: 0;
     background: #333;
     border-bottom: none;
-  }
-  .GamePlayersInfo-players-icon {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin: 0;
-  }
-  .GamePlayersInfo-players a {
-    color: $inverted-fg;
   }
   .GamePlayersInfo-player2 {
     margin-left: 0;
@@ -778,7 +827,7 @@ a.GameScreen-board-next {
     height: 63px;
   }
   .GamePlayersInfo-captures-clock {
-    margin: 0;
+    // margin: 0;
   }
   .GamePlayersInfo-captures,
   .GamePlayersInfo-role {
