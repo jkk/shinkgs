@@ -188,7 +188,7 @@ export class AppActions {
       joinType = 'WATCH_GAME';
       this.onChangeNav('watch');
     }
-    
+
     if (typeof gameId === 'number') {
       // By channel id
       this._store.dispatch([
@@ -357,6 +357,10 @@ export class AppActions {
       }
     }
     this._store.dispatch({type: 'CLOSE_USER_DETAILS'});
+  }
+
+  onRequestRankGraph = (channelId: string) => {
+    this._client.sendMessage({type: 'DETAILS_RANK_GRAPH_REQUEST', channelId});
   }
 
   onSelectConversation = (conversationId: number) => {

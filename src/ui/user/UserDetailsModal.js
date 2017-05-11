@@ -1,5 +1,6 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
+import moment from 'moment';
 import localeString from 'locale-string';
 import {
   A,
@@ -21,8 +22,12 @@ import type {
   UserDetails,
   GameSummary,
   Index,
-  AppActions
+  AppActions,
+  RankGraph
 } from '../../model';
+
+let Chartist;
+let ChartistGraph;
 
 const MAX_GAME_SUMMARIES = 500;
 
@@ -30,13 +35,15 @@ type Props = {
   currentUser: ?User,
   userDetailsRequest: ?UserDetailsRequest,
   usersByName: Index<User>,
+  rankGraphsByChannelId: Index<Object>,
   gameSummariesByUser: Index<Array<GameSummary>>,
   actions: AppActions
 };
 
 type State = {
-  tab: 'bio' | 'games',
-  editing: boolean
+  tab: 'bio' | 'games' | 'rankGraph',
+  editing: boolean,
+  graph: null
 };
 
 export default class UserDetailsModal extends Component {
@@ -45,7 +52,8 @@ export default class UserDetailsModal extends Component {
 
   state: State = {
     tab: 'bio',
-    editing: false
+    editing: false,
+    graph: null
   };
 
   _mainDiv: ?HTMLElement;
@@ -81,6 +89,10 @@ export default class UserDetailsModal extends Component {
     let user = usersByName[userDetailsRequest.name];
     let gameSummaries = gameSummariesByUser[userDetailsRequest.name];
     let details = user && user.details;
+
+    if (tab === 'rankGraph' && !this.state.graph) {
+      this._createGraph();
+    }
 
     if (editing && user && user.details) {
       return (
@@ -146,6 +158,11 @@ export default class UserDetailsModal extends Component {
                         onClick={this._onShowGames}>
                         {gameSummaries.length} Games
                       </A> : null}
+                    <A
+                      className={'UserDetailsModal-tab' + (tab === 'rankGraph' ? ' UserDetailsModal-tab-active' : '')}
+                      onClick={this._onShowRankGraph}>
+                      Rank
+                    </A>
                   </div>
                 </div>
                 <div className='UserDetailsModal-tab-content'>
@@ -159,6 +176,13 @@ export default class UserDetailsModal extends Component {
                         games={gameSummaries.slice(0, MAX_GAME_SUMMARIES)}
                         player={user.name}
                         onSelect={this._onSelectGame}/>
+                    </div> : null}
+                  {tab === 'rankGraph' ?
+                    <div className='UserDetailsModal-rank-graph'>
+                      {this.state.graph ?
+                        this.state.graph
+                        : <Spinner />
+                      }
                     </div> : null}
                 </div>
               </div> : null}
@@ -231,6 +255,77 @@ export default class UserDetailsModal extends Component {
     );
   }
 
+  _createGraph = () => {
+    const {
+      userDetailsRequest,
+      usersByName,
+      rankGraphsByChannelId
+    } = this.props;
+
+    const user = userDetailsRequest && usersByName[userDetailsRequest.name];
+    const channelId:string = String(user && user.details && user.details.channelId);
+    const rankGraph = rankGraphsByChannelId[channelId];
+
+    if (!rankGraph) {
+      return;
+    }
+
+    // $FlowFixMe: Flow doesn't know what require.ensure is
+    require.ensure([], require => {
+      ChartistGraph =  require('react-chartist').default;
+      Chartist = require('chartist');
+
+      const options = {
+        height: '300px',
+        axisY: {
+          type: Chartist.FixedScaleAxis,
+          low: -300,
+          high: 0,
+          ticks: [-300, -200, -100, 0],
+          labelInterpolationFnc: function(value) {
+            let label = value < 0 ? 'k' : 'd';
+            let rank = Math.abs(value/100);
+            if (label === 'd') {
+              rank += 1;
+            }
+
+            return `${rank}${label}`;
+          }
+        },
+        axisX: {
+          type: Chartist.FixedScaleAxis,
+          divisor: rankGraph.data.series[0].length,
+          labelInterpolationFnc: function(value, index) {
+            const day = moment(value).format('DD');
+            const month = moment(value).format('MMM');
+            const format = (index === 0 || month === 'Jan')
+              ? 'MMM YYYY'
+              : 'MMM';
+
+            return index === 0 || day === '01'
+              ? moment(value).format(format)
+              : null;
+          }
+        },
+        fullWidth: true,
+        showPoint: false,
+        chartPadding: {
+          right: 40
+        }
+      };
+
+      const type = 'Line';
+
+      this.setState({
+        graph: <ChartistGraph
+          data={rankGraph.data}
+          options={options}
+          type={type}
+        />
+      });
+    });
+  }
+
   _setMainRef = (ref: HTMLElement) => {
     this._mainDiv = ref;
   }
@@ -260,6 +355,20 @@ export default class UserDetailsModal extends Component {
 
   _onShowGames = () => {
     this.setState({tab: 'games'});
+  }
+
+  _onShowRankGraph = () => {
+    const {
+      actions,
+      userDetailsRequest,
+      usersByName
+    } = this.props;
+
+    const user = userDetailsRequest && usersByName[userDetailsRequest.name];
+    const channelId:string = String(user && user.details && user.details.channelId);
+
+    actions.onRequestRankGraph(channelId);
+    this.setState({tab: 'rankGraph'});
   }
 
   _onSelectGame = (game: GameSummary) => {

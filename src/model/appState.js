@@ -9,6 +9,7 @@ export function getEmptyServerState() {
     roomsById: {},
     gamesById: {},
     gameSummariesByUser: {},
+    rankGraphsByChannelId: {},
     activeGames: [],
     challenges: [],
     unfinishedGames: [],

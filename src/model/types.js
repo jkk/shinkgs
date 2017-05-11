@@ -183,6 +183,12 @@ export type GameSummary = {
   inPlay?: boolean
 };
 
+export type RankGraph = {
+  data: Object,
+  months: Array<string>,
+  rendered: boolean
+};
+
 export type ClockState = {
   paused?: boolean,
   running?: boolean,
@@ -432,6 +438,7 @@ export type AppState = {
   roomsById: Index<Room>,
   gamesById: Index<GameChannel>,
   gameSummariesByUser: Index<Array<GameSummary>>,
+  rankGraphsByChannelId: Index<Object>,
   activeGames: Array<GameChannel>,
   challenges: Array<GameChannel>,
   unfinishedGames: Array<GameSummary>,

@@ -4,8 +4,11 @@ import type {
   KgsMessage,
   ChannelMembership,
   Index,
-  Conversation
+  Conversation,
+  RankGraph
 } from './types';
+
+import moment from 'moment';
 
 export function handleChannelMessage(
   prevState: AppState,
@@ -30,4 +33,35 @@ export function handleChannelMessage(
     return nextState;
   }
   return prevState;
+}
+
+// Turn KGS's rank graph into a format suited for Chartist.js
+export function parseRankGraph(data: Array<number>): RankGraph {
+  let newRankGraph:Object = { rendered: false };
+
+  // The data is an array of ranks on individual days, ending at yesterday.
+  // Generate dates for each of the data points.
+  let series:Array<Object> = data.map((rank, i) => {
+    var d = new Date();
+    d.setDate(d.getDate() - (data.length - i));
+    return {
+      x: d,
+      y: rank
+    };
+  });
+
+  newRankGraph.data = {
+    series: [series]
+  };
+
+  // Create a list of the unique months present in the graph data for labeling
+  newRankGraph.months = [];
+  series.forEach((d) => {
+    let str = moment(d.x).format('MMMM YYYY');
+    if (newRankGraph.months.indexOf(str) === -1) {
+      newRankGraph.months.push(str);
+    }
+  });
+
+  return newRankGraph;
 }
