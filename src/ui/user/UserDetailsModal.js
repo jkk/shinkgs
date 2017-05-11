@@ -65,6 +65,12 @@ export default class UserDetailsModal extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.state.tab === 'rankGraph' && !this.state.graph) {
+      this._createGraph();
+    }
+  }
+
   componentWillUnmount() {
     document.removeEventListener('keyup', this._onKeyUp);
     if (document.body) {
@@ -89,10 +95,6 @@ export default class UserDetailsModal extends Component {
     let user = usersByName[userDetailsRequest.name];
     let gameSummaries = gameSummariesByUser[userDetailsRequest.name];
     let details = user && user.details;
-
-    if (tab === 'rankGraph' && !this.state.graph) {
-      this._createGraph();
-    }
 
     if (editing && user && user.details) {
       return (
