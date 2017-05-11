@@ -23,8 +23,7 @@ import type {
   UserDetails,
   GameSummary,
   Index,
-  AppActions,
-  RankGraph
+  AppActions
 } from '../../model';
 
 let Chartist;
