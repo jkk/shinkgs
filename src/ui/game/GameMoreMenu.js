@@ -55,11 +55,11 @@ export default class GameMoreMenu extends Component {
             <a className='GameMoreMenu-dropdown-item' download href={sgfUrl} onClick={this._onToggleDropdown}>
               Download SGF
             </a>
-            <a className='GameMoreMenu-dropdown-item' target='_blank' rel='noopener' href={eidogoUrl} onClick={this._onToggleDropdown}>
-              Open in EidoGo
-            </a>
             <a className='GameMoreMenu-dropdown-item' target='_blank' rel='noopener' href={gokibitzUrl} onClick={this._onToggleDropdown}>
               Open in GoKibitz
+            </a>
+            <a className='GameMoreMenu-dropdown-item' target='_blank' rel='noopener' href={eidogoUrl} onClick={this._onToggleDropdown}>
+              Open in EidoGo
             </a>
           </div> : null}
       </div>
