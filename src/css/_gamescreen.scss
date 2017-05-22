@@ -273,9 +273,8 @@ a.GameScreen-board-next {
     position: fixed;
     top: 50px;
     bottom: 0;
-    left: 50%;
-    width: $max-width;
-    margin-left: -($max-width / 2);
+    left: 0;
+    right: 0;
     box-sizing: border-box;
   }
   .GameScreen-header {
