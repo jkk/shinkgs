@@ -116,6 +116,21 @@ a {
   }
 }
 
+button {
+  background: none;
+  color: $content-fg;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1em;
+  cursor: pointer;
+  // display: block;
+  text-align: left;
+  // width: 100%;
+}
+
 ul {
   list-style-type: none;
   margin: 0;
