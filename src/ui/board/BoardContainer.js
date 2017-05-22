@@ -1,7 +1,6 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
 import Board from './Board';
-import BoardNav from './BoardNav';
 import type {
   GameChannel,
   Point,
@@ -12,7 +11,6 @@ import type {
 type Props = {
   game: GameChannel,
   playing?: boolean,
-  onChangeCurrentNode: (game: GameChannel, nodeId: number) => any,
   onClickPoint: (game: GameChannel, loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => any
 };
 
@@ -29,9 +27,11 @@ export default class BoardContainer extends Component {
 
   _setBoardWidth = () => {
     if (this._containerRef) {
+      // Note: this is tightly coupled to the CSS layout
+      let containerWidth = this._containerRef.offsetWidth;
       let boardWidth = Math.min(
-        this._containerRef.offsetWidth,
-        this._containerRef.offsetHeight - 100
+        containerWidth,
+        this._containerRef.offsetHeight - 65
       );
       this.setState({boardWidth});
     }
@@ -47,7 +47,7 @@ export default class BoardContainer extends Component {
   }
 
   render() {
-    let {game, playing, onClickPoint} = this.props;
+    let {game, onClickPoint} = this.props;
     let {boardWidth} = this.state;
 
     if (!boardWidth) {
@@ -57,14 +57,10 @@ export default class BoardContainer extends Component {
     }
 
     let tree = game.tree;
-    let nodeId;
-    let currentLine;
     let board;
     let markup;
     if (tree) {
-      nodeId = tree.currentNode;
-      currentLine = tree.currentLine;
-      let computedState = tree.computedState[nodeId];
+      let computedState = tree.computedState[tree.currentNode];
       if (computedState) {
         board = computedState.board;
         markup = computedState.markup;
@@ -84,25 +80,12 @@ export default class BoardContainer extends Component {
                 onClickPoint={onClickPoint ? this._onClickPoint : undefined} /> : null}
           </div>
         </div>
-        {playing ? null : (
-          <div className='GameScreen-board-bar' style={{width: boardWidth}}>
-            {typeof nodeId === 'number' && currentLine ?
-              <BoardNav
-                nodeId={nodeId}
-                currentLine={currentLine}
-                onChangeCurrentNode={this._onChangeCurrentNode} /> : null}
-          </div>
-        )}
       </div>
     );
   }
 
   _setContainerRef = (ref: HTMLElement) => {
     this._containerRef = ref;
-  }
-
-  _onChangeCurrentNode = (nodeId: number) => {
-    this.props.onChangeCurrentNode(this.props.game, nodeId);
   }
 
   _onClickPoint = (loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => {

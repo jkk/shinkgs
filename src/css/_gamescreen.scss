@@ -68,7 +68,7 @@ a.GameMoreMenu-dropdown-item {
   bottom: 0;
 }
 
-.GameScreen-board-bar {
+.GameScreen-nav {
   position: relative;
   height: 36px;
   background: $inverted-bg-off;
@@ -76,7 +76,7 @@ a.GameMoreMenu-dropdown-item {
 
 .BoardNav {
   margin: 0 auto;
-  padding: 0 10px;
+  padding: 0 0 0 110px;
   box-sizing: border-box;
   font-size: 14px;
   color: $muted;
@@ -85,18 +85,17 @@ a.GameMoreMenu-dropdown-item {
   top: 0;
   bottom: 0;
   right: 0;
-  padding-right: 110px;
 }
 
 .BoardNav-slide-container {
   display: flex;
-  padding-right: 20px;
+  padding-left: 20px;
   // flex-direction: row;
 }
 
 .BoardNav-move {
-  width: 75px;
-  padding: 10px 0 0 0;
+  width: 70px;
+  padding: 10px 0 0 20px;
 }
 
 .BoardNav-slide {
@@ -109,7 +108,7 @@ a.GameMoreMenu-dropdown-item {
 
 .BoardNav-step {
   position: absolute;
-  right: 0;
+  left: 5px;
   top: 0;
   font-size: 0;
 }
@@ -371,17 +370,24 @@ a.BoardNav-next {
     width: 350px;
     padding-bottom: 40px;
     background: $content-bg;
-    border-right: 1px solid $very-muted;
+    // border-right: 1px solid $very-muted;
     box-sizing: border-box;
+  }
+  .GameScreen-nav {
+    // width: 85%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 185px;
   }
   .GameScreen-players-users {
     position: absolute;
     left: 0;
     top: 0;
     right: 0;
-    height: 210px;
+    height: 185px;
     box-sizing: border-box;
-    border-bottom: 1px solid $very-muted;
+    // border-bottom: 1px solid $very-muted;
   }
   .GameScreen-players {
     position: absolute;
@@ -399,7 +405,7 @@ a.BoardNav-next {
     top: 0;
     width: 37%;
     bottom: 0;
-    padding: 10px 0 10px 10px;
+    padding: 5px 0 10px 10px;
     background: $content-bg;
     // border-left: 1px solid $very-muted;
     overflow-x: hidden;
@@ -425,7 +431,7 @@ a.BoardNav-next {
   .GameScreen-chat {
     position: absolute;
     left: 0;
-    top: 210px;
+    top: 221px;
     right: 0;
     bottom: 0;
     background: $content-bg;
@@ -447,10 +453,6 @@ a.BoardNav-next {
     left: 10px;
     bottom: 29px;
     right: 10px;
-  }
-  .GameScreen-board-bar {
-    // width: 85%;
-    margin: 0 auto;
   }
   .GameScreen-undo-prompt {
     position: absolute;
@@ -724,13 +726,28 @@ a.BoardNav-next {
     padding-top: 100%;
     height: auto !important;
   }
-  .GameScreen-board-bar {
+  .GameScreen-nav {
     width: 100% !important;
     z-index: 2;
+  }
+  .BoardNav {
+    padding: 0 110px 0 0;
+  }
+  .BoardNav-slide-container {
+    padding: 0 20px 0 0;
+  }
+  .BoardNav-move {
+    order: 1;
+    padding: 10px 0 0 10px;
+  }
+  .BoardNav-slide {
+    order: 2;
   }
   .BoardNav-step {
     height: 47px;
     padding-left: 7px;
+    right: 0;
+    left: auto;
   }
   .GameScreen-access-denied {
     position: absolute;

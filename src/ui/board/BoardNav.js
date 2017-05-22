@@ -28,9 +28,6 @@ export default class BoardNav extends Component {
     return (
       <div className='BoardNav'>
         <div className='BoardNav-slide-container'>
-          <div className='BoardNav-move'>
-            Move {moveNum}
-          </div>
           <div className='BoardNav-slide'>
             <Slider
               min={0}
@@ -38,6 +35,9 @@ export default class BoardNav extends Component {
               step={1}
               value={moveNum}
               onChange={this._onChangeMoveNum} />
+          </div>
+          <div className='BoardNav-move'>
+            Move {moveNum}
           </div>
         </div>
         <div className='BoardNav-step'>
