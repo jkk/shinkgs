@@ -28,7 +28,10 @@ export default class Main extends Component {
     } = this.props;
     let {
       nav,
+      currentUser,
+      conversationsById,
       clientState,
+      logoutError,
       userDetailsRequest,
       showUnderConstruction
     } = appState;
@@ -58,16 +61,18 @@ export default class Main extends Component {
     }
 
     let offline = clientState.status === 'loggedOut' || clientState.network !== 'online';
-
     return (
       <div className='Main'>
         {offline ?
           <OfflineAlert
-            {...appState}
+            logoutError={logoutError}
+            clientState={clientState}
             onLogout={actions.onLogout} /> :
           null}
         <Nav
-          {...appState}
+          nav={nav}
+          currentUser={currentUser}
+          conversationsById={conversationsById}
           onChangeNav={actions.onChangeNav}
           onUserDetail={actions.onUserDetail}
           onLogout={actions.onLogout} />
