@@ -260,6 +260,8 @@ export type BoardState = Array<Array<?PlayerColor>>; // y[x]
 export type GameNodeComputedState = {
   blackCaptures: number,
   whiteCaptures: number,
+  blackTimeLeft: number,
+  whiteTimeLeft: number,
   board: BoardState,
   markup: BoardMarkup
 };

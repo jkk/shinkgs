@@ -11,6 +11,10 @@ function formatTime(time: ?number) {
   }
   let mins = Math.floor(time / 60);
   let secs = Math.ceil(time - (mins * 60));
+  if (secs === 60) {
+    mins += 1;
+    secs = 0;
+  }
   return '' + mins + ':' + (secs < 10 ? '0' : '') + secs;
 }
 
@@ -147,14 +151,15 @@ export default class GameClock extends Component {
     nodeId: ?number,
     active: boolean,
     clock: ClockState,
+    timeLeft: number,
     gameRules?: ?GameRules
   };
 
   render() {
-    let {nodeId, active, clock, gameRules} = this.props;
+    let {nodeId, active, clock, timeLeft, gameRules} = this.props;
     let className = 'GameClock ' + (
       (active ? 'GameClock-active' : 'GameClock-inactive') +
-      (clock.running && !clock.paused ? ' GameClock-running' : '') +
+      (active && clock.running && !clock.paused ? ' GameClock-running' : '') +
       (clock.paused ? ' GameClock-paused' : '')
     );
 
@@ -170,12 +175,16 @@ export default class GameClock extends Component {
     return (
       <div className={className}>
         <div className='GameClock-time'>
-          <TimeCountdown
-            nodeId={nodeId}
-            clock={clock}
-            byoYomiTime={byoYomiTime}
-            byoYomiPeriods={byoYomiPeriods}
-            byoYomiStones={byoYomiStones} />
+          {active ?
+            <TimeCountdown
+              nodeId={nodeId}
+              clock={clock}
+              byoYomiTime={byoYomiTime}
+              byoYomiPeriods={byoYomiPeriods}
+              byoYomiStones={byoYomiStones} /> :
+            <div className='GameClock-time-frozen'>
+              {formatTime(timeLeft)}
+            </div>}
         </div>
       </div>
     );

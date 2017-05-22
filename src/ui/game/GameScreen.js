@@ -177,7 +177,6 @@ export default class GameScreen extends Component {
               <div className='GameScreen-players'>
                 <GamePlayersInfo
                   game={game}
-                  nodeId={tree ? tree.activeNode : null}
                   onUserDetail={this._onUserDetail} />
               </div>
               <div className='GameScreen-tabs'>

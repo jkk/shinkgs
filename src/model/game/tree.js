@@ -134,6 +134,7 @@ export function computeGameNodeStates(
   let size = rulesProp && typeof rulesProp.size === 'number' ? rulesProp.size : 19;
   let ruleset: GameRuleSet = rulesProp && typeof rulesProp.rules !== 'undefined' ?
     validateRuleSet(rulesProp.rules) : 'japanese';
+  let mainTime = rulesProp && typeof rulesProp.mainTime === 'number' ? rulesProp.mainTime : -1;
 
   // Don't redo already-computed state. Anything that happened before
   // the node we're looking at is still valid.
@@ -141,16 +142,22 @@ export function computeGameNodeStates(
   let startIdx = line.indexOf(nodeId);
   let blackCaps;
   let whiteCaps;
+  let blackTimeLeft;
+  let whiteTimeLeft;
   let board;
   if (startIdx > 0 && computedState[line[startIdx - 1]]) {
     let prevState = computedState[line[startIdx - 1]];
     blackCaps = prevState.blackCaptures;
     whiteCaps = prevState.whiteCaptures;
+    blackTimeLeft = prevState.blackTimeLeft;
+    whiteTimeLeft = prevState.whiteTimeLeft;
     board = prevState.board;
   } else {
     startIdx = 0;
     blackCaps = 0;
     whiteCaps = 0;
+    blackTimeLeft = mainTime;
+    whiteTimeLeft = mainTime;
     board = createBoardState(size);
   }
 
@@ -165,9 +172,20 @@ export function computeGameNodeStates(
     board = ret.board;
     blackCaps += ret.blackCaptures;
     whiteCaps += ret.whiteCaptures;
+    for (let prop of node.props) {
+      if (prop.name === 'TIMELEFT' && prop.float) {
+        if (prop.color === 'black') {
+          blackTimeLeft = prop.float;
+        } else {
+          whiteTimeLeft = prop.float;
+        }
+      }
+    }
     computedState[cursorId] = {
       blackCaptures: blackCaps,
       whiteCaptures: whiteCaps,
+      blackTimeLeft,
+      whiteTimeLeft,
       board,
       markup
     };
