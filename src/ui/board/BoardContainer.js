@@ -15,13 +15,14 @@ type Props = {
 };
 
 type State = {
-  boardWidth: ?number
+  boardWidth: ?number,
+  marginTop: number
 };
 
 export default class BoardContainer extends Component {
 
   props: Props;
-  state: State = {boardWidth: null};
+  state: State = {boardWidth: null, marginTop: 0};
 
   _containerRef: ?HTMLElement;
 
@@ -29,11 +30,17 @@ export default class BoardContainer extends Component {
     if (this._containerRef) {
       // Note: this is tightly coupled to the CSS layout
       let containerWidth = this._containerRef.offsetWidth;
+      let containerHeight = this._containerRef.offsetHeight - 30;
       let boardWidth = Math.min(
         containerWidth,
-        this._containerRef.offsetHeight - 65
+        containerHeight
       );
-      this.setState({boardWidth});
+      let marginTop = -20;
+      if (containerWidth <= 736 || containerWidth - boardWidth < 180) {
+        boardWidth = Math.min(containerWidth, containerHeight - 30);
+        marginTop = 0;
+      }
+      this.setState({boardWidth, marginTop});
     }
   }
 
@@ -48,7 +55,7 @@ export default class BoardContainer extends Component {
 
   render() {
     let {game, onClickPoint} = this.props;
-    let {boardWidth} = this.state;
+    let {boardWidth, marginTop} = this.state;
 
     if (!boardWidth) {
       return (
@@ -70,7 +77,7 @@ export default class BoardContainer extends Component {
       <div className='GameScreen-board-container' ref={this._setContainerRef}>
         <div
           className='GameScreen-board'
-          style={{width: boardWidth, height: boardWidth}}>
+          style={{width: boardWidth, height: boardWidth, marginTop}}>
           <div className='GameScreen-board-inner'>
             {board && markup ?
               <Board
