@@ -463,6 +463,17 @@ a.BoardNav-next {
     right: 350px;
     z-index: 4;
   }
+  .GameScreen-rengo {
+    .GameScreen-players-users {
+      height: 210px;
+    }
+    .GameScreen-nav {
+      top: 210px;
+    }
+    .GameScreen-chat {
+      top: 246px;
+    }
+  }
 }
 
 @media only screen and (max-width: 999px) {
@@ -857,15 +868,9 @@ a.BoardNav-next {
     background: #333;
     border-bottom: none;
   }
-  .GamePlayersInfo-player2 {
-    margin-left: 0;
-  }
   .GamePlayersInfo-avatar {
     width: 43px;
     height: 63px;
-  }
-  .GamePlayersInfo-captures-clock {
-    // margin: 0;
   }
   .GamePlayersInfo-captures,
   .GamePlayersInfo-role {

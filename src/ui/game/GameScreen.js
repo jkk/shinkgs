@@ -121,8 +121,14 @@ export default class GameScreen extends Component {
       isOurMove = false;
     }
     let scoring = isGameScoring(game);
+    let isRengo = !!game.players.white_2;
+    let className = (
+      'GameScreen GameScreen-' +
+      (playing ? 'playing' : 'watching') +
+      (isRengo ? ' GameScreen-rengo' : '')
+    );
     return (
-      <div className={'GameScreen GameScreen-' + (playing ? 'playing' : 'watching')}>
+      <div className={className}>
         <div className='GameScreen-header'>
           {playing ? null : (
             <div className='GameScreen-back'>
