@@ -1,22 +1,3 @@
-.BoardNav {
-  display: flex;
-  padding-right: 10px;
-  // flex-direction: row;
-}
-
-.BoardNav-move {
-  width: 75px;
-  padding: 10px 0;
-}
-
-.BoardNav-slide {
-  flex: 1;
-  padding: 7px 0;
-  input {
-    width: 100%;
-  }
-}
-
 .Board {
   background: $board-bg;
   position: relative;

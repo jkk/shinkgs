@@ -2,7 +2,6 @@
 import React, {PureComponent as Component} from 'react';
 import Board from './Board';
 import BoardNav from './BoardNav';
-import {A, Icon} from '../common';
 import type {
   GameChannel,
   Point,
@@ -41,12 +40,10 @@ export default class BoardContainer extends Component {
   componentDidMount() {
     this._setBoardWidth();
     window.addEventListener('resize', this._setBoardWidth);
-    document.addEventListener('keydown', this._onKeyDown);
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this._setBoardWidth);
-    document.removeEventListener('keydown', this._onKeyDown);
   }
 
   render() {
@@ -89,22 +86,11 @@ export default class BoardContainer extends Component {
         </div>
         {playing ? null : (
           <div className='GameScreen-board-bar' style={{width: boardWidth}}>
-            {currentLine ?
-              <div className='GameScreen-board-step'>
-                <A className='GameScreen-board-prev' onClick={this._onPrev}>
-                  <Icon name='chevron-left' />
-                </A>
-                <A className='GameScreen-board-next' onClick={this._onNext}>
-                  <Icon name='chevron-right' />
-                </A>
-              </div> : null}
-            <div className='GameScreen-board-nav'>
-              {typeof nodeId === 'number' && currentLine ?
-                <BoardNav
-                  nodeId={nodeId}
-                  currentLine={currentLine}
-                  onChangeCurrentNode={this._onChangeCurrentNode} /> : null}
-            </div>
+            {typeof nodeId === 'number' && currentLine ?
+              <BoardNav
+                nodeId={nodeId}
+                currentLine={currentLine}
+                onChangeCurrentNode={this._onChangeCurrentNode} /> : null}
           </div>
         )}
       </div>
@@ -117,65 +103,6 @@ export default class BoardContainer extends Component {
 
   _onChangeCurrentNode = (nodeId: number) => {
     this.props.onChangeCurrentNode(this.props.game, nodeId);
-  }
-
-  _onPrev = () => {
-    let {game} = this.props;
-    let tree = game.tree;
-    if (tree) {
-      let idx = tree.currentLine.indexOf(tree.currentNode);
-      if (idx > 0) {
-        this._onChangeCurrentNode(tree.currentLine[idx - 1]);
-      }
-    }
-  }
-
-  _onNext = () => {
-    let {game} = this.props;
-    let tree = game.tree;
-    if (tree) {
-      let idx = tree.currentLine.indexOf(tree.currentNode);
-      if (idx < tree.currentLine.length - 1) {
-        this._onChangeCurrentNode(tree.currentLine[idx + 1]);
-      }
-    }
-  }
-
-  _onLast = () => {
-    let {game} = this.props;
-    let tree = game.tree;
-    if (tree) {
-      this._onChangeCurrentNode(tree.currentLine[tree.currentLine.length - 1]);
-    }
-  }
-
-  _onFirst = () => {
-    let {game} = this.props;
-    let tree = game.tree;
-    if (tree) {
-      this._onChangeCurrentNode(tree.currentLine[0]);
-    }
-  }
-
-  _onKeyDown = (e: Object) => {
-    let node = e.target;
-    while (node) {
-      if (node.nodeName === 'INPUT' || node.nodeName === 'SELECT' || node.nodeName === 'TEXTAREA') {
-        if (node.value) {
-          return;
-        }
-      }
-      node = node.parentNode;
-    }
-    if (e.key === 'ArrowLeft' || e.keyCode === 37) {
-      this._onPrev();
-    } else if (e.key === 'ArrowRight' || e.keyCode === 39) {
-      this._onNext();
-    } else if (e.key === 'ArrowUp' || e.keyCode === 38) {
-      this._onLast();
-    } else if (e.key === 'ArrowDown' || e.keyCode === 40) {
-      this._onFirst();
-    }
   }
 
   _onClickPoint = (loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => {

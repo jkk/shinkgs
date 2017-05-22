@@ -52,37 +52,6 @@ a.GameMoreMenu-dropdown-item {
   padding: 5px 10px;
 }
 
-.GameScreen-board-step {
-  position: absolute;
-  right: 0;
-  top: 0;
-  font-size: 0;
-}
-
-a.GameScreen-board-prev,
-a.GameScreen-board-next {
-  display: block;
-  background: $semi-muted;
-  color: $inverted-fg;
-  padding: 5px 20px;
-  font-size: 16px;
-  display: inline-block;
-  border-radius: 4px;
-  margin: 4px 4px 0 0;
-  &:active {
-    background: $muted;
-  }
-}
-
-.no-touch {
-  a.GameScreen-board-prev,
-  a.GameScreen-board-next {
-    &:hover {
-      background: $muted;
-    }
-  }
-}
-
 .GameScreen-board {
   background: #555;
   margin: 0 auto;
@@ -105,7 +74,7 @@ a.GameScreen-board-next {
   background: $inverted-bg-off;
 }
 
-.GameScreen-board-nav {
+.BoardNav {
   margin: 0 auto;
   padding: 0 10px;
   box-sizing: border-box;
@@ -115,7 +84,58 @@ a.GameScreen-board-next {
   left: 0;
   top: 0;
   bottom: 0;
-  right: 110px;
+  right: 0;
+  padding-right: 110px;
+}
+
+.BoardNav-slide-container {
+  display: flex;
+  padding-right: 20px;
+  // flex-direction: row;
+}
+
+.BoardNav-move {
+  width: 75px;
+  padding: 10px 0 0 0;
+}
+
+.BoardNav-slide {
+  flex: 1;
+  padding: 7px 0 0 0;
+  input {
+    width: 100%;
+  }
+}
+
+.BoardNav-step {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 0;
+}
+
+a.BoardNav-prev,
+a.BoardNav-next {
+  display: block;
+  background: $semi-muted;
+  color: $inverted-fg;
+  padding: 5px 20px;
+  font-size: 16px;
+  display: inline-block;
+  border-radius: 4px;
+  margin: 4px 4px 0 0;
+  &:active {
+    background: $muted;
+  }
+}
+
+.no-touch {
+  a.BoardNav-prev,
+  a.BoardNav-next {
+    &:hover {
+      background: $muted;
+    }
+  }
 }
 
 .GamePlayActions {
@@ -708,7 +728,7 @@ a.GameScreen-board-next {
     width: 100% !important;
     z-index: 2;
   }
-  .GameScreen-board-step {
+  .BoardNav-step {
     height: 47px;
     padding-left: 7px;
   }
