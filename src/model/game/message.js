@@ -204,8 +204,18 @@ function _handleGameMessage(
     return {...prevState, playGameId: msg.gameId, userDetailsRequest: null};
   } else if (msg.type === 'GAME_UNDO_REQUEST' && chanId) {
     // Note - API returns a weird response for role
-    let matches = msg.role.match(/\[([^\]]+)\]/);
-    let role = (matches && matches[1]) || msg.role;
+    let rawRole = msg.role;
+    let role;
+    if (typeof rawRole === 'string') {
+      let matches = msg.role.match(/\[([^\]]+)\]/);
+      role = (matches && matches[1]) || msg.role;
+    } else if (rawRole === 4) {
+      role = 'black';
+    } else if (rawRole === 2) {
+      role = 'white';
+    } else {
+      throw Error('Unrecognized role');
+    }
     let gamesById: Index<GameChannel> = {...prevState.gamesById};
     gamesById[chanId] = {...gamesById[chanId], undoRequest: role};
     return {...prevState, gamesById};
