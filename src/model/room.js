@@ -32,12 +32,11 @@ export function handleRoomMessage(
 ): AppState {
   let chanId = msg.channelId;
   if (msg.type === 'ROOM_NAMES' || msg.type === 'LOGIN_SUCCESS') {
-    let nextState: AppState = {...prevState};
-    let roomsById: Index<Room> = {...nextState.roomsById};
+    let roomsById: Index<Room> = {...prevState.roomsById};
     for (let room of msg.rooms) {
       roomsById[room.channelId] = updateRoom(roomsById[room.channelId], room);
     }
-    nextState.roomsById = roomsById;
+    let nextState: AppState = {...prevState, roomsById};
     return nextState;
   } else if ((msg.type === 'ROOM_DESC' || msg.type === 'ROOM_CHANNEL_INFO') && chanId) {
     let roomsById: Index<Room> = {...prevState.roomsById};
@@ -46,23 +45,20 @@ export function handleRoomMessage(
   } else if (msg.type === 'ROOM_JOIN' && chanId) {
 
     // Room info
-    let nextState: AppState = {...prevState};
-    let roomsById: Index<Room> = {...nextState.roomsById};
+    let roomsById: Index<Room> = {...prevState.roomsById};
     let room: Room = updateRoom(roomsById[chanId], msg);
     roomsById[chanId] = room;
-    nextState.roomsById = roomsById;
 
     // Channel membership
-    let chanMem: ChannelMembership = {...prevState.channelMembership};
-    chanMem[chanId] = {type: 'room', complete: false, stale: false};
-    nextState.channelMembership = chanMem;
+    let channelMembership: ChannelMembership = {...prevState.channelMembership};
+    channelMembership[chanId] = {type: 'room', complete: false, stale: false};
 
     // FIXME - hack
-    if (!prevState.activeConversationId && room.name === 'English Game Room') {
-      nextState.activeConversationId = chanId;
-    }
+    let activeConversationId = (!prevState.activeConversationId && room.name === 'English Game Room')
+      ? chanId
+      : prevState.activeConversationId;
 
-    return nextState;
+    return {...prevState, roomsById, channelMembership, activeConversationId};
   } else if (msg.type === 'ROOM_NAME_FLUSH' && chanId && prevState.channelMembership[chanId]) {
     let chanMem: ChannelMembership = {...prevState.channelMembership};
     chanMem[chanId].stale = true;

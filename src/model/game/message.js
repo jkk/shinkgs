@@ -53,11 +53,10 @@ function _handleGameMessage(
           ...game,
           deletedTime: Date.now()
         };
-        let nextState = {...prevState, gamesById};
-        if (nextState.playChallengeId === msg.gameId) {
-          nextState.playChallengeId = null;
-        }
-        return nextState;
+        let playChallengeId = prevState.playChallengeId === msg.gameId
+          ? null
+          : prevState.playChallengeId;
+        return {...prevState, gamesById, playChallengeId};
       }
     }
   } else if (
@@ -288,11 +287,11 @@ export function handleGameMessage(
 
     let activeGames = allGames.filter(g => g.type !== 'challenge' && !g.deletedTime);
     sortGames(activeGames);
-    nextState.activeGames = activeGames;
 
     let challenges = allGames.filter(g => g.type === 'challenge' && !g.deletedTime);
     sortGames(challenges);
-    nextState.challenges = challenges;
+
+    nextState = {...nextState, activeGames, challenges};
   }
 
   let currentUser = nextState.currentUser;
@@ -300,9 +299,12 @@ export function handleGameMessage(
     let nextSummaries = nextState.gameSummariesByUser[currentUser.name];
     let prevSummaries = prevState.gameSummariesByUser[currentUser.name];
     if (prevSummaries !== nextSummaries) {
-      nextState.unfinishedGames = nextSummaries.filter(summary =>
-        summary.score === 'UNFINISHED' && summary.inPlay
-      );
+      nextState = {
+        ...nextState,
+        unfinishedGames: nextSummaries.filter(summary =>
+          summary.score === 'UNFINISHED' && summary.inPlay
+        )
+      };
     }
   }
 
