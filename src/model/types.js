@@ -297,6 +297,8 @@ export type GameTree = {
   },
   rootNode: number,
   activeNode: number,
+  currentNode: number,
+  currentLine: Array<number>,
   pendingMove?: PendingMove
 };
 

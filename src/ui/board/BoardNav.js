@@ -5,9 +5,9 @@ import Slider from 'rc-slider/lib/Slider';
 export default class BoardNav extends Component {
 
   props: {
-    nodeId: ?number,
-    currentLine: ?Array<number>,
-    onChangeMoveNum: number => any
+    nodeId: number,
+    currentLine: Array<number>,
+    onChangeCurrentNode: number => any
   };
 
   render() {
@@ -34,6 +34,8 @@ export default class BoardNav extends Component {
   }
 
   _onChangeMoveNum = (val: number) => {
-    this.props.onChangeMoveNum(val);
+    let {currentLine} = this.props;
+    let nodeId = currentLine[val];
+    this.props.onChangeCurrentNode(nodeId);
   }
 }

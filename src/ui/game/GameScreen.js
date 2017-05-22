@@ -152,6 +152,7 @@ export default class GameScreen extends Component {
           <BoardContainer
             game={game}
             playing={playing}
+            onChangeCurrentNode={actions.onChangeCurrentNode}
             onClickPoint={isOurMove || scoring ? this._onClickPoint : undefined} />
           {game.accessDenied ?
             <div className='GameScreen-access-denied'>

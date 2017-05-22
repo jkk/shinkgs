@@ -2,7 +2,8 @@
 import uuidV4 from 'uuid/v4';
 import {
   computeGameNodeStates,
-  validateRuleSet
+  validateRuleSet,
+  getGameLine
 } from './tree';
 import {parseUser} from '../user';
 import type {
@@ -181,7 +182,9 @@ function parseSgfEvents(prevTree: ?GameTree, events: Array<SgfEvent>) {
         computedState: {},
         messages: {},
         rootNode: event.nodeId,
-        activeNode: event.nodeId
+        activeNode: event.nodeId,
+        currentNode: event.nodeId,
+        currentLine: [event.nodeId]
       };
     }
     if (event.type === 'PROP_ADDED') {
@@ -203,13 +206,18 @@ function parseSgfEvents(prevTree: ?GameTree, events: Array<SgfEvent>) {
         ...tree.nodes,
         [event.nodeId]: newNode
       };
+      tree.currentLine = getGameLine(tree, tree.currentNode);
     } else if (event.type === 'CHILD_ADDED') {
       addNodeChild(tree, event.nodeId, event.childNodeId, event.position || 0);
+      tree.currentLine = getGameLine(tree, tree.currentNode);
     } else if (event.type === 'PROP_GROUP_ADDED') {
       addPropsToNode(tree, event.nodeId, event.props);
     } else if (event.type === 'PROP_GROUP_REMOVED') {
       removePropsFromNode(tree, event.nodeId, event.props);
     } else if (event.type === 'ACTIVATED') {
+      if (tree.currentNode === tree.activeNode) {
+        tree.currentNode = event.nodeId;
+      }
       tree.activeNode = event.nodeId;
       tree.computedState = computeGameNodeStates(tree, tree.activeNode);
     } else {

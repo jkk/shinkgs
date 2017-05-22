@@ -3,10 +3,8 @@ import React, {PureComponent as Component} from 'react';
 import Board from './Board';
 import BoardNav from './BoardNav';
 import {A, Icon} from '../common';
-import {getGameLine} from '../../model/game';
 import type {
   GameChannel,
-  GameTree,
   Point,
   BoardPointMark,
   PlayerColor
@@ -15,40 +13,20 @@ import type {
 type Props = {
   game: GameChannel,
   playing?: boolean,
+  onChangeCurrentNode: (game: GameChannel, nodeId: number) => any,
   onClickPoint: (game: GameChannel, loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => any
 };
 
 type State = {
-  nodeId: number | null,
-  currentLine: Array<number> | null,
-  boardWidth?: ?number
+  boardWidth: ?number
 };
 
 export default class BoardContainer extends Component {
 
   props: Props;
-  state: State = this._getState(null, this.props.game.tree, null);
+  state: State = {boardWidth: null};
 
   _containerRef: ?HTMLElement;
-
-  _getState(prevTree: ?GameTree, nextTree: ?GameTree, prevNodeId: number | null) {
-    let nodeId = prevNodeId;
-    if (nodeId === null || (prevTree && nodeId === prevTree.activeNode)) {
-      nodeId = nextTree && typeof nextTree.activeNode === 'number' ? nextTree.activeNode : null;
-    }
-    return {
-      nodeId,
-      currentLine: nextTree && typeof nodeId === 'number' ? getGameLine(nextTree, nodeId) : null
-    };
-  }
-
-  componentWillReceiveProps(nextProps: Props) {
-    let nextTree = nextProps.game.tree;
-    let thisTree = this.props.game.tree;
-    if (nextTree !== thisTree) {
-      this.setState(this._getState(thisTree, nextTree, this.state.nodeId));
-    }
-  }
 
   _setBoardWidth = () => {
     if (this._containerRef) {
@@ -73,7 +51,7 @@ export default class BoardContainer extends Component {
 
   render() {
     let {game, playing, onClickPoint} = this.props;
-    let {nodeId, currentLine, boardWidth} = this.state;
+    let {boardWidth} = this.state;
 
     if (!boardWidth) {
       return (
@@ -82,9 +60,13 @@ export default class BoardContainer extends Component {
     }
 
     let tree = game.tree;
+    let nodeId;
+    let currentLine;
     let board;
     let markup;
-    if (tree && typeof nodeId === 'number') {
+    if (tree) {
+      nodeId = tree.currentNode;
+      currentLine = tree.currentLine;
       let computedState = tree.computedState[nodeId];
       if (computedState) {
         board = computedState.board;
@@ -117,10 +99,11 @@ export default class BoardContainer extends Component {
                 </A>
               </div> : null}
             <div className='GameScreen-board-nav'>
-              <BoardNav
-                nodeId={nodeId}
-                currentLine={currentLine}
-                onChangeMoveNum={this._onChangeMoveNum} />
+              {typeof nodeId === 'number' && currentLine ?
+                <BoardNav
+                  nodeId={nodeId}
+                  currentLine={currentLine}
+                  onChangeCurrentNode={this._onChangeCurrentNode} /> : null}
             </div>
           </div>
         )}
@@ -132,34 +115,45 @@ export default class BoardContainer extends Component {
     this._containerRef = ref;
   }
 
-  _onChangeMoveNum = (moveNum: number) => {
-    let {currentLine} = this.state;
-    if (!currentLine) {
-      return;
-    }
-    let nodeId = currentLine[moveNum];
-    if (typeof nodeId === 'number') {
-      this.setState({nodeId});
-    }
+  _onChangeCurrentNode = (nodeId: number) => {
+    this.props.onChangeCurrentNode(this.props.game, nodeId);
   }
 
   _onPrev = () => {
-    let {currentLine, nodeId} = this.state;
-    if (currentLine && typeof nodeId === 'number') {
-      let idx = currentLine.indexOf(nodeId);
+    let {game} = this.props;
+    let tree = game.tree;
+    if (tree) {
+      let idx = tree.currentLine.indexOf(tree.currentNode);
       if (idx > 0) {
-        this.setState({nodeId: currentLine[idx - 1]});
+        this._onChangeCurrentNode(tree.currentLine[idx - 1]);
       }
     }
   }
 
   _onNext = () => {
-    let {currentLine, nodeId} = this.state;
-    if (currentLine && typeof nodeId === 'number') {
-      let idx = currentLine.indexOf(nodeId);
-      if (idx < currentLine.length - 1) {
-        this.setState({nodeId: currentLine[idx + 1]});
+    let {game} = this.props;
+    let tree = game.tree;
+    if (tree) {
+      let idx = tree.currentLine.indexOf(tree.currentNode);
+      if (idx < tree.currentLine.length - 1) {
+        this._onChangeCurrentNode(tree.currentLine[idx + 1]);
       }
+    }
+  }
+
+  _onLast = () => {
+    let {game} = this.props;
+    let tree = game.tree;
+    if (tree) {
+      this._onChangeCurrentNode(tree.currentLine[tree.currentLine.length - 1]);
+    }
+  }
+
+  _onFirst = () => {
+    let {game} = this.props;
+    let tree = game.tree;
+    if (tree) {
+      this._onChangeCurrentNode(tree.currentLine[0]);
     }
   }
 
@@ -178,15 +172,9 @@ export default class BoardContainer extends Component {
     } else if (e.key === 'ArrowRight' || e.keyCode === 39) {
       this._onNext();
     } else if (e.key === 'ArrowUp' || e.keyCode === 38) {
-      let {currentLine, nodeId} = this.state;
-      if (currentLine && typeof nodeId === 'number') {
-        this.setState({nodeId: currentLine[currentLine.length - 1]});
-      }
+      this._onLast();
     } else if (e.key === 'ArrowDown' || e.keyCode === 40) {
-      let {currentLine, nodeId} = this.state;
-      if (currentLine && typeof nodeId === 'number') {
-        this.setState({nodeId: currentLine[0]});
-      }
+      this._onFirst();
     }
   }
 

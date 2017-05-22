@@ -3,7 +3,11 @@ import {
   parseGameChannel,
   parseGameSummary
 } from './parse';
-import {isGameProposalPlayer, computeGameNodeStates} from './tree';
+import {
+  isGameProposalPlayer,
+  computeGameNodeStates,
+  getGameLine
+} from './tree';
 import {
   sortGames
 } from './display';
@@ -269,6 +273,19 @@ function _handleGameMessage(
       }
     };
     return {...prevState, gamesById};
+  } else if (msg.type === 'SET_CURRENT_GAME_NODE' && chanId) {
+    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    gamesById[chanId] = {...gamesById[chanId]};
+    let tree = gamesById[chanId].tree;
+    if (tree) {
+      tree = ({...tree}: GameTree);
+      tree.currentNode = msg.currentNode;
+      if (tree.currentLine.indexOf(tree.currentNode) === -1) {
+        tree.currentLine = getGameLine(tree, tree.currentNode);
+      }
+      gamesById[chanId].tree = tree;
+      return {...prevState, gamesById};
+    }
   }
   return prevState;
 }
