@@ -302,17 +302,20 @@ export function getGameRoleColor(role: GameRole): ?PlayerColor {
 
 export function getKgsSgfUrl(summary: GameSummary) {
   let [y, m, d] = summary.timestamp.split('-');
+  let player1 = summary.players.white || summary.players.owner;
+  let black = summary.players.black;
   let url = 'http://files.gokgs.com/games/' +
     y + '/' +
     parseInt(m, 10) + '/' +
     parseInt(d, 10) + '/' +
-    summary.players.white.name;
+    player1.name;
   if (
     summary.type !== 'demonstration' &&
     summary.type !== 'review' &&
-    summary.type !== 'rengo_review'
+    summary.type !== 'rengo_review' &&
+    black
   ) {
-    url += '-' + summary.players.black.name;
+    url += '-' + black.name;
   }
   if (summary.revision) {
     url += '-' + (parseInt(summary.revision, 10) + 1);
