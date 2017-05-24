@@ -1,0 +1,69 @@
+.ChallengeEditor {
+  background: $off-white;
+}
+
+.ChallengeEditor-header {
+  padding: 10px 20px;
+  background: $modal-top-bar-bg;
+  color: $modal-top-bar-fg;
+  line-height: 1;
+}
+
+.ChallengeEditor-proposal {
+  padding: 20px;
+  background: $content-bg;
+  color: $content-fg;
+}
+
+.ChallengeEditor-buttons {
+  background: $content-bg;
+  padding: 20px;
+}
+
+.ChallengeEditor-room-name {
+  font-size: 13px;
+  color: $semi-muted;
+  margin: 5px 0 0 0;
+  text-transform: uppercase;
+}
+
+.ChallengeEditor-game-type {
+  margin: 0 0 10px 0;
+}
+
+.ChallengeEditor-game-type-icon,
+.ChallengeEditor-game-type-name {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 5px 0 0;
+  // font-size: 14px;
+}
+
+.ChallengeEditor-accepted {
+  padding: 10px 20px;
+  background: $success-bg;
+  color: $success-fg;
+}
+
+.ChallengeEditor-declined {
+  padding: 10px 20px;
+  background: $warning-bg;
+  color: $warning-fg;
+}
+
+.ChallengeEditor-field,
+.ChallengePlayers-item {
+  margin: 0 0 5px 0;
+  line-height: 1.4;
+}
+
+.ChallengeEditor-field-label,
+.ChallengePlayers-role {
+  font-weight: bold;
+}
+
+.ChallengePlayers-item {
+  // width: 50%;
+  display: inline-block;
+  margin: 0 2em 10px 0;
+}

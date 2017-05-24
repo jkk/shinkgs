@@ -15,6 +15,8 @@ import type {
   GameRole,
   GameChatSection,
   GamePlayers,
+  GameAction,
+  UnparsedUser,
   BoardMarkup,
   SgfProp,
   PendingMove,
@@ -322,4 +324,20 @@ export function getKgsSgfUrl(summary: GameSummary) {
   }
   url += '.sgf';
   return url;
+}
+
+export function getActionsForUser(
+  actions: ?Array<{action: GameAction, user: UnparsedUser}>,
+  name: string
+): {[action: GameAction]: true} {
+  let ret = {};
+  if (!actions) {
+    return ret;
+  }
+  for (let action of actions) {
+    if (action.user.name === name) {
+      ret[action.action] = true;
+    }
+  }
+  return ret;
 }

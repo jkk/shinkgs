@@ -7,13 +7,13 @@ import ChallengePlayers from './ChallengePlayers';
 import {
   formatGameType,
   formatGameRuleset,
-  getStartingProposal
+  getStartingProposal,
+  getActionsForUser
 } from '../../model/game';
 import {InvariantError} from '../../util/error';
 import type {
   GameChannel,
   GameProposal,
-  ChallengeStatus,
   User,
   Room,
   Index
@@ -50,8 +50,20 @@ export default class ChallengeEditor extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps: Props) {
+    let {challenge} = nextProps;
+    let {sentProposal} = challenge;
+    let {proposal} = this.state;
+    if (sentProposal && sentProposal.status !== proposal.status) {
+      this.setState({
+        proposal: {...proposal, status: sentProposal.status}
+      });
+    }
+  }
+
   render() {
     let {
+      currentUser,
       challenge,
       usersByName,
       roomsById,
@@ -59,43 +71,35 @@ export default class ChallengeEditor extends Component {
       onUserDetail
     } = this.props;
     let {proposal} = this.state;
-    let status: ChallengeStatus = challenge.challengeStatus || 'viewing';
-    let {players, nigiri, rules} = proposal;
-    let rows = [];
+    // let {sentProposal} = challenge;
+    let creator = challenge.players.challengeCreator;
+    let isCreator = creator && creator.name === currentUser.name;
+    let {players, nigiri, rules, status} = proposal;
     let room = challenge.roomId && roomsById[challenge.roomId];
-    if (rules.handicap) {
-      rows.push(
-        <tr key='handicap'>
-          <th>Handi</th>
-          <td>{rules.handicap}</td>
-        </tr>
-      );
-    }
-    rows.push(
-      <tr key='komi'>
-        <th>Komi</th>
-        <td>{rules.komi}</td>
-      </tr>
-    );
-    if (rules.timeSystem) {
-      rows.push(
-        <tr key='time'>
-          <th>Time</th>
-          <td><GameTimeSystem rules={rules} /></td>
-        </tr>
-      );
-    }
-    if (rules.rules) {
-      rows.push(
-        <tr key='rules'>
-          <th>Rules</th>
-          <td></td>
-        </tr>
-      );
-    }
-    let waiting = status !== 'viewing' && status !== 'declined';
+    let pending = status === 'pending';
+    // let actions = getActionsForUser(challenge.actions, currentUser.name);
+    // let receivedProposals;
+    // if (isCreator) {
+    //   receivedProposals = challenge.receivedProposals;
+    // }
+    // let visibility;
+    // if (proposal.private) {
+    //   visibility = 'private';
+    // } else if (challenge.global) {
+    //   visibility = 'public';
+    // } else {
+    //   visibility = 'roomOnly';
+    // }
+    // console.log({challenge, proposal, sentProposal, receivedProposals, actions});
     return (
       <div className='ChallengeEditor'>
+        <div className='ChallengeEditor-header'>
+          {isCreator ? 'Create Challenge' : 'Challenge'}
+          {room && room.name ?
+            <div className='ChallengeEditor-room-name'>
+              {room.name}
+            </div> : null}
+        </div>
         {status === 'declined' ?
           <div className='ChallengeEditor-declined'>
             Your proposal was declined
@@ -105,63 +109,51 @@ export default class ChallengeEditor extends Component {
             <Icon name='check' /> Starting game...
           </div> : null}
         <div className='ChallengeEditor-proposal'>
-          <div className='ChallengeEditor-intro'>
-            <div className='ChallengeEditor-game-type'>
-              <div className='ChallengeEditor-game-type-icon'>
-                <GameTypeIcon type={proposal.gameType} />
-              </div>
-              <div className='ChallengeEditor-game-type-name'>
-                {proposal.private ? 'Private ' : null}
-                {formatGameType(proposal.gameType)} Challenge
-              </div>
+          <div className='ChallengeEditor-game-type'>
+            <div className='ChallengeEditor-game-type-icon'>
+              <GameTypeIcon type={proposal.gameType} />
             </div>
-            {room && room.name ?
-              <div className='ChallengeEditor-room-name'>
-                {room.name}
-              </div> : null}
+            <div className='ChallengeEditor-game-type-name'>
+              {proposal.private ? 'Private ' : null}
+              {formatGameType(proposal.gameType)} Game
+            </div>
           </div>
-          <div className='ChallengeEditor-proposal-main'>
-            <div className='ChallengeEditor-proposal-players'>
-              <ChallengePlayers
-                gameType={proposal.gameType}
-                players={players}
-                nigiri={nigiri}
-                usersByName={usersByName}
-                onUserDetail={onUserDetail} />
+          {challenge.name ?
+            <div className='ChallengeEditor-field'>
+              <div className='ChallengeEditor-field-label'>
+                Notes
+              </div>
+              <div className='ChallengeEditor-field-value'>
+                {challenge.name}
+              </div>
+            </div> : null}
+          <div className='ChallengeEditor-proposal-players'>
+            <ChallengePlayers
+              gameType={proposal.gameType}
+              players={players}
+              nigiri={nigiri}
+              usersByName={usersByName}
+              onUserDetail={onUserDetail} />
+          </div>
+          <div className='ChallengeEditor-field'>
+            <div className='ChallengeEditor-field-label'>
+              Rules
             </div>
-            <div className='ChallengeEditor-proposal-rules'>
-              <table className='ChallengeEditor-proposal-table'>
-                <tbody>
-                  {challenge.name ?
-                    <tr>
-                      <th>Notes</th>
-                      <td>
-                        <div className='ChallengeEditor-game-name'>
-                          {challenge.name}
-                        </div>
-                      </td>
-                    </tr> : null}
-                  <tr>
-                    <th>Rules</th>
-                    <td>
-                      {rules.handicap ? <div>Handicap {rules.handicap}</div> : null}
-                      <div>Komi {rules.komi}</div>
-                      <div><GameTimeSystem rules={rules} /></div>
-                      {rules.rules ? <div>{formatGameRuleset(rules.rules)}</div> : null}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div className='ChallengeEditor-field-values'>
+              {rules.handicap ? <div>Handicap {rules.handicap}</div> : null}
+              <div>Komi {rules.komi}</div>
+              <div><GameTimeSystem rules={rules} /></div>
+              {rules.rules ? <div>{formatGameRuleset(rules.rules)}</div> : null}
             </div>
           </div>
         </div>
         <div className='ChallengeEditor-buttons'>
           <Button
             primary
-            disabled={waiting}
-            loading={waiting}
+            disabled={pending}
+            loading={pending}
             onClick={this._onSubmit}>
-            Send Challenge
+            Send Proposal
           </Button>
           {' '}
           <Button

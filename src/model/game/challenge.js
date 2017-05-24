@@ -148,5 +148,9 @@ export function getStartingProposal(
 
   proposal.players = players;
 
+  if (!proposal.status) {
+    proposal.status = 'setup';
+  }
+
   return proposal;
 }

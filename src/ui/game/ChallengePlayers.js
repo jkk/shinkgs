@@ -23,16 +23,18 @@ class ChallengePlayersItem extends Component {
   render() {
     let {player, index, user, nigiri} = this.props;
     return (
-      <tr className='ChallengePlayers-item'>
-        <th>{nigiri ? `Player ${index + 1}` : formatGameRole(player.role)}</th>
-        <td>
-          <A onClick={this._onUserDetail}>
+      <div className='ChallengePlayers-item'>
+        <div className='ChallengePlayers-role'>
+          {nigiri ? `Player ${index + 1}` : formatGameRole(player.role)}
+        </div>
+        <div className='ChallengePlayers-player'>
+          <A button onClick={this._onUserDetail}>
             {typeof user === 'string' ?
               user :
               <UserName user={user} extraIcons />}
           </A>
-        </td>
-      </tr>
+        </div>
+      </div>
     );
   }
 
@@ -58,24 +60,20 @@ export default class ChallengePlayers extends Component {
     let {players, nigiri, usersByName, onUserDetail} = this.props;
     return (
       <div className='ChallengePlayers'>
-        <table className='ChallengeEditor-proposal-table'>
-          <tbody>
-            {players.map((player, i) => {
-              if (player.name) {
-                return (
-                  <ChallengePlayersItem
-                    key={i + '-' + player.name}
-                    player={player}
-                    index={i}
-                    user={usersByName[player.name] || player.name}
-                    nigiri={nigiri}
-                    onUserDetail={onUserDetail} />
-                );
-              }
-              return null;
-            })}
-          </tbody>
-        </table>
+        {players.map((player, i) => {
+          if (player.name) {
+            return (
+              <ChallengePlayersItem
+                key={i + '-' + player.name}
+                player={player}
+                index={i}
+                user={usersByName[player.name] || player.name}
+                nigiri={nigiri}
+                onUserDetail={onUserDetail} />
+            );
+          }
+          return null;
+        })}
       </div>
     );
   }

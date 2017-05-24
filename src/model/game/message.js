@@ -161,29 +161,37 @@ function _handleGameMessage(
   } else if (msg.type === 'WATCH_GAME') {
     return {...prevState, watchGameId: msg.gameId, userDetailsRequest: null};
   } else if (msg.type === 'PLAY_CHALLENGE') {
-    // TODO - do we need to reset challengeStatus and sentProposal?
     return {...prevState, playChallengeId: msg.challengeId};
   } else if (msg.type === 'CLOSE_CHALLENGE' && chanId) {
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
-    gamesById[chanId] = {...gamesById[chanId], challengeStatus: 'viewing'};
+    let challenge = {...prevState.gamesById[chanId]};
+    delete challenge.sentProposal;
+    delete challenge.receivedProposals;
     return {
       ...prevState,
-      gamesById,
+      gamesById: {
+        ...prevState.gamesById,
+        [chanId]: challenge
+      },
       playChallengeId: null
     };
   } else if (msg.type === 'CHALLENGE_DECLINE' && chanId) {
     let gamesById: Index<GameChannel> = {...prevState.gamesById};
-    gamesById[chanId] = {...gamesById[chanId], challengeStatus: 'declined'};
+    let challenge = {...prevState.gamesById[chanId]};
+    challenge.sentProposal = {
+      ...challenge.sentProposal,
+      status: 'declined'
+    };
+    gamesById[chanId] = challenge;
     return {
       ...prevState,
       gamesById
     };
   } else if (msg.type === 'START_CHALLENGE_SUBMIT' && chanId) {
     let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    let sentProposal = {...msg.proposal, status: 'pending'};
     gamesById[chanId] = {
       ...gamesById[chanId],
-      challengeStatus: 'waiting',
-      sentProposal: msg.proposal
+      sentProposal
     };
     return {
       ...prevState,
