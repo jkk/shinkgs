@@ -10,6 +10,7 @@ import type {
   User,
   NavOption,
   Conversation,
+  ChannelMembership,
   Index
 } from '../../model';
 
@@ -19,6 +20,7 @@ export default class Nav extends Component {
     nav: NavOption,
     currentUser: ?User,
     conversationsById: Index<Conversation>,
+    channelMembership: ChannelMembership,
     onChangeNav: NavOption => any,
     onUserDetail: string => any,
     onLogout: Function
@@ -53,6 +55,7 @@ export default class Nav extends Component {
       nav,
       currentUser,
       conversationsById,
+      channelMembership,
       onLogout,
       onUserDetail
     } = this.props;
@@ -95,7 +98,8 @@ export default class Nav extends Component {
                 {nav === 'chat' ? null :
                   <div className='MainNav-item-badge'>
                     <ChatUnseenBadge
-                      conversationsById={conversationsById} />
+                      conversationsById={conversationsById}
+                      channelMembership={channelMembership} />
                   </div>}
               </A>
             </div>

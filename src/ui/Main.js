@@ -30,6 +30,7 @@ export default class Main extends Component {
       nav,
       currentUser,
       conversationsById,
+      channelMembership,
       clientState,
       logoutError,
       userDetailsRequest,
@@ -73,6 +74,7 @@ export default class Main extends Component {
           nav={nav}
           currentUser={currentUser}
           conversationsById={conversationsById}
+          channelMembership={channelMembership}
           onChangeNav={actions.onChangeNav}
           onUserDetail={actions.onUserDetail}
           onLogout={actions.onLogout} />
