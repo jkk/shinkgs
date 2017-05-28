@@ -26,7 +26,7 @@ class BoardStoneSlot extends Component {
   render() {
     let {color, mark, label} = this.props;
     return (
-      <A className='Board-stone-slot' onClick={this._onClickPoint}>
+      <A button className='Board-stone-slot' onClick={this._onClickPoint}>
         {color ?
           <div className={'Board-stone Board-stone-' + color} /> : null}
         {mark ?
@@ -50,7 +50,8 @@ export default class Board extends Component {
   props: {
     board: BoardState,
     markup: BoardMarkup,
-    onClickPoint?: ?(Point => any)
+    width: number,
+    onClickPoint?: ?((loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => any)
   };
 
   render() {

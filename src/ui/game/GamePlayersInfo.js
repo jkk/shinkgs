@@ -25,6 +25,7 @@ class GamePlayersInfoColor extends Component {
     clock: ?ClockState,
     gameRules: ?GameRules,
     captures: number,
+    timeLeft: number,
     gameActive: boolean,
     onUserDetail: User => any
   };
@@ -40,6 +41,7 @@ class GamePlayersInfoColor extends Component {
       clock,
       gameRules,
       captures,
+      timeLeft,
       gameActive
     } = this.props;
     if (!player1 && !player2) {
@@ -89,6 +91,7 @@ class GamePlayersInfoColor extends Component {
                     nodeId={nodeId}
                     active={gameActive}
                     clock={clock}
+                    timeLeft={timeLeft}
                     gameRules={gameRules} />
                 </div> : null}
               {winner ?
@@ -122,12 +125,11 @@ export default class GamePlayersInfo extends Component {
 
   props: {
     game: GameChannel,
-    nodeId: ?number,
     onUserDetail: User => any
   };
 
   render () {
-    let {game, nodeId, onUserDetail} = this.props;
+    let {game, onUserDetail} = this.props;
     let players = game.players;
     let winner = getWinningColor(game.score);
     if (!players) {
@@ -143,8 +145,14 @@ export default class GamePlayersInfo extends Component {
       color1 = 'owner';
     }
     let computedState;
+    let nodeId;
+    let gameActive;
     if (game.tree) {
-      computedState = game.tree.computedState[game.tree.activeNode];
+      nodeId = game.tree.currentNode;
+      computedState = game.tree.computedState[nodeId];
+      gameActive = !game.over && nodeId === game.tree.activeNode;
+    } else {
+      gameActive = false;
     }
     let className = 'GamePlayersInfo' + (
       white2 && black2 ? ' GamePlayersInfo-rengo' : ''
@@ -159,7 +167,8 @@ export default class GamePlayersInfo extends Component {
           player2={white2}
           owner={players.owner}
           captures={computedState ? computedState.whiteCaptures : 0}
-          gameActive={!game.over}
+          timeLeft={computedState ? computedState.whiteTimeLeft : -1}
+          gameActive={gameActive}
           clock={game.clocks && game.clocks[color1]}
           gameRules={game.rules}
           onUserDetail={onUserDetail} />
@@ -171,7 +180,8 @@ export default class GamePlayersInfo extends Component {
           player2={black2}
           owner={players.owner}
           captures={computedState ? computedState.blackCaptures : 0}
-          gameActive={!game.over}
+          timeLeft={computedState ? computedState.blackTimeLeft : -1}
+          gameActive={gameActive}
           clock={game.clocks && game.clocks.black}
           gameRules={game.rules}
           onUserDetail={onUserDetail} />

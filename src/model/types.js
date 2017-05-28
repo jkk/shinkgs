@@ -266,6 +266,8 @@ export type BoardState = Array<Array<?PlayerColor>>; // y[x]
 export type GameNodeComputedState = {
   blackCaptures: number,
   whiteCaptures: number,
+  blackTimeLeft: number,
+  whiteTimeLeft: number,
   board: BoardState,
   markup: BoardMarkup
 };
@@ -303,6 +305,8 @@ export type GameTree = {
   },
   rootNode: number,
   activeNode: number,
+  currentNode: number,
+  currentLine: Array<number>,
   pendingMove?: PendingMove
 };
 
@@ -427,35 +431,35 @@ export type Preferences = {
 };
 
 export type AppState = {
-  clientState: KgsClientState,
-  preferences: Preferences,
-  initialized: boolean,
-  savedAt: ?Date,
-  serverInfo: ?Object,
-  currentUser: ?User,
-  loginError: ?string,
-  logoutError: ?string,
-  roomsById: Index<Room>,
-  gamesById: Index<GameChannel>,
-  gameSummariesByUser: Index<Array<GameSummary>>,
-  rankGraphsByChannelId: Index<Object>,
-  activeGames: Array<GameChannel>,
-  challenges: Array<GameChannel>,
-  unfinishedGames: Array<GameSummary>,
-  watchFilter: GameFilter,
-  watchGameId: ?(number | string),
-  playFilter: GameFilter,
-  playGameId: ?number,
-  playChallengeId: ?number,
-  usersByName: Index<User>,
-  conversationsById: Index<Conversation>,
-  channelMembership: ChannelMembership,
-  automatchPrefs: ?AutomatchPrefs,
-  playbacks: Array<Playback>,
-  nav: NavOption,
-  activeConversationId: ?number,
-  userDetailsRequest: ?UserDetailsRequest,
-  showUnderConstruction: boolean
+  +clientState: KgsClientState,
+  +preferences: Preferences,
+  +initialized: boolean,
+  +savedAt: ?Date,
+  +serverInfo: ?Object,
+  +currentUser: ?User,
+  +loginError: ?string,
+  +logoutError: ?string,
+  +roomsById: Index<Room>,
+  +gamesById: Index<GameChannel>,
+  +gameSummariesByUser: Index<Array<GameSummary>>,
+  +rankGraphsByChannelId: Index<Object>,
+  +activeGames: Array<GameChannel>,
+  +challenges: Array<GameChannel>,
+  +unfinishedGames: Array<GameSummary>,
+  +watchFilter: GameFilter,
+  +watchGameId: ?(number | string),
+  +playFilter: GameFilter,
+  +playGameId: ?number,
+  +playChallengeId: ?number,
+  +usersByName: Index<User>,
+  +conversationsById: Index<Conversation>,
+  +channelMembership: ChannelMembership,
+  +automatchPrefs: ?AutomatchPrefs,
+  +playbacks: Array<Playback>,
+  +nav: NavOption,
+  +activeConversationId: ?number,
+  +userDetailsRequest: ?UserDetailsRequest,
+  +showUnderConstruction: boolean
 };
 
 export type KgsMessage = (

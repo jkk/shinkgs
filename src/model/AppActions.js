@@ -498,6 +498,14 @@ export class AppActions {
     this._client.sendMessage({type: 'UNJOIN_REQUEST', channelId});
   }
 
+  onChangeCurrentNode = (game: GameChannel, nodeId: number) => {
+    this._store.dispatch({
+      type: 'SET_CURRENT_GAME_NODE',
+      currentNode: nodeId,
+      channelId: game.id
+    });
+  }
+
   onPlayMove = (game: GameChannel, loc: Point, color: ?PlayerColor) => {
     if (color) {
       this._store.dispatch({

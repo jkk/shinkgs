@@ -18,7 +18,9 @@ import type {
 
 class App extends Component {
 
-  state: AppState;
+  state: {
+    appState: AppState
+  };
 
   _store: AppStore;
   _client: KgsClient;
@@ -38,7 +40,7 @@ class App extends Component {
     this._store = new AppStore(handleMessage, getInitialState(this._client.state));
     this._actions = new AppActions(this._store, this._client, this._history);
 
-    this.state = this._store.getState();
+    this.state = {appState: this._store.getState()};
 
     if (process.env.NODE_ENV === 'development') {
       window.App = this;
@@ -60,11 +62,11 @@ class App extends Component {
 
   _onStoreChange = () => {
     let nextState = this._store.getState();
-    if (!this.state.initialized && nextState.initialized) {
+    if (!this.state.appState.initialized && nextState.initialized) {
       // Just loaded - sync URL with state if necessary
       this._syncNav();
     }
-    this.setState(nextState);
+    this.setState({appState: nextState});
   }
 
   _onClientChange = (clientState: KgsClientState) => {
@@ -124,15 +126,16 @@ class App extends Component {
   }
 
   render() {
+    let {appState} = this.state;
 
-    if (!this.state.initialized) {
+    if (!appState.initialized) {
       return <div />;
     }
 
-    if (!this.state.currentUser) {
+    if (!appState.currentUser) {
       return (
         <LoginScreen
-          {...this.state}
+          {...appState}
           actions={this._actions} />
       );
     }
@@ -140,7 +143,7 @@ class App extends Component {
     let Main = this._mainComponent;
     return Main ? (
       <Main
-        appState={this.state}
+        appState={appState}
         actions={this._actions} />
     ) : <div />;
   }

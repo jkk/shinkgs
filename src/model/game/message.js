@@ -3,7 +3,11 @@ import {
   parseGameChannel,
   parseGameSummary
 } from './parse';
-import {isGameProposalPlayer, computeGameNodeStates} from './tree';
+import {
+  isGameProposalPlayer,
+  computeGameNodeStates,
+  getGameLine
+} from './tree';
 import {
   sortGames
 } from './display';
@@ -53,11 +57,10 @@ function _handleGameMessage(
           ...game,
           deletedTime: Date.now()
         };
-        let nextState = {...prevState, gamesById};
-        if (nextState.playChallengeId === msg.gameId) {
-          nextState.playChallengeId = null;
-        }
-        return nextState;
+        let playChallengeId = prevState.playChallengeId === msg.gameId
+          ? null
+          : prevState.playChallengeId;
+        return {...prevState, gamesById, playChallengeId};
       }
     }
   } else if (
@@ -201,8 +204,18 @@ function _handleGameMessage(
     return {...prevState, playGameId: msg.gameId, userDetailsRequest: null};
   } else if (msg.type === 'GAME_UNDO_REQUEST' && chanId) {
     // Note - API returns a weird response for role
-    let matches = msg.role.match(/\[([^\]]+)\]/);
-    let role = (matches && matches[1]) || msg.role;
+    let rawRole = msg.role;
+    let role;
+    if (typeof rawRole === 'string') {
+      let matches = msg.role.match(/\[([^\]]+)\]/);
+      role = (matches && matches[1]) || msg.role;
+    } else if (rawRole === 4) {
+      role = 'black';
+    } else if (rawRole === 2) {
+      role = 'white';
+    } else {
+      throw Error('Unrecognized role');
+    }
     let gamesById: Index<GameChannel> = {...prevState.gamesById};
     gamesById[chanId] = {...gamesById[chanId], undoRequest: role};
     return {...prevState, gamesById};
@@ -270,6 +283,19 @@ function _handleGameMessage(
       }
     };
     return {...prevState, gamesById};
+  } else if (msg.type === 'SET_CURRENT_GAME_NODE' && chanId) {
+    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    gamesById[chanId] = {...gamesById[chanId]};
+    let tree = gamesById[chanId].tree;
+    if (tree) {
+      tree = ({...tree}: GameTree);
+      tree.currentNode = msg.currentNode;
+      if (tree.currentLine.indexOf(tree.currentNode) === -1) {
+        tree.currentLine = getGameLine(tree, tree.currentNode);
+      }
+      gamesById[chanId].tree = tree;
+      return {...prevState, gamesById};
+    }
   }
   return prevState;
 }
@@ -288,11 +314,11 @@ export function handleGameMessage(
 
     let activeGames = allGames.filter(g => g.type !== 'challenge' && !g.deletedTime);
     sortGames(activeGames);
-    nextState.activeGames = activeGames;
 
     let challenges = allGames.filter(g => g.type === 'challenge' && !g.deletedTime);
     sortGames(challenges);
-    nextState.challenges = challenges;
+
+    nextState = {...nextState, activeGames, challenges};
   }
 
   let currentUser = nextState.currentUser;
@@ -300,9 +326,12 @@ export function handleGameMessage(
     let nextSummaries = nextState.gameSummariesByUser[currentUser.name];
     let prevSummaries = prevState.gameSummariesByUser[currentUser.name];
     if (prevSummaries !== nextSummaries) {
-      nextState.unfinishedGames = nextSummaries.filter(summary =>
-        summary.score === 'UNFINISHED' && summary.inPlay
-      );
+      nextState = {
+        ...nextState,
+        unfinishedGames: nextSummaries.filter(summary =>
+          summary.score === 'UNFINISHED' && summary.inPlay
+        )
+      };
     }
   }
 

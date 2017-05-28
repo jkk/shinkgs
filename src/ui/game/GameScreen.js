@@ -7,6 +7,7 @@ import GameMoreMenu from './GameMoreMenu';
 import GamePlayActions from './GamePlayActions';
 import GameUndoPrompt from './GameUndoPrompt';
 import BoardContainer from '../board/BoardContainer';
+import BoardNav from '../board/BoardNav';
 import UserList from '../user/UserList';
 import ChatMessageBar from '../chat/ChatMessageBar';
 import {A, Icon} from '../common';
@@ -120,8 +121,14 @@ export default class GameScreen extends Component {
       isOurMove = false;
     }
     let scoring = isGameScoring(game);
+    let isRengo = !!game.players.white_2;
+    let className = (
+      'GameScreen GameScreen-' +
+      (playing ? 'playing' : 'watching') +
+      (isRengo ? ' GameScreen-rengo' : '')
+    );
     return (
-      <div className={'GameScreen GameScreen-' + (playing ? 'playing' : 'watching')}>
+      <div className={className}>
         <div className='GameScreen-header'>
           {playing ? null : (
             <div className='GameScreen-back'>
@@ -152,6 +159,7 @@ export default class GameScreen extends Component {
           <BoardContainer
             game={game}
             playing={playing}
+            onChangeCurrentNode={actions.onChangeCurrentNode}
             onClickPoint={isOurMove || scoring ? this._onClickPoint : undefined} />
           {game.accessDenied ?
             <div className='GameScreen-access-denied'>
@@ -171,12 +179,18 @@ export default class GameScreen extends Component {
                 onResign={actions.onResign}
                 onLeaveGame={this._onLeave}
                 onAddTime={actions.onAddGameTime}
-                onDoneScoring={actions.onDoneScoring} /> : null}
+                onDoneScoring={actions.onDoneScoring} /> :
+                <div className='GameScreen-nav'>
+                  {tree ?
+                    <BoardNav
+                      nodeId={tree.currentNode}
+                      currentLine={tree.currentLine}
+                      onChangeCurrentNode={this._onChangeCurrentNode} /> : null}
+                </div>}
             <div className='GameScreen-players-users'>
               <div className='GameScreen-players'>
                 <GamePlayersInfo
                   game={game}
-                  nodeId={tree ? tree.activeNode : null}
                   onUserDetail={this._onUserDetail} />
               </div>
               <div className='GameScreen-tabs'>
@@ -273,6 +287,10 @@ export default class GameScreen extends Component {
 
   _onShowUsers = () => {
     this.setState({tab: 'users'});
+  }
+
+  _onChangeCurrentNode = (nodeId: number) => {
+    this.props.actions.onChangeCurrentNode(this.props.game, nodeId);
   }
 
   _onClickPoint = (
