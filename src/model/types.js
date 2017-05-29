@@ -184,9 +184,8 @@ export type GameSummary = {
 };
 
 export type RankGraph = {
-  data: Object,
-  months: Array<string>,
-  rendered: boolean
+  data: {series: Array<{x: Date, y: number}>},
+  months: Array<string>
 };
 
 export type ClockState = {
@@ -442,7 +441,7 @@ export type AppState = {
   +roomsById: Index<Room>,
   +gamesById: Index<GameChannel>,
   +gameSummariesByUser: Index<Array<GameSummary>>,
-  +rankGraphsByChannelId: Index<Object>,
+  +rankGraphsByChannelId: Index<RankGraph>,
   +activeGames: Array<GameChannel>,
   +challenges: Array<GameChannel>,
   +unfinishedGames: Array<GameSummary>,

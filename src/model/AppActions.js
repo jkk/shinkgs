@@ -360,8 +360,11 @@ export class AppActions {
     this._store.dispatch({type: 'CLOSE_USER_DETAILS'});
   }
 
-  onRequestRankGraph = (channelId: string) => {
-    this._client.sendMessage({type: 'DETAILS_RANK_GRAPH_REQUEST', channelId});
+  onRequestRankGraph = (channelId: number) => {
+    this._client.sendMessage({
+      type: 'DETAILS_RANK_GRAPH_REQUEST',
+      channelId
+    });
   }
 
   onSelectConversation = (conversationId: number) => {

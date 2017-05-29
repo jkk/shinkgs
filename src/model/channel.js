@@ -8,7 +8,7 @@ import type {
   RankGraph
 } from './types';
 
-import moment from 'moment';
+import dateFormat from 'date-fns/format';
 
 export function handleChannelMessage(
   prevState: AppState,
@@ -37,16 +37,20 @@ export function handleChannelMessage(
 
 // Turn KGS's rank graph into a format suited for Chartist.js
 export function parseRankGraph(data: Array<number>): RankGraph {
-  let newRankGraph:Object = { rendered: false };
+  let newRankGraph:Object = {};
 
   // The data is an array of ranks on individual days, ending at yesterday.
   // Generate dates for each of the data points.
   let series:Array<Object> = data.map((rank, i) => {
     var d = new Date();
     d.setDate(d.getDate() - (data.length - i));
+
+    const maxRank = 900; // 10d
+    const minRank = -30000; // 30k
+
     return {
       x: d,
-      y: rank
+      y: (rank < maxRank && rank > minRank) ? rank : null
     };
   });
 
@@ -57,7 +61,7 @@ export function parseRankGraph(data: Array<number>): RankGraph {
   // Create a list of the unique months present in the graph data for labeling
   newRankGraph.months = [];
   series.forEach((d) => {
-    let str = moment(d.x).format('MMMM YYYY');
+    let str = dateFormat(d.x, 'MMMM YYYY');
     if (newRankGraph.months.indexOf(str) === -1) {
       newRankGraph.months.push(str);
     }
