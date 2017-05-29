@@ -45,7 +45,7 @@ export function parseRankGraph(data: Array<number>): RankGraph {
     var d = new Date();
     d.setDate(d.getDate() - (data.length - i));
 
-    const maxRank = 900; // 10d
+    const maxRank = 900; // 9d
     const minRank = -30000; // 30k
 
     return {
