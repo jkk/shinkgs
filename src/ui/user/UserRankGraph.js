@@ -31,7 +31,6 @@ export default class UserRankGraph extends Component {
   }
 
   _renderGraph() {
-    console.log('this.props.graph', this.props.graph);
     const series = get(this.props.graph, 'data.series[0]', []);
     const months = get(this.props.graph, 'months', []);
 
@@ -127,11 +126,15 @@ export default class UserRankGraph extends Component {
 
     const type = 'Line';
 
-    return <ChartistGraph
-      data={this.props.graph.data}
-      options={options}
-      type={type}
-    />;
+    if (!series.length) {
+      return <div className='UserDetailsModal-no-rank-graph'>No rank graph available.</div>;
+    } else {
+      return <ChartistGraph
+        data={this.props.graph.data}
+        options={options}
+        type={type}
+      />;
+    }
   }
 
   render() {
