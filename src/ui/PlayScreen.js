@@ -7,6 +7,7 @@ import GameSummaryList from './game/GameSummaryList';
 import GameListFilter from './game/GameListFilter';
 import GameScreen from './game/GameScreen';
 import {InvariantError} from '../util/error';
+import {getDefaultRoom} from '../model/room';
 import type {
   User,
   GameChannel,
@@ -14,6 +15,7 @@ import type {
   GameProposal,
   GameSummary,
   Room,
+  ChannelMembership,
   Index,
   AppActions
 } from '../model';
@@ -27,6 +29,7 @@ type Props = {
   gamesById: Index<GameChannel>,
   unfinishedGames: Array<GameSummary>,
   roomsById: Index<Room>,
+  channelMembership: ChannelMembership,
   usersByName: Index<User>,
   actions: AppActions
 };
@@ -34,6 +37,9 @@ type Props = {
 export default class PlayScreen extends Component {
 
   props: Props;
+  state = {
+    creatingChallenge: false
+  };
 
   componentDidMount() {
     window.scrollTo(0, 0);
@@ -59,17 +65,20 @@ export default class PlayScreen extends Component {
       gamesById,
       unfinishedGames,
       roomsById,
+      channelMembership,
       usersByName,
       actions
     } = this.props;
+    let {creatingChallenge} = this.state;
     if (!currentUser) {
       throw new InvariantError('currentUser is required');
     }
     let challenge = playChallengeId ? gamesById[playChallengeId] : null;
     let activeGame = playGameId ? gamesById[playGameId] : null;
+    let defaultRoom = getDefaultRoom(channelMembership, roomsById);
     return (
       <div className='PlayScreen'>
-        {challenge ?
+        {challenge || creatingChallenge ?
           <div className='PlayScreen-challenge'>
             <ScreenModal onClose={this._onCloseChallenge}>
               <ChallengeEditor
@@ -77,6 +86,7 @@ export default class PlayScreen extends Component {
                 challenge={challenge}
                 usersByName={usersByName}
                 roomsById={roomsById}
+                initialRoomId={defaultRoom.id}
                 onUserDetail={actions.onUserDetail}
                 onSubmit={this._onSubmitChallenge}
                 onCancel={this._onCloseChallenge} />
@@ -125,13 +135,17 @@ export default class PlayScreen extends Component {
 
   _onCloseChallenge = () => {
     let {playChallengeId} = this.props;
+    let {creatingChallenge} = this.state;
     if (playChallengeId) {
       this.props.actions.onCloseChallenge(playChallengeId);
+    }
+    if (creatingChallenge) {
+      this.setState({creatingChallenge: false});
     }
   }
 
   _onCreateChallenge = () => {
-    this.props.actions.onShowUnderConstruction();
+    this.setState({creatingChallenge: true});
   }
 
   _onSubmitChallenge = (proposal: GameProposal) => {

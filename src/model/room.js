@@ -7,6 +7,14 @@ import type {
   Index
 } from './types';
 
+export function getDefaultRoom(channelMembership: ChannelMembership, roomsById: Index<Room>) {
+  let rooms = Object.keys(channelMembership)
+    .filter(id => channelMembership[id].type === 'room' && roomsById[id])
+    .map(id => roomsById[id]);
+  // TODO - hack
+  return rooms.find(r => r.name === 'English Game Room') || rooms[0];
+}
+
 function updateRoom(room: ?Room, values: Object): Room {
   let newRoom: Object = room ? {...room} : {};
   if (values.channelId) {

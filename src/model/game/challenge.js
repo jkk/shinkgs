@@ -1,6 +1,6 @@
 // @flow
 import {userHasRank, userUnranked} from '../user';
-import type {User, GameProposal, Index} from '../types';
+import type {User, GameProposal, GameRules, Index} from '../types';
 
 export const DEFAULT_KOMI = 6.5;
 
@@ -152,5 +152,35 @@ export function getStartingProposal(
     proposal.status = 'setup';
   }
 
+  return proposal;
+}
+
+export function createInitialProposal(currentUser: User): GameProposal {
+  let players = [
+    {name: currentUser.name, role: 'white'},
+    {role: 'black'}
+  ];
+  let flags = currentUser.flags;
+  let canPlayRanked = !userUnranked(currentUser) && (
+    !flags || (
+      flags.canPlayRanked !== undefined ? flags.canPlayRanked : true
+    )
+  );
+  let gameType = canPlayRanked ? 'ranked' : 'free';
+  let rules: GameRules = {
+    komi: DEFAULT_KOMI,
+    size: 19,
+    rules: 'japanese',
+    timeSystem: 'byo_yomi',
+    mainTime: 60 * 20,
+    byoYomiPeriods: 5,
+    byoYomiTime: 30
+  };
+  let proposal = {
+    gameType,
+    players,
+    rules,
+    nigiri: true
+  };
   return proposal;
 }

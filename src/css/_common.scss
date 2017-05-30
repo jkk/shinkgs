@@ -152,6 +152,7 @@ input[type=text], input[type=email], input[type=password], textarea, select {
   max-width: 100%;
   display: inline-block;
   margin: 0;
+  line-height: 1.15;
   @include placeholder {
     color: $input-placeholder;
     opacity: 1;
@@ -505,7 +506,7 @@ form {
 }
 
 .ScreenModal {
-  top: 50px;
+  top: 20px;
 }
 
 .Modal-main,
@@ -563,6 +564,9 @@ form {
   .Modal,
   .ScreenModal {
     padding: 10px;
+  }
+  .ScreenModal {
+    top: 50px;
   }
   .Modal-main,
   .UserDetailsModal-main,

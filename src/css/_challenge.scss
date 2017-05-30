@@ -9,15 +9,9 @@
   line-height: 1;
 }
 
-.ChallengeEditor-proposal {
-  padding: 20px;
-  background: $content-bg;
-  color: $content-fg;
-}
-
 .ChallengeEditor-buttons {
   background: $content-bg;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
 }
 
 .ChallengeEditor-room-name {
@@ -25,18 +19,6 @@
   color: $semi-muted;
   margin: 5px 0 0 0;
   text-transform: uppercase;
-}
-
-.ChallengeEditor-game-type {
-  margin: 0 0 10px 0;
-}
-
-.ChallengeEditor-game-type-icon,
-.ChallengeEditor-game-type-name {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 0 5px 0 0;
-  // font-size: 14px;
 }
 
 .ChallengeEditor-accepted {
@@ -51,19 +33,226 @@
   color: $warning-fg;
 }
 
-.ChallengeEditor-field,
-.ChallengePlayers-item {
-  margin: 0 0 5px 0;
+.ProposalForm {
+  padding: 20px 20px 10px 20px;
+  background: $content-bg;
+  color: $content-fg;
+  .SelectInput, select, input {
+    width: 100%;
+  }
+  // select, input {
+    // padding: 7px 10px;
+  // }
+}
+
+.ProposalForm-type-visibility {
+  .ProposalForm-field-content {
+    display: flex;
+  }
+}
+
+.ProposalForm-game-type,
+.ProposalForm-visibility {
+  flex: 1;
+}
+
+.ProposalForm-game-type {
+  margin-right: 10px;
+}
+
+.ProposalForm-game-type-icon,
+.ProposalForm-game-type-name {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 5px 0 0;
+  // font-size: 14px;
+}
+
+.ProposalForm-field {
+  margin: 0 0 10px 0;
   line-height: 1.4;
 }
 
-.ChallengeEditor-field-label,
-.ChallengePlayers-role {
+.ProposalForm-field-label {
+  font-weight: bold;
+  margin: 0 0 5px 0;
+  display: none;
+}
+
+.ProposalPlayers {
+  display: flex;
+  margin: 0 0 10px 0;
+}
+
+.ProposalPlayers-item {
+  flex: 1;
+  max-width: 50%;
+  border-radius: 4px;
+  // padding: 10px;
+}
+
+.ProposalPlayers-item:first-child {
+  .ProposalPlayers-player-button {
+    border-bottom-left-radius: 4px;
+    border-right: 1px solid #ddd;
+  }
+  .ProposalPlayers-role {
+    border-top-left-radius: 4px;
+    border-right: 1px solid #555;
+  }
+}
+
+.ProposalPlayers-item:last-child {
+  .ProposalPlayers-player-button {
+    border-bottom-right-radius: 4px;
+  }
+  .ProposalPlayers-role {
+    border-top-right-radius: 4px;
+  }
+}
+
+.ProposalPlayers-player-button {
+  background: #eee;
+  padding: 10px 15px 10px 15px;
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+}
+
+.ProposalPlayers-role {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  background: #666;
+  padding: 7px 10px;
+  // border-top-right-radius: 4px;
+  // border-top-left-radius: 4px;
+}
+
+.ProposalPlayers-role-icon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.ProposalPlayers-role-name {
+  margin: 3px 0 0 7px;
+  color: $inverted-fg;
+}
+
+.ProposalForm-input {
+  display: flex;
+  // margin: 0 0 5px 0;
+  border-bottom: 1px solid #ddd;
+  justify-content: center;
+  position: relative;
+  height: 45px;
+  box-sizing: border-box;
+}
+
+.ProposalForm-input-select {
+  border-bottom: none;
+  display: flex;
+  margin: 0 0 5px 0;
+}
+
+.ProposalForm-input-value {
+  font-size: 16px;
+  padding: 5px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  text-align: center;
+  font-family: sans-serif;
+  background: $input-bg;
+  color: $input-fg;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  max-width: 100px;
+  display: inline-block;
+  margin: 0;
+  line-height: 1.15;
+  vertical-align: middle;
+  flex: 1;
+  &:focus {
+    outline: 0;
+    border: 1px solid $input-focus;
+  }
+}
+
+.ProposalForm-input-value-label {
+  display: block;
+  font-size: 12px;
+  color: $muted;
+}
+
+.ProposalForm-input-plusminus {
+  // position: absolute;
+  // right: 0;
+  // top: 0;
+  // bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+.ProposalForm-input-minus,
+.ProposalForm-input-plus {
+  flex: 1;
+  width: 30px;
+  height: 30px;
+  box-sizing: border-box;
+  line-height: 30px;
+  // background-color: $off-white;
+  color: $link-color;
+  border: 1px solid $link-color;
+  border-radius: 50%;
+  text-align: center;
+  margin: 0 0 0 5px;
+  font-size: 20px;
   font-weight: bold;
 }
 
-.ChallengePlayers-item {
-  // width: 50%;
-  display: inline-block;
-  margin: 0 2em 10px 0;
+.no-touch {
+  .ProposalPlayers-role:hover {
+    background-color: #555;
+  }
+  .ProposalPlayers-player-button:hover {
+    background-color: #ddd;
+  }
+  .ProposalForm-input-minus,
+  .ProposalForm-input-plus {
+    &:hover {
+      color: darken($link-color, 5%);
+      border: 1px solid darken($link-color, 5%);
+    }
+  }
+}
+
+.ProposalForm-rules-time {
+  display: flex;
+}
+
+.ProposalForm-rules,
+.ProposalForm-time {
+  flex: 1;
+}
+
+.ProposalForm-rules {
+  margin: 0 10px 0 0;
+}
+
+@media #{$mobile-query} {
+  .ChallengeEditor-header {
+    padding: 10px;
+  }
+  .ProposalForm {
+    padding: 10px 10px 0 10px;
+  }
+  .ChallengeEditor-buttons {
+    padding: 10px;
+  }
+  .ProposalForm-input-value-label {
+    display: block;
+    font-size: 12px;
+  }
 }

@@ -1,19 +1,18 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
 import {Button, Icon} from '../common';
-import GameTypeIcon from './GameTypeIcon';
-import GameTimeSystem from './GameTimeSystem';
-import ChallengePlayers from './ChallengePlayers';
+import ProposalForm from './ProposalForm';
 import {
-  formatGameType,
-  formatGameRuleset,
   getStartingProposal,
-  getActionsForUser
+  getActionsForUser,
+  createInitialProposal
 } from '../../model/game';
 import {InvariantError} from '../../util/error';
 import type {
   GameChannel,
   GameProposal,
+  ProposalVisibility,
+  ProposalEditMode,
   User,
   Room,
   Index
@@ -21,7 +20,8 @@ import type {
 
 type Props = {
   currentUser: User,
-  challenge: GameChannel,
+  challenge: ?GameChannel,
+  initialRoomId?: ?number,
   usersByName: Index<User>,
   roomsById: Index<Room>,
   onUserDetail: string => any,
@@ -30,7 +30,10 @@ type Props = {
 };
 
 type State = {
-  proposal: GameProposal
+  initialProposal: GameProposal,
+  proposal: GameProposal,
+  visibility: ProposalVisibility,
+  notes: string
 };
 
 export default class ChallengeEditor extends Component {
@@ -40,23 +43,43 @@ export default class ChallengeEditor extends Component {
 
   _getState(props: Props): State {
     let {challenge, currentUser, usersByName} = props;
-    let initialProposal = challenge.initialProposal;
-    if (!initialProposal || !currentUser) {
-      throw new InvariantError('No initialProposal in challenge');
+    let proposal;
+    let visibility;
+    let notes;
+    if (challenge) {
+      let challengeProposal = challenge.initialProposal;
+      if (!challengeProposal || !currentUser) {
+        throw new InvariantError('No initialProposal in challenge');
+      }
+      proposal = getStartingProposal(challengeProposal, currentUser, usersByName);
+      visibility = proposal.private ? 'private' : (challenge.global ? 'public' : 'roomOnly');
+      notes = challenge.name || '';
+    } else {
+      proposal = createInitialProposal(currentUser);
+      visibility = 'public';
+      notes = '';
     }
-    let proposal = getStartingProposal(initialProposal, currentUser, usersByName);
     return {
-      proposal
+      proposal,
+      initialProposal: proposal,
+      visibility,
+      notes
     };
   }
 
   componentWillReceiveProps(nextProps: Props) {
     let {challenge} = nextProps;
-    let {sentProposal} = challenge;
+    let sentProposal = challenge && challenge.sentProposal;
     let {proposal} = this.state;
     if (sentProposal && sentProposal.status !== proposal.status) {
+      // Challenge sending
       this.setState({
         proposal: {...proposal, status: sentProposal.status}
+      });
+    } else if (challenge && !this.props.challenge) {
+      // Challenge created
+      this.setState({
+        proposal: challenge.initialProposal
       });
     }
   }
@@ -65,32 +88,55 @@ export default class ChallengeEditor extends Component {
     let {
       currentUser,
       challenge,
+      initialRoomId,
       usersByName,
       roomsById,
       onCancel,
       onUserDetail
     } = this.props;
-    let {proposal} = this.state;
-    // let {sentProposal} = challenge;
-    let creator = challenge.players.challengeCreator;
+    let {
+      initialProposal,
+      proposal,
+      visibility,
+      notes
+    } = this.state;
+    // let sentProposal = challenge && challenge.sentProposal;
+    let creator = challenge ? challenge.players.challengeCreator : currentUser;
     let isCreator = creator && creator.name === currentUser.name;
-    let {players, nigiri, rules, status} = proposal;
-    let room = challenge.roomId && roomsById[challenge.roomId];
+    let {status} = proposal;
+    let roomId = challenge ? challenge.roomId : initialRoomId;
+    let room = roomId && roomsById[roomId];
+
+    if (!room) {
+      throw new InvariantError('Room cannot be absent');
+    }
+
     let pending = status === 'pending';
-    // let actions = getActionsForUser(challenge.actions, currentUser.name);
-    // let receivedProposals;
-    // if (isCreator) {
-    //   receivedProposals = challenge.receivedProposals;
-    // }
-    // let visibility;
-    // if (proposal.private) {
-    //   visibility = 'private';
-    // } else if (challenge.global) {
-    //   visibility = 'public';
-    // } else {
-    //   visibility = 'roomOnly';
-    // }
-    // console.log({challenge, proposal, sentProposal, receivedProposals, actions});
+    let actions = challenge ? getActionsForUser(challenge.actions, currentUser.name) : {};
+    // let receivedProposals = challenge ? challenge.receivedProposals : [];
+
+    let editMode: ProposalEditMode;
+    let editProposal;
+    let prevProposal;
+    let submitLabel;
+    if (!challenge) {
+      editMode = 'creating';
+      editProposal = proposal;
+      submitLabel = 'Create Challenge';
+    } else if (!pending) {
+      editMode = 'proposing';
+      editProposal = proposal;
+      prevProposal = initialProposal;
+      submitLabel = actions.CHALLENGE_ACCEPT ? 'Accept' : 'Send Proposal';
+    } else {
+      // TODO - check for received proposal
+      editMode = 'readonly';
+      editProposal = proposal;
+      prevProposal = initialProposal;
+      submitLabel = 'Awaiting Response';
+    }
+
+    // console.log({challenge, proposal, sentProposal, receivedProposals, actions, visibility, editMode});
     return (
       <div className='ChallengeEditor'>
         <div className='ChallengeEditor-header'>
@@ -108,52 +154,24 @@ export default class ChallengeEditor extends Component {
           <div className='ChallengeEditor-accepted'>
             <Icon name='check' /> Starting game...
           </div> : null}
-        <div className='ChallengeEditor-proposal'>
-          <div className='ChallengeEditor-game-type'>
-            <div className='ChallengeEditor-game-type-icon'>
-              <GameTypeIcon type={proposal.gameType} />
-            </div>
-            <div className='ChallengeEditor-game-type-name'>
-              {proposal.private ? 'Private ' : null}
-              {formatGameType(proposal.gameType)} Game
-            </div>
-          </div>
-          {challenge.name ?
-            <div className='ChallengeEditor-field'>
-              <div className='ChallengeEditor-field-label'>
-                Notes
-              </div>
-              <div className='ChallengeEditor-field-value'>
-                {challenge.name}
-              </div>
-            </div> : null}
-          <div className='ChallengeEditor-proposal-players'>
-            <ChallengePlayers
-              gameType={proposal.gameType}
-              players={players}
-              nigiri={nigiri}
-              usersByName={usersByName}
-              onUserDetail={onUserDetail} />
-          </div>
-          <div className='ChallengeEditor-field'>
-            <div className='ChallengeEditor-field-label'>
-              Rules
-            </div>
-            <div className='ChallengeEditor-field-values'>
-              {rules.handicap ? <div>Handicap {rules.handicap}</div> : null}
-              <div>Komi {rules.komi}</div>
-              <div><GameTimeSystem rules={rules} /></div>
-              {rules.rules ? <div>{formatGameRuleset(rules.rules)}</div> : null}
-            </div>
-          </div>
-        </div>
+        <ProposalForm
+          editMode={editMode}
+          proposal={editProposal}
+          prevProposal={prevProposal}
+          visibility={visibility}
+          notes={notes}
+          usersByName={usersByName}
+          onUserDetail={onUserDetail}
+          onChangeProposal={this._onChangeProposal}
+          onChangeNotes={this._onChangeNotes}
+          onChangeVisibility={this._onChangeVisibility} />
         <div className='ChallengeEditor-buttons'>
           <Button
             primary
             disabled={pending}
             loading={pending}
             onClick={this._onSubmit}>
-            Send Proposal
+            {submitLabel}
           </Button>
           {' '}
           <Button
@@ -164,6 +182,18 @@ export default class ChallengeEditor extends Component {
         </div>
       </div>
     );
+  }
+
+  _onChangeProposal = (proposal: GameProposal) => {
+    this.setState({proposal});
+  }
+
+  _onChangeNotes = (notes: string) => {
+    this.setState({notes});
+  }
+
+  _onChangeVisibility = (visibility: ProposalVisibility) => {
+    this.setState({visibility});
   }
 
   _onSubmit = () => {

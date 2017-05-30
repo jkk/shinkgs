@@ -292,12 +292,13 @@ export class AppActions {
   }
 
   onReceiveChallengeProposal = (challengeId: number, proposal: GameProposal) => {
+    if (!proposal) {
+      this.onCloseChallenge(challengeId);
+    }
     let state = this._store.getState();
     let challenge = state.gamesById[challengeId];
     let sentProposal = challenge.sentProposal;
-    if (!sentProposal || !proposal) {
-      this.onCloseChallenge(challengeId);
-    } else {
+    if (sentProposal) {
       let acceptable = proposalsEqual(sentProposal, proposal);
       if (acceptable) {
         this._client.sendMessage({
@@ -306,9 +307,12 @@ export class AppActions {
           ...sentProposal
         });
       } else {
-        // FIXME - reset challenge, show to current user for review
+        // TODO - reset challenge, show to current user for review
+        // console.log('TODO - received counter proposal', {challengeId, proposal});
         this.onCloseChallenge(challengeId);
       }
+    } else {
+      console.log('TODO - received a proposal for a challenge we created');
     }
   }
 
