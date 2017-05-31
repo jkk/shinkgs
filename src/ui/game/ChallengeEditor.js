@@ -15,7 +15,8 @@ import type {
   ProposalEditMode,
   User,
   Room,
-  Index
+  Index,
+  AppActions
 } from '../../model';
 
 type Props = {
@@ -24,8 +25,7 @@ type Props = {
   initialRoomId?: ?number,
   usersByName: Index<User>,
   roomsById: Index<Room>,
-  onUserDetail: string => any,
-  onSubmit: GameProposal => any,
+  actions: AppActions,
   onCancel: Function
 };
 
@@ -33,15 +33,16 @@ type State = {
   initialProposal: GameProposal,
   proposal: GameProposal,
   visibility: ProposalVisibility,
-  notes: string
+  notes: string,
+  selectedProposalIndex: number
 };
 
 export default class ChallengeEditor extends Component {
   
   props: Props;
-  state: State = this._getState(this.props);
+  state: State = this._getInitialState(this.props);
 
-  _getState(props: Props): State {
+  _getInitialState(props: Props): State {
     let {challenge, currentUser, usersByName} = props;
     let proposal;
     let visibility;
@@ -63,7 +64,8 @@ export default class ChallengeEditor extends Component {
       proposal,
       initialProposal: proposal,
       visibility,
-      notes
+      notes,
+      selectedProposalIndex: 0
     };
   }
 
@@ -79,7 +81,7 @@ export default class ChallengeEditor extends Component {
     } else if (challenge && !this.props.challenge) {
       // Challenge created
       this.setState({
-        proposal: challenge.initialProposal
+        proposal: {...challenge.initialProposal, status: 'pending'}
       });
     }
   }
@@ -91,14 +93,15 @@ export default class ChallengeEditor extends Component {
       initialRoomId,
       usersByName,
       roomsById,
-      onCancel,
-      onUserDetail
+      actions,
+      onCancel
     } = this.props;
     let {
       initialProposal,
       proposal,
       visibility,
-      notes
+      notes,
+      selectedProposalIndex
     } = this.state;
     // let sentProposal = challenge && challenge.sentProposal;
     let creator = challenge ? challenge.players.challengeCreator : currentUser;
@@ -112,31 +115,71 @@ export default class ChallengeEditor extends Component {
     }
 
     let pending = status === 'pending';
-    let actions = challenge ? getActionsForUser(challenge.actions, currentUser.name) : {};
-    // let receivedProposals = challenge ? challenge.receivedProposals : [];
+    let userActions = challenge ? getActionsForUser(challenge.actions, currentUser.name) : {};
+    let receivedProposals = challenge ? challenge.receivedProposals : [];
 
     let editMode: ProposalEditMode;
     let editProposal;
     let prevProposal;
-    let submitLabel;
-    if (!challenge) {
+    let buttons;
+    if (!challenge && !pending) {
       editMode = 'creating';
       editProposal = proposal;
-      submitLabel = 'Create Challenge';
-    } else if (!pending) {
+      buttons = (
+        <Button primary onClick={this._onCreateChallenge}>
+          Create Challenge
+        </Button>
+      );
+    } else if (!pending && !userActions.CHALLENGE_SETUP) {
       editMode = 'proposing';
       editProposal = proposal;
       prevProposal = initialProposal;
-      submitLabel = actions.CHALLENGE_ACCEPT ? 'Accept' : 'Send Proposal';
+      buttons = (
+        <Button primary onClick={this._onSubmitProposal}>
+          Send Proposal
+        </Button>
+      );
     } else {
-      // TODO - check for received proposal
       editMode = 'readonly';
-      editProposal = proposal;
-      prevProposal = initialProposal;
-      submitLabel = 'Awaiting Response';
+      if (userActions.CHALLENGE_SETUP || !challenge) {
+        if (receivedProposals && receivedProposals.length) {
+          // Creator that can accept/decline challenges
+          editProposal = receivedProposals[selectedProposalIndex];
+          prevProposal = proposal;
+          buttons = (
+            <div className='ChallengeEditor-buttons-decision'>
+              <Button primary onClick={this._onAcceptProposal}>
+                Accept
+              </Button>
+              {' '}
+              <Button secondary onClick={this._onDeclineProposal}>
+                Decline
+              </Button>
+            </div>
+          );
+        } else {
+          // Creator awaiting challenges
+          editProposal = proposal;
+          prevProposal = initialProposal;
+          buttons = (
+            <Button primary disabled loading>
+              Awaiting Challengers
+            </Button>
+          );
+        }
+      } else {
+        // Sent proposal to creator
+        editProposal = proposal;
+        prevProposal = initialProposal;
+        buttons = (
+          <Button primary disabled loading>
+            Awaiting Response
+          </Button>
+        );
+      }
     }
 
-    // console.log({challenge, proposal, sentProposal, receivedProposals, actions, visibility, editMode});
+    // console.log({challenge, proposal, receivedProposals, userActions, visibility, editMode});
     return (
       <div className='ChallengeEditor'>
         <div className='ChallengeEditor-header'>
@@ -161,21 +204,15 @@ export default class ChallengeEditor extends Component {
           visibility={visibility}
           notes={notes}
           usersByName={usersByName}
-          onUserDetail={onUserDetail}
+          onUserDetail={actions.onUserDetail}
           onChangeProposal={this._onChangeProposal}
           onChangeNotes={this._onChangeNotes}
           onChangeVisibility={this._onChangeVisibility} />
         <div className='ChallengeEditor-buttons'>
-          <Button
-            primary
-            disabled={pending}
-            loading={pending}
-            onClick={this._onSubmit}>
-            {submitLabel}
-          </Button>
+          {buttons}
           {' '}
           <Button
-            secondary
+            muted
             onClick={onCancel}>
             Cancel
           </Button>
@@ -196,7 +233,56 @@ export default class ChallengeEditor extends Component {
     this.setState({visibility});
   }
 
-  _onSubmit = () => {
-    this.props.onSubmit(this.state.proposal);
+  _onSubmitProposal = () => {
+    let {challenge} = this.props;
+    let {proposal} = this.state;
+    if (challenge) {
+      this.props.actions.onSubmitChallengeProposal(challenge.id, proposal);
+    }
+  }
+
+  _onCreateChallenge = () => {
+    let {challenge, initialRoomId} = this.props;
+    let {proposal, visibility, notes} = this.state;
+    if (!challenge) {
+      // Creating a challenge - we have no app state for it yet, so just
+      // set the status here
+      this.setState({proposal: {...proposal, status: 'pending'}});
+    }
+    let roomId = challenge ? challenge.roomId : initialRoomId;
+    if (roomId) {
+      this.props.actions.onCreateChallenge(proposal, roomId, visibility, notes);
+    }
+  }
+
+  _onAcceptProposal = () => {
+    let {selectedProposalIndex} = this.state;
+    let {challenge} = this.props;
+    let proposal = challenge
+      && challenge.receivedProposals
+      && challenge.receivedProposals[selectedProposalIndex];
+    if (challenge && proposal) {
+      this.props.actions.onAcceptChallengeProposal(challenge.id, proposal);
+    }
+  }
+
+  _onDeclineProposal = () => {
+    let {selectedProposalIndex} = this.state;
+    let {currentUser, challenge} = this.props;
+    let proposal = challenge
+      && challenge.receivedProposals
+      && challenge.receivedProposals[selectedProposalIndex];
+    if (challenge && proposal) {
+      let otherName;
+      for (let player of proposal.players) {
+        let name = player.user ? player.user.name : player.name;
+        if (name && name !== currentUser.name) {
+          otherName = name;
+        }
+      }
+      if (otherName) {
+        this.props.actions.onDeclineChallengeProposal(challenge.id, otherName);
+      }
+    }
   }
 }

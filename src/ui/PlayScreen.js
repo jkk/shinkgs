@@ -12,7 +12,6 @@ import type {
   User,
   GameChannel,
   GameFilter,
-  GameProposal,
   GameSummary,
   Room,
   ChannelMembership,
@@ -51,7 +50,14 @@ export default class PlayScreen extends Component {
     let activeGame = playGameId ? this.props.gamesById[playGameId] : null;
     let nextActiveGame = nextPlayGameId ? nextProps.gamesById[nextPlayGameId] : null;
     if (!activeGame && nextActiveGame) {
+      // Game started - scroll to top
       window.scrollTo(0, 0);
+    }
+    let {playChallengeId} = nextProps;
+    let {creatingChallenge} = this.state;
+    if (creatingChallenge && (nextActiveGame || playChallengeId)) {
+      // Challenge creates successfully - don't need UI state to show modal
+      this.setState({creatingChallenge: false});
     }
   }
 
@@ -87,8 +93,7 @@ export default class PlayScreen extends Component {
                 usersByName={usersByName}
                 roomsById={roomsById}
                 initialRoomId={defaultRoom.id}
-                onUserDetail={actions.onUserDetail}
-                onSubmit={this._onSubmitChallenge}
+                actions={actions}
                 onCancel={this._onCloseChallenge} />
             </ScreenModal>
           </div> : null}
@@ -146,13 +151,6 @@ export default class PlayScreen extends Component {
 
   _onCreateChallenge = () => {
     this.setState({creatingChallenge: true});
-  }
-
-  _onSubmitChallenge = (proposal: GameProposal) => {
-    let {playChallengeId} = this.props;
-    if (playChallengeId) {
-      this.props.actions.onSubmitChallengeProposal(playChallengeId, proposal);
-    }
   }
 
   _onSelectGame = (game: GameSummary) => {

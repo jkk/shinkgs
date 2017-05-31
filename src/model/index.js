@@ -18,7 +18,8 @@ export * from './KgsClient';
 const IGNORED_MESSAGE_TYPES = {
   'GAME_CONTAINER_REMOVE_GAME': true,
   'GAME_OVER': true,
-  'GAME_TIME_EXPIRED': true
+  'GAME_TIME_EXPIRED': true,
+  'CHALLENGE_CREATED': true
 };
 
 export function handleMessage(prevState: AppState, msg: KgsMessage): AppState {

@@ -9,6 +9,7 @@ import type {
   GameFilter,
   GameProposal,
   GameRole,
+  ProposalVisibility,
   NavOption,
   KgsMessage,
   User,
@@ -280,6 +281,44 @@ export class AppActions {
     });
   }
 
+  onCreateChallenge = (proposal: GameProposal, roomId: number, visibility: ProposalVisibility, notes?: string) => {
+    this._client.sendMessage({
+      type: 'CHALLENGE_CREATE',
+      proposal,
+      channelId: roomId,
+      text: notes,
+      global: visibility === 'public',
+      callbackKey: 12345 // Note - we don't use this
+    });
+  }
+
+  onAcceptChallengeProposal = (challengeId: number, proposal: GameProposal) => {
+    // Users must be name-only
+    let normProposal = {...proposal, players: proposal.players.map(p => {
+      p = {...p, name: p.user ? p.user.name : p.name};
+      delete p.user;
+      return p;
+    })};
+    this._client.sendMessage({
+      type: 'CHALLENGE_PROPOSAL',
+      channelId: challengeId,
+      ...normProposal
+    });
+  }
+
+  onDeclineChallengeProposal = (challengeId: number, name: string) => {
+    this._store.dispatch({
+      type: 'START_CHALLENGE_DECLINE',
+      channelId: challengeId,
+      name
+    });
+    this._client.sendMessage({
+      type: 'CHALLENGE_DECLINE',
+      name,
+      channelId: challengeId
+    });
+  }
+
   onChallengeFinalized = (proposal: GameProposal) => {
     let state = this._store.getState();
     let currentUser = state.currentUser;
@@ -312,7 +351,8 @@ export class AppActions {
         this.onCloseChallenge(challengeId);
       }
     } else {
-      console.log('TODO - received a proposal for a challenge we created');
+      // TODO - received a revised proposal when we didn't submit a challenge.
+      // Is there anything for us to do here?
     }
   }
 
