@@ -282,9 +282,10 @@ export class AppActions {
   }
 
   onCreateChallenge = (proposal: GameProposal, roomId: number, visibility: ProposalVisibility, notes?: string) => {
+    let finalProposal = {...proposal, private: visibility === 'private'};
     this._client.sendMessage({
       type: 'CHALLENGE_CREATE',
-      proposal,
+      proposal: finalProposal,
       channelId: roomId,
       text: notes,
       global: visibility === 'public',
