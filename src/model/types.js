@@ -164,7 +164,7 @@ export type GameProposal = {
 
 export type ProposalVisibility = 'private' | 'roomOnly' | 'public';
 
-export type ProposalEditMode = 'creating' | 'negotiating' | 'readonly';
+export type ProposalEditMode = 'creating' | 'negotiating' | 'waiting';
 
 // Scores may be a floating point number, or a string. Numbers indicate the
 // score difference (positive a black win, negative a white win).

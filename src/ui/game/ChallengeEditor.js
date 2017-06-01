@@ -152,7 +152,7 @@ export default class ChallengeEditor extends Component {
         </Button>
       );
     } else {
-      editMode = 'readonly';
+      editMode = 'waiting';
       if (userActions.CHALLENGE_SETUP || !challenge) {
         if (receivedProposals && receivedProposals.length) {
           // Creator that can accept/decline challenges

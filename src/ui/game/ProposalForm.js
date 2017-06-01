@@ -1,12 +1,14 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
-// import GameTypeIcon from './GameTypeIcon';
-// import GameTimeSystem from './GameTimeSystem';
+import GameTypeIcon from './GameTypeIcon';
+import GameTimeSystem from './GameTimeSystem';
 import ProposalPlayers from './ProposalPlayers';
 import ProposalFormInput from './ProposalFormInput';
 import {SelectInput} from '../common';
 import {
-  formatDuration
+  formatDuration,
+  formatGameType,
+  formatGameRuleset
 } from '../../model/game';
 import type {
   GameProposal,
@@ -41,10 +43,10 @@ const gameTypeOptions = [
 ];
 
 const rulesetOptions = [
-  {value: 'japanese', label: 'Japanese Ruleset'},
-  {value: 'chinese', label: 'Chinese Ruleset'},
-  {value: 'aga', label: 'AGA Ruleset'},
-  {value: 'new_zealand', label: 'New Zealand Ruleset'}
+  {value: 'japanese', label: 'Japanese Rules'},
+  {value: 'chinese', label: 'Chinese Rules'},
+  {value: 'aga', label: 'AGA Rules'},
+  {value: 'new_zealand', label: 'New Zealand Rules'}
 ];
 
 const timeSystemOptions = [
@@ -82,7 +84,7 @@ export default class ProposalForm extends Component {
             onUserDetail={onUserDetail}
             onToggleRole={this._onToggleRole} />
         </div>
-        {notes || editMode === 'creating' ?
+        {editMode === 'creating' ?
           <div className='ProposalForm-field'>
             <div className='ProposalForm-field-content'>
               <input
@@ -92,109 +94,155 @@ export default class ProposalForm extends Component {
                 onChange={this._onChangeNotes} />
             </div>
           </div> : null}
-        <div className='ProposalForm-type-visibility'>
-          <div className='ProposalForm-field'>
-            <div className='ProposalForm-field-label'>
-              Game Type
+        {editMode !== 'creating' ?
+          <div className='ProposalForm-type-notes'>
+            <div className='ProposalForm-game-type-icon'>
+              <GameTypeIcon type={proposal.gameType} />
             </div>
-            <div className='ProposalForm-field-content'>
-              <div className='ProposalForm-game-type'>
-                <SelectInput value={proposal.gameType} onChange={this._onChangeGameType}>
-                  {gameTypeOptions.map(opt =>
-                    <option key={opt.value} value={opt.value}>{opt.label}</option>
-                  )}
-                </SelectInput>
-                {/*<div className='ProposalForm-game-type-icon'>
-                  <GameTypeIcon type={proposal.gameType} />
-                </div>
-                <div className='ProposalForm-game-type-name'>
-                  {visibility === 'private' && editMode === 'readonly' ? 'Private ' : null}
-                  {formatGameType(proposal.gameType)} Game
-                </div>*/}
-              </div>
-              <div className='ProposalForm-visibility'>
-                <SelectInput value={visibility} onChange={this._onChangeVisibility}>
-                  {visibilityOptions.map(opt =>
-                    <option key={opt.value} value={opt.value}>{opt.label}</option>
-                  )}
-                </SelectInput>
-              </div>
+            <div className='ProposalForm-game-type-name'>
+              {visibility === 'private' ? 'Private ' : null}
+              {formatGameType(proposal.gameType)}
             </div>
-          </div>
-        </div>
-        <div className='ProposalForm-rules-time'>
-          <div className='ProposalForm-rules'>
+            {notes ?
+              <div className='ProposalForm-notes'>
+                {notes}
+              </div> : null}
+          </div> : null}
+        {editMode === 'creating' ?
+          <div className='ProposalForm-type-visibility'>
             <div className='ProposalForm-field'>
               <div className='ProposalForm-field-label'>
-                Rules
+                Game Type
               </div>
               <div className='ProposalForm-field-content'>
-                <div className='ProposalForm-input-select'>
-                  <SelectInput value={ruleset} onChange={this._onChangeRuleset}>
-                    {rulesetOptions.map(opt =>
+                <div className='ProposalForm-game-type'>
+                  <SelectInput value={proposal.gameType} onChange={this._onChangeGameType}>
+                    {gameTypeOptions.map(opt =>
                       <option key={opt.value} value={opt.value}>{opt.label}</option>
                     )}
                   </SelectInput>
                 </div>
-                <ProposalFormInput
-                  value={`${rules.size}×${rules.size}`}
-                  label='board'
-                  onMinus={this._onSizeMinus}
-                  onPlus={this._onSizePlus} />
-                <ProposalFormInput
-                  value={rules.handicap || 0}
-                  label='handicap'
-                  onMinus={this._onHandiMinus}
-                  onPlus={this._onHandiPlus} />
-                <ProposalFormInput
-                  value={rules.komi}
-                  label='komi'
-                  onMinus={this._onKomiMinus}
-                  onPlus={this._onKomiPlus} />
-              </div>
-            </div>
-          </div>
-          <div className='ProposalForm-time'>
-            <div className='ProposalForm-field'>
-              <div className='ProposalForm-field-label'>
-                Time
-              </div>
-              <div className='ProposalForm-field-content'>
-                <div className='ProposalForm-input-select'>
-                  <SelectInput value={rules.timeSystem} onChange={this._onChangeTimeSystem}>
-                    {timeSystemOptions.map(opt =>
+                <div className='ProposalForm-visibility'>
+                  <SelectInput value={visibility} onChange={this._onChangeVisibility}>
+                    {visibilityOptions.map(opt =>
                       <option key={opt.value} value={opt.value}>{opt.label}</option>
                     )}
                   </SelectInput>
                 </div>
-                {rules.timeSystem !== 'none' ?
-                  <ProposalFormInput
-                    value={formatDuration(rules.mainTime || 0)}
-                    label='main'
-                    onMinus={this._onMainTimeMinus}
-                    onPlus={this._onMainTimePlus} /> : null}
-                {rules.timeSystem === 'byo_yomi' || rules.timeSystem === 'canadian' ?
-                  <ProposalFormInput
-                    value={formatDuration(rules.byoYomiTime || 0)}
-                    label='overtime'
-                    onMinus={this._onByoYomiMinus}
-                    onPlus={this._onByoYomiPlus} /> : null}
-                {rules.timeSystem === 'byo_yomi' ?
-                  <ProposalFormInput
-                    value={rules.byoYomiPeriods || 0}
-                    label='periods'
-                    onMinus={this._onPeriodsMinus}
-                    onPlus={this._onPeriodsPlus} /> : null}
-                {rules.timeSystem === 'canadian' ?
-                  <ProposalFormInput
-                    value={rules.byoYomiStones || 0}
-                    label='stones'
-                    onMinus={this._onStonesMinus}
-                    onPlus={this._onStonesPlus} /> : null}
               </div>
             </div>
-          </div>
-        </div>
+          </div> : null}
+        {editMode === 'creating' ?
+          <div className='ProposalForm-rules-time'>
+            <div className='ProposalForm-time'>
+              <div>
+                <div className='ProposalForm-field-label'>
+                  Time
+                </div>
+                <div className='ProposalForm-field-content'>
+                  <div className='ProposalForm-input-select'>
+                    <SelectInput value={rules.timeSystem} onChange={this._onChangeTimeSystem}>
+                      {timeSystemOptions.map(opt =>
+                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                      )}
+                    </SelectInput>
+                  </div>
+                  {rules.timeSystem !== 'none' ?
+                    <ProposalFormInput
+                      value={formatDuration(rules.mainTime || 0)}
+                      label='main'
+                      onMinus={this._onMainTimeMinus}
+                      onPlus={this._onMainTimePlus} /> : null}
+                  {rules.timeSystem === 'byo_yomi' || rules.timeSystem === 'canadian' ?
+                    <ProposalFormInput
+                      value={formatDuration(rules.byoYomiTime || 0)}
+                      label='overtime'
+                      onMinus={this._onByoYomiMinus}
+                      onPlus={this._onByoYomiPlus} /> : null}
+                  {rules.timeSystem === 'byo_yomi' ?
+                    <ProposalFormInput
+                      value={rules.byoYomiPeriods || 0}
+                      label='periods'
+                      onMinus={this._onPeriodsMinus}
+                      onPlus={this._onPeriodsPlus} /> : null}
+                  {rules.timeSystem === 'canadian' ?
+                    <ProposalFormInput
+                      value={rules.byoYomiStones || 0}
+                      label='stones'
+                      onMinus={this._onStonesMinus}
+                      onPlus={this._onStonesPlus} /> : null}
+                </div>
+              </div>
+            </div>
+            <div className='ProposalForm-rules'>
+              <div className='ProposalForm-field'>
+                <div className='ProposalForm-field-label'>
+                  Rules
+                </div>
+                <div className='ProposalForm-field-content'>
+                  <div className='ProposalForm-input-select'>
+                    <SelectInput value={ruleset} onChange={this._onChangeRuleset}>
+                      {rulesetOptions.map(opt =>
+                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                      )}
+                    </SelectInput>
+                  </div>
+                  <ProposalFormInput
+                    value={`${rules.size}×${rules.size}`}
+                    label='board'
+                    onMinus={this._onSizeMinus}
+                    onPlus={this._onSizePlus} />
+                </div>
+              </div>
+            </div>
+          </div> : null}
+        {editMode !== 'creating' ?
+          <div className='ProposalForm-rules-time'>
+            <div className='ProposalForm-rules-readonly'>
+              <div className='ProposalForm-field'>
+                <div className='ProposalForm-field-label'>
+                  Time
+                </div>
+                <div className='ProposalForm-field-content'>
+                  <GameTimeSystem rules={rules} />
+                </div>
+              </div>
+              {rules.rules ?
+                <div className='ProposalForm-field'>
+                  <div className='ProposalForm-field-label'>
+                    Rules
+                  </div>
+                  <div className='ProposalForm-field-content'>
+                    {formatGameRuleset(rules.rules)}
+                  </div>
+                </div> : null}
+              <div className='ProposalForm-field'>
+                <div className='ProposalForm-field-label'>
+                  Board
+                </div>
+                <div className='ProposalForm-field-content'>
+                  {rules.size}×{rules.size}
+                </div>
+              </div>
+            </div>
+            <div className='ProposalForm-handicap-komi'>
+              <div className='ProposalForm-handicap-komi-heading'>
+                Handicap
+              </div>
+              <ProposalFormInput
+                value={rules.handicap || 0}
+                label='stones'
+                readonly={editMode === 'waiting' || proposal.nigiri}
+                onMinus={this._onHandiMinus}
+                onPlus={this._onHandiPlus} />
+              <ProposalFormInput
+                value={rules.komi}
+                label='komi'
+                readonly={editMode === 'waiting' || proposal.nigiri}
+                onMinus={this._onKomiMinus}
+                onPlus={this._onKomiPlus} />
+            </div>
+          </div> : null}
       </div>
     );
   }
@@ -238,7 +286,7 @@ export default class ProposalForm extends Component {
 
   _onToggleRole = (name: string) => {
     let {editMode, proposal} = this.props;
-    if (editMode !== 'proposing' || proposal.players.length !== 2) {
+    if (editMode !== 'negotiating' || proposal.players.length !== 2) {
       return;
     }
     let thisPlayerOld = proposal.players.find(p => p.name === name);

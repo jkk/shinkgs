@@ -38,7 +38,7 @@
 }
 
 .ProposalForm {
-  padding: 20px 20px 10px 20px;
+  padding: 20px;
   background: $content-bg;
   color: $content-fg;
   .SelectInput, select, input {
@@ -72,6 +72,21 @@
   // font-size: 14px;
 }
 
+.ProposalForm-type-notes {
+  padding: 5px 5px 10px 5px;
+  border-bottom: 1px solid #ddd;
+  margin: 0 0 20px 0;
+}
+
+.ProposalForm-notes {
+  display: inline;
+  color: $semi-muted;
+  font-size: 14px;
+  &:before {
+    content: " - ";
+  }
+}
+
 .ProposalForm-field {
   margin: 0 0 10px 0;
   line-height: 1.4;
@@ -93,6 +108,13 @@
   max-width: 50%;
   border-radius: 4px;
   // padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ProposalPlayers-player {
+  flex: 1;
+  display: flex;
 }
 
 .ProposalPlayers-item:first-child {
@@ -216,6 +238,15 @@
   font-weight: bold;
 }
 
+.ProposalForm-input-readonly {
+  .ProposalForm-input-minus,
+  .ProposalForm-input-plus {
+    color: $muted;
+    border: 1px solid $muted;
+    opacity: 0.5;
+  }
+}
+
 .no-touch {
   .ProposalPlayers-role:hover {
     background-color: #555;
@@ -230,6 +261,15 @@
       border: 1px solid darken($link-color, 5%);
     }
   }
+  .ProposalForm-input-readonly {
+    .ProposalForm-input-minus,
+    .ProposalForm-input-plus {
+      color: $muted;
+      border: 1px solid $muted;
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
 }
 
 .ProposalForm-rules-time {
@@ -237,12 +277,37 @@
 }
 
 .ProposalForm-rules,
-.ProposalForm-time {
+.ProposalForm-time,
+.ProposalForm-rules-readonly,
+.ProposalForm-handicap-komi {
   flex: 1;
 }
 
-.ProposalForm-rules {
+.ProposalForm-time,
+.ProposalForm-rules-readonly {
   margin: 0 10px 0 0;
+}
+
+.ProposalForm-handicap-komi-heading {
+  padding: 0 0 10px 0;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.ProposalForm-rules-readonly {
+  .ProposalForm-field-label {
+    display: inline-block;
+    vertical-align: middle;
+    width: 60px;
+    margin: 0 0 0 5px;
+    font-size: 15px;
+  }
+  .ProposalForm-field-content {
+    display: inline-block;
+    vertical-align: middle;
+  }
 }
 
 @media #{$mobile-query} {
@@ -258,5 +323,12 @@
   .ProposalForm-input-value-label {
     display: block;
     font-size: 12px;
+  }
+  .ProposalForm-rules-readonly {
+    margin: 0 0 0 5px;
+    .ProposalForm-field-label {
+      display: block;
+      margin: 0;
+    }
   }
 }
