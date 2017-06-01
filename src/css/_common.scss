@@ -197,6 +197,7 @@ textarea {
     }
   }
   &.Button-muted {
+    font-weight: 600;
     &:hover, &:focus {
       color: darken($muted, 10%);
       border: 1px solid darken($muted, 10%);
@@ -216,6 +217,13 @@ textarea {
         color: $error-fg;
         border: 1px solid $error-bg;
       }
+    }
+  }
+  &.Button-warning {
+    font-weight: 600;
+    &:hover, &:focus {
+      color: darken($warning-bg, 10%);
+      border: 1px solid darken($warning-bg, 10%);
     }
   }
 }
@@ -265,7 +273,7 @@ textarea {
   }
   &.Button-muted {
     color: $muted;
-    background: $inverted-fg;
+    background: transparent;
     border: 1px solid $muted;
     &:active {
       color: darken($muted, 10%);
@@ -292,6 +300,16 @@ textarea {
         color: $error-fg;
         border: 1px solid $error-bg;
       }
+    }
+  }
+  &.Button-warning {
+    background: transparent;
+    color: $warning-bg;
+    border: 1px solid $warning-bg;
+    &:active {
+      color: darken($warning-bg, 10%);
+      border: 1px solid darken($warning-bg, 10%);
+      outline: 0;
     }
   }
   &.Button-small {

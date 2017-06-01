@@ -152,7 +152,7 @@ export default class ChallengeEditor extends Component {
                 Accept
               </Button>
               {' '}
-              <Button secondary onClick={this._onDeclineProposal}>
+              <Button warning onClick={this._onDeclineProposal}>
                 Decline
               </Button>
             </div>
