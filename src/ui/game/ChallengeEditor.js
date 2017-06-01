@@ -48,11 +48,23 @@ export default class ChallengeEditor extends Component {
     let visibility;
     let notes;
     if (challenge) {
-      let challengeProposal = challenge.initialProposal;
-      if (!challengeProposal || !currentUser) {
-        throw new InvariantError('No initialProposal in challenge');
+      let challengeProposal;
+      if (challenge.sentProposal) {
+        challengeProposal = challenge.sentProposal;
+      } else {
+        challengeProposal = challenge.initialProposal;
       }
-      proposal = getStartingProposal(challengeProposal, currentUser, usersByName);
+      if (!challengeProposal) {
+        throw new InvariantError('No proposal in challenge');
+      }
+      let creator = challenge.players.challengeCreator;
+      if (creator && creator.name === currentUser.name) {
+        // Challenge we created - use as-is
+        proposal = challengeProposal;
+      } else {
+        // Challenge we joined - create a starting proposal
+        proposal = getStartingProposal(challengeProposal, currentUser, usersByName);
+      }
       visibility = proposal.private ? 'private' : (challenge.global ? 'public' : 'roomOnly');
       notes = challenge.name || '';
     } else {
@@ -131,7 +143,7 @@ export default class ChallengeEditor extends Component {
         </Button>
       );
     } else if (!pending && !userActions.CHALLENGE_SETUP) {
-      editMode = 'proposing';
+      editMode = 'negotiating';
       editProposal = proposal;
       prevProposal = initialProposal;
       buttons = (
