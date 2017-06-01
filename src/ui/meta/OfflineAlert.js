@@ -33,7 +33,7 @@ export default class OfflineAlert extends Component {
           {text}
         </div>
         <div className='OfflineAlert-logout'>
-          <Button small muted onClick={onLogout}>Exit</Button>
+          <Button small onClick={onLogout}>Exit</Button>
         </div>
       </div>
     );
