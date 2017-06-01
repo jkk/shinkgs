@@ -16,12 +16,12 @@ export default class GameUndoPrompt extends Component {
     return (
       <div className='GameUndoPrompt'>
         <div className='GameUndoPrompt-label'>
-          Undo requested. Allow?
+          Undo requested.
         </div>
         <div className='GameUndoPrompt-buttons'>
-          <Button small primary onClick={onAccept}>Yes</Button>
+          <Button small primary onClick={onAccept}>Allow</Button>
           {' '}
-          <Button small muted onClick={onDecline}>No</Button>
+          <Button small secondary onClick={onDecline}>Deny</Button>
         </div>
       </div>
     );

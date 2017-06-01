@@ -710,10 +710,11 @@ a.BoardNav-next {
   font-size: 14px;
   border-radius: 4px;
   z-index: 1;
-  width: 300px;
-  margin-left: -150px;
+  width: 290px;
+  margin-left: -145px;
   text-align: center;
   box-shadow: 0 5px 20px rgba($shadow-bg, 0.3);
+  box-sizing: border-box;
 }
 
 .GameUndoPrompt-label {
