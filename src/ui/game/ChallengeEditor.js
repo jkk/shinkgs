@@ -161,10 +161,10 @@ export default class ChallengeEditor extends Component {
           buttons = (
             <div className='ChallengeEditor-buttons-decision'>
               <Button primary onClick={this._onAcceptProposal}>
-                Accept
+                &nbsp;&nbsp;Accept&nbsp;&nbsp;
               </Button>
               {' '}
-              <Button warning onClick={this._onDeclineProposal}>
+              <Button danger onClick={this._onDeclineProposal}>
                 Decline
               </Button>
             </div>

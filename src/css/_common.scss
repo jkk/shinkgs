@@ -197,9 +197,9 @@ textarea {
     }
   }
   &.Button-muted {
-    font-weight: 600;
+    // font-weight: 600;
     &:hover, &:focus {
-      color: darken($muted, 10%);
+      color: darken($semi-muted, 10%);
       border: 1px solid darken($muted, 10%);
       outline: 0;
     }
@@ -220,9 +220,11 @@ textarea {
     }
   }
   &.Button-warning {
-    font-weight: 600;
+    background: $warning-bg;
+    color: $warning-fg;
+    border: 1px solid $warning-bg;
     &:hover, &:focus {
-      color: darken($warning-bg, 10%);
+      background: darken($warning-bg, 10%);
       border: 1px solid darken($warning-bg, 10%);
     }
   }
@@ -272,11 +274,11 @@ textarea {
     }
   }
   &.Button-muted {
-    color: $muted;
+    color: $semi-muted;
     background: transparent;
     border: 1px solid $muted;
     &:active {
-      color: darken($muted, 10%);
+      color: darken($semi-muted, 10%);
       border: 1px solid darken($muted, 10%);
     }
   }
@@ -302,14 +304,13 @@ textarea {
       }
     }
   }
-  &.Button-warning {
-    background: transparent;
-    color: $warning-bg;
+  &.Button-danger {
+    background: $warning-bg;
+    color: $warning-fg;
     border: 1px solid $warning-bg;
     &:active {
-      color: darken($warning-bg, 10%);
+      background: darken($warning-bg, 10%);
       border: 1px solid darken($warning-bg, 10%);
-      outline: 0;
     }
   }
   &.Button-small {
