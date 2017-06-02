@@ -188,12 +188,10 @@ textarea {
     outline: 0;
   }
   &.Button-danger {
-    background: $error-bg;
-    color: $error-fg;
-    border: 1px solid $error-bg;
     &:hover, &:focus {
-      background: darken($error-bg, 10%);
+      color: darken($error-bg, 10%);
       border: 1px solid darken($error-bg, 10%);
+      outline: 0;
     }
   }
   &.Button-muted {
@@ -265,11 +263,11 @@ textarea {
     display: inline-block;
   }
   &.Button-danger {
-    background: $error-bg;
-    color: $error-fg;
+    color: $error-bg;
+    background: transparent;
     border: 1px solid $error-bg;
     &:active {
-      background: darken($error-bg, 10%);
+      color: darken($error-bg, 10%);
       border: 1px solid darken($error-bg, 10%);
     }
   }
@@ -302,15 +300,6 @@ textarea {
         color: $error-fg;
         border: 1px solid $error-bg;
       }
-    }
-  }
-  &.Button-danger {
-    background: $warning-bg;
-    color: $warning-fg;
-    border: 1px solid $warning-bg;
-    &:active {
-      background: darken($warning-bg, 10%);
-      border: 1px solid darken($warning-bg, 10%);
     }
   }
   &.Button-small {
