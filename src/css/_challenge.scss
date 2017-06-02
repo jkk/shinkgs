@@ -44,9 +44,6 @@
   .SelectInput, select, input {
     width: 100%;
   }
-  // select, input {
-    // padding: 7px 10px;
-  // }
 }
 
 .ProposalForm-type-visibility {
@@ -75,7 +72,7 @@
 .ProposalForm-type-notes {
   padding: 5px 5px 10px 5px;
   border-bottom: 1px solid #ddd;
-  margin: 0 0 20px 0;
+  margin: 0 0 15px 0;
 }
 
 .ProposalForm-notes {
@@ -107,7 +104,6 @@
   flex: 1;
   max-width: 50%;
   border-radius: 4px;
-  // padding: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -150,8 +146,6 @@
   align-items: center;
   background: #666;
   padding: 7px 10px;
-  // border-top-right-radius: 4px;
-  // border-top-left-radius: 4px;
 }
 
 .ProposalPlayers-role-icon {
@@ -167,11 +161,9 @@
 
 .ProposalForm-input {
   display: flex;
-  // margin: 0 0 5px 0;
-  border-bottom: 1px solid #ddd;
   justify-content: center;
   position: relative;
-  height: 45px;
+  height: 40px;
   box-sizing: border-box;
 }
 
@@ -213,10 +205,6 @@
 }
 
 .ProposalForm-input-plusminus {
-  // position: absolute;
-  // right: 0;
-  // top: 0;
-  // bottom: 0;
   display: flex;
   align-items: center;
 }
@@ -228,7 +216,6 @@
   height: 30px;
   box-sizing: border-box;
   line-height: 30px;
-  // background-color: $off-white;
   color: $link-color;
   border: 1px solid $link-color;
   border-radius: 50%;
@@ -288,12 +275,17 @@
   margin: 0 10px 0 0;
 }
 
+.ProposalForm-handicap-komi {
+  margin-top: 5px;
+}
+
 .ProposalForm-handicap-komi-heading {
   padding: 0 0 10px 0;
   border-bottom: 1px solid #ddd;
   text-align: center;
   font-size: 15px;
   font-weight: bold;
+  display: none;
 }
 
 .ProposalForm-rules-readonly {

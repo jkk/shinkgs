@@ -231,7 +231,7 @@ export default class ProposalForm extends Component {
               </div>
               <ProposalFormInput
                 value={rules.handicap || 0}
-                label='stones'
+                label='handicap'
                 readonly={editMode === 'waiting' || proposal.nigiri}
                 onMinus={this._onHandiMinus}
                 onPlus={this._onHandiPlus} />
