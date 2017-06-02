@@ -1,3 +1,6 @@
+$diff-hilite: #fff1a9; // #ffea7f;
+$diff-muted: #bb9c1d;
+
 .ChallengeEditor {
   background: $off-white;
 }
@@ -106,6 +109,15 @@
   border-radius: 4px;
   display: flex;
   flex-direction: column;
+  &.ProposalPlayers-item-player-hilite {
+    .ProposalPlayers-player-button {
+      background-color: $diff-hilite;
+    }
+  }
+  &.ProposalPlayers-item-color-hilite {
+    background-color: $diff-hilite;
+    color: $content-fg;
+  }
 }
 
 .ProposalPlayers-player {

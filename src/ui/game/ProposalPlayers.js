@@ -19,12 +19,13 @@ class ProposalPlayersItem extends Component {
     index: number,
     user: User | string | void,
     nigiri: boolean,
+    playerHilite?: boolean,
     onUserDetail: string => any,
     onToggleRole: string => any
   };
 
   render() {
-    let {player, index, user, nigiri} = this.props;
+    let {player, index, user, nigiri, playerHilite} = this.props;
     let icon;
     if (nigiri) {
       icon = <NigiriIcon />;
@@ -33,8 +34,11 @@ class ProposalPlayersItem extends Component {
     } else if (player.role === 'black') {
       icon = <BoardStone color='black' />;
     }
+    let className = 'ProposalPlayers-item' + (
+      playerHilite ? ' ProposalPlayers-item-player-hilite' : ''
+    );
     return (
-      <div className='ProposalPlayers-item'>
+      <div className={className}>
         <A button className='ProposalPlayers-role' onClick={this._onToggleRole}>
           <div className='ProposalPlayers-role-icon'>
             {icon}
@@ -74,6 +78,7 @@ class ProposalPlayersItem extends Component {
 }
 
 type Props = {
+  currentUser: User,
   players: Array<GameProposalPlayer>,
   nigiri: boolean,
   gameType: GameType,
@@ -87,7 +92,14 @@ export default class ProposalPlayers extends Component {
   props: Props;
 
   render() {
-    let {players, nigiri, usersByName, onUserDetail, onToggleRole} = this.props;
+    let {
+      currentUser,
+      players,
+      nigiri,
+      usersByName,
+      onUserDetail,
+      onToggleRole
+    } = this.props;
     return (
       <div className='ProposalPlayers'>
         {players.map((player, i) => {
@@ -99,6 +111,7 @@ export default class ProposalPlayers extends Component {
               index={i}
               user={name ? usersByName[name] : name}
               nigiri={nigiri}
+              playerHilite={i > 0 && name && currentUser.name !== name ? true : false}
               onUserDetail={onUserDetail}
               onToggleRole={onToggleRole} />
           );

@@ -19,6 +19,7 @@ import type {
 } from '../../model';
 
 type Props = {
+  currentUser: User,
   editMode: ProposalEditMode,
   proposal: GameProposal,
   prevProposal: ?GameProposal,
@@ -64,6 +65,7 @@ export default class ProposalForm extends Component {
 
   render() {
     let {
+      currentUser,
       editMode,
       proposal,
       notes,
@@ -77,6 +79,7 @@ export default class ProposalForm extends Component {
       <div className='ProposalForm'>
         <div className='ProposalForm-players'>
           <ProposalPlayers
+            currentUser={currentUser}
             gameType={proposal.gameType}
             players={players}
             nigiri={nigiri}

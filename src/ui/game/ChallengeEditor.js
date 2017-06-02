@@ -210,6 +210,7 @@ export default class ChallengeEditor extends Component {
             <Icon name='check' /> Starting game...
           </div> : null}
         <ProposalForm
+          currentUser={currentUser}
           editMode={editMode}
           proposal={editProposal}
           prevProposal={prevProposal}
