@@ -227,14 +227,17 @@ $diff-muted: #bb9c1d;
   width: 30px;
   height: 30px;
   box-sizing: border-box;
-  line-height: 30px;
+  line-height: 28px;
   color: $link-color;
   border: 1px solid $link-color;
   border-radius: 50%;
   text-align: center;
-  margin: 0 0 0 5px;
+  margin: 0 0 0 10px;
   font-size: 20px;
   font-weight: bold;
+  &:active {
+    opacity: 0.5;
+  }
 }
 
 .ProposalForm-input-readonly {
