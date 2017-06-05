@@ -1,6 +1,6 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
-import {Button, Icon} from '../common';
+import {A, Button, Icon} from '../common';
 import ProposalForm from './ProposalForm';
 import {
   getStartingProposal,
@@ -129,6 +129,7 @@ export default class ChallengeEditor extends Component {
     let pending = status === 'pending';
     let userActions = challenge ? getActionsForUser(challenge.actions, currentUser.name) : {};
     let receivedProposals = challenge ? challenge.receivedProposals : [];
+    let proposalCount = receivedProposals ? receivedProposals.length : 0;
 
     let editMode: ProposalEditMode;
     let editProposal;
@@ -224,12 +225,32 @@ export default class ChallengeEditor extends Component {
         <div className='ChallengeEditor-buttons'>
           {buttons}
           {' '}
-          <Button
-            muted
-            onClick={onCancel}>
-            Cancel
-          </Button>
+          {editMode === 'creating' || editMode === 'negotiating' ?
+            <div className='ChallengeEditor-cancel'>
+              <Button
+                muted
+                onClick={onCancel}>
+                Cancel
+              </Button>
+            </div> : null}
         </div>
+        {proposalCount > 1 ?
+          <div className='ChallengeEditor-prevnext'>
+            <A
+              button
+              disabled={selectedProposalIndex === 0}
+              className='ChallengeEditor-prevnext-button'
+              onClick={this._onPrevProposal}>
+              <Icon name='chevron-left' />
+            </A>
+            <A
+              button
+              disabled={selectedProposalIndex === proposalCount - 1}
+              className='ChallengeEditor-prevnext-button'
+              onClick={this._onNextProposal}>
+              <Icon name='chevron-right' />
+            </A>
+          </div> : null}
       </div>
     );
   }
@@ -244,6 +265,18 @@ export default class ChallengeEditor extends Component {
 
   _onChangeVisibility = (visibility: ProposalVisibility) => {
     this.setState({visibility});
+  }
+
+  _onPrevProposal = () => {
+    this.setState(state => ({
+      selectedProposalIndex: state.selectedProposalIndex - 1
+    }));
+  }
+
+  _onNextProposal = () => {
+    this.setState(state => ({
+      selectedProposalIndex: state.selectedProposalIndex + 1
+    }));
   }
 
   _onSubmitProposal = () => {
@@ -295,6 +328,7 @@ export default class ChallengeEditor extends Component {
       }
       if (otherName) {
         this.props.actions.onDeclineChallengeProposal(challenge.id, otherName);
+        this.setState({selectedProposalIndex: 0});
       }
     }
   }

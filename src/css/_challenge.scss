@@ -17,6 +17,7 @@ $diff-muted: #bb9c1d;
   padding: 0 20px 20px 20px;
 }
 
+.ChallengeEditor-cancel,
 .ChallengeEditor-buttons-decision {
   display: inline-block;
 }
@@ -38,6 +39,27 @@ $diff-muted: #bb9c1d;
   padding: 10px 20px;
   background: $warning-bg;
   color: $warning-fg;
+}
+
+.ChallengeEditor-prevnext {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+.ChallengeEditor-prevnext-button {
+  color: $link-color;
+  padding: 10px;
+  margin: 0 0 0 5px;
+  border: 1px solid $link-color;
+  border-radius: 4px;
+  &:active {
+    opacity: 0.5;
+  }
+  &[disabled] {
+    opacity: 0.4;
+    cursor: default;
+  }
 }
 
 .ProposalForm {
@@ -347,6 +369,10 @@ $diff-muted: #bb9c1d;
   .ChallengeEditor-buttons {
     padding: 10px;
   }
+  .ChallengeEditor-prevnext {
+    right: 10px;
+    bottom: 10px;
+  }
   .ProposalForm-input-value-label {
     display: block;
     // font-size: 12px;
@@ -356,6 +382,20 @@ $diff-muted: #bb9c1d;
     .ProposalForm-field-label {
       display: block;
       margin: 0;
+    }
+  }
+}
+
+@media #{$mobile-query} {
+  .ProposalForm-input-minus {
+    margin-left: 0;
+  }
+  .touch, .no-touch {
+    .ChallengeEditor-buttons-decision {
+      .Button {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
     }
   }
 }
