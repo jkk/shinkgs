@@ -153,7 +153,8 @@ export default class GameScreen extends Component {
           {playing ? null :
             <GameMoreMenu
               game={game}
-              actions={actions} />}
+              actions={actions}
+              roomsById={roomsById} />}
         </div>
         <div className='GameScreen-main'>
           <BoardContainer

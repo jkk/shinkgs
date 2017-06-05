@@ -1,5 +1,6 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
+import type { Children } from 'react';
 import GameTimeSystem from './GameTimeSystem';
 import {formatGameType, formatGameRuleset} from '../../model/game';
 import type {
@@ -10,13 +11,20 @@ import type {
 
 export default class GameInfo extends Component {
 
+  // NOTE There doesn't seem to be a standard way to type the children property
+  // using Flow. The Children type is being used here, but is currently defined
+  // as 'any' in the Flow source code, so this is mostly decoration. See:
+  // https://github.com/facebook/flow/issues/1964
+  // BD 2017-05-30
+
   props: {
     game: GameChannel,
-    roomsById: Index<Room>
+    roomsById: Index<Room>,
+    children?: Children,
   };
 
   render() {
-    let {game, roomsById} = this.props;
+    let {game, roomsById, children} = this.props;
     let rules = game.rules;
     let room = roomsById[game.roomId];
     let rows = [];
@@ -81,6 +89,7 @@ export default class GameInfo extends Component {
         <table className='GameInfo-table'>
           <tbody>
             {rows}
+            {children}
           </tbody>
         </table>
       </div>
