@@ -648,6 +648,16 @@ export class AppActions {
       rankWanted: details.rankWanted,
       authLevel: user.authLevel || 'normal'
     });
+    // Force a refresh, since changing rankWanted doesn't get reflected in
+    // DETAILS_UPDATE response
+    this.onUnjoin(details.channelId);
+    setTimeout(() => {
+      // If we do it right away it doesn't always work
+      this._client.sendMessage({
+        type: 'DETAILS_JOIN_REQUEST',
+        name: user.name
+      });
+    }, 200);
   }
 
   onUpdatePassword = (user: User, newPassword: string) => {

@@ -69,9 +69,7 @@ export function sortUsers(users: Array<User>) {
 
 export function parseUser(user: ?User, values: Object, details?: Object): User {
   let newUser: Object = user ? {...user} : {};
-  if (typeof values.rank !== undefined) {
-    newUser.rankVal = parseRankVal(values.rank);
-  }
+  newUser.rankVal = parseRankVal(values.rank);
   let flagsStr: ?string = values.flags;
   if (typeof flagsStr === 'string') {
     let flags: UserFlags = {};
