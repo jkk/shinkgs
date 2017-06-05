@@ -569,6 +569,28 @@ form {
   }
 }
 
+.UnseenBadge {
+  font-size: 10px;
+  // min-width: 18px;
+  height: 18px;
+  line-height: 18px;
+  border-radius: 18px;
+  padding: 0 6px;
+  text-align: center;
+  box-sizing: border-box;
+  // box-shadow: 0 0 0 2px $content-bg;
+}
+
+.UnseenBadge-major {
+  background: $unseen-badge-major;
+  color: $inverted-fg;
+}
+
+.UnseenBadge-minor {
+  background: $unseen-badge-minor;
+  color: $inverted-fg;
+}
+
 @media #{$mobile-query} {
   .Modal,
   .ScreenModal {

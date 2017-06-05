@@ -1,5 +1,6 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
+import {UnseenBadge} from '../common';
 import type {
   Conversation,
   ChannelMembership,
@@ -33,12 +34,9 @@ export default class ChatUnseenBadge extends Component {
         }
       }
     }
-    if (!majorCount && !minorCount) {
-      return null;
-    }
     return (
-      <div className={'ChatUnseenBadge ChatUnseenBadge-' + (majorCount ? 'major' : 'minor')}>
-        {majorCount || minorCount}
+      <div className='ChatUnseenBadge'>
+        <UnseenBadge majorCount={majorCount} minorCount={minorCount} />
       </div>
     );
   }
