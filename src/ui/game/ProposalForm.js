@@ -68,6 +68,7 @@ export default class ProposalForm extends Component {
       currentUser,
       editMode,
       proposal,
+      prevProposal,
       notes,
       visibility,
       usersByName,
@@ -82,7 +83,9 @@ export default class ProposalForm extends Component {
             currentUser={currentUser}
             gameType={proposal.gameType}
             players={players}
+            prevPlayers={prevProposal ? prevProposal.players : null}
             nigiri={nigiri}
+            prevNigiri={prevProposal ? prevProposal.nigiri : null}
             usersByName={usersByName}
             onUserDetail={onUserDetail}
             onToggleRole={this._onToggleRole} />
@@ -102,7 +105,7 @@ export default class ProposalForm extends Component {
             <div className='ProposalForm-game-type-icon'>
               <GameTypeIcon type={proposal.gameType} />
             </div>
-            <div className='ProposalForm-game-type-name'>
+            <div className={'ProposalForm-game-type-name' + (prevProposal && prevProposal.gameType !== proposal.gameType ? ' ProposalForm-game-type-name-hilite' : '')}>
               {visibility === 'private' ? 'Private ' : null}
               {formatGameType(proposal.gameType)}
             </div>
@@ -236,12 +239,14 @@ export default class ProposalForm extends Component {
                 value={rules.handicap || 0}
                 label='handicap'
                 readonly={editMode === 'waiting' || proposal.nigiri}
+                hilited={prevProposal ? prevProposal.rules.handicap !== rules.handicap : false}
                 onMinus={this._onHandiMinus}
                 onPlus={this._onHandiPlus} />
               <ProposalFormInput
                 value={rules.komi}
                 label='komi'
                 readonly={editMode === 'waiting' || proposal.nigiri}
+                hilited={prevProposal ? prevProposal.rules.komi !== rules.komi : false}
                 onMinus={this._onKomiMinus}
                 onPlus={this._onKomiPlus} />
             </div>
@@ -307,7 +312,7 @@ export default class ProposalForm extends Component {
       otherPlayer.role = 'white';
     } else if (thisPlayer.role === 'black') {
       newProposal.nigiri = true;
-      newProposal.rules.handicap = 0;
+      newProposal.rules = {...newProposal.rules, handicap: 0};
       thisPlayer.role = 'white';
       otherPlayer.role = 'black';
     }

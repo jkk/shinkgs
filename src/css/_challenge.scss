@@ -72,6 +72,11 @@ $diff-muted: #bb9c1d;
   // font-size: 14px;
 }
 
+.ProposalForm-game-type-name-hilite {
+  background: $diff-hilite;
+  padding: 2px 5px;
+}
+
 .ProposalForm-type-notes {
   padding: 5px 5px 10px 5px;
   border-bottom: 1px solid #ddd;
@@ -114,9 +119,12 @@ $diff-muted: #bb9c1d;
       background-color: $diff-hilite;
     }
   }
-  &.ProposalPlayers-item-color-hilite {
-    background-color: $diff-hilite;
-    color: $content-fg;
+  &.ProposalPlayers-item-role-hilite {
+    .ProposalPlayers-role-name {
+      background-color: $diff-hilite;
+      color: $content-fg;
+      padding: 0 5px;
+    }
   }
 }
 
@@ -208,6 +216,10 @@ $diff-muted: #bb9c1d;
     outline: 0;
     border: 1px solid $input-focus;
   }
+}
+
+.ProposalForm-input-hilite .ProposalForm-input-value {
+  background: $diff-hilite;
 }
 
 .ProposalForm-input-value-label {

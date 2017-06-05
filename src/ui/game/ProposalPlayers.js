@@ -16,16 +16,18 @@ class ProposalPlayersItem extends Component {
 
   props: {
     player: GameProposalPlayer,
+    prevPlayer: ?GameProposalPlayer,
     index: number,
     user: User | string | void,
     nigiri: boolean,
+    prevNigiri: boolean | null,
     playerHilite?: boolean,
     onUserDetail: string => any,
     onToggleRole: string => any
   };
 
   render() {
-    let {player, index, user, nigiri, playerHilite} = this.props;
+    let {player, prevPlayer, index, user, nigiri, prevNigiri, playerHilite} = this.props;
     let icon;
     if (nigiri) {
       icon = <NigiriIcon />;
@@ -35,7 +37,9 @@ class ProposalPlayersItem extends Component {
       icon = <BoardStone color='black' />;
     }
     let className = 'ProposalPlayers-item' + (
-      playerHilite ? ' ProposalPlayers-item-player-hilite' : ''
+      (playerHilite ? ' ProposalPlayers-item-player-hilite' : '') +
+      ((prevNigiri !== null && prevNigiri !== nigiri) ||
+       (!nigiri && prevPlayer && prevPlayer.role !== player.role) ? ' ProposalPlayers-item-role-hilite' : '')
     );
     return (
       <div className={className}>
@@ -80,7 +84,9 @@ class ProposalPlayersItem extends Component {
 type Props = {
   currentUser: User,
   players: Array<GameProposalPlayer>,
+  prevPlayers: ?Array<GameProposalPlayer>,
   nigiri: boolean,
+  prevNigiri: boolean | null,
   gameType: GameType,
   usersByName: Index<User>,
   onUserDetail: string => any,
@@ -95,7 +101,9 @@ export default class ProposalPlayers extends Component {
     let {
       currentUser,
       players,
+      prevPlayers,
       nigiri,
+      prevNigiri,
       usersByName,
       onUserDetail,
       onToggleRole
@@ -108,9 +116,11 @@ export default class ProposalPlayers extends Component {
             <ProposalPlayersItem
               key={i + '-' + (name || '')}
               player={player}
+              prevPlayer={prevPlayers ? prevPlayers[i] : null}
               index={i}
               user={name ? usersByName[name] : name}
               nigiri={nigiri}
+              prevNigiri={prevNigiri}
               playerHilite={i > 0 && name && currentUser.name !== name ? true : false}
               onUserDetail={onUserDetail}
               onToggleRole={onToggleRole} />

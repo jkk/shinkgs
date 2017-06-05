@@ -172,7 +172,7 @@ export default class ChallengeEditor extends Component {
         } else {
           // Creator awaiting challenges
           editProposal = proposal;
-          prevProposal = initialProposal;
+          prevProposal = proposal;
           buttons = (
             <Button primary disabled loading>
               Awaiting Challengers

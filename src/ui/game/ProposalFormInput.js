@@ -6,6 +6,7 @@ type Props = {
   value: string | number,
   label: string,
   readonly?: boolean,
+  hilited?: boolean,
   onMinus: Function,
   onPlus: Function
 };
@@ -15,9 +16,10 @@ export default class ProposalFormInput extends Component {
   props: Props;
 
   render() {
-    let {value, label, readonly} = this.props;
+    let {value, label, readonly, hilited} = this.props;
     let className = 'ProposalForm-input' + (
-      readonly ? ' ProposalForm-input-readonly' : ''
+      (readonly ? ' ProposalForm-input-readonly' : '') +
+      (hilited ? ' ProposalForm-input-hilite' : '')
     );
     return (
       <div className={className}>
