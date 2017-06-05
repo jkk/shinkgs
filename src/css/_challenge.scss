@@ -175,7 +175,7 @@ $diff-muted: #bb9c1d;
   display: flex;
   justify-content: center;
   position: relative;
-  height: 40px;
+  height: 45px;
   box-sizing: border-box;
 }
 
@@ -186,7 +186,7 @@ $diff-muted: #bb9c1d;
 }
 
 .ProposalForm-input-value {
-  font-size: 16px;
+  font-size: 18px;
   padding: 5px;
   border-radius: 2px;
   border: 1px solid transparent;
@@ -212,8 +212,8 @@ $diff-muted: #bb9c1d;
 
 .ProposalForm-input-value-label {
   display: block;
-  font-size: 12px;
-  color: $muted;
+  font-size: 13px;
+  color: $semi-muted;
 }
 
 .ProposalForm-input-plusminus {
@@ -253,6 +253,13 @@ $diff-muted: #bb9c1d;
   .ProposalPlayers-player-button:hover {
     background-color: #ddd;
   }
+  .ProposalPlayers-item {
+    &.ProposalPlayers-item-player-hilite {
+      .ProposalPlayers-player-button:hover {
+        background-color: darken($diff-hilite, 7%);
+      }
+    }
+  }
   .ProposalForm-input-minus,
   .ProposalForm-input-plus {
     &:hover {
@@ -282,13 +289,13 @@ $diff-muted: #bb9c1d;
   flex: 1;
 }
 
-.ProposalForm-time,
-.ProposalForm-rules-readonly {
+.ProposalForm-time {
   margin: 0 10px 0 0;
 }
 
 .ProposalForm-handicap-komi {
   margin-top: 5px;
+  margin: 0 10px 0 0;
 }
 
 .ProposalForm-handicap-komi-heading {
@@ -301,6 +308,7 @@ $diff-muted: #bb9c1d;
 }
 
 .ProposalForm-rules-readonly {
+  margin: 0 0 0 5px;
   .ProposalForm-field-label {
     display: inline-block;
     vertical-align: middle;
@@ -326,7 +334,7 @@ $diff-muted: #bb9c1d;
   }
   .ProposalForm-input-value-label {
     display: block;
-    font-size: 12px;
+    // font-size: 12px;
   }
   .ProposalForm-rules-readonly {
     margin: 0 0 0 5px;
