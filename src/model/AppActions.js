@@ -4,6 +4,7 @@ import {KgsClient} from './KgsClient';
 import {tempId, isTempId} from './tempId';
 import {prepareSavedAppState} from './appState';
 import {isGamePlayer, isGameProposalPlayer, proposalsEqual} from './game';
+import {SOUNDS} from '../sound';
 import type {
   GameChannel,
   GameFilter,
@@ -71,6 +72,10 @@ export class AppActions {
         this.onChallengeFinalized(msg.proposal);
       } else if (msg.type === 'CHALLENGE_PROPOSAL' && msg.channelId) {
         this.onReceiveChallengeProposal(msg.channelId, msg.proposal);
+      } else if (msg.type === 'CHALLENGE_SUBMIT' && msg.channelId) {
+        this.onReceiveChallengeSubmit(msg.channelId, msg.proposal);
+      } else if (msg.type === 'CHAT' && msg.channelId && msg.user) {
+        this.onReceiveDirectMessage(msg.channelId);
       } else if (msg.type === 'ARCHIVE_JOIN' && msg.channelId) {
         this.onArchiveJoinSuccess(msg.channelId, msg.user);
       } else if (msg.type === 'GLOBAL_GAMES_JOIN' || msg.type === 'GAME_LIST') {
@@ -354,6 +359,21 @@ export class AppActions {
     } else {
       // TODO - received a revised proposal when we didn't submit a challenge.
       // Is there anything for us to do here?
+    }
+  }
+
+  onReceiveChallengeSubmit = (challengeId: number) => {
+    let {playChallengeId} = this._store.getState();
+    if (playChallengeId === challengeId) {
+      // Received a challenge proposal submission
+      SOUNDS.CHALLENGE_PROPOSAL_RECEIVED.play();
+    }
+  }
+
+  onReceiveDirectMessage = (channelId: number) => {
+    let {conversationsById} = this._store.getState();
+    if (conversationsById[channelId] && conversationsById[channelId].user) {
+      SOUNDS.DIRECT_MESSAGE_RECEIVED.play();
     }
   }
 
