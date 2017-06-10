@@ -78,18 +78,19 @@ export default class ProposalForm extends Component {
     let ruleset = rules.rules || 'japanese';
     return (
       <div className='ProposalForm'>
-        <div className='ProposalForm-players'>
-          <ProposalPlayers
-            currentUser={currentUser}
-            gameType={proposal.gameType}
-            players={players}
-            prevPlayers={prevProposal ? prevProposal.players : null}
-            nigiri={nigiri}
-            prevNigiri={prevProposal ? prevProposal.nigiri : null}
-            usersByName={usersByName}
-            onUserDetail={onUserDetail}
-            onToggleRole={this._onToggleRole} />
-        </div>
+        {editMode !== 'creating' ?
+          <div className='ProposalForm-players'>
+            <ProposalPlayers
+              currentUser={currentUser}
+              gameType={proposal.gameType}
+              players={players}
+              prevPlayers={prevProposal ? prevProposal.players : null}
+              nigiri={nigiri}
+              prevNigiri={prevProposal ? prevProposal.nigiri : null}
+              usersByName={usersByName}
+              onUserDetail={onUserDetail}
+              onToggleRole={this._onToggleRole} />
+          </div> : null}
         {editMode === 'creating' ?
           <div className='ProposalForm-field'>
             <div className='ProposalForm-field-content'>
