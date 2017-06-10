@@ -16,6 +16,7 @@ import type {
   ProposalEditMode,
   User,
   Room,
+  Preferences,
   Index,
   AppActions
 } from '../../model';
@@ -26,6 +27,7 @@ type Props = {
   initialRoomId?: ?number,
   usersByName: Index<User>,
   roomsById: Index<Room>,
+  preferences: Preferences,
   actions: AppActions,
   onCancel: Function
 };
@@ -44,7 +46,7 @@ export default class ChallengeEditor extends Component {
   state: State = this._getInitialState(this.props);
 
   _getInitialState(props: Props): State {
-    let {challenge, currentUser, usersByName} = props;
+    let {challenge, currentUser, usersByName, preferences} = props;
     let proposal;
     let visibility;
     let notes;
@@ -69,9 +71,10 @@ export default class ChallengeEditor extends Component {
       visibility = proposal.private ? 'private' : (challenge.global ? 'public' : 'roomOnly');
       notes = challenge.name || '';
     } else {
-      proposal = createInitialProposal(currentUser);
-      visibility = 'public';
-      notes = '';
+      let lastProposal = preferences.lastProposal;
+      proposal = createInitialProposal(currentUser, lastProposal ? lastProposal.proposal : null);
+      visibility = lastProposal ? lastProposal.visibility : 'public';
+      notes = lastProposal && lastProposal.notes ? lastProposal.notes : '';
     }
     return {
       proposal,

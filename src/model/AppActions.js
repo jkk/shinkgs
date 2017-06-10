@@ -287,6 +287,12 @@ export class AppActions {
   }
 
   onCreateChallenge = (proposal: GameProposal, roomId: number, visibility: ProposalVisibility, notes?: string) => {
+    this._store.dispatch({
+      type: 'UPDATE_PREFERENCES',
+      preferences: {
+        lastProposal: {proposal, visibility, notes}
+      }
+    });
     let finalProposal = {...proposal, private: visibility === 'private'};
     this._client.sendMessage({
       type: 'CHALLENGE_CREATE',

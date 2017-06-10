@@ -15,6 +15,7 @@ import type {
   GameSummary,
   Room,
   ChannelMembership,
+  Preferences,
   Index,
   AppActions
 } from '../model';
@@ -30,6 +31,7 @@ type Props = {
   roomsById: Index<Room>,
   channelMembership: ChannelMembership,
   usersByName: Index<User>,
+  preferences: Preferences,
   actions: AppActions
 };
 
@@ -73,6 +75,7 @@ export default class PlayScreen extends Component {
       roomsById,
       channelMembership,
       usersByName,
+      preferences,
       actions
     } = this.props;
     let {creatingChallenge} = this.state;
@@ -93,6 +96,7 @@ export default class PlayScreen extends Component {
                 usersByName={usersByName}
                 roomsById={roomsById}
                 initialRoomId={defaultRoom.id}
+                preferences={preferences}
                 actions={actions}
                 onCancel={this._onCloseChallenge} />
             </ScreenModal>

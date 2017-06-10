@@ -1,6 +1,11 @@
 // @flow
 import {userHasRank, userUnranked} from '../user';
-import type {User, GameProposal, GameRules, Index} from '../types';
+import type {
+  User,
+  GameProposal,
+  GameRules,
+  Index
+} from '../types';
 
 export const DEFAULT_KOMI = 6.5;
 
@@ -156,7 +161,10 @@ export function getEvenProposal(
   return proposal;
 }
 
-export function createInitialProposal(currentUser: User): GameProposal {
+export function createInitialProposal(
+  currentUser: User,
+  lastProposal?: ?GameProposal
+): GameProposal {
   let players = [
     {name: currentUser.name, role: 'white'},
     {role: 'black'}
@@ -167,8 +175,10 @@ export function createInitialProposal(currentUser: User): GameProposal {
       flags.canPlayRanked !== undefined ? flags.canPlayRanked : true
     )
   );
-  let gameType = canPlayRanked ? 'ranked' : 'free';
-  let rules: GameRules = {
+  let gameType = lastProposal
+    ? lastProposal.gameType
+    : (canPlayRanked ? 'ranked' : 'free');
+  let rules: GameRules = lastProposal ? lastProposal.rules : {
     komi: DEFAULT_KOMI,
     size: 19,
     rules: 'japanese',

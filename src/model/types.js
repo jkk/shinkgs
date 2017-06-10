@@ -425,7 +425,12 @@ export type KgsClientState = {
 };
 
 export type Preferences = {
-  username?: string
+  username?: string,
+  lastProposal?: {
+    proposal: GameProposal,
+    visibility: ProposalVisibility,
+    notes?: string
+  }
 };
 
 export type AppState = {
