@@ -240,7 +240,7 @@ export default class ProposalForm extends Component {
                 value={rules.handicap || 0}
                 label='handicap'
                 readonly={editMode === 'waiting' || proposal.nigiri}
-                hilited={prevProposal ? prevProposal.rules.handicap !== rules.handicap : false}
+                hilited={prevProposal ? (prevProposal.rules.handicap || 0) !== (rules.handicap || 0) : false}
                 onMinus={this._onHandiMinus}
                 onPlus={this._onHandiPlus} />
               <ProposalFormInput
