@@ -3,9 +3,10 @@ import React, {PureComponent as Component} from 'react';
 import {A, Button, Icon} from '../common';
 import ProposalForm from './ProposalForm';
 import {
-  getStartingProposal,
+  getEvenProposal,
   getActionsForUser,
-  createInitialProposal
+  createInitialProposal,
+  getOtherPlayerName
 } from '../../model/game';
 import {InvariantError} from '../../util/error';
 import type {
@@ -62,8 +63,8 @@ export default class ChallengeEditor extends Component {
         // Challenge we created - use as-is
         proposal = challengeProposal;
       } else {
-        // Challenge we joined - create a starting proposal
-        proposal = getStartingProposal(challengeProposal, currentUser, usersByName);
+        // Challenge we joined - create an even proposal
+        proposal = getEvenProposal(challengeProposal, currentUser, usersByName);
       }
       visibility = proposal.private ? 'private' : (challenge.global ? 'public' : 'roomOnly');
       notes = challenge.name || '';
@@ -158,7 +159,12 @@ export default class ChallengeEditor extends Component {
         if (receivedProposals && receivedProposals.length) {
           // Creator that can accept/decline challenges
           editProposal = receivedProposals[selectedProposalIndex];
-          prevProposal = proposal;
+          let challengerName = getOtherPlayerName(editProposal, currentUser.name);
+          if (!challengerName) {
+            throw new InvariantError('No challenger');
+          }
+          let challenger = usersByName[challengerName];
+          prevProposal = getEvenProposal(initialProposal, challenger, usersByName);
           buttons = (
             <div className='ChallengeEditor-buttons-decision'>
               <Button primary onClick={this._onAcceptProposal}>
@@ -192,7 +198,6 @@ export default class ChallengeEditor extends Component {
       }
     }
 
-    // console.log({challenge, proposal, receivedProposals, userActions, visibility, editMode});
     return (
       <div className='ChallengeEditor'>
         <div className='ChallengeEditor-header'>

@@ -93,9 +93,9 @@ export function proposalsEqual(p1: GameProposal, p2: GameProposal) {
   return true;
 }
 
-export function getStartingProposal(
+export function getEvenProposal(
   initialProposal: GameProposal,
-  currentUser: User,
+  challenger: User,
   usersByName: Index<User>
 ) {
   let proposal = {...initialProposal};
@@ -112,18 +112,18 @@ export function getStartingProposal(
       newPlayer.name = newPlayer.user.name;
       delete newPlayer.user;
     } else if (!newPlayer.name) {
-      newPlayer.name = currentUser.name;
+      newPlayer.name = challenger.name;
       challenging = true;
     }
-    if (newPlayer.name !== currentUser.name) {
+    if (newPlayer.name !== challenger.name) {
       otherUser = usersByName[newPlayer.name];
     }
     players.push(newPlayer);
   }
 
   // If sending a challenge, auto-set handicap and komi as appropriate
-  if (challenging && otherUser && currentUser) {
-    let matchupInfo = getMatchupInfo(currentUser, otherUser, proposal.rules.komi);
+  if (challenging && otherUser && challenger) {
+    let matchupInfo = getMatchupInfo(challenger, otherUser, proposal.rules.komi);
     let {handicap, komi, nigiri, white, black, unranked} = matchupInfo;
     proposal.rules = {
       ...proposal.rules,
@@ -183,4 +183,12 @@ export function createInitialProposal(currentUser: User): GameProposal {
     nigiri: true
   };
   return proposal;
+}
+
+export function getOtherPlayerName(proposal: GameProposal, name: string) {
+  let otherPlayer = proposal.players.find(p => p.user ? p.user.name !== name : p.name !== name);
+  if (!otherPlayer) {
+    return null;
+  }
+  return otherPlayer.user ? otherPlayer.user.name : otherPlayer.name;
 }
