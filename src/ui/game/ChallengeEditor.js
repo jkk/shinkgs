@@ -144,7 +144,7 @@ export default class ChallengeEditor extends Component {
           Create Challenge
         </Button>
       );
-    } else if (!pending && !userActions.CHALLENGE_SETUP) {
+    } else if (!pending && !isCreator) {
       editMode = 'negotiating';
       editProposal = proposal;
       prevProposal = initialProposal;
