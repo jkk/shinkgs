@@ -64,7 +64,7 @@ export default class ChallengeEditor extends Component {
         proposal = challengeProposal;
       } else {
         // Challenge we joined - create an even proposal
-        proposal = getEvenProposal(challengeProposal, currentUser, usersByName);
+        proposal = getEvenProposal(challengeProposal, currentUser.name, usersByName);
       }
       visibility = proposal.private ? 'private' : (challenge.global ? 'public' : 'roomOnly');
       notes = challenge.name || '';
@@ -86,16 +86,30 @@ export default class ChallengeEditor extends Component {
     let {challenge} = nextProps;
     let sentProposal = challenge && challenge.sentProposal;
     let {proposal} = this.state;
+    let newProposal;
     if (sentProposal && sentProposal.status !== proposal.status) {
       // Challenge sending
-      this.setState({
-        proposal: {...proposal, status: sentProposal.status}
-      });
+      newProposal = {...proposal, status: sentProposal.status};
     } else if (challenge && !this.props.challenge) {
       // Challenge created
-      this.setState({
-        proposal: {...challenge.initialProposal, status: 'pending'}
-      });
+      newProposal = {...challenge.initialProposal, status: 'pending'};
+    }
+
+    // Check to see if our rank changed and, if so, correct the suggested
+    // handicap and color (this can happen when you're new and your rank
+    // hasn't settled)
+    let {currentUser, usersByName} = nextProps;
+    if (challenge && this.props.currentUser.rank !== currentUser.rank) {
+      let creator = challenge.players.challengeCreator;
+      if (proposal.status !== 'pending' && creator && creator.name !== currentUser.name && challenge.initialProposal) {
+        newProposal = newProposal || {...proposal};
+        let evenProposal = getEvenProposal(challenge.initialProposal, currentUser.name, usersByName);
+        newProposal.rules.handicap = evenProposal.rules.handicap;
+        newProposal.players = evenProposal.players;
+      }
+    }
+    if (newProposal) {
+      this.setState({proposal: newProposal});
     }
   }
 
@@ -163,8 +177,7 @@ export default class ChallengeEditor extends Component {
           if (!challengerName) {
             throw new InvariantError('No challenger');
           }
-          let challenger = usersByName[challengerName];
-          prevProposal = getEvenProposal(initialProposal, challenger, usersByName);
+          prevProposal = getEvenProposal(initialProposal, challengerName, usersByName);
           buttons = (
             <div className='ChallengeEditor-buttons-decision'>
               <Button primary onClick={this._onAcceptProposal}>
@@ -324,13 +337,7 @@ export default class ChallengeEditor extends Component {
       && challenge.receivedProposals
       && challenge.receivedProposals[selectedProposalIndex];
     if (challenge && proposal) {
-      let otherName;
-      for (let player of proposal.players) {
-        let name = player.user ? player.user.name : player.name;
-        if (name && name !== currentUser.name) {
-          otherName = name;
-        }
-      }
+      let otherName = getOtherPlayerName(proposal, currentUser.name);
       if (otherName) {
         this.props.actions.onDeclineChallengeProposal(challenge.id, otherName);
         this.setState({selectedProposalIndex: 0});

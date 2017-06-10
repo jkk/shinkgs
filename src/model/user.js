@@ -207,6 +207,29 @@ export function handleUserMessage(
       }
       return {...prevState, usersByName};
     }
+  } else if (
+    msg.users &&
+    (msg.type === 'GAME_JOIN' ||
+      msg.type === 'GAME_UPDATE' ||
+      msg.type === 'GAME_STATE' ||
+      msg.type === 'GAME_NAME_CHANGE' ||
+      msg.type === 'CHALLENGE_JOIN')
+    ) {
+    if (prevState.currentUser) {
+      for (let user of msg.users) {
+        if (user.name === prevState.currentUser.name) {
+          let usersByName: Index<User> = {...prevState.usersByName};
+          let newUser = parseUser(usersByName[user.name], user);
+          usersByName[user.name] = newUser;
+          let nextState = {...prevState, usersByName};
+          if (nextState.currentUser && nextState.currentUser.name === user.name) {
+            nextState.currentUser = {...nextState.currentUser, ...newUser};
+          }
+          return nextState;
+        }
+      }
+    }
+    return prevState;
   }
   return prevState;
 }
