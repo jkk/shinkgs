@@ -1,6 +1,6 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
-import {A, Button, Icon, TabNav} from '../common';
+import {A, Button, Icon, TabNav, UnseenBadge} from '../common';
 import ProposalForm from './ProposalForm';
 import ChatMessages from '../chat/ChatMessages';
 import ChatMessageBar from '../chat/ChatMessageBar';
@@ -41,7 +41,8 @@ type State = {
   proposal: GameProposal,
   visibility: ProposalVisibility,
   notes: string,
-  selectedProposalIndex: number
+  selectedProposalIndex: number,
+  activeTab: string
 };
 
 export default class ChallengeEditor extends Component {
@@ -90,7 +91,8 @@ export default class ChallengeEditor extends Component {
       initialProposal: proposal,
       visibility,
       notes,
-      selectedProposalIndex: 0
+      selectedProposalIndex: 0,
+      activeTab: 'proposal'
     };
   }
 
@@ -141,7 +143,8 @@ export default class ChallengeEditor extends Component {
       proposal,
       visibility,
       notes,
-      selectedProposalIndex
+      selectedProposalIndex,
+      activeTab
     } = this.state;
     // let sentProposal = challenge && challenge.sentProposal;
     let creator = challenge ? challenge.players.challengeCreator : currentUser;
@@ -270,6 +273,15 @@ export default class ChallengeEditor extends Component {
       </div>
     );
 
+    let chatLabel = (
+      <div className='ChallengeEditor-chat-label'>
+        Chat
+        <div className='ChallengeEditor-chat-label-badge'>
+          <UnseenBadge
+            majorCount={(conversation && conversation.unseenCount) || 0} />
+        </div>
+      </div>
+    );
     let chatContent = conversation ? (
       <div className='ChallengeEditor-chat'>
         <div className='ChallengeEditor-chat-messages'>
@@ -306,10 +318,13 @@ export default class ChallengeEditor extends Component {
           </div> : null}
         {editMode !== 'creating' ?
           <div className='ChallengeEditor-tabs'>
-            <TabNav tabs={[
-              {id: 'proposal', label: 'Proposal', content: proposalContent},
-              {id: 'chat', label: 'Chat', content: chatContent}
-            ]} />
+            <TabNav
+              activeTabId={activeTab}
+              onSelectTab={this._onSelectTab}
+              tabs={[
+                {id: 'proposal', label: 'Proposal', content: proposalContent},
+                {id: 'chat', label: chatLabel, content: chatContent}
+              ]} />
           </div> :
           proposalContent}
       </div>
@@ -386,6 +401,14 @@ export default class ChallengeEditor extends Component {
         this.setState({selectedProposalIndex: 0});
       }
     }
+  }
+
+  _onSelectTab = (tab: string) => {
+    let {challenge} = this.props;
+    if (tab === 'chat' && challenge) {
+      this.props.actions.markConversationSeen(challenge.id);
+    }
+    this.setState({activeTab: tab});
   }
 
   _onChat = (body: string) => {

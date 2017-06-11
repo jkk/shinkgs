@@ -75,6 +75,17 @@ $diff-muted: #bb9c1d;
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
+.ChallengeEditor-chat-label {
+  display: inline-block;
+  // position: relative;
+}
+
+.ChallengeEditor-chat-label-badge {
+  position: absolute;
+  right: 0;
+  top: 2px;
+}
+
 .ProposalForm {
   text-align: left;
   padding: 20px;

@@ -66,6 +66,9 @@ export default class Nav extends Component {
     if (!currentUser) {
       throw new InvariantError('currentUser is required');
     }
+    let challengeConversation = activeChallenge
+      ? conversationsById[activeChallenge.id]
+      : null;
     return (
       <div className='MainNav'>
         <div className='MainNav-inner'>
@@ -93,7 +96,11 @@ export default class Nav extends Component {
                     <UnseenBadge
                       majorCount={activeChallenge.receivedProposals
                         ? activeChallenge.receivedProposals.length
-                        : 0} />
+                        : 0}
+                      minorCount={
+                        (challengeConversation &&
+                          challengeConversation.unseenCount) ||
+                        0} />
                   </div>}
               </A>
             </div>

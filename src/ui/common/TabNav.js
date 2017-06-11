@@ -35,16 +35,17 @@ export class TabNav extends Component {
       label: any,
       content: any
     }>,
-    initialTabId?: string
+    activeTabId?: string,
+    onSelectTab?: string => any
   };
 
   state = {
-    activeTabId: this.props.initialTabId || this.props.tabs[0].id
+    activeTabId: this.props.activeTabId || this.props.tabs[0].id
   };
 
   render() {
-    let {tabs} = this.props;
-    let {activeTabId} = this.state;
+    let {tabs, onSelectTab} = this.props;
+    let activeTabId = this.props.activeTabId || this.state.activeTabId;
     let activeTab = tabs.find(t => t.id === activeTabId);
     return (
       <div className='TabNav'>
@@ -55,7 +56,7 @@ export class TabNav extends Component {
                 key={tab.id}
                 tab={tab}
                 active={activeTabId === tab.id}
-                onSelect={this._onSelectTab} />
+                onSelect={onSelectTab || this._onSelectTab} />
             )}
           </div>
         </div>
