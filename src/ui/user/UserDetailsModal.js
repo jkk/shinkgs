@@ -1,6 +1,7 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
 import localeString from 'locale-string';
+import get from 'lodash.get';
 import {
   A,
   Button,
@@ -12,6 +13,7 @@ import UserName from './UserName';
 import UserAvatar from './UserAvatar';
 import UserDetailsEditForm from './UserDetailsEditForm';
 import GameSummaryList from '../game/GameSummaryList';
+import UserRankGraph from './UserRankGraph';
 import {getUserStatusText, getUserAuthName} from '../../model/user';
 import {isAncestor} from '../../util/dom';
 import {formatLocaleDate, timeAgo} from '../../util/date';
@@ -21,6 +23,7 @@ import type {
   User,
   UserDetails,
   GameSummary,
+  RankGraph,
   Index,
   AppActions
 } from '../../model';
@@ -31,12 +34,13 @@ type Props = {
   currentUser: ?User,
   userDetailsRequest: ?UserDetailsRequest,
   usersByName: Index<User>,
+  rankGraphsByChannelId: Index<RankGraph>,
   gameSummariesByUser: Index<Array<GameSummary>>,
   actions: AppActions
 };
 
 type State = {
-  tab: 'bio' | 'games',
+  tab: 'bio' | 'games' | 'rankGraph',
   editing: boolean
 };
 
@@ -71,6 +75,7 @@ export default class UserDetailsModal extends Component {
       userDetailsRequest,
       usersByName,
       gameSummariesByUser,
+      rankGraphsByChannelId,
       actions
     } = this.props;
     if (!currentUser || !userDetailsRequest) {
@@ -82,6 +87,7 @@ export default class UserDetailsModal extends Component {
     let user = usersByName[userDetailsRequest.name];
     let gameSummaries = gameSummariesByUser[userDetailsRequest.name];
     let details = user && user.details;
+    let channelId = details && details.channelId;
 
     if (editing && user && user.details) {
       return (
@@ -103,9 +109,11 @@ export default class UserDetailsModal extends Component {
         let locale: Object = localeString.parse(details.locale.replace('_', '-'));
         let joinedDate = new Date(details.regStartDate);
         let bio = details.personalInfo ? details.personalInfo.trim() : '';
-        if (!bio) {
+
+        if (this.state.tab === 'bio' && !bio) {
           tab = 'games';
         }
+
         content = (
           <div className='UserDetailsModal-user-info'>
             <div className='UserDetailsModal-subname'>
@@ -147,6 +155,11 @@ export default class UserDetailsModal extends Component {
                         onClick={this._onShowGames}>
                         {gameSummaries.length} Games
                       </A> : null}
+                    <A
+                      className={'UserDetailsModal-tab' + (tab === 'rankGraph' ? ' UserDetailsModal-tab-active' : '')}
+                      onClick={this._onShowRankGraph}>
+                      Rank
+                    </A>
                   </div>
                 </div>
                 <div className='UserDetailsModal-tab-content'>
@@ -161,8 +174,14 @@ export default class UserDetailsModal extends Component {
                         player={user.name}
                         onSelect={this._onSelectGame}/>
                     </div> : null}
+                  {tab === 'rankGraph' ?
+                    <div className='UserDetailsModal-rank-graph'>
+                      <UserRankGraph graph={get(rankGraphsByChannelId, channelId)}/>
+                    </div> : null}
                 </div>
-              </div> : null}
+              </div>
+              : null
+            }
           </div>
         );
       } else {
@@ -261,6 +280,20 @@ export default class UserDetailsModal extends Component {
 
   _onShowGames = () => {
     this.setState({tab: 'games'});
+  }
+
+  _onShowRankGraph = () => {
+    const {
+      actions,
+      userDetailsRequest,
+      usersByName
+    } = this.props;
+
+    const user = userDetailsRequest && usersByName[userDetailsRequest.name];
+    const channelId:number = Number(user && user.details && user.details.channelId);
+
+    actions.onRequestRankGraph(channelId);
+    this.setState({tab: 'rankGraph'});
   }
 
   _onSelectGame = (game: GameSummary) => {

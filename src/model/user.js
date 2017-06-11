@@ -5,8 +5,11 @@ import type {
   User,
   UserFlags,
   Index,
-  ChannelMembership
+  ChannelMembership,
+  RankGraph
 } from './types';
+
+import { parseRankGraph } from './channel';
 
 export function userHasRank(user: User) {
   return user.rank && user.rank !== '?';
@@ -175,6 +178,15 @@ export function handleUserMessage(
     if (nextState.currentUser && nextState.currentUser.name === user.name) {
       nextState.currentUser = {...nextState.currentUser, ...newUser};
     }
+
+    return nextState;
+  } else if (msg.type === 'DETAILS_RANK_GRAPH') {
+    let rankGraphsByChannelId: Index<RankGraph> = {...prevState.rankGraphsByChannelId};
+    let channelId:string = String(msg.channelId);
+    let data:Array<number> = msg.data;
+
+    rankGraphsByChannelId[channelId] = parseRankGraph(data);
+    let nextState = {...prevState, rankGraphsByChannelId};
 
     return nextState;
   } else if (msg.type === 'DETAILS_UPDATE' && chanId) {
