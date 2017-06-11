@@ -102,6 +102,18 @@ function _handleGameMessage(
     }
 
     return nextState;
+  } else if (msg.type === 'GAME_REVIEW') {
+    let oldGameId: number = msg.originalId;
+    let newGameId: number = msg.review.channelId;
+    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    let game = parseGameChannel(gamesById[oldGameId], msg.review);
+    gamesById[newGameId] = game;
+    let playGameId = prevState.playGameId === oldGameId ? newGameId : prevState.playGameId;
+    let nextState = {...prevState, gamesById, playGameId};
+    let chanMem: ChannelMembership = {...prevState.channelMembership};
+    chanMem[newGameId] = {type: 'game', complete: false, stale: false};
+    nextState.channelMembership = chanMem;
+    return nextState;
   } else if (msg.type === 'GAME_NOTIFY') {
     let gamesById: Index<GameChannel> = {...prevState.gamesById};
     let gameId = msg.game.channelId;

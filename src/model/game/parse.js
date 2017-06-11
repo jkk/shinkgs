@@ -338,7 +338,9 @@ export function parseGameChannel(chan: ?GameChannel, values: Object): GameChanne
     newChan.users = values.users.map(u => u.name);
   }
   if (values.sgfEvents) {
-    let prevTree = values.type === 'GAME_JOIN' ? null : newChan.tree;
+    let prevTree = values.type === 'GAME_JOIN' && values.sgfEvents.length
+      ? null
+      : newChan.tree;
     newChan.tree = parseSgfEvents(prevTree, values.sgfEvents);
     if (newChan.tree) {
       delete newChan.tree.pendingMove;
