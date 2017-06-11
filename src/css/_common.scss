@@ -591,6 +591,30 @@ form {
   color: $inverted-fg;
 }
 
+.TabNav-tabs {
+  text-align: center;
+  border-bottom: 2px solid $very-muted;
+  .TabNav-tab {
+    min-width: 80px;
+    text-align: center;
+    position: relative;
+    top: 2px;
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 15px;
+    color: $semi-muted;
+    border-bottom: 3px solid transparent;
+    &.TabNav-tab-active {
+      color: $content-fg;
+      border-bottom: 3px solid $link-color;
+    }
+  }
+}
+
+.TabNav-tabs-inner {
+  padding: 0 20px;
+}
+
 @media #{$mobile-query} {
   .Modal,
   .ScreenModal {

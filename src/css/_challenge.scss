@@ -62,7 +62,21 @@ $diff-muted: #bb9c1d;
   }
 }
 
+.ChallengeEditor-chat {
+  background: $content-bg;
+  padding: 20px;
+}
+
+.ChallengeEditor-chat-messages {
+  height: 200px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
 .ProposalForm {
+  text-align: left;
   padding: 20px;
   background: $content-bg;
   color: $content-fg;
@@ -361,6 +375,12 @@ $diff-muted: #bb9c1d;
 
 @media #{$mobile-query} {
   .ChallengeEditor-header {
+    padding: 10px;
+  }
+  .ChallengeEditor-chat {
+    padding: 0;
+  }
+  .ChallengeEditor-chat-messages {
     padding: 10px;
   }
   .ProposalForm {

@@ -15,6 +15,7 @@ import type {
   GameSummary,
   Room,
   ChannelMembership,
+  Conversation,
   Preferences,
   Index,
   AppActions
@@ -30,6 +31,7 @@ type Props = {
   unfinishedGames: Array<GameSummary>,
   roomsById: Index<Room>,
   channelMembership: ChannelMembership,
+  conversationsById: Index<Conversation>,
   usersByName: Index<User>,
   preferences: Preferences,
   actions: AppActions
@@ -74,6 +76,7 @@ export default class PlayScreen extends Component {
       unfinishedGames,
       roomsById,
       channelMembership,
+      conversationsById,
       usersByName,
       preferences,
       actions
@@ -83,6 +86,7 @@ export default class PlayScreen extends Component {
       throw new InvariantError('currentUser is required');
     }
     let challenge = playChallengeId ? gamesById[playChallengeId] : null;
+    let conversation = playChallengeId ? conversationsById[playChallengeId] : null;
     let activeGame = playGameId ? gamesById[playGameId] : null;
     let defaultRoom = getDefaultRoom(channelMembership, roomsById);
     return (
@@ -96,6 +100,7 @@ export default class PlayScreen extends Component {
                 usersByName={usersByName}
                 roomsById={roomsById}
                 initialRoomId={defaultRoom.id}
+                conversation={conversation}
                 preferences={preferences}
                 actions={actions}
                 onCancel={this._onCloseChallenge} />

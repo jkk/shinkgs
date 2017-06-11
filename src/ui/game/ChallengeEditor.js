@@ -1,7 +1,9 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
-import {A, Button, Icon} from '../common';
+import {A, Button, Icon, TabNav} from '../common';
 import ProposalForm from './ProposalForm';
+import ChatMessages from '../chat/ChatMessages';
+import ChatMessageBar from '../chat/ChatMessageBar';
 import {
   getEvenProposal,
   getActionsForUser,
@@ -16,6 +18,7 @@ import type {
   ProposalEditMode,
   User,
   Room,
+  Conversation,
   Preferences,
   Index,
   AppActions
@@ -27,6 +30,7 @@ type Props = {
   initialRoomId?: ?number,
   usersByName: Index<User>,
   roomsById: Index<Room>,
+  conversation: ?Conversation,
   preferences: Preferences,
   actions: AppActions,
   onCancel: Function
@@ -46,7 +50,12 @@ export default class ChallengeEditor extends Component {
   state: State = this._getInitialState(this.props);
 
   _getInitialState(props: Props): State {
-    let {challenge, currentUser, usersByName, preferences} = props;
+    let {
+      challenge,
+      currentUser,
+      usersByName,
+      preferences
+    } = props;
     let proposal;
     let visibility;
     let notes;
@@ -123,6 +132,7 @@ export default class ChallengeEditor extends Component {
       initialRoomId,
       usersByName,
       roomsById,
+      conversation,
       actions,
       onCancel
     } = this.props;
@@ -214,23 +224,8 @@ export default class ChallengeEditor extends Component {
       }
     }
 
-    return (
-      <div className='ChallengeEditor'>
-        <div className='ChallengeEditor-header'>
-          {isCreator ? 'Create Challenge' : 'Challenge'}
-          {room && room.name ?
-            <div className='ChallengeEditor-room-name'>
-              {room.name}
-            </div> : null}
-        </div>
-        {status === 'declined' ?
-          <div className='ChallengeEditor-declined'>
-            Your proposal was declined
-          </div> : null}
-        {status === 'accepted' ?
-          <div className='ChallengeEditor-accepted'>
-            <Icon name='check' /> Starting game...
-          </div> : null}
+    let proposalContent = (
+      <div className='ChallengeEditor-proposal'>
         <ProposalForm
           currentUser={currentUser}
           editMode={editMode}
@@ -272,6 +267,51 @@ export default class ChallengeEditor extends Component {
               <Icon name='chevron-right' />
             </A>
           </div> : null}
+      </div>
+    );
+
+    let chatContent = conversation ? (
+      <div className='ChallengeEditor-chat'>
+        <div className='ChallengeEditor-chat-messages'>
+          <ChatMessages
+            currentUser={currentUser}
+            messages={conversation.messages}
+            onUserDetail={actions.onUserDetail}
+            usersByName={usersByName} />
+        </div>
+        <div className='ChallengeEditor-chat-message-bar'>
+          <ChatMessageBar
+            conversation={conversation}
+            onSubmit={this._onChat} />
+        </div>
+      </div>
+    ) : null;
+
+    return (
+      <div className='ChallengeEditor'>
+        <div className='ChallengeEditor-header'>
+          {isCreator ? 'Create Challenge' : 'Challenge'}
+          {room && room.name ?
+            <div className='ChallengeEditor-room-name'>
+              {room.name}
+            </div> : null}
+        </div>
+        {status === 'declined' ?
+          <div className='ChallengeEditor-declined'>
+            Your proposal was declined
+          </div> : null}
+        {status === 'accepted' ?
+          <div className='ChallengeEditor-accepted'>
+            <Icon name='check' /> Starting game...
+          </div> : null}
+        {editMode !== 'creating' ?
+          <div className='ChallengeEditor-tabs'>
+            <TabNav tabs={[
+              {id: 'proposal', label: 'Proposal', content: proposalContent},
+              {id: 'chat', label: 'Chat', content: chatContent}
+            ]} />
+          </div> :
+          proposalContent}
       </div>
     );
   }
@@ -345,6 +385,13 @@ export default class ChallengeEditor extends Component {
         this.props.actions.onDeclineChallengeProposal(challenge.id, otherName);
         this.setState({selectedProposalIndex: 0});
       }
+    }
+  }
+
+  _onChat = (body: string) => {
+    let {challenge} = this.props;
+    if (challenge) {
+      this.props.actions.onSendChat(body, challenge.id);
     }
   }
 }
