@@ -152,6 +152,7 @@ input[type=text], input[type=email], input[type=password], textarea, select {
   max-width: 100%;
   display: inline-block;
   margin: 0;
+  line-height: 1.15;
   @include placeholder {
     color: $input-placeholder;
     opacity: 1;
@@ -187,18 +188,18 @@ textarea {
     outline: 0;
   }
   &.Button-danger {
-    background: $error-bg;
-    color: $error-fg;
-    border: 1px solid $error-bg;
     &:hover, &:focus {
-      background: darken($error-bg, 10%);
+      color: darken($error-bg, 10%);
       border: 1px solid darken($error-bg, 10%);
+      outline: 0;
     }
   }
   &.Button-muted {
+    // font-weight: 600;
     &:hover, &:focus {
-      background: darken($muted, 10%);
+      color: darken($semi-muted, 10%);
       border: 1px solid darken($muted, 10%);
+      outline: 0;
     }
   }
   &.Button-secondary {
@@ -214,6 +215,15 @@ textarea {
         color: $error-fg;
         border: 1px solid $error-bg;
       }
+    }
+  }
+  &.Button-warning {
+    background: $warning-bg;
+    color: $warning-fg;
+    border: 1px solid $warning-bg;
+    &:hover, &:focus {
+      background: darken($warning-bg, 10%);
+      border: 1px solid darken($warning-bg, 10%);
     }
   }
 }
@@ -253,20 +263,20 @@ textarea {
     display: inline-block;
   }
   &.Button-danger {
-    background: $error-bg;
-    color: $error-fg;
+    color: $error-bg;
+    background: transparent;
     border: 1px solid $error-bg;
     &:active {
-      background: darken($error-bg, 10%);
+      color: darken($error-bg, 10%);
       border: 1px solid darken($error-bg, 10%);
     }
   }
   &.Button-muted {
-    background: $muted;
-    color: $inverted-fg;
+    color: $semi-muted;
+    background: transparent;
     border: 1px solid $muted;
     &:active {
-      background: darken($muted, 10%);
+      color: darken($semi-muted, 10%);
       border: 1px solid darken($muted, 10%);
     }
   }
@@ -505,7 +515,7 @@ form {
 }
 
 .ScreenModal {
-  top: 50px;
+  top: 20px;
 }
 
 .Modal-main,
@@ -559,10 +569,59 @@ form {
   }
 }
 
+.UnseenBadge {
+  font-size: 10px;
+  // min-width: 18px;
+  height: 18px;
+  line-height: 18px;
+  border-radius: 18px;
+  padding: 0 6px;
+  text-align: center;
+  box-sizing: border-box;
+  // box-shadow: 0 0 0 2px $content-bg;
+}
+
+.UnseenBadge-major {
+  background: $unseen-badge-major;
+  color: $inverted-fg;
+}
+
+.UnseenBadge-minor {
+  background: $unseen-badge-minor;
+  color: $inverted-fg;
+}
+
+.TabNav-tabs {
+  text-align: center;
+  border-bottom: 2px solid $very-muted;
+  .TabNav-tab {
+    min-width: 80px;
+    text-align: center;
+    position: relative;
+    top: 2px;
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 15px;
+    color: $semi-muted;
+    border-bottom: 3px solid transparent;
+    &.TabNav-tab-active {
+      color: $content-fg;
+      border-bottom: 3px solid $link-color;
+    }
+  }
+}
+
+.TabNav-tabs-inner {
+  padding: 0 20px;
+}
+
 @media #{$mobile-query} {
   .Modal,
   .ScreenModal {
     padding: 10px;
+  }
+  .ScreenModal {
+    top: 50px;
   }
   .Modal-main,
   .UserDetailsModal-main,

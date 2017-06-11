@@ -34,7 +34,7 @@ export function handleConversationMessage(
   msg: KgsMessage
 ): AppState {
   let chanId = msg.channelId;
-  if ((msg.type === 'CONVO_JOIN' || msg.type === 'ROOM_JOIN') && chanId) {
+  if ((msg.type === 'CONVO_JOIN' || msg.type === 'ROOM_JOIN' || msg.type === 'CHALLENGE_JOIN') && chanId) {
     let conversationsById: Index<Conversation> = {...prevState.conversationsById};
     let convo = createConversation(msg);
 

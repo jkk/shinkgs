@@ -6,6 +6,7 @@ import {isTouchDevice} from '../util/dom';
 import type {KgsClientState, Preferences, AppActions} from '../model';
 
 type SavedLogin = {
+  username: string | null,
   savePassword: boolean | null,
   password: string | null
 };
@@ -21,12 +22,10 @@ export default class LoginScreen extends Component {
   
   state = {
     logoLoaded: false,
+    username: this.props.preferences.username || '',
     savePassword: false,
     password: ''
   };
-
-  _usernameField: ?HTMLInputElement;
-  _passwordField: ?HTMLInputElement;
 
   componentDidMount() {
     if (document.body) {
@@ -42,6 +41,9 @@ export default class LoginScreen extends Component {
         }
         if (savedLogin.password !== null) {
           nextState.password = savedLogin.password;
+        }
+        if (savedLogin.username) {
+          nextState.username = savedLogin.username;
         }
         if (Object.keys(savedLogin).length) {
           this.setState(nextState);
@@ -59,10 +61,9 @@ export default class LoginScreen extends Component {
   render() {
     let {
       loginError,
-      clientState,
-      preferences
+      clientState
     } = this.props;
-    let {logoLoaded, savePassword, password} = this.state;
+    let {logoLoaded, username, savePassword, password} = this.state;
     let loggingIn = clientState.status === 'loggingIn';
     let publicUrl = process.env.PUBLIC_URL || '';
     let error = loginError;
@@ -106,14 +107,13 @@ export default class LoginScreen extends Component {
                 autoCapitalize='none'
                 spellCheck={false}
                 autoFocus={!isTouchDevice()}
-                defaultValue={preferences.username || ''}
-                ref={ref => this._usernameField = ref} />
+                value={username}
+                onChange={this._onChangeUsername} />
               <input
                 type='password'
                 placeholder='Password'
                 value={password}
-                onChange={this._onChangePassword}
-                ref={ref => this._passwordField = ref} />
+                onChange={this._onChangePassword} />
               <div className='LoginScreen-save-password'>
                 <CheckboxInput
                   label='Save password'
@@ -152,13 +152,11 @@ export default class LoginScreen extends Component {
 
   _onLogin = (event: Event) => {
     event.preventDefault();
-    if (this._usernameField && this._passwordField) {
-      this.props.actions.onLogin(
-        this._usernameField.value,
-        this._passwordField.value
-      );
-      let {savePassword, password} = this.state;
+    let {username, savePassword, password} = this.state;
+    if (username && password) {
+      this.props.actions.onLogin(username, password);
       let savedLogin: SavedLogin = {
+        username,
         savePassword,
         password: savePassword ? password : null
       };
@@ -168,6 +166,10 @@ export default class LoginScreen extends Component {
 
   _onLogoLoad = () => {
     this.setState({logoLoaded: true});
+  }
+
+  _onChangeUsername = (e: Object) => {
+    this.setState({username: e.target.value});
   }
 
   _onChangePassword = (e: Object) => {

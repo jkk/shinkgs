@@ -30,14 +30,14 @@ export default class BoardContainer extends Component {
     if (this._containerRef) {
       // Note: this is tightly coupled to the CSS layout
       let containerWidth = this._containerRef.offsetWidth;
-      let containerHeight = this._containerRef.offsetHeight - 30;
+      let containerHeight = this._containerRef.offsetHeight;
       let boardWidth = Math.min(
         containerWidth,
         containerHeight
       );
-      let marginTop = -20;
+      let marginTop = -35;
       if (containerWidth <= 736 || containerWidth - boardWidth < 180) {
-        boardWidth = Math.min(containerWidth, containerHeight - 30);
+        boardWidth = Math.min(containerWidth, containerHeight - 35);
         marginTop = 0;
       }
       this.setState({boardWidth, marginTop});

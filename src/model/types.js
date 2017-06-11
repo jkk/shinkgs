@@ -146,13 +146,25 @@ export type GameProposalPlayer = {
   name?: string
 };
 
+export type GameProposalStatus = (
+  'setup' |
+  'pending' |
+  'accepted' |
+  'declined'
+);
+
 export type GameProposal = {
   gameType: GameType,
   rules: GameRules,
   nigiri: boolean,
   players: Array<GameProposalPlayer>,
-  private?: boolean
+  private?: boolean,
+  status?: GameProposalStatus
 };
+
+export type ProposalVisibility = 'private' | 'roomOnly' | 'public';
+
+export type ProposalEditMode = 'creating' | 'negotiating' | 'waiting';
 
 // Scores may be a floating point number, or a string. Numbers indicate the
 // score difference (positive a black win, negative a white win).
@@ -309,20 +321,12 @@ export type GameTree = {
   pendingMove?: PendingMove
 };
 
-export type ChallengeStatus = (
-  'viewing' |
-  'waiting' |
-  'accepted' |
-  'declined'
-);
-
 export type GameChannel = {
   id: number,
   type: GameType,
   time: number, // date received
   deletedTime?: number,
   initialProposal?: GameProposal, // for challenge
-  challengeStatus?: ChallengeStatus,
   sentProposal?: GameProposal,
   receivedProposals?: Array<GameProposal>,
   rules?: GameRules, // for non-challenge
@@ -426,7 +430,12 @@ export type KgsClientState = {
 };
 
 export type Preferences = {
-  username?: string
+  username?: string,
+  lastProposal?: {
+    proposal: GameProposal,
+    visibility: ProposalVisibility,
+    notes?: string
+  }
 };
 
 export type AppState = {

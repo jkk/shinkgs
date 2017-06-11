@@ -710,10 +710,11 @@ a.BoardNav-next {
   font-size: 14px;
   border-radius: 4px;
   z-index: 1;
-  width: 300px;
-  margin-left: -150px;
+  width: 290px;
+  margin-left: -145px;
   text-align: center;
   box-shadow: 0 5px 20px rgba($shadow-bg, 0.3);
+  box-sizing: border-box;
 }
 
 .GameUndoPrompt-label {
@@ -967,96 +968,6 @@ a.BoardNav-next {
     right: 0;
     z-index: 4;
   }
-}
-
-.ChallengeEditor {
-  // padding: 20px;
-  background: $off-white;
-  // background: $inverted-bg;
-  // color: $inverted-fg;
-}
-
-.ChallengeEditor-intro {
-  padding: 10px 20px;
-  background: $modal-top-bar-bg;
-  color: $modal-top-bar-fg;
-  margin: 0 0 10px 0;
-  line-height: 1.4;
-  // background: #e8e8e8;
-  // padding: 10px;
-  // margin: 10px 0 0 0;
-}
-
-.ChallengeEditor-proposal-main {
-  padding: 0 10px;
-  background: $content-bg;
-  color: $content-fg;
-  margin: 0 10px 10px 10px;
-  border-radius: 4px;
-}
-
-.ChallengeEditor-buttons {
-  padding: 10px 20px 20px 20px;
-}
-
-.ChallengeEditor-room-name {
-  font-size: 13px;
-  color: $semi-muted;
-  margin: 5px 0 0 0;
-  text-transform: uppercase;
-}
-
-.ChallengeEditor-game-type {
-  margin: 0 0 0 -3px;
-}
-
-.ChallengeEditor-game-type-icon,
-.ChallengeEditor-game-type-name {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 0 5px 0 0;
-  font-size: 14px;
-}
-
-.ChallengeEditor-proposal-table {
-  // margin: 20px 0;
-  border-bottom: 1px solid $very-muted;
-  td, th {
-    border-bottom: 1px solid $very-muted;
-    font-size: 14px;
-    padding: 10px 0;
-    line-height: 1.3;
-  }
-  tr:last-child {
-    td, th {
-      border: none;
-    }
-  }
-  th {
-    text-align: left;
-    padding-left: 5px;
-    font-weight: bold;
-    width: 70px;
-    vertical-align: top;
-  }
-}
-
-.ChallengeEditor-proposal-rules .ChallengeEditor-proposal-table {
-  border: none;
-}
-
-.ChallengeEditor-accepted {
-  padding: 10px;
-  background: $success-bg;
-  color: $success-fg;
-  margin: 20px 0;
-}
-
-.ChallengeEditor-declined {
-  padding: 10px;
-  background: $warning-bg;
-  color: $warning-fg;
-  margin: 20px 0;
 }
 
 .PlayScreen-unfinished-list {

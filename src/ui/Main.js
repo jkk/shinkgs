@@ -30,6 +30,9 @@ export default class Main extends Component {
       nav,
       currentUser,
       conversationsById,
+      channelMembership,
+      gamesById,
+      playChallengeId,
       clientState,
       logoutError,
       userDetailsRequest,
@@ -60,6 +63,7 @@ export default class Main extends Component {
       );
     }
 
+    let activeChallenge = playChallengeId ? gamesById[playChallengeId] : null;
     let offline = clientState.status === 'loggedOut' || clientState.network !== 'online';
     return (
       <div className='Main'>
@@ -73,6 +77,8 @@ export default class Main extends Component {
           nav={nav}
           currentUser={currentUser}
           conversationsById={conversationsById}
+          channelMembership={channelMembership}
+          activeChallenge={activeChallenge}
           onChangeNav={actions.onChangeNav}
           onUserDetail={actions.onUserDetail}
           onLogout={actions.onLogout} />

@@ -697,6 +697,43 @@
   color: $board-mark;
 }
 
+.NigiriIcon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  line-height: 0;
+  text-align: center;
+  transform: rotate(-45deg);
+  border-radius: 50%;
+  box-shadow: -1px 2px 2px rgba(#000, 0.3);
+  .NigiriIcon-black,
+  .NigiriIcon-white {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 50%;
+    overflow: hidden;
+    // clip-path: inset(10px 20px 30px 40px);
+  }
+  .NigiriIcon-black-inner,
+  .NigiriIcon-white-inner {
+    position: relative;
+    height: 200%;
+  }
+  .NigiriIcon-white {
+    top: auto;
+    bottom: 0;
+    transform: rotate(180deg);
+    // clip-path: inset(30px 40px 10px 20px);
+  }
+  .Board-stone:before {
+    box-shadow: none;
+  }
+}
+
 @media only screen and (max-width: 999px) {
   .Board-stone-label,
   .Board-stone-mark-cross,

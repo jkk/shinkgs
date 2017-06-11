@@ -1,6 +1,11 @@
 // @flow
 import {userHasRank, userUnranked} from '../user';
-import type {User, GameProposal, Index} from '../types';
+import type {
+  User,
+  GameProposal,
+  GameRules,
+  Index
+} from '../types';
 
 export const DEFAULT_KOMI = 6.5;
 
@@ -93,9 +98,9 @@ export function proposalsEqual(p1: GameProposal, p2: GameProposal) {
   return true;
 }
 
-export function getStartingProposal(
+export function getEvenProposal(
   initialProposal: GameProposal,
-  currentUser: User,
+  challengerName: string,
   usersByName: Index<User>
 ) {
   let proposal = {...initialProposal};
@@ -112,18 +117,19 @@ export function getStartingProposal(
       newPlayer.name = newPlayer.user.name;
       delete newPlayer.user;
     } else if (!newPlayer.name) {
-      newPlayer.name = currentUser.name;
+      newPlayer.name = challengerName;
       challenging = true;
     }
-    if (newPlayer.name !== currentUser.name) {
+    if (newPlayer.name !== challengerName) {
       otherUser = usersByName[newPlayer.name];
     }
     players.push(newPlayer);
   }
 
   // If sending a challenge, auto-set handicap and komi as appropriate
-  if (challenging && otherUser && currentUser) {
-    let matchupInfo = getMatchupInfo(currentUser, otherUser, proposal.rules.komi);
+  let challenger = usersByName[challengerName];
+  if (challenging && otherUser && challenger) {
+    let matchupInfo = getMatchupInfo(challenger, otherUser, proposal.rules.komi);
     let {handicap, komi, nigiri, white, black, unranked} = matchupInfo;
     proposal.rules = {
       ...proposal.rules,
@@ -148,5 +154,54 @@ export function getStartingProposal(
 
   proposal.players = players;
 
+  if (!proposal.status) {
+    proposal.status = 'setup';
+  }
+
   return proposal;
+}
+
+export function createInitialProposal(
+  currentUser: User,
+  lastProposal?: ?GameProposal
+): GameProposal {
+  let players = [
+    {name: currentUser.name, role: 'white'},
+    {role: 'black'}
+  ];
+  let flags = currentUser.flags;
+  let canPlayRanked = !userUnranked(currentUser) && (
+    !flags || (
+      flags.canPlayRanked !== undefined ? flags.canPlayRanked : true
+    )
+  );
+  let gameType = lastProposal
+    ? lastProposal.gameType
+    : (canPlayRanked ? 'ranked' : 'free');
+  let rules: GameRules = lastProposal ? lastProposal.rules : {
+    komi: DEFAULT_KOMI,
+    size: 19,
+    rules: 'japanese',
+    timeSystem: 'byo_yomi',
+    mainTime: 60 * 20,
+    byoYomiPeriods: 5,
+    byoYomiTime: 30
+  };
+  let proposal = {
+    gameType,
+    players,
+    rules,
+    nigiri: true
+  };
+  return proposal;
+}
+
+export function getOtherPlayerName(proposal: GameProposal, ourName: string) {
+  for (let player of proposal.players) {
+    let name = player.user ? player.user.name : player.name;
+    if (name && name !== ourName) {
+      return name;
+    }
+  }
+  return null;
 }

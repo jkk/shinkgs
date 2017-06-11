@@ -96,6 +96,11 @@ function _handleGameMessage(
       }
     }
 
+    // Created a challenge
+    if (msg.type === 'CHALLENGE_JOIN' && !prevState.playChallengeId) {
+      nextState.playChallengeId = chanId;
+    }
+
     return nextState;
   } else if (msg.type === 'GAME_NOTIFY') {
     let gamesById: Index<GameChannel> = {...prevState.gamesById};
@@ -161,29 +166,67 @@ function _handleGameMessage(
   } else if (msg.type === 'WATCH_GAME') {
     return {...prevState, watchGameId: msg.gameId, userDetailsRequest: null};
   } else if (msg.type === 'PLAY_CHALLENGE') {
-    // TODO - do we need to reset challengeStatus and sentProposal?
     return {...prevState, playChallengeId: msg.challengeId};
   } else if (msg.type === 'CLOSE_CHALLENGE' && chanId) {
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
-    gamesById[chanId] = {...gamesById[chanId], challengeStatus: 'viewing'};
+    let challenge = {...prevState.gamesById[chanId]};
+    delete challenge.sentProposal;
+    delete challenge.receivedProposals;
     return {
       ...prevState,
-      gamesById,
+      gamesById: {
+        ...prevState.gamesById,
+        [chanId]: challenge
+      },
       playChallengeId: null
     };
   } else if (msg.type === 'CHALLENGE_DECLINE' && chanId) {
     let gamesById: Index<GameChannel> = {...prevState.gamesById};
-    gamesById[chanId] = {...gamesById[chanId], challengeStatus: 'declined'};
+    let challenge = {...prevState.gamesById[chanId]};
+    challenge.sentProposal = {
+      ...challenge.sentProposal,
+      status: 'declined'
+    };
+    gamesById[chanId] = challenge;
+    return {
+      ...prevState,
+      gamesById
+    };
+  } else if (msg.type === 'START_CHALLENGE_DECLINE' && chanId) {
+    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    let challenge = {...prevState.gamesById[chanId]};
+    if (challenge.receivedProposals) {
+      challenge.receivedProposals = challenge.receivedProposals.filter(proposal =>
+        !proposal.players.some(p => {
+          let name = p.user ? p.user.name : p.name;
+          return name === msg.name;
+        })
+      );
+    }
+    gamesById[chanId] = challenge;
     return {
       ...prevState,
       gamesById
     };
   } else if (msg.type === 'START_CHALLENGE_SUBMIT' && chanId) {
     let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    let sentProposal = {...msg.proposal, status: 'pending'};
     gamesById[chanId] = {
       ...gamesById[chanId],
-      challengeStatus: 'waiting',
-      sentProposal: msg.proposal
+      sentProposal
+    };
+    return {
+      ...prevState,
+      gamesById
+    };
+  } else if (msg.type === 'CHALLENGE_SUBMIT' && chanId) {
+    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    let receivedProposals = gamesById[chanId].receivedProposals
+      ? [...gamesById[chanId].receivedProposals]
+      : [];
+    receivedProposals.push(msg.proposal);
+    gamesById[chanId] = {
+      ...gamesById[chanId],
+      receivedProposals
     };
     return {
       ...prevState,
@@ -249,6 +292,16 @@ function _handleGameMessage(
       ...gamesById[chanId],
       users: users.filter(name => name !== msg.user.name)
     };
+    let receivedProposals = gamesById[chanId].receivedProposals;
+    if (receivedProposals) {
+      // Remove proposals if this user was a challenger
+      gamesById[chanId].receivedProposals = receivedProposals.filter(proposal =>
+        !proposal.players.some(p =>
+          (p.name && p.name === msg.user.name) ||
+          (p.user && p.user.name === msg.user.name)
+        )
+      );
+    }
     return {...prevState, gamesById};
   } else if (msg.type === 'USER_ADDED' && chanId && prevState.gamesById[chanId]) {
     let gamesById: Index<GameChannel> = {...prevState.gamesById};

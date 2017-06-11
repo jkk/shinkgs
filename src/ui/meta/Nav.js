@@ -1,7 +1,7 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
 import MoreMenu from './MoreMenu';
-import {A, Icon, StonesIcon} from '../common';
+import {A, Icon, StonesIcon, UnseenBadge} from '../common';
 import ChatUnseenBadge from '../chat/ChatUnseenBadge';
 import UserName from '../user/UserName';
 import {isAncestor} from '../../util/dom';
@@ -10,6 +10,8 @@ import type {
   User,
   NavOption,
   Conversation,
+  ChannelMembership,
+  GameChannel,
   Index
 } from '../../model';
 
@@ -19,6 +21,8 @@ export default class Nav extends Component {
     nav: NavOption,
     currentUser: ?User,
     conversationsById: Index<Conversation>,
+    channelMembership: ChannelMembership,
+    activeChallenge: ?GameChannel,
     onChangeNav: NavOption => any,
     onUserDetail: string => any,
     onLogout: Function
@@ -53,6 +57,8 @@ export default class Nav extends Component {
       nav,
       currentUser,
       conversationsById,
+      channelMembership,
+      activeChallenge,
       onLogout,
       onUserDetail
     } = this.props;
@@ -60,6 +66,9 @@ export default class Nav extends Component {
     if (!currentUser) {
       throw new InvariantError('currentUser is required');
     }
+    let challengeConversation = activeChallenge
+      ? conversationsById[activeChallenge.id]
+      : null;
     return (
       <div className='MainNav'>
         <div className='MainNav-inner'>
@@ -82,6 +91,17 @@ export default class Nav extends Component {
                 <div className='MainNav-item-label'>
                   Play
                 </div>
+                {nav === 'play' || !activeChallenge ? null :
+                  <div className='MainNav-item-badge'>
+                    <UnseenBadge
+                      majorCount={activeChallenge.receivedProposals
+                        ? activeChallenge.receivedProposals.length
+                        : 0}
+                      minorCount={
+                        (challengeConversation &&
+                          challengeConversation.unseenCount) ||
+                        0} />
+                  </div>}
               </A>
             </div>
             <div className={'MainNav-item' + (nav === 'chat' ? ' MainNav-item-selected' : '')}>
@@ -95,7 +115,8 @@ export default class Nav extends Component {
                 {nav === 'chat' ? null :
                   <div className='MainNav-item-badge'>
                     <ChatUnseenBadge
-                      conversationsById={conversationsById} />
+                      conversationsById={conversationsById}
+                      channelMembership={channelMembership} />
                   </div>}
               </A>
             </div>
