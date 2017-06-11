@@ -8,6 +8,7 @@ import GameListFilter from './game/GameListFilter';
 import GameScreen from './game/GameScreen';
 import {InvariantError} from '../util/error';
 import {getDefaultRoom} from '../model/room';
+import {isGamePlaying} from '../model/game';
 import type {
   User,
   GameChannel,
@@ -109,7 +110,7 @@ export default class PlayScreen extends Component {
         {activeGame ?
           <div className='PlayScreen-game'>
             <GameScreen
-              playing={!activeGame.over}
+              playing={isGamePlaying(activeGame)}
               game={activeGame}
               usersByName={usersByName}
               roomsById={roomsById}

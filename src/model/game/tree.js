@@ -214,6 +214,16 @@ export function isGameOverNode(game: GameChannel, nodeId: number) {
   );
 }
 
+export function isGamePlaying(game: GameChannel) {
+  return !game.over && (
+    game.type === 'free' ||
+    game.type === 'ranked' ||
+    game.type === 'simul' ||
+    game.type === 'rengo' ||
+    game.type === 'tournament'
+  );
+}
+
 function getGameNodeActions(game: GameChannel, nodeId: number) {
   let actions: Array<string> = [];
   if (!game.tree) {
