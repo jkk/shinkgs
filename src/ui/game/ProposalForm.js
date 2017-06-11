@@ -257,12 +257,19 @@ export default class ProposalForm extends Component {
   }
 
   _onChangeVisibility = (e: Object) => {
+    if (e.target.value === 'private') {
+      this.props.onChangeProposal({...this.props.proposal, gameType: 'free'});
+    }
     this.props.onChangeVisibility(e.target.value);
   }
 
   _onChangeGameType = (e: Object) => {
     let gameType = e.target.value;
-    this.props.onChangeProposal({...this.props.proposal, gameType});  
+    let {visibility, proposal} = this.props;
+    if (gameType === 'ranked' && visibility === 'private') {
+      this.props.onChangeVisibility('public');
+    }
+    this.props.onChangeProposal({...proposal, gameType});
   }
 
   _onChangeNotes = (e: Object) => {
