@@ -68,7 +68,7 @@ export class AppActions {
     for (let msg of msgs) {
       if (msg.type === 'LOGIN_SUCCESS') {
         this.onLoginSuccess();
-      } else if (msg.type === 'CHALLENGE_FINAL') {
+      } else if (msg.type === 'CHALLENGE_FINAL' && msg.channelId) {
         this.onChallengeFinalized(msg.proposal, msg.channelId, msg.gameChannelId);
       } else if (msg.type === 'CHALLENGE_PROPOSAL' && msg.channelId) {
         this.onReceiveChallengeProposal(msg.channelId, msg.proposal);
