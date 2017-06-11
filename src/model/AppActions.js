@@ -69,7 +69,7 @@ export class AppActions {
       if (msg.type === 'LOGIN_SUCCESS') {
         this.onLoginSuccess();
       } else if (msg.type === 'CHALLENGE_FINAL') {
-        this.onChallengeFinalized(msg.proposal);
+        this.onChallengeFinalized(msg.proposal, msg.channelId, msg.gameChannelId);
       } else if (msg.type === 'CHALLENGE_PROPOSAL' && msg.channelId) {
         this.onReceiveChallengeProposal(msg.channelId, msg.proposal);
       } else if (msg.type === 'CHALLENGE_SUBMIT' && msg.channelId) {
@@ -331,7 +331,7 @@ export class AppActions {
     });
   }
 
-  onChallengeFinalized = (proposal: GameProposal) => {
+  onChallengeFinalized = (proposal: GameProposal, challengeId: number, gameId: number) => {
     let state = this._store.getState();
     let currentUser = state.currentUser;
     let name = currentUser && currentUser.name;
@@ -339,6 +339,14 @@ export class AppActions {
     if (!isPlayer) {
       // Challenge accepted by someone else
       this.onChangeNav('watch');
+      let {channelMembership} = state;
+      for (let chanIdStr of Object.keys(channelMembership)) {
+        let chan = channelMembership[chanIdStr];
+        let chanId = parseInt(chanIdStr, 10);
+        if (chan && chan.type === 'game' && chanId !== gameId) {
+          this.onUnjoin(chanId);
+        }
+      }
     }
   }
 
