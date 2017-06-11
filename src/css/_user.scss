@@ -246,6 +246,16 @@
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
+.UserDetailsModal-rank-graph {
+  padding: 20px 0;
+  min-height: 250px;
+}
+
+.UserDetailsModal-no-rank-graph {
+  color: $muted;
+  padding: 0 10px;
+}
+
 @media #{$mobile-query} {
   .UserDetailsModal-info-bullets {
     right: 10px;
