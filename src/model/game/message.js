@@ -5,6 +5,8 @@ import {
 } from './parse';
 import {
   isGameProposalPlayer,
+  isGamePlayer,
+  isGamePlaying,
   computeGameNodeStates,
   getGameLine
 } from './tree';
@@ -372,6 +374,8 @@ export function handleGameMessage(
 ): AppState {
 
   let nextState = _handleGameMessage(prevState, msg);
+  let currentUser = nextState.currentUser;
+  let unfinishedGames;
 
   // If games changed, separate active games from challenges; sort
   if (prevState.gamesById !== nextState.gamesById) {
@@ -383,20 +387,36 @@ export function handleGameMessage(
     let challenges = allGames.filter(g => g.type === 'challenge' && !g.deletedTime);
     sortGames(challenges);
 
+    if (currentUser) {
+      let currentName = currentUser.name;
+      unfinishedGames = activeGames.filter(g =>
+        isGamePlayer(currentName, g.players) &&
+        isGamePlaying(g)
+      ).map(g => ({
+        type: 'channel', game: g
+      }));
+    }
+
     nextState = {...nextState, activeGames, challenges};
   }
 
-  let currentUser = nextState.currentUser;
   if (currentUser) {
     let nextSummaries = nextState.gameSummariesByUser[currentUser.name];
     let prevSummaries = prevState.gameSummariesByUser[currentUser.name];
     if (prevSummaries !== nextSummaries) {
+      unfinishedGames = (unfinishedGames || []).concat(
+        nextSummaries.filter(summary =>
+          summary.score === 'UNFINISHED' && summary.inPlay
+        ).map(summary => ({
+          type: 'summary', game: summary
+        }))
+      );
       nextState = {
         ...nextState,
-        unfinishedGames: nextSummaries.filter(summary =>
-          summary.score === 'UNFINISHED' && summary.inPlay
-        )
+        unfinishedGames
       };
+    } else if (unfinishedGames) {
+      nextState = {...nextState, unfinishedGames};
     }
   }
 

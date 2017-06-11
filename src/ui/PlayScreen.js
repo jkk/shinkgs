@@ -14,6 +14,7 @@ import type {
   GameChannel,
   GameFilter,
   GameSummary,
+  UnfinishedGame,
   Room,
   ChannelMembership,
   Conversation,
@@ -29,7 +30,7 @@ type Props = {
   playChallengeId: ?number,
   playGameId: ?number,
   gamesById: Index<GameChannel>,
-  unfinishedGames: Array<GameSummary>,
+  unfinishedGames: Array<UnfinishedGame>,
   roomsById: Index<Room>,
   channelMembership: ChannelMembership,
   conversationsById: Index<Conversation>,
@@ -133,10 +134,13 @@ export default class PlayScreen extends Component {
                 <div className='PlayScreen-unfinished-heading'>
                   Unfinished Games
                 </div>
+                <GameList
+                  games={unfinishedGames.filter(ug => ug.type === 'channel').map((ug: Object) => ug.game)}
+                  onSelect={this._onSelectGameChannel} />
                 <GameSummaryList
-                  games={unfinishedGames}
+                  games={unfinishedGames.filter(ug => ug.type === 'summary').map((ug: Object) => ug.game)}
                   player={currentUser.name}
-                  onSelect={this._onSelectGame}/>
+                  onSelect={this._onSelectGameSummary}/>
               </div> : null}
             <GameList
               games={challenges}
@@ -163,7 +167,11 @@ export default class PlayScreen extends Component {
     this.setState({creatingChallenge: true});
   }
 
-  _onSelectGame = (game: GameSummary) => {
+  _onSelectGameChannel = (gameId: number) => {
+    this.props.actions.onJoinGame(gameId);
+  }
+
+  _onSelectGameSummary = (game: GameSummary) => {
     if (game.inPlay) {
       this.props.actions.onJoinGame(game.timestamp);
     } else {

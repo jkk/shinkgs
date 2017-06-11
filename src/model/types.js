@@ -438,6 +438,11 @@ export type Preferences = {
   }
 };
 
+// Some unfinished games we get from the archive, some from game lists
+export type UnfinishedGame =
+  {type: 'channel', game: GameChannel} |
+  {type: 'summary', game: GameSummary};
+
 export type AppState = {
   +clientState: KgsClientState,
   +preferences: Preferences,
@@ -453,7 +458,7 @@ export type AppState = {
   +rankGraphsByChannelId: Index<RankGraph>,
   +activeGames: Array<GameChannel>,
   +challenges: Array<GameChannel>,
-  +unfinishedGames: Array<GameSummary>,
+  +unfinishedGames: Array<UnfinishedGame>,
   +watchFilter: GameFilter,
   +watchGameId: ?(number | string),
   +playFilter: GameFilter,
