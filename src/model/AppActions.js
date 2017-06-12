@@ -712,4 +712,12 @@ export class AppActions {
     });
   }
 
+  onShowFeedbackModal = () => {
+    this._store.dispatch({type: 'SHOW_FEEDBACK_MODAL'});
+  }
+
+  onHideFeedbackModal = () => {
+    this._store.dispatch({type: 'HIDE_FEEDBACK_MODAL'});
+  }
+
 }

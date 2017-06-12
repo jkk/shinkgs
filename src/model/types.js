@@ -472,7 +472,8 @@ export type AppState = {
   +nav: NavOption,
   +activeConversationId: ?number,
   +userDetailsRequest: ?UserDetailsRequest,
-  +showUnderConstruction: boolean
+  +showUnderConstruction: boolean,
+  +showFeedbackModal: boolean
 };
 
 export type KgsMessage = (

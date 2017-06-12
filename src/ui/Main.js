@@ -3,6 +3,7 @@ import React, {PureComponent as Component} from 'react';
 import Nav from './meta/Nav';
 import OfflineAlert from './meta/OfflineAlert';
 import UnderConstructionModal from './meta/UnderConstructionModal';
+import FeedbackModal from './meta/FeedbackModal';
 import WatchScreen from './WatchScreen';
 import PlayScreen from './PlayScreen';
 import SearchScreen from './SearchScreen';
@@ -36,7 +37,8 @@ export default class Main extends Component {
       clientState,
       logoutError,
       userDetailsRequest,
-      showUnderConstruction
+      showUnderConstruction,
+      showFeedbackModal
     } = appState;
     let screenProps = {...appState, actions};
 
@@ -79,9 +81,7 @@ export default class Main extends Component {
           conversationsById={conversationsById}
           channelMembership={channelMembership}
           activeChallenge={activeChallenge}
-          onChangeNav={actions.onChangeNav}
-          onUserDetail={actions.onUserDetail}
-          onLogout={actions.onLogout} />
+          actions={actions} />
         <div className={'Main-content Main-' + (offline ? 'offline' : 'online')}>
           {content}
         </div>
@@ -91,6 +91,11 @@ export default class Main extends Component {
         {showUnderConstruction ?
           <UnderConstructionModal
             onClose={actions.onHideUnderConstruction} /> :
+          null}
+        {showFeedbackModal ?
+          <FeedbackModal
+            currentUser={currentUser}
+            onClose={actions.onHideFeedbackModal} /> :
           null}
       </div>
     );

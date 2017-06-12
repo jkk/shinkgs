@@ -114,6 +114,16 @@ export function handleSessionMessage(prevState: AppState, msg: KgsMessage): AppS
       ...prevState,
       showUnderConstruction: false
     };
+  case 'SHOW_FEEDBACK_MODAL':
+    return {
+      ...prevState,
+      showFeedbackModal: true
+    };
+  case 'HIDE_FEEDBACK_MODAL':
+    return {
+      ...prevState,
+      showFeedbackModal: false
+    };
   case 'UPDATE_PREFERENCES':
     return {
       ...prevState,

@@ -6,6 +6,7 @@ import ChatUnseenBadge from '../chat/ChatUnseenBadge';
 import UserName from '../user/UserName';
 import {isAncestor} from '../../util/dom';
 import {InvariantError} from '../../util/error';
+import {AppActions} from '../../model';
 import type {
   User,
   NavOption,
@@ -23,9 +24,7 @@ export default class Nav extends Component {
     conversationsById: Index<Conversation>,
     channelMembership: ChannelMembership,
     activeChallenge: ?GameChannel,
-    onChangeNav: NavOption => any,
-    onUserDetail: string => any,
-    onLogout: Function
+    actions: AppActions
   };
 
   state: {
@@ -59,8 +58,7 @@ export default class Nav extends Component {
       conversationsById,
       channelMembership,
       activeChallenge,
-      onLogout,
-      onUserDetail
+      actions
     } = this.props;
     let {showingMoreMenu} = this.state;
     if (!currentUser) {
@@ -153,20 +151,29 @@ export default class Nav extends Component {
               <div className='MainNav-more-menu'>
                 <MoreMenu
                   currentUser={currentUser}
-                  onLogout={onLogout}
-                  onUserDetail={onUserDetail} />
+                  actions={actions} />
               </div> : null}
+          </div>
+          <div className='MainNav-feedback'>
+            <A button className='MainNav-feedback-button' onClick={actions.onShowFeedbackModal}>
+              <div className='MainNav-feedback-icon'>
+                <Icon name='envelope-o' />
+              </div>
+              <div className='MainNav-feedback-label'>
+                Feedback
+              </div>
+            </A>
           </div>
         </div>
       </div>
     );
   }
 
-  _onNavWatch = () => this.props.onChangeNav('watch');
-  _onNavPlay = () => this.props.onChangeNav('play');
-  _onNavChat = () => this.props.onChangeNav('chat');
-  _onNavSearch = () => this.props.onChangeNav('search');
-  _onNavMore = () => this.props.onChangeNav('more');
+  _onNavWatch = () => this.props.actions.onChangeNav('watch');
+  _onNavPlay = () => this.props.actions.onChangeNav('play');
+  _onNavChat = () => this.props.actions.onChangeNav('chat');
+  _onNavSearch = () => this.props.actions.onChangeNav('search');
+  _onNavMore = () => this.props.actions.onChangeNav('more');
 
   _setMoreEl = (el: HTMLElement) => {
     this._moreEl = el;
