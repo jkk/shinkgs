@@ -11,6 +11,7 @@ export class Button extends Component {
     target?: string,
     secondary?: boolean,
     danger?: boolean,
+    warning?: boolean,
     muted?: boolean,
     small?: boolean,
     icon?: string,
@@ -28,6 +29,7 @@ export class Button extends Component {
       target,
       secondary,
       danger,
+      warning,
       muted,
       small,
       icon,
@@ -44,6 +46,9 @@ export class Button extends Component {
     }
     if (danger) {
       className += ' Button-danger';
+    }
+    if (warning) {
+      className += ' Button-warning';
     }
     if (muted) {
       className += ' Button-muted';

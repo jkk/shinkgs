@@ -5,6 +5,8 @@ import {
 } from './parse';
 import {
   isGameProposalPlayer,
+  isGamePlayer,
+  isGamePlaying,
   computeGameNodeStates,
   getGameLine
 } from './tree';
@@ -96,6 +98,23 @@ function _handleGameMessage(
       }
     }
 
+    // Created a challenge
+    if (msg.type === 'CHALLENGE_JOIN' && !prevState.playChallengeId) {
+      nextState.playChallengeId = chanId;
+    }
+
+    return nextState;
+  } else if (msg.type === 'GAME_REVIEW') {
+    let oldGameId: number = msg.originalId;
+    let newGameId: number = msg.review.channelId;
+    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    let game = parseGameChannel(gamesById[oldGameId], msg.review);
+    gamesById[newGameId] = game;
+    let playGameId = prevState.playGameId === oldGameId ? newGameId : prevState.playGameId;
+    let nextState = {...prevState, gamesById, playGameId};
+    let chanMem: ChannelMembership = {...prevState.channelMembership};
+    chanMem[newGameId] = {type: 'game', complete: false, stale: false};
+    nextState.channelMembership = chanMem;
     return nextState;
   } else if (msg.type === 'GAME_NOTIFY') {
     let gamesById: Index<GameChannel> = {...prevState.gamesById};
@@ -161,29 +180,67 @@ function _handleGameMessage(
   } else if (msg.type === 'WATCH_GAME') {
     return {...prevState, watchGameId: msg.gameId, userDetailsRequest: null};
   } else if (msg.type === 'PLAY_CHALLENGE') {
-    // TODO - do we need to reset challengeStatus and sentProposal?
     return {...prevState, playChallengeId: msg.challengeId};
   } else if (msg.type === 'CLOSE_CHALLENGE' && chanId) {
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
-    gamesById[chanId] = {...gamesById[chanId], challengeStatus: 'viewing'};
+    let challenge = {...prevState.gamesById[chanId]};
+    delete challenge.sentProposal;
+    delete challenge.receivedProposals;
     return {
       ...prevState,
-      gamesById,
+      gamesById: {
+        ...prevState.gamesById,
+        [chanId]: challenge
+      },
       playChallengeId: null
     };
   } else if (msg.type === 'CHALLENGE_DECLINE' && chanId) {
     let gamesById: Index<GameChannel> = {...prevState.gamesById};
-    gamesById[chanId] = {...gamesById[chanId], challengeStatus: 'declined'};
+    let challenge = {...prevState.gamesById[chanId]};
+    challenge.sentProposal = {
+      ...challenge.sentProposal,
+      status: 'declined'
+    };
+    gamesById[chanId] = challenge;
+    return {
+      ...prevState,
+      gamesById
+    };
+  } else if (msg.type === 'START_CHALLENGE_DECLINE' && chanId) {
+    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    let challenge = {...prevState.gamesById[chanId]};
+    if (challenge.receivedProposals) {
+      challenge.receivedProposals = challenge.receivedProposals.filter(proposal =>
+        !proposal.players.some(p => {
+          let name = p.user ? p.user.name : p.name;
+          return name === msg.name;
+        })
+      );
+    }
+    gamesById[chanId] = challenge;
     return {
       ...prevState,
       gamesById
     };
   } else if (msg.type === 'START_CHALLENGE_SUBMIT' && chanId) {
     let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    let sentProposal = {...msg.proposal, status: 'pending'};
     gamesById[chanId] = {
       ...gamesById[chanId],
-      challengeStatus: 'waiting',
-      sentProposal: msg.proposal
+      sentProposal
+    };
+    return {
+      ...prevState,
+      gamesById
+    };
+  } else if (msg.type === 'CHALLENGE_SUBMIT' && chanId) {
+    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    let receivedProposals = gamesById[chanId].receivedProposals
+      ? [...gamesById[chanId].receivedProposals]
+      : [];
+    receivedProposals.push(msg.proposal);
+    gamesById[chanId] = {
+      ...gamesById[chanId],
+      receivedProposals
     };
     return {
       ...prevState,
@@ -249,6 +306,16 @@ function _handleGameMessage(
       ...gamesById[chanId],
       users: users.filter(name => name !== msg.user.name)
     };
+    let receivedProposals = gamesById[chanId].receivedProposals;
+    if (receivedProposals) {
+      // Remove proposals if this user was a challenger
+      gamesById[chanId].receivedProposals = receivedProposals.filter(proposal =>
+        !proposal.players.some(p =>
+          (p.name && p.name === msg.user.name) ||
+          (p.user && p.user.name === msg.user.name)
+        )
+      );
+    }
     return {...prevState, gamesById};
   } else if (msg.type === 'USER_ADDED' && chanId && prevState.gamesById[chanId]) {
     let gamesById: Index<GameChannel> = {...prevState.gamesById};
@@ -307,6 +374,8 @@ export function handleGameMessage(
 ): AppState {
 
   let nextState = _handleGameMessage(prevState, msg);
+  let currentUser = nextState.currentUser;
+  let unfinishedGames;
 
   // If games changed, separate active games from challenges; sort
   if (prevState.gamesById !== nextState.gamesById) {
@@ -318,20 +387,36 @@ export function handleGameMessage(
     let challenges = allGames.filter(g => g.type === 'challenge' && !g.deletedTime);
     sortGames(challenges);
 
+    if (currentUser) {
+      let currentName = currentUser.name;
+      unfinishedGames = activeGames.filter(g =>
+        isGamePlayer(currentName, g.players) &&
+        isGamePlaying(g)
+      ).map(g => ({
+        type: 'channel', game: g
+      }));
+    }
+
     nextState = {...nextState, activeGames, challenges};
   }
 
-  let currentUser = nextState.currentUser;
   if (currentUser) {
     let nextSummaries = nextState.gameSummariesByUser[currentUser.name];
     let prevSummaries = prevState.gameSummariesByUser[currentUser.name];
     if (prevSummaries !== nextSummaries) {
+      unfinishedGames = (unfinishedGames || []).concat(
+        nextSummaries.filter(summary =>
+          summary.score === 'UNFINISHED' && summary.inPlay
+        ).map(summary => ({
+          type: 'summary', game: summary
+        }))
+      );
       nextState = {
         ...nextState,
-        unfinishedGames: nextSummaries.filter(summary =>
-          summary.score === 'UNFINISHED' && summary.inPlay
-        )
+        unfinishedGames
       };
+    } else if (unfinishedGames) {
+      nextState = {...nextState, unfinishedGames};
     }
   }
 

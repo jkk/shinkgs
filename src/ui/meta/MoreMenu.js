@@ -1,30 +1,33 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
 import {A} from '../common';
+import {AppActions} from '../../model';
 import type {User} from '../../model';
 
 export default class MoreMenu extends Component {
 
   props: {
     currentUser: ?User,
-    onLogout: Function,
-    onUserDetail: string => any
+    actions: AppActions
   };
 
   render() {
-    let {onLogout} = this.props;
+    let {actions} = this.props;
     return (
       <div className='MoreMenu'>
         <A className='MoreMenu-item' onClick={this._onViewProfile}>
           View Profile
         </A>
-        <A className='MoreMenu-item' onClick={onLogout}>Log out</A>
+        <A className='MoreMenu-item' onClick={actions.onLogout}>Log out</A>
 
         <div className='MoreMenu-about'>
           <div className='MoreMenu-about-title'>
             Shin KGS
           </div>
           <div className='MoreMenu-about-links'>
+            <A className='MoreMenu-item' onClick={this._onFeedback}>
+              Send Feedback
+            </A>
             <a className='MoreMenu-item' href='https://twitter.com/jkkramer' target='_blank' rel='noopener'>
               By @jkkramer
             </a>
@@ -42,7 +45,11 @@ export default class MoreMenu extends Component {
 
   _onViewProfile = () => {
     if (this.props.currentUser) {
-      this.props.onUserDetail(this.props.currentUser.name);
+      this.props.actions.onUserDetail(this.props.currentUser.name);
     }
+  }
+
+  _onFeedback = () => {
+    this.props.actions.onShowFeedbackModal();
   }
 }

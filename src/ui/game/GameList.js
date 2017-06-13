@@ -91,8 +91,8 @@ export default class GameList extends Component {
 
   props: {
     games: Array<GameChannel>,
-    filter: GameFilter,
-    roomsById: Index<Room>,
+    filter?: GameFilter,
+    roomsById?: Index<Room>,
     onSelect: number => any
   };
 
@@ -110,10 +110,10 @@ export default class GameList extends Component {
   }
 
   render() {
-    let {games, filter, roomsById, onSelect} = this.props;
+    const {games, filter, roomsById, onSelect} = this.props;
     let {fullRender} = this.state;
     let displayGames;
-    if (Object.keys(filter).length) {
+    if (filter && Object.keys(filter).length) {
       displayGames = games.filter(game => {
         if (filter.roomId && game.roomId !== filter.roomId) {
           return false;
@@ -141,7 +141,7 @@ export default class GameList extends Component {
             <GameListItem
               key={game.id}
               game={game}
-              room={roomsById[game.roomId]}
+              room={roomsById ? roomsById[game.roomId] : null}
               onSelect={onSelect} />
           ) :
           <div className='GameList-empty'>

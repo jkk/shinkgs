@@ -3,6 +3,7 @@ import React, {PureComponent as Component} from 'react';
 import Nav from './meta/Nav';
 import OfflineAlert from './meta/OfflineAlert';
 import UnderConstructionModal from './meta/UnderConstructionModal';
+import FeedbackModal from './meta/FeedbackModal';
 import WatchScreen from './WatchScreen';
 import PlayScreen from './PlayScreen';
 import SearchScreen from './SearchScreen';
@@ -30,10 +31,14 @@ export default class Main extends Component {
       nav,
       currentUser,
       conversationsById,
+      channelMembership,
+      gamesById,
+      playChallengeId,
       clientState,
       logoutError,
       userDetailsRequest,
-      showUnderConstruction
+      showUnderConstruction,
+      showFeedbackModal
     } = appState;
     let screenProps = {...appState, actions};
 
@@ -60,6 +65,7 @@ export default class Main extends Component {
       );
     }
 
+    let activeChallenge = playChallengeId ? gamesById[playChallengeId] : null;
     let offline = clientState.status === 'loggedOut' || clientState.network !== 'online';
     return (
       <div className='Main'>
@@ -73,9 +79,9 @@ export default class Main extends Component {
           nav={nav}
           currentUser={currentUser}
           conversationsById={conversationsById}
-          onChangeNav={actions.onChangeNav}
-          onUserDetail={actions.onUserDetail}
-          onLogout={actions.onLogout} />
+          channelMembership={channelMembership}
+          activeChallenge={activeChallenge}
+          actions={actions} />
         <div className={'Main-content Main-' + (offline ? 'offline' : 'online')}>
           {content}
         </div>
@@ -85,6 +91,11 @@ export default class Main extends Component {
         {showUnderConstruction ?
           <UnderConstructionModal
             onClose={actions.onHideUnderConstruction} /> :
+          null}
+        {showFeedbackModal ?
+          <FeedbackModal
+            currentUser={currentUser}
+            onClose={actions.onHideFeedbackModal} /> :
           null}
       </div>
     );

@@ -4,11 +4,13 @@ import {KgsClient} from './KgsClient';
 import {tempId, isTempId} from './tempId';
 import {prepareSavedAppState} from './appState';
 import {isGamePlayer, isGameProposalPlayer, proposalsEqual} from './game';
+import {SOUNDS} from '../sound';
 import type {
   GameChannel,
   GameFilter,
   GameProposal,
   GameRole,
+  ProposalVisibility,
   NavOption,
   KgsMessage,
   User,
@@ -66,10 +68,14 @@ export class AppActions {
     for (let msg of msgs) {
       if (msg.type === 'LOGIN_SUCCESS') {
         this.onLoginSuccess();
-      } else if (msg.type === 'CHALLENGE_FINAL') {
-        this.onChallengeFinalized(msg.proposal);
+      } else if (msg.type === 'CHALLENGE_FINAL' && msg.channelId) {
+        this.onChallengeFinalized(msg.proposal, msg.channelId, msg.gameChannelId);
       } else if (msg.type === 'CHALLENGE_PROPOSAL' && msg.channelId) {
         this.onReceiveChallengeProposal(msg.channelId, msg.proposal);
+      } else if (msg.type === 'CHALLENGE_SUBMIT' && msg.channelId) {
+        this.onReceiveChallengeSubmit(msg.channelId, msg.proposal);
+      } else if (msg.type === 'CHAT' && msg.channelId && msg.user) {
+        this.onReceiveDirectMessage(msg.channelId);
       } else if (msg.type === 'ARCHIVE_JOIN' && msg.channelId) {
         this.onArchiveJoinSuccess(msg.channelId, msg.user);
       } else if (msg.type === 'GLOBAL_GAMES_JOIN' || msg.type === 'GAME_LIST') {
@@ -280,7 +286,52 @@ export class AppActions {
     });
   }
 
-  onChallengeFinalized = (proposal: GameProposal) => {
+  onCreateChallenge = (proposal: GameProposal, roomId: number, visibility: ProposalVisibility, notes?: string) => {
+    this._store.dispatch({
+      type: 'UPDATE_PREFERENCES',
+      preferences: {
+        lastProposal: {proposal, visibility, notes}
+      }
+    });
+    let finalProposal = {...proposal, private: visibility === 'private'};
+    this._client.sendMessage({
+      type: 'CHALLENGE_CREATE',
+      proposal: finalProposal,
+      channelId: roomId,
+      text: notes,
+      global: visibility === 'public',
+      callbackKey: 12345 // Note - we don't use this
+    });
+  }
+
+  onAcceptChallengeProposal = (challengeId: number, proposal: GameProposal) => {
+    // Users must be name-only
+    let normProposal = {...proposal, players: proposal.players.map(p => {
+      p = {...p, name: p.user ? p.user.name : p.name};
+      delete p.user;
+      return p;
+    })};
+    this._client.sendMessage({
+      type: 'CHALLENGE_PROPOSAL',
+      channelId: challengeId,
+      ...normProposal
+    });
+  }
+
+  onDeclineChallengeProposal = (challengeId: number, name: string) => {
+    this._store.dispatch({
+      type: 'START_CHALLENGE_DECLINE',
+      channelId: challengeId,
+      name
+    });
+    this._client.sendMessage({
+      type: 'CHALLENGE_DECLINE',
+      name,
+      channelId: challengeId
+    });
+  }
+
+  onChallengeFinalized = (proposal: GameProposal, challengeId: number, gameId: number) => {
     let state = this._store.getState();
     let currentUser = state.currentUser;
     let name = currentUser && currentUser.name;
@@ -288,16 +339,25 @@ export class AppActions {
     if (!isPlayer) {
       // Challenge accepted by someone else
       this.onChangeNav('watch');
+      let {channelMembership} = state;
+      for (let chanIdStr of Object.keys(channelMembership)) {
+        let chan = channelMembership[chanIdStr];
+        let chanId = parseInt(chanIdStr, 10);
+        if (chan && chan.type === 'game' && chanId !== gameId) {
+          this.onUnjoin(chanId);
+        }
+      }
     }
   }
 
   onReceiveChallengeProposal = (challengeId: number, proposal: GameProposal) => {
+    if (!proposal) {
+      this.onCloseChallenge(challengeId);
+    }
     let state = this._store.getState();
     let challenge = state.gamesById[challengeId];
     let sentProposal = challenge.sentProposal;
-    if (!sentProposal || !proposal) {
-      this.onCloseChallenge(challengeId);
-    } else {
+    if (sentProposal) {
       let acceptable = proposalsEqual(sentProposal, proposal);
       if (acceptable) {
         this._client.sendMessage({
@@ -306,9 +366,28 @@ export class AppActions {
           ...sentProposal
         });
       } else {
-        // FIXME - reset challenge, show to current user for review
+        // TODO - reset challenge, show to current user for review
+        // console.log('TODO - received counter proposal', {challengeId, proposal});
         this.onCloseChallenge(challengeId);
       }
+    } else {
+      // TODO - received a revised proposal when we didn't submit a challenge.
+      // Is there anything for us to do here?
+    }
+  }
+
+  onReceiveChallengeSubmit = (challengeId: number) => {
+    let {playChallengeId} = this._store.getState();
+    if (playChallengeId === challengeId) {
+      // Received a challenge proposal submission
+      SOUNDS.CHALLENGE_PROPOSAL_RECEIVED.play();
+    }
+  }
+
+  onReceiveDirectMessage = (channelId: number) => {
+    let {conversationsById} = this._store.getState();
+    if (conversationsById[channelId] && conversationsById[channelId].user) {
+      SOUNDS.DIRECT_MESSAGE_RECEIVED.play();
     }
   }
 
@@ -610,6 +689,16 @@ export class AppActions {
       rankWanted: details.rankWanted,
       authLevel: user.authLevel || 'normal'
     });
+    // Force a refresh, since changing rankWanted doesn't get reflected in
+    // DETAILS_UPDATE response
+    this.onUnjoin(details.channelId);
+    setTimeout(() => {
+      // If we do it right away it doesn't always work
+      this._client.sendMessage({
+        type: 'DETAILS_JOIN_REQUEST',
+        name: user.name
+      });
+    }, 200);
   }
 
   onUpdatePassword = (user: User, newPassword: string) => {
@@ -621,6 +710,14 @@ export class AppActions {
       user: user.name,
       password: newPassword
     });
+  }
+
+  onShowFeedbackModal = () => {
+    this._store.dispatch({type: 'SHOW_FEEDBACK_MODAL'});
+  }
+
+  onHideFeedbackModal = () => {
+    this._store.dispatch({type: 'HIDE_FEEDBACK_MODAL'});
   }
 
 }

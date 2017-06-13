@@ -8,5 +8,7 @@ export * from './ScreenModal';
 export * from './RichContent';
 export * from './SelectInput';
 export * from './CheckboxInput';
+export * from './TabNav';
+export * from './UnseenBadge';
 export * from './Spinner';
 export * from './StonesIcon';

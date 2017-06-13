@@ -6,13 +6,14 @@ export class A extends Component {
   props: {
     href?: string,
     button?: boolean,
+    disabled?: boolean,
     onClick?: (e: Event) => void | Promise<any>,
     className?: string,
     children?: any
   };
 
   render() {
-    let {href, button, className, children} = this.props;
+    let {href, button, disabled, className, children} = this.props;
     return href || !button ? (
       <a
         className={className}
@@ -23,6 +24,7 @@ export class A extends Component {
     ) : (
       <button
         className={className}
+        disabled={disabled}
         onClick={this._onClick}>
         {children}
       </button>

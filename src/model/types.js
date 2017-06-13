@@ -146,13 +146,25 @@ export type GameProposalPlayer = {
   name?: string
 };
 
+export type GameProposalStatus = (
+  'setup' |
+  'pending' |
+  'accepted' |
+  'declined'
+);
+
 export type GameProposal = {
   gameType: GameType,
   rules: GameRules,
   nigiri: boolean,
   players: Array<GameProposalPlayer>,
-  private?: boolean
+  private?: boolean,
+  status?: GameProposalStatus
 };
+
+export type ProposalVisibility = 'private' | 'roomOnly' | 'public';
+
+export type ProposalEditMode = 'creating' | 'negotiating' | 'waiting';
 
 // Scores may be a floating point number, or a string. Numbers indicate the
 // score difference (positive a black win, negative a white win).
@@ -309,20 +321,12 @@ export type GameTree = {
   pendingMove?: PendingMove
 };
 
-export type ChallengeStatus = (
-  'viewing' |
-  'waiting' |
-  'accepted' |
-  'declined'
-);
-
 export type GameChannel = {
   id: number,
   type: GameType,
   time: number, // date received
   deletedTime?: number,
   initialProposal?: GameProposal, // for challenge
-  challengeStatus?: ChallengeStatus,
   sentProposal?: GameProposal,
   receivedProposals?: Array<GameProposal>,
   rules?: GameRules, // for non-challenge
@@ -426,8 +430,18 @@ export type KgsClientState = {
 };
 
 export type Preferences = {
-  username?: string
+  username?: string,
+  lastProposal?: {
+    proposal: GameProposal,
+    visibility: ProposalVisibility,
+    notes?: string
+  }
 };
+
+// Some unfinished games we get from the archive, some from game lists
+export type UnfinishedGame =
+  {type: 'channel', game: GameChannel} |
+  {type: 'summary', game: GameSummary};
 
 export type AppState = {
   +clientState: KgsClientState,
@@ -444,7 +458,7 @@ export type AppState = {
   +rankGraphsByChannelId: Index<RankGraph>,
   +activeGames: Array<GameChannel>,
   +challenges: Array<GameChannel>,
-  +unfinishedGames: Array<GameSummary>,
+  +unfinishedGames: Array<UnfinishedGame>,
   +watchFilter: GameFilter,
   +watchGameId: ?(number | string),
   +playFilter: GameFilter,
@@ -458,7 +472,8 @@ export type AppState = {
   +nav: NavOption,
   +activeConversationId: ?number,
   +userDetailsRequest: ?UserDetailsRequest,
-  +showUnderConstruction: boolean
+  +showUnderConstruction: boolean,
+  +showFeedbackModal: boolean
 };
 
 export type KgsMessage = (

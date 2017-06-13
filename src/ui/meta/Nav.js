@@ -1,15 +1,18 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
 import MoreMenu from './MoreMenu';
-import {A, Icon, StonesIcon} from '../common';
+import {A, Icon, StonesIcon, UnseenBadge} from '../common';
 import ChatUnseenBadge from '../chat/ChatUnseenBadge';
 import UserName from '../user/UserName';
 import {isAncestor} from '../../util/dom';
 import {InvariantError} from '../../util/error';
+import {AppActions} from '../../model';
 import type {
   User,
   NavOption,
   Conversation,
+  ChannelMembership,
+  GameChannel,
   Index
 } from '../../model';
 
@@ -19,9 +22,9 @@ export default class Nav extends Component {
     nav: NavOption,
     currentUser: ?User,
     conversationsById: Index<Conversation>,
-    onChangeNav: NavOption => any,
-    onUserDetail: string => any,
-    onLogout: Function
+    channelMembership: ChannelMembership,
+    activeChallenge: ?GameChannel,
+    actions: AppActions
   };
 
   state: {
@@ -53,13 +56,17 @@ export default class Nav extends Component {
       nav,
       currentUser,
       conversationsById,
-      onLogout,
-      onUserDetail
+      channelMembership,
+      activeChallenge,
+      actions
     } = this.props;
     let {showingMoreMenu} = this.state;
     if (!currentUser) {
       throw new InvariantError('currentUser is required');
     }
+    let challengeConversation = activeChallenge
+      ? conversationsById[activeChallenge.id]
+      : null;
     return (
       <div className='MainNav'>
         <div className='MainNav-inner'>
@@ -82,6 +89,17 @@ export default class Nav extends Component {
                 <div className='MainNav-item-label'>
                   Play
                 </div>
+                {nav === 'play' || !activeChallenge ? null :
+                  <div className='MainNav-item-badge'>
+                    <UnseenBadge
+                      majorCount={activeChallenge.receivedProposals
+                        ? activeChallenge.receivedProposals.length
+                        : 0}
+                      minorCount={
+                        (challengeConversation &&
+                          challengeConversation.unseenCount) ||
+                        0} />
+                  </div>}
               </A>
             </div>
             <div className={'MainNav-item' + (nav === 'chat' ? ' MainNav-item-selected' : '')}>
@@ -95,7 +113,8 @@ export default class Nav extends Component {
                 {nav === 'chat' ? null :
                   <div className='MainNav-item-badge'>
                     <ChatUnseenBadge
-                      conversationsById={conversationsById} />
+                      conversationsById={conversationsById}
+                      channelMembership={channelMembership} />
                   </div>}
               </A>
             </div>
@@ -132,20 +151,29 @@ export default class Nav extends Component {
               <div className='MainNav-more-menu'>
                 <MoreMenu
                   currentUser={currentUser}
-                  onLogout={onLogout}
-                  onUserDetail={onUserDetail} />
+                  actions={actions} />
               </div> : null}
+          </div>
+          <div className='MainNav-feedback'>
+            <A button className='MainNav-feedback-button' onClick={actions.onShowFeedbackModal}>
+              <div className='MainNav-feedback-icon'>
+                <Icon name='envelope-o' />
+              </div>
+              <div className='MainNav-feedback-label'>
+                Feedback
+              </div>
+            </A>
           </div>
         </div>
       </div>
     );
   }
 
-  _onNavWatch = () => this.props.onChangeNav('watch');
-  _onNavPlay = () => this.props.onChangeNav('play');
-  _onNavChat = () => this.props.onChangeNav('chat');
-  _onNavSearch = () => this.props.onChangeNav('search');
-  _onNavMore = () => this.props.onChangeNav('more');
+  _onNavWatch = () => this.props.actions.onChangeNav('watch');
+  _onNavPlay = () => this.props.actions.onChangeNav('play');
+  _onNavChat = () => this.props.actions.onChangeNav('chat');
+  _onNavSearch = () => this.props.actions.onChangeNav('search');
+  _onNavMore = () => this.props.actions.onChangeNav('more');
 
   _setMoreEl = (el: HTMLElement) => {
     this._moreEl = el;

@@ -39,8 +39,7 @@ export default class MoreScreen extends Component {
         </div>
         <MoreMenu
           currentUser={currentUser}
-          onLogout={actions.onLogout}
-          onUserDetail={this._onShowProfile} />
+          actions={actions} />
       </div>
     );
   }
