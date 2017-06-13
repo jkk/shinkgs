@@ -6,6 +6,7 @@ import {isAncestor} from '../../util/dom';
 import type {GameChannel, AppActions, Index, Room} from '../../model';
 import GameInfo from './GameInfo';
 import {Modal} from '../common';
+import {formatLocaleDateTime} from '../../util/date';
 
 export default class GameMoreMenu extends Component {
 
@@ -44,6 +45,9 @@ export default class GameMoreMenu extends Component {
     let sgfUrl = game.summary ? getKgsSgfUrl(game.summary) : '#';
     let eidogoUrl = 'http://eidogo.com/#url:' + sgfUrl;
     let gokibitzUrl = 'https://gokibitz.com/fetch#' + sgfUrl;
+    let place = game.tree ?
+      game.tree.nodes[0].props.find(prop => prop.name === 'PLACE'):
+      undefined;
 
     let gameInfo = (
       <GameInfo game={game} roomsById={roomsById}>
@@ -59,8 +63,14 @@ export default class GameMoreMenu extends Component {
         </tr>
         <tr>
           <th>Time</th>
-          <td>{new Date(game.time).toString()}</td>
+          <td>{formatLocaleDateTime(new Date(game.time))}</td>
         </tr>
+        {place ?
+          <tr>
+            <th>Place</th>
+            <td>{place.text}</td>
+          </tr>
+        : null}
         {game.over ?
           <tr>
             <th>Result</th>
