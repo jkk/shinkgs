@@ -1,12 +1,31 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
+import type { Element } from 'react';
 import {A, Icon} from '../common';
-import {getKgsSgfUrl} from '../../model/game';
+import {getKgsSgfUrl, formatGameScore} from '../../model/game';
 import {isAncestor} from '../../util/dom';
-import type {GameChannel, AppActions, Index, Room} from '../../model';
+import type {
+  GameChannel,
+  AppActions,
+  Index, Room,
+  GameNode,
+  SgfProp
+} from '../../model';
 import GameInfo from './GameInfo';
 import {Modal} from '../common';
 import {formatLocaleDateTime} from '../../util/date';
+
+const MORE_INFO_PROPS: { [string]: string } = {
+  ANNOTATOR: 'Annotator',
+  COPYRIGHT: 'Copyright',
+  EVENT: 'Event',
+  GAMENAME: 'Game Name',
+  PLACE: 'Place',
+  PLAYERTEAM: 'Player Team',
+  ROUND: 'Round',
+  SOURCE: 'Source',
+  TRANSCRIBER: 'Transcriber',
+};
 
 export default class GameMoreMenu extends Component {
 
@@ -45,38 +64,31 @@ export default class GameMoreMenu extends Component {
     let sgfUrl = game.summary ? getKgsSgfUrl(game.summary) : '#';
     let eidogoUrl = 'http://eidogo.com/#url:' + sgfUrl;
     let gokibitzUrl = 'https://gokibitz.com/fetch#' + sgfUrl;
-    let place = game.tree ?
-      game.tree.nodes[0].props.find(prop => prop.name === 'PLACE'):
-      undefined;
+    let moreInfoRows = game.tree && this._generateMoreInfo(game.tree.nodes[0]);
 
     let gameInfo = (
       <GameInfo game={game} roomsById={roomsById}>
         {game.rules ?
-          <tr>
+          <tr key='size'>
             <th>Size</th>
             <td>{`${game.rules.size} x ${game.rules.size}`}</td>
           </tr>
         : null}
         <tr>
-          <th>ID</th>
+          <th key='gameid'>ID</th>
           <td>{game.id}</td>
         </tr>
         <tr>
           <th>Time</th>
           <td>{formatLocaleDateTime(new Date(game.time))}</td>
         </tr>
-        {place ?
-          <tr>
-            <th>Place</th>
-            <td>{place.text}</td>
-          </tr>
-        : null}
-        {game.over ?
-          <tr>
+        {game.over && game.score ?
+          <tr key='gameover'>
             <th>Result</th>
-            <td>{game.score}</td>
+            <td>{formatGameScore(game.score)}</td>
           </tr>
         : null}
+        {moreInfoRows}
       </GameInfo>
     );
 
@@ -118,6 +130,23 @@ export default class GameMoreMenu extends Component {
 
   _setMoreEl = (ref: HTMLElement) => {
     this._moreEl = ref;
+  }
+
+  _generateMoreInfo(rootNode: GameNode): Element<any>[] {
+    let infoProps = rootNode.props.filter(prop => prop.name in MORE_INFO_PROPS);
+
+    let rows = infoProps.map((prop: SgfProp) => {
+      let color = prop.color ? `${prop.color} ` : '';
+      let propName = MORE_INFO_PROPS[prop.name];
+      return (
+        <tr key={prop.name.toLowerCase()}>
+          <th>{color}{propName}</th>
+          <td>{prop.text}</td>
+        </tr>
+      );
+    });
+
+    return rows;
   }
 
   _onToggleDropdown = () => {
