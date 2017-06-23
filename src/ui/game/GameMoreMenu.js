@@ -21,7 +21,7 @@ const MORE_INFO_PROPS: { [string]: string } = {
   EVENT: 'Event',
   GAMENAME: 'Game Name',
   PLACE: 'Place',
-  PLAYERTEAM: 'Player Team',
+  PLAYERTEAM: 'Team',
   ROUND: 'Round',
   SOURCE: 'Source',
   TRANSCRIBER: 'Transcriber',
@@ -134,12 +134,13 @@ export default class GameMoreMenu extends Component {
 
   _generateMoreInfo(rootNode: GameNode): Element<any>[] {
     let infoProps = rootNode.props.filter(prop => prop.name in MORE_INFO_PROPS);
+    console.log(infoProps);
 
     let rows = infoProps.map((prop: SgfProp) => {
-      let color = prop.color ? `${prop.color} ` : '';
+      let color = prop.color ? `${prop.color[0].toUpperCase()} ` : '';
       let propName = MORE_INFO_PROPS[prop.name];
       return (
-        <tr key={prop.name.toLowerCase()}>
+        <tr key={`${color}${prop.name.toLowerCase()}`}>
           <th>{color}{propName}</th>
           <td>{prop.text}</td>
         </tr>
