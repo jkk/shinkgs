@@ -22,8 +22,8 @@ Available at https://shin.gokgs.com/
 - [x] User chat (direct messaging)
 - [x] View and edit user details
 - [x] Submit challenge proposal (no negotiating)
-- [ ] Create challenge
-- [ ] Negotiate challenge
+- [x] Create challenge
+- [x] Negotiate challenge
 - [ ] Automatch
 - [x] Basic game playing
 - [ ] Full-featured game playing (fine-tuned UI, rengo, simul)
