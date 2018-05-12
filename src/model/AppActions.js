@@ -685,7 +685,7 @@ export class AppActions {
       personalEmail: details.email,
       personalInfo: details.personalInfo,
       emailWanted: details.emailWanted,
-      emailPrivate: details.privateEmail,
+      privateEmail: details.privateEmail,
       rankWanted: details.rankWanted,
       authLevel: user.authLevel || 'normal'
     });
