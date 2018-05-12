@@ -24,6 +24,10 @@ class ChatMessageItem extends Component {
 
   render() {
     let {currentUser, message, sender} = this.props;
+    // TODO - for some reason this is null sometimes
+    if (!sender) {
+      sender = '[Unknown]';
+    }
     let className = 'ChatMessages-item' + (
       (message.announcement ? ' ChatMessages-item-announcement' : '') +
       (currentUser.name === (typeof sender === 'string' ? sender : sender.name) ? ' ChatMessages-item-self' : '')
