@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "devDependencies": {
     "flow-bin": "0.44.0",
-    "node-sass": "4.5.2",
+    "node-sass": "4.9.0",
     "react-scripts": "0.9.0"
   },
   "dependencies": {
