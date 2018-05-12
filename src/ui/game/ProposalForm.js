@@ -457,10 +457,12 @@ export default class ProposalForm extends Component {
     let {proposal} = this.props;
     let oldByoYomi = proposal.rules.byoYomiTime || 0;
     let byoYomiTime;
-    if (oldByoYomi <= 60) {
-      byoYomiTime = Math.max(10, oldByoYomi - 10);
+    if (oldByoYomi <= 20) {
+      byoYomiTime = Math.max(5, oldByoYomi - 5);
+    } else if (oldByoYomi <= 60) {
+      byoYomiTime = Math.max(5, oldByoYomi - 10);
     } else {
-      byoYomiTime = Math.max(10, oldByoYomi - 60);
+      byoYomiTime = Math.max(5, oldByoYomi - 60);
     }
     this.props.onChangeProposal(
       {...proposal, rules: {...proposal.rules, byoYomiTime}}
@@ -473,8 +475,10 @@ export default class ProposalForm extends Component {
     let byoYomiTime;
     if (oldByoYomi >= 60) {
       byoYomiTime = oldByoYomi + 60;
-    } else {
+    } else if (byoYomiTime >= 20) {
       byoYomiTime = oldByoYomi + 10;
+    } else {
+      byoYomiTime = oldByoYomi + 5;
     }
     this.props.onChangeProposal(
       {...proposal, rules: {...proposal.rules, byoYomiTime}}
