@@ -39,6 +39,8 @@ Contributions welcome. Please check the [Version 1 Milestone](https://github.com
 
 Issues with the ["difficulty: starter"](https://github.com/jkk/shinkgs/issues?q=is%3Aopen+is%3Aissue+label%3A%22difficulty%3A+starter%22) label are good tasks to get started on. Reach out if you need any guidance!
 
+Discord chat group for anyone interested in helping: https://discord.gg/vwzxdVr
+
 ## Code Overview
 
 This project uses JavaScript, React, and ES6+ with [Flow](https://flow.org/) types. [VS Code](https://code.visualstudio.com/) (with eslint and flow extensions added) is a great editor for this setup.
