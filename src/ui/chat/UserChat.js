@@ -20,6 +20,7 @@ export default class UserChat extends Component {
     usersByName: Index<User>,
     onUserDetail: string => any,
     onSendChat: string => any,
+    onDraftChat: string => any,
     setMessagesDivRef: HTMLElement => any,
     setMessageInputRef: HTMLElement => any
   };
@@ -32,6 +33,7 @@ export default class UserChat extends Component {
       usersByName,
       onUserDetail,
       onSendChat,
+      onDraftChat,
       setMessagesDivRef,
       setMessageInputRef
     } = this.props;
@@ -68,6 +70,7 @@ export default class UserChat extends Component {
         <div className='UserChat-message-bar' ref={setMessageInputRef}>
           <ChatMessageBar
             conversation={conversation}
+            onDraft={onDraftChat}
             onSubmit={onSendChat} />
         </div>
       </div>

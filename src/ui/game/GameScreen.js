@@ -245,9 +245,11 @@ export default class GameScreen extends Component {
                   id: 0,
                   messages: [],
                   status: 'created',
+                  draft: '',
                   chatsDisabled: !game.tree
                 }}
-                onSubmit={this._onChat} />
+                onSubmit={this._onChat}
+              />
             </div>
           </div>
         </div>

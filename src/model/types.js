@@ -97,6 +97,7 @@ export type Conversation = {
   lastSeen?: number,
   unseenCount?: number,
   chatsDisabled?: boolean,
+  draft: string,
   messages: Array<ConversationMessage>,
   callbackKey?: ?number,
   status: 'pending' | 'created' | 'userNotFound' | 'closed'
