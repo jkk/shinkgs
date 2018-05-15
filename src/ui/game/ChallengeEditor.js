@@ -42,7 +42,8 @@ type State = {
   visibility: ProposalVisibility,
   notes: string,
   selectedProposalIndex: number,
-  activeTab: string
+  activeTab: string,
+  roomId: number
 };
 
 export default class ChallengeEditor extends Component {
@@ -55,7 +56,8 @@ export default class ChallengeEditor extends Component {
       challenge,
       currentUser,
       usersByName,
-      preferences
+      preferences,
+      initialRoomId
     } = props;
     let proposal;
     let visibility;
@@ -80,6 +82,7 @@ export default class ChallengeEditor extends Component {
       }
       visibility = proposal.private ? 'private' : (challenge.global ? 'public' : 'roomOnly');
       notes = challenge.name || '';
+      initialRoomId = challenge.roomId;
     } else {
       let lastProposal = preferences.lastProposal;
       proposal = createInitialProposal(currentUser, lastProposal ? lastProposal.proposal : null);
@@ -92,7 +95,8 @@ export default class ChallengeEditor extends Component {
       visibility,
       notes,
       selectedProposalIndex: 0,
-      activeTab: 'proposal'
+      activeTab: 'proposal',
+      roomId: initialRoomId
     };
   }
 
@@ -131,7 +135,6 @@ export default class ChallengeEditor extends Component {
     let {
       currentUser,
       challenge,
-      initialRoomId,
       usersByName,
       roomsById,
       conversation,
@@ -144,13 +147,13 @@ export default class ChallengeEditor extends Component {
       visibility,
       notes,
       selectedProposalIndex,
-      activeTab
+      activeTab,
+      roomId
     } = this.state;
     // let sentProposal = challenge && challenge.sentProposal;
     let creator = challenge ? challenge.players.challengeCreator : currentUser;
     let isCreator = creator && creator.name === currentUser.name;
     let {status} = proposal;
-    let roomId = challenge ? challenge.roomId : initialRoomId;
     let room = roomId && roomsById[roomId];
 
     if (!room) {
@@ -360,14 +363,13 @@ export default class ChallengeEditor extends Component {
   }
 
   _onCreateChallenge = () => {
-    let {challenge, initialRoomId} = this.props;
-    let {proposal, visibility, notes} = this.state;
+    let {challenge} = this.props;
+    let {proposal, visibility, notes, roomId} = this.state;
     if (!challenge) {
       // Creating a challenge - we have no app state for it yet, so just
       // set the status here
       this.setState({proposal: {...proposal, status: 'pending'}});
     }
-    let roomId = challenge ? challenge.roomId : initialRoomId;
     if (roomId) {
       this.props.actions.onCreateChallenge(proposal, roomId, visibility, notes);
     }
