@@ -240,9 +240,12 @@ export default class ChallengeEditor extends Component {
           visibility={visibility}
           notes={notes}
           usersByName={usersByName}
+          roomsById={roomsById}
+          room={room}
           onUserDetail={actions.onUserDetail}
           onChangeProposal={this._onChangeProposal}
           onChangeNotes={this._onChangeNotes}
+          onChangeRoomId={this._onChangeRoomId}
           onChangeVisibility={this._onChangeVisibility} />
         <div className='ChallengeEditor-buttons'>
           {buttons}
@@ -336,6 +339,10 @@ export default class ChallengeEditor extends Component {
 
   _onChangeNotes = (notes: string) => {
     this.setState({notes});
+  }
+
+  _onChangeRoomId = (roomId: number) => {
+    this.setState({roomId});
   }
 
   _onChangeVisibility = (visibility: ProposalVisibility) => {

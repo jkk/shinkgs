@@ -26,9 +26,12 @@ type Props = {
   notes: string,
   visibility: ProposalVisibility,
   usersByName: Index<User>,
+  roomsById: Index<Room>,
+  room: Room,
   onUserDetail: string => any,
   onChangeProposal: GameProposal => any,
   onChangeNotes: string => any,
+  onChangeRoomId: number => any,
   onChangeVisibility: ProposalVisibility => any
 };
 
@@ -72,10 +75,16 @@ export default class ProposalForm extends Component {
       notes,
       visibility,
       usersByName,
+      roomsById,
+      room,
       onUserDetail
     } = this.props;
     let {players, nigiri, rules} = proposal;
     let ruleset = rules.rules || 'japanese';
+
+    let rooms = Object.keys(roomsById).map(id => roomsById[id]).filter(g => g.name);
+    rooms.sort((a, b) => (((b.users ? b.users.length : 0) - (a.users ? a.users.length : 0)) || a.name.localeCompare(b.name)));
+
     return (
       <div className='ProposalForm'>
         {editMode !== 'creating' ?
@@ -90,6 +99,16 @@ export default class ProposalForm extends Component {
               usersByName={usersByName}
               onUserDetail={onUserDetail}
               onToggleRole={this._onToggleRole} />
+          </div> : null}
+        {editMode === 'creating' ?
+          <div className='ProposalForm-field'>
+            <div className='ProposalForm-field-content'>
+              <SelectInput value={room.id} onChange={this._onChangeRoomId}>
+                {rooms.map(room =>
+                  <option key={room.id} value={room.id}>{room.name}</option>
+                )}
+              </SelectInput>
+            </div>
           </div> : null}
         {editMode === 'creating' ?
           <div className='ProposalForm-field'>
@@ -274,6 +293,10 @@ export default class ProposalForm extends Component {
 
   _onChangeNotes = (e: Object) => {
     this.props.onChangeNotes(e.target.value);
+  }
+
+  _onChangeRoomId = (e: Object) => {
+    this.props.onChangeRoomId(e.target.value);
   }
 
   _onChangeRuleset = (e: Object) => {
