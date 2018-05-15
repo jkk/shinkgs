@@ -110,6 +110,10 @@ export default class ProposalForm extends Component {
               </SelectInput>
             </div>
           </div> : null}
+        {editMode !== 'creating' ?
+          <div className='ProposalForm-type-room'>
+            {room.name}
+          </div> : null}
         {editMode === 'creating' ?
           <div className='ProposalForm-field'>
             <div className='ProposalForm-field-content'>
