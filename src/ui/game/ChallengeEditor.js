@@ -303,10 +303,6 @@ export default class ChallengeEditor extends Component {
       <div className='ChallengeEditor'>
         <div className='ChallengeEditor-header'>
           {isCreator ? 'Create Challenge' : 'Challenge'}
-          {room && room.name ?
-            <div className='ChallengeEditor-room-name'>
-              {room.name}
-            </div> : null}
         </div>
         {status === 'declined' ?
           <div className='ChallengeEditor-declined'>
