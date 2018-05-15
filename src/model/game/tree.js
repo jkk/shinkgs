@@ -20,6 +20,7 @@ import type {
   BoardMarkup,
   SgfProp,
   PendingMove,
+  PhantomMove,
   PlayerColor
 } from '../types';
 
@@ -121,6 +122,15 @@ function addPendingMoveMarkup(markup: BoardMarkup, pendingMove: PendingMove) {
     'pendingWhite' : 'pendingBlack';
 }
 
+function addPhantomMoveMarkup(markup: BoardMarkup, phantomMove: PhantomMove) {
+  let {x, y} = phantomMove.loc;
+  if (!markup.marks[y]) {
+    markup.marks[y] = {};
+  }
+  markup.marks[y][x] = phantomMove.color === 'white' ?
+    'phantomWhite' : 'phantomBlack';
+}
+
 export function computeGameNodeStates(
   tree: GameTree,
   nodeId: number
@@ -170,6 +180,9 @@ export function computeGameNodeStates(
     let markup = getMarkupForProps(node.props);
     if (tree.pendingMove && tree.pendingMove.nodeId === cursorId) {
       addPendingMoveMarkup(markup, tree.pendingMove);
+    }
+    if (tree.phantomMove && tree.phantomMove.nodeId === cursorId) {
+      addPhantomMoveMarkup(markup, tree.phantomMove);
     }
     board = ret.board;
     blackCaps += ret.blackCaptures;
@@ -300,6 +313,16 @@ export function isGameScoring(game: GameChannel) {
     return false;
   }
   return !!game.actions.find(a => a.action === 'SCORE');
+}
+
+export function pointsEqual(p1: ?Point, p2: ?Point) {
+  if (!p1 || !p2) {
+    return p1 === p2;
+  }
+  return (
+    p1.x === p2.x &&
+    p1.y === p2.y
+  );
 }
 
 export function getGameRoleColor(role: GameRole): ?PlayerColor {

@@ -264,7 +264,9 @@ export type BoardPointMark = (
   'dead' |
   'active' |
   'pendingWhite' |
-  'pendingBlack'
+  'pendingBlack' |
+  'phantomWhite' |
+  'phantomBlack'
 );
 
 export type BoardMarkup = {
@@ -304,6 +306,12 @@ export type PendingMove = {
   loc: Point
 };
 
+export type PhantomMove = {
+  nodeId: number,
+  color: PlayerColor,
+  loc: Point
+};
+
 export type GameTree = {
   nodes: {
     [nodeId: number]: GameNode
@@ -318,7 +326,8 @@ export type GameTree = {
   activeNode: number,
   currentNode: number,
   currentLine: Array<number>,
-  pendingMove?: PendingMove
+  pendingMove?: PendingMove,
+  phantomMove?: PhantomMove
 };
 
 export type GameChannel = {

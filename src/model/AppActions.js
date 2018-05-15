@@ -604,6 +604,15 @@ export class AppActions {
     });
   }
 
+  onPhantomMove = (game: GameChannel, loc: Point, color: PlayerColor) => {
+    this._store.dispatch({
+      type: 'PHANTOM_GAME_MOVE',
+      channelId: game.id,
+      loc,
+      color
+    });
+  }
+
   onMarkLife = (game: GameChannel, loc: Point, alive: boolean) => {
     this._client.sendMessage({
       type: 'GAME_MARK_LIFE',

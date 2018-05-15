@@ -296,6 +296,21 @@ function _handleGameMessage(
       gamesById[chanId].tree = tree;
       return {...prevState, gamesById};
     }
+  } else if (msg.type === 'PHANTOM_GAME_MOVE' && chanId) {
+    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    gamesById[chanId] = {...gamesById[chanId]};
+    let tree = gamesById[chanId].tree;
+    if (tree) {
+      tree = ({...tree}: GameTree);
+      tree.phantomMove = {
+        nodeId: tree.activeNode,
+        color: msg.color,
+        loc: msg.loc
+      };
+      tree.computedState = computeGameNodeStates(tree, tree.activeNode);
+      gamesById[chanId].tree = tree;
+      return {...prevState, gamesById};
+    }
   } else if (msg.type === 'USER_REMOVED' && chanId && prevState.gamesById[chanId]) {
     let gamesById: Index<GameChannel> = {...prevState.gamesById};
     let users = gamesById[chanId].users;

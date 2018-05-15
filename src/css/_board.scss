@@ -521,7 +521,9 @@
 
 .Board-stone,
 .Board-stone-mark-pendingBlack,
-.Board-stone-mark-pendingWhite {
+.Board-stone-mark-pendingWhite,
+.Board-stone-mark-phantomBlack,
+.Board-stone-mark-phantomWhite {
   position: absolute;
   left: 0;
   top: 0;
@@ -544,6 +546,7 @@
 }
 
 .Board-stone-white,
+.Board-stone-mark-phantomWhite,
 .Board-stone-mark-pendingWhite {
   &:before {
     background-color: #e8e8e8;
@@ -562,6 +565,7 @@
 }
 
 .Board-stone-black,
+.Board-stone-mark-phantomBlack,
 .Board-stone-mark-pendingBlack {
   &:before {
     background-color: $stone-black;
@@ -577,6 +581,11 @@
     z-index: 1;
     background: radial-gradient(ellipse at center, rgba(#505050, 1) 10%,rgba(#505050,0) 55%);
   }
+}
+
+.Board-stone-mark-phantomWhite,
+.Board-stone-mark-phantomBlack {
+  opacity: 0.67;
 }
 
 .Board-stone-mark-square {

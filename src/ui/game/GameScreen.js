@@ -16,6 +16,7 @@ import {
   getGameLine,
   isPlayerMove,
   isGameScoring,
+  pointsEqual,
   getGameChatSections,
   getGamePlayerRole,
   getGameRoleColor
@@ -311,7 +312,12 @@ export default class GameScreen extends Component {
     } else if (!locColor) {
       let role = getGamePlayerRole(this.props.currentUser.name, game.players);
       let playerColor = role && getGameRoleColor(role);
-      this.props.actions.onPlayMove(game, loc, playerColor);
+      let {tree} = game;
+      if (tree.phantomMove && pointsEqual(tree.phantomMove.loc, loc)) {
+        this.props.actions.onPlayMove(game, loc, playerColor);
+      } else {
+        this.props.actions.onPhantomMove(game, loc, playerColor);
+      }
     }
   }
 
