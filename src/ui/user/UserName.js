@@ -27,9 +27,18 @@ export default class UserName extends Component {
     let flags = user.flags || EMPTY_FLAGS;
     let icons = (
       <div className='UserName-icons'>
-        {flags.robot ? <div className='UserName-robot'> 🤖</div> : null}
-        {flags.selfish ? <div className='UserName-selfish'><div className='UserName-selfish-icon'>~</div></div> : null}
-        {flags.guest ? <div className='UserName-guest'> 👤</div> : null}
+        {flags.robot ?
+          <div className='UserName-robot UserIcons-icon'> 🤖<div className='UserIcons-icon-tooltip'>Robot</div></div> : null}
+        {flags.selfish ?
+          <div className='UserName-selfish'>
+            <div className='UserName-selfish-icon UserIcons-icon'>~<div className='UserIcons-icon-tooltip'>Selfish</div></div>
+          </div> :
+          null}
+        {flags.guest ?
+          <div className='UserName-guest'>
+            <div className='UserName-selfish-icon UserIcons-icon'> 👤<div className='UserIcons-icon-tooltip'>Guest</div></div>
+          </div> :
+          null}
         {extraIcons ? <UserIcons user={user} /> : null}
       </div>
     );

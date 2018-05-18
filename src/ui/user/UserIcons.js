@@ -2,8 +2,6 @@
 import React, {PureComponent as Component} from 'react';
 import type {User} from '../../model';
 
-const EMPTY_FLAGS = {};
-
 export default class UserIcons extends Component {
 
   props: {
@@ -11,38 +9,55 @@ export default class UserIcons extends Component {
   };
 
   render() {
-    let {user} = this.props;
-    let flags = user.flags || EMPTY_FLAGS;
+    const {user} = this.props;
+    const flags = user.flags || {};
     let icons = [];
-    if (user.authLevel === 'jr_admin') {
-      icons.push('⭐️');
-    } else if (user.authLevel === 'sr_admin' || user.authLevel === 'super_admin') {
-      icons.push('🌟');
-    } else if (user.authLevel === 'teacher') {
-      // icons.push('🎓');
+    switch(user.authLevel) {
+    case 'jr_admin':
+      icons.push({icon: '⭐️', name: 'Admin'});
+      break;
+    case 'sr_admin':
+      icons.push({icon: '🌟', name: 'Senior Admin'});
+      break;
+    case 'super_admin':
+      icons.push({icon: '🌠', name: 'Super Admin'});
+      break;
+    case 'teacher':
+      icons.push({icon: '🎓', name: 'Teacher'});
+      break;
     }
+
     if (flags.sleeping) {
-      icons.push('💤');
+      icons.push({icon:'💤', name: 'Sleeping'});
     }
     if (flags.kgsPlus) {
-      icons.push('🎩');
+      icons.push({icon:'🎩', name: 'KGS Plus'});
     }
-    // if (user.flags.playing || user.flags.playingTourney) {
-    //   icons.push('🎮');
-    // }
-    if (flags.tourneyWinner || flags.kgsMeijin) {
-      icons.push('🏆');
+
+    if (flags.playingTourney) {
+      icons.push({icon:'🕹️', name: 'Playing Tournament'});
+    } else if (flags.playing) {
+      icons.push({icon:'🎮', name: 'Playing'});
     }
-    if (flags.tourneyRunnerUp) {
-      icons.push('🏅');
+
+    if (flags.kgsMeijin) {
+      icons.push({icon:'🏆', name: 'KGS Meijin'});
+    } else if (flags.tourneyWinner) {
+      icons.push({icon:'🥇', name: 'Tournament Winner'});
+    } else if (flags.tourneyRunnerUp) {
+      icons.push({icon: '🥈', name: 'Tournament Runner-up'});
     }
+
     if (!icons.length) {
       return null;
     }
     return (
       <div className='UserIcons'>
-        {icons.map(icon =>
-          <div key={icon} className='UserIcons-icon'>{icon}</div>
+        {icons.map(({icon, name}) =>
+          <div key={icon} className='UserIcons-icon'>
+            {icon}
+            <div className='UserIcons-icon-tooltip'>{name}</div>
+          </div>
         )}
       </div>
     );

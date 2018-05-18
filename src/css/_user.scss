@@ -49,6 +49,10 @@
   line-height: 0.9;
 }
 
+.UserList-item {
+  position: relative;
+}
+
 .UserList-item-offline {
   a {
     opacity: 0.5;
@@ -69,9 +73,32 @@
   margin-left: 4px;
 }
 
+.UserIcons-icon-tooltip {
+  visibility: hidden;
+  background-color: $inverted-bg;
+  color: $inverted-fg;
+  font-size: 14px;
+  line-height: 1;
+  border-radius: 4px;
+  padding: 5px 5px;
+  white-space: nowrap;
+  position: absolute;
+  top: 110%;
+  right: 50%;
+  z-index: 100;
+  width: auto;
+  transform: translate(50%);
+}
+
 .UserIcons-icon {
   display: inline-block;
   margin-right: 4px;
+  &:hover {
+    .UserIcons-icon-tooltip {
+      transition-delay: 400ms;
+      visibility: visible;
+    }
+  }
 }
 
 .UserDetailsModal-top-bar {
