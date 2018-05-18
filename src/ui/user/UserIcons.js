@@ -13,18 +13,18 @@ export default class UserIcons extends Component {
     const flags = user.flags || {};
     let icons = [];
     switch(user.authLevel) {
-      case 'jr_admin':
-        icons.push({icon: '⭐️', name: 'Admin'});
-        break;
-      case 'sr_admin':
-        icons.push({icon: '🌟', name: 'Senior Admin'});
-        break;
-      case 'super_admin':
-        icons.push({icon: '🌠', name: 'Super Admin'});
-        break;
-      case 'teacher':
-        icons.push({icon: '🎓', name: 'Teacher'});
-        break;
+    case 'jr_admin':
+      icons.push({icon: '⭐️', name: 'Admin'});
+      break;
+    case 'sr_admin':
+      icons.push({icon: '🌟', name: 'Senior Admin'});
+      break;
+    case 'super_admin':
+      icons.push({icon: '🌠', name: 'Super Admin'});
+      break;
+    case 'teacher':
+      icons.push({icon: '🎓', name: 'Teacher'});
+      break;
     }
 
     if (flags.sleeping) {
@@ -34,9 +34,9 @@ export default class UserIcons extends Component {
       icons.push({icon:'🎩', name: 'KGS Plus'});
     }
 
-    if (user.flags.playingTourney) {
+    if (flags.playingTourney) {
       icons.push({icon:'🕹️', name: 'Playing Tournament'});
-    } else if (user.flags.playing) {
+    } else if (flags.playing) {
       icons.push({icon:'🎮', name: 'Playing'});
     }
 
