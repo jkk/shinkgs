@@ -110,6 +110,18 @@ function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
       nextState.playChallengeId = chanId;
     }
 
+    // Automatically watch a game that is owned by the currnent user. This is
+    // triggered when an archived game is loaded.
+    if (
+      msg.type === "GAME_JOIN" &&
+      msg.gameSummary &&
+      nextState.currentUser &&
+      msg.gameSummary.players.owner &&
+      msg.gameSummary.players.owner.name === nextState.currentUser.name
+    ) {
+      nextState.watchGameId = msg.channelId;
+    }
+
     return nextState;
   } else if (msg.type === "GAME_REVIEW") {
     let oldGameId: number = msg.originalId;

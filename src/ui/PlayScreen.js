@@ -158,6 +158,8 @@ export default class PlayScreen extends Component<Props, State> {
                     .map((ug: Object) => ug.game)}
                   player={currentUser.name}
                   onSelect={this._onSelectGameSummary}
+                  roomsById={roomsById}
+                  channelMembership={channelMembership}
                 />
               </div>
             ) : null}

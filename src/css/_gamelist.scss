@@ -56,7 +56,8 @@
 }
 
 .GameList,
-.GameSummaryList {
+.GameSummaryList,
+.GameSummaryList-load-game-list {
   border-top: 1px solid $very-muted;
 }
 
@@ -66,7 +67,8 @@
 }
 
 .GameList-item,
-.GameSummaryList-item {
+.GameSummaryList-item,
+.GameSummaryList-load-game-item {
   display: block;
   border-bottom: 1px solid $very-muted;
   color: $content-fg;
@@ -82,10 +84,9 @@
 }
 
 .no-touch .GameList-item,
-.no-touch .GameSummaryList-item {
-
-  &:hover,
-  &:focus {
+.no-touch .GameSummaryList-item,
+.no-touch .GameSummaryList-load-game-item {
+  &:hover, &:focus {
     background: $hover-bg;
     color: $content-fg;
   }
@@ -256,6 +257,24 @@
 .GameSummaryList-item-date-now {
   font-weight: bold;
   color: $content-fg;
+}
+
+.GameSummaryList-load-game {
+  padding: 80px 20px 20px;
+}
+
+.GameSummaryList-load-game-list {
+  background: $off-white;
+}
+
+.GameSummaryList-load-game-item {
+  padding: 15px 20px;
+}
+
+.GameSummaryList-load-title {
+  div {
+    display: inline;
+  }
 }
 
 // Uncomment for both players on one line
