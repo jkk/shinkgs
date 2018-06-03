@@ -19,22 +19,26 @@ import {isAncestor} from '../../util/dom';
 import {formatLocaleDate, timeAgo} from '../../util/date';
 import {InvariantError} from '../../util/error';
 import type {
+  ChannelMembership,
   UserDetailsRequest,
   User,
   UserDetails,
   GameSummary,
   RankGraph,
   Index,
-  AppActions
+  AppActions,
+  Room,
 } from '../../model';
 
 const MAX_GAME_SUMMARIES = 500;
 
 type Props = {
+  channelMembership: ChannelMembership,
   currentUser: ?User,
   userDetailsRequest: ?UserDetailsRequest,
   usersByName: Index<User>,
   rankGraphsByChannelId: Index<RankGraph>,
+  roomsById: Index<Room>,
   gameSummariesByUser: Index<Array<GameSummary>>,
   actions: AppActions
 };
@@ -44,11 +48,9 @@ type State = {
   editing: boolean
 };
 
-export default class UserDetailsModal extends Component {
+export default class UserDetailsModal extends Component<Props, State> {
 
-  props: Props;
-
-  state: State = {
+  state = {
     tab: 'bio',
     editing: false
   };
@@ -72,10 +74,12 @@ export default class UserDetailsModal extends Component {
   render() {
     let {
       currentUser,
+      channelMembership,
       userDetailsRequest,
       usersByName,
       gameSummariesByUser,
       rankGraphsByChannelId,
+      roomsById,
       actions
     } = this.props;
     if (!currentUser || !userDetailsRequest) {
@@ -172,6 +176,8 @@ export default class UserDetailsModal extends Component {
                       <GameSummaryList
                         games={gameSummaries.slice(0, MAX_GAME_SUMMARIES)}
                         player={user.name}
+                        channelMembership={channelMembership}
+                        roomsById={roomsById}
                         onSelect={this._onSelectGame}/>
                     </div> : null}
                   {tab === 'rankGraph' ?
@@ -296,12 +302,16 @@ export default class UserDetailsModal extends Component {
     this.setState({tab: 'rankGraph'});
   }
 
-  _onSelectGame = (game: GameSummary) => {
+  _onSelectGame = (
+    game: GameSummary,
+    channelId?: string = '',
+    loadPrivate?: boolean = false
+  ) => {
     this.props.actions.onCloseUserDetail();
     if (game.inPlay) {
       this.props.actions.onJoinGame(game.timestamp);
     } else {
-      this.props.actions.onLoadGame(game.timestamp);
+      this.props.actions.onLoadGame(game.timestamp, Number(channelId), loadPrivate);
     }
   }
 
