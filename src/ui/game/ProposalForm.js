@@ -472,7 +472,7 @@ export default class ProposalForm extends Component {
   _onByoYomiPlus = () => {
     let {proposal} = this.props;
     let oldByoYomi = proposal.rules.byoYomiTime || 0;
-    let byoYomiTime;
+    let byoYomiTime = 0;
     if (oldByoYomi >= 60) {
       byoYomiTime = oldByoYomi + 60;
     } else if (byoYomiTime >= 20) {

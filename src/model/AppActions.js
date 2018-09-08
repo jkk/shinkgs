@@ -721,7 +721,7 @@ export class AppActions {
   }
 
   onClickContribute = () => {
-    window.open("https://github.com/jkk/shinkgs", "_blank")
+    window.open('https://github.com/jkk/shinkgs', '_blank');
   }
 
 }
