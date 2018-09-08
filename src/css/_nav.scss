@@ -195,7 +195,7 @@ a.MainNav-account-trigger {
 
 .MainNav-feedback {
   position: absolute;
-  right: 210px;
+  right: 180px;
   top: 0;
   height: 50px;
   display: flex;
@@ -232,8 +232,50 @@ a.MainNav-account-trigger {
   font-size: 14px;
 }
 
+.MainNav-contribute {
+  position: absolute;
+  right: 300px;
+  top: 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.MainNav-contribute-button {
+  display: block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  // color: #e49700;
+  // color: #fff;
+  background: lighten($link-color, 37%);
+  color: darken($link-color, 13%);
+  &:active {
+    background: lighten($link-color, 32%);
+    color: darken($link-color, 18%);
+  }
+}
+
+.no-touch .MainNav-contribute-button:hover {
+  background: lighten($link-color, 32%);
+  color: darken($link-color, 18%);
+}
+
+.MainNav-contribute-icon {
+  display: inline-block;
+  font-size: 16px;
+}
+
+.MainNav-contribute-label {
+  display: inline-block;
+  margin: 0 0 0 5px;
+  font-size: 14px;
+}
+
 @media #{$mobile-query} {
   .MainNav-feedback {
+    display: none;
+  }
+  .MainNav-contribute {
     display: none;
   }
 }

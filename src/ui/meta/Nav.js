@@ -164,6 +164,16 @@ export default class Nav extends Component {
               </div>
             </A>
           </div>
+          <div className='MainNav-contribute'>
+            <A className='MainNav-contribute-button' onClick={actions.onClickContribute}>
+              <div className='MainNav-contribute-icon'>
+                <Icon name='github' />
+              </div>
+              <div className='MainNav-contribute-label'>
+                Contribute
+              </div>
+            </A>
+          </div>
         </div>
       </div>
     );

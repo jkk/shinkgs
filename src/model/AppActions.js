@@ -720,4 +720,8 @@ export class AppActions {
     this._store.dispatch({type: 'HIDE_FEEDBACK_MODAL'});
   }
 
+  onClickContribute = () => {
+    window.open("https://github.com/jkk/shinkgs", "_blank")
+  }
+
 }
