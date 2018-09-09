@@ -110,7 +110,7 @@ export default class GameMoreMenu extends Component<> {
             <a className='GameMoreMenu-dropdown-item' target='_blank' rel='noopener' href={eidogoUrl} onClick={this._onToggleDropdown}>
               Open in EidoGo
             </a>
-            <a className='GameMoreMenu-dropdown-item' style={{ cursor: 'pointer' }} onClick={this._onToggleGameInfo} href=''>
+            <a className='GameMoreMenu-dropdown-item' style={{ cursor: 'pointer' }} onClick={this._onToggleGameInfo} href={eidogoUrl}>
               Game Info
             </a>
           </div> : null}
