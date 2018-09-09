@@ -1,16 +1,16 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import { A, SelectInput, CheckboxInput } from '../common';
-import type { GameChannel, GameFilter, Index, Room } from '../../model';
+import React, { PureComponent as Component } from "react";
+import { A, SelectInput, CheckboxInput } from "../common";
+import type { GameChannel, GameFilter, Index, Room } from "../../model";
 
-export default class GameListFilter extends Component<> {
-  static defaultProps: {
-    games: Array<GameChannel>,
-    roomsById: Index<Room>,
-    filter: GameFilter,
-    onChange: GameFilter => any
-  };
+type Props = {
+  games: Array<GameChannel>,
+  roomsById: Index<Room>,
+  filter: GameFilter,
+  onChange: GameFilter => any
+};
 
+export default class GameListFilter extends Component<Props> {
   render() {
     let { games, roomsById, filter } = this.props;
 
@@ -32,20 +32,20 @@ export default class GameListFilter extends Component<> {
     rooms.sort((a, b) => b.count - a.count);
 
     let roomSelectClass =
-      'GameListFilter-room-select' +
-      (' GameListFilter-room-select-' +
-        (filter.roomId ? 'active' : 'inactive'));
+      "GameListFilter-room-select" +
+      (" GameListFilter-room-select-" +
+        (filter.roomId ? "active" : "inactive"));
     let gameTypeLabel =
-      games[0] && games[0].type === 'challenge' ? 'Challenges' : 'Games';
+      games[0] && games[0].type === "challenge" ? "Challenges" : "Games";
 
     return (
-      <div className='GameListFilter'>
-        <div className='GameListFilter-room'>
+      <div className="GameListFilter">
+        <div className="GameListFilter-room">
           <div className={roomSelectClass}>
             <SelectInput
               onChange={this._onChangeRoom}
-              value={filter.roomId || ''}>
-              <option value=''>All {gameTypeLabel}</option>
+              value={filter.roomId || ""}>
+              <option value="">All {gameTypeLabel}</option>
               {rooms.map(room => (
                 <option key={room.id} value={room.id}>
                   {room.name}
@@ -54,16 +54,16 @@ export default class GameListFilter extends Component<> {
             </SelectInput>
             {filter.roomId ? (
               <A
-                className='GameListFilter-room-clear'
+                className="GameListFilter-room-clear"
                 onClick={this._onClearRoom}>
                 &times;
               </A>
             ) : null}
           </div>
         </div>
-        <div className='GameListFilter-bots'>
+        <div className="GameListFilter-bots">
           <CheckboxInput
-            label='Bots'
+            label="Bots"
             checked={!filter.excludeBots}
             onChange={this._onChangeBots}
           />
@@ -75,13 +75,13 @@ export default class GameListFilter extends Component<> {
   _onChangeRoom = (e: Object) => {
     let roomId = parseInt(e.target.value, 10);
     let { games } = this.props;
-    let type = games[0] && games[0].type === 'challenge' ? 'challenge' : 'game';
+    let type = games[0] && games[0].type === "challenge" ? "challenge" : "game";
     this.props.onChange({ ...this.props.filter, type, roomId: roomId || null });
   };
 
   _onChangeBots = (e: Object) => {
     let { games } = this.props;
-    let type = games[0] && games[0].type === 'challenge' ? 'challenge' : 'game';
+    let type = games[0] && games[0].type === "challenge" ? "challenge" : "game";
     this.props.onChange({
       ...this.props.filter,
       type,

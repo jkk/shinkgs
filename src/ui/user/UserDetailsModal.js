@@ -1,17 +1,17 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import localeString from 'locale-string';
-import get from 'lodash.get';
-import { A, Button, Spinner, RichContent, Modal } from '../common';
-import UserName from './UserName';
-import UserAvatar from './UserAvatar';
-import UserDetailsEditForm from './UserDetailsEditForm';
-import GameSummaryList from '../game/GameSummaryList';
-import UserRankGraph from './UserRankGraph';
-import { getUserStatusText, getUserAuthName } from '../../model/user';
-import { isAncestor } from '../../util/dom';
-import { formatLocaleDate, timeAgo } from '../../util/date';
-import { InvariantError } from '../../util/error';
+import React, { PureComponent as Component } from "react";
+import localeString from "locale-string";
+import get from "lodash.get";
+import { A, Button, Spinner, RichContent, Modal } from "../common";
+import UserName from "./UserName";
+import UserAvatar from "./UserAvatar";
+import UserDetailsEditForm from "./UserDetailsEditForm";
+import GameSummaryList from "../game/GameSummaryList";
+import UserRankGraph from "./UserRankGraph";
+import { getUserStatusText, getUserAuthName } from "../../model/user";
+import { isAncestor } from "../../util/dom";
+import { formatLocaleDate, timeAgo } from "../../util/date";
+import { InvariantError } from "../../util/error";
 import type {
   UserDetailsRequest,
   User,
@@ -20,7 +20,7 @@ import type {
   RankGraph,
   Index,
   AppActions
-} from '../../model';
+} from "../../model";
 
 const MAX_GAME_SUMMARIES = 500;
 
@@ -34,30 +34,29 @@ type Props = {
 };
 
 type State = {
-  tab: 'bio' | 'games' | 'rankGraph',
+  tab: "bio" | "games" | "rankGraph",
   editing: boolean
 };
 
-export default class UserDetailsModal extends Component<> {
-  static defaultProps: Props;
-  state: State = {
-    tab: 'bio',
+export default class UserDetailsModal extends Component<Props, State> {
+  state = {
+    tab: "bio",
     editing: false
   };
 
   _mainDiv: ?HTMLElement;
 
   componentDidMount() {
-    document.addEventListener('keyup', this._onKeyUp);
+    document.addEventListener("keyup", this._onKeyUp);
     if (document.body) {
-      document.body.classList.add('no-scroll');
+      document.body.classList.add("no-scroll");
     }
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keyup', this._onKeyUp);
+    document.removeEventListener("keyup", this._onKeyUp);
     if (document.body) {
-      document.body.classList.remove('no-scroll');
+      document.body.classList.remove("no-scroll");
     }
   }
 
@@ -71,7 +70,7 @@ export default class UserDetailsModal extends Component<> {
       actions
     } = this.props;
     if (!currentUser || !userDetailsRequest) {
-      throw new InvariantError('currentUser and userDetailsRequest required');
+      throw new InvariantError("currentUser and userDetailsRequest required");
     }
     let { tab, editing } = this.state;
     let content;
@@ -83,7 +82,7 @@ export default class UserDetailsModal extends Component<> {
 
     if (editing && user && user.details) {
       return (
-        <Modal title='Edit Profile' onClose={this._onDoneEditing}>
+        <Modal title="Edit Profile" onClose={this._onDoneEditing}>
           <UserDetailsEditForm
             user={user}
             details={details}
@@ -103,50 +102,50 @@ export default class UserDetailsModal extends Component<> {
             : null;
         let authName = getUserAuthName(user);
         let locale: Object = localeString.parse(
-          details.locale.replace('_', '-')
+          details.locale.replace("_", "-")
         );
         let joinedDate = new Date(details.regStartDate);
-        let bio = details.personalInfo ? details.personalInfo.trim() : '';
+        let bio = details.personalInfo ? details.personalInfo.trim() : "";
 
-        if (this.state.tab === 'bio' && !bio) {
-          tab = 'games';
+        if (this.state.tab === "bio" && !bio) {
+          tab = "games";
         }
 
         content = (
-          <div className='UserDetailsModal-user-info'>
-            <div className='UserDetailsModal-subname'>
+          <div className="UserDetailsModal-user-info">
+            <div className="UserDetailsModal-subname">
               {persName ? (
-                <div className='UserDetailsModal-realname'>{persName}</div>
+                <div className="UserDetailsModal-realname">{persName}</div>
               ) : null}
               {authName ? (
-                <div className='UserDetailsModal-authname'>{authName}</div>
+                <div className="UserDetailsModal-authname">{authName}</div>
               ) : null}
             </div>
-            <div className='UserDetailsModal-info-bullets'>
-              <div className='UserDetailsModal-joined'>
+            <div className="UserDetailsModal-info-bullets">
+              <div className="UserDetailsModal-joined">
                 Joined {formatLocaleDate(joinedDate)}
               </div>
               {locale ? (
-                <div className='UserDetailsModal-locale'>
-                  {locale.language} /{' '}
-                  {locale.country.replace('United States', 'US')}
+                <div className="UserDetailsModal-locale">
+                  {locale.language} /{" "}
+                  {locale.country.replace("United States", "US")}
                 </div>
               ) : null}
               {details.email && !details.privateEmail ? (
-                <div className='UserDetailsModal-email'>
+                <div className="UserDetailsModal-email">
                   <a href={`mailto:${details.email}`}>{details.email}</a>
                 </div>
               ) : null}
             </div>
             {bio || gameSummaries ? (
-              <div className='UserDetailsModal-tabs-container'>
-                <div className='UserDetailsModal-tabs'>
-                  <div className='UserDetailsModal-tabs-inner'>
+              <div className="UserDetailsModal-tabs-container">
+                <div className="UserDetailsModal-tabs">
+                  <div className="UserDetailsModal-tabs-inner">
                     {bio ? (
                       <A
                         className={
-                          'UserDetailsModal-tab' +
-                          (tab === 'bio' ? ' UserDetailsModal-tab-active' : '')
+                          "UserDetailsModal-tab" +
+                          (tab === "bio" ? " UserDetailsModal-tab-active" : "")
                         }
                         onClick={this._onShowBio}>
                         Bio
@@ -155,10 +154,10 @@ export default class UserDetailsModal extends Component<> {
                     {gameSummaries ? (
                       <A
                         className={
-                          'UserDetailsModal-tab' +
-                          (tab === 'games'
-                            ? ' UserDetailsModal-tab-active'
-                            : '')
+                          "UserDetailsModal-tab" +
+                          (tab === "games"
+                            ? " UserDetailsModal-tab-active"
+                            : "")
                         }
                         onClick={this._onShowGames}>
                         {gameSummaries.length} Games
@@ -166,24 +165,24 @@ export default class UserDetailsModal extends Component<> {
                     ) : null}
                     <A
                       className={
-                        'UserDetailsModal-tab' +
-                        (tab === 'rankGraph'
-                          ? ' UserDetailsModal-tab-active'
-                          : '')
+                        "UserDetailsModal-tab" +
+                        (tab === "rankGraph"
+                          ? " UserDetailsModal-tab-active"
+                          : "")
                       }
                       onClick={this._onShowRankGraph}>
                       Rank
                     </A>
                   </div>
                 </div>
-                <div className='UserDetailsModal-tab-content'>
-                  {bio && tab === 'bio' ? (
-                    <div className='UserDetailsModal-bio'>
+                <div className="UserDetailsModal-tab-content">
+                  {bio && tab === "bio" ? (
+                    <div className="UserDetailsModal-bio">
                       <RichContent content={bio} />
                     </div>
                   ) : null}
-                  {gameSummaries && gameSummaries.length && tab === 'games' ? (
-                    <div className='UserDetailsModal-games-list'>
+                  {gameSummaries && gameSummaries.length && tab === "games" ? (
+                    <div className="UserDetailsModal-games-list">
                       <GameSummaryList
                         games={gameSummaries.slice(0, MAX_GAME_SUMMARIES)}
                         player={user.name}
@@ -191,8 +190,8 @@ export default class UserDetailsModal extends Component<> {
                       />
                     </div>
                   ) : null}
-                  {tab === 'rankGraph' ? (
-                    <div className='UserDetailsModal-rank-graph'>
+                  {tab === "rankGraph" ? (
+                    <div className="UserDetailsModal-rank-graph">
                       <UserRankGraph
                         graph={get(rankGraphsByChannelId, channelId)}
                       />
@@ -205,70 +204,70 @@ export default class UserDetailsModal extends Component<> {
         );
       } else {
         content = (
-          <div className='UserDetailsModal-loading'>
+          <div className="UserDetailsModal-loading">
             <Spinner />
           </div>
         );
       }
-    } else if (userDetailsRequest.status === 'pending') {
+    } else if (userDetailsRequest.status === "pending") {
       content = (
-        <div className='UserDetailsModal-loading'>
+        <div className="UserDetailsModal-loading">
           <Spinner />
         </div>
       );
     } else {
       content = (
-        <div className='UserDetailsModal-not-found'>User not found</div>
+        <div className="UserDetailsModal-not-found">User not found</div>
       );
     }
     return (
-      <div className='UserDetailsModal' onClick={this._onMaybeClose}>
-        <div className='UserDetailsModal-main' ref={this._setMainRef}>
-          <div className='UserDetailsModal-top-bar'>
+      <div className="UserDetailsModal" onClick={this._onMaybeClose}>
+        <div className="UserDetailsModal-main" ref={this._setMainRef}>
+          <div className="UserDetailsModal-top-bar">
             <A
-              className='UserDetailsModal-close'
+              className="UserDetailsModal-close"
               onClick={actions.onCloseUserDetail}>
               &times;
             </A>
-            <div className='UserDetailsModal-status'>
+            <div className="UserDetailsModal-status">
               {user
                 ? getUserStatusText(user) +
                   (offline && user.details
-                    ? ' - last on ' + timeAgo(new Date(user.details.lastOn))
-                    : '')
+                    ? " - last on " + timeAgo(new Date(user.details.lastOn))
+                    : "")
                 : null}
             </div>
-            <div className='UserDetailsModal-avatar'>
+            <div className="UserDetailsModal-avatar">
               <UserAvatar user={user} />
             </div>
             {user ? (
-              <div className='UserDetailsModal-actions'>
-                <div className='UserDetailsModal-friending'>
+              <div className="UserDetailsModal-actions">
+                <div className="UserDetailsModal-friending">
                   <label>
-                    <input type='checkbox' /> Fan
+                    <input type="checkbox" /> Fan
                   </label>
                   <label>
-                    <input type='checkbox' /> Buddy
+                    <input type="checkbox" /> Buddy
                   </label>
                   <label>
-                    <input type='checkbox' /> Censored
+                    <input type="checkbox" /> Censored
                   </label>
                 </div>
                 {user &&
                 (user.name !== currentUser.name &&
                   user.flags &&
                   user.flags.connected) ? (
-                    <div className='UserDetailsModal-message'>
+                    <div className="UserDetailsModal-message">
                       <Button
-                        icon='comment'
+                        icon="comment"
                         secondary
                         onClick={this._onStartChat}>
                       Message
                       </Button>
                     </div>
                   ) : user && user.name === currentUser.name ? (
-                    <div className='UserDetailsModal-edit-button'>
-                      <Button icon='pencil' secondary onClick={this._onEdit}>
+                    <div className="UserDetailsModal-edit-button">
+                      <Button icon="pencil" secondary onClick={this._onEdit}>
                       Edit Profile
                       </Button>
                     </div>
@@ -276,8 +275,8 @@ export default class UserDetailsModal extends Component<> {
               </div>
             ) : null}
           </div>
-          <div className='UserDetailsModal-details'>
-            <div className='UserDetailsModal-name'>
+          <div className="UserDetailsModal-details">
+            <div className="UserDetailsModal-name">
               {user ? (
                 <UserName user={user} extraIcons />
               ) : (
@@ -296,7 +295,7 @@ export default class UserDetailsModal extends Component<> {
   };
 
   _onKeyUp = (e: Object) => {
-    if (e.key === 'Escape' || e.keyCode === 27) {
+    if (e.key === "Escape" || e.keyCode === 27) {
       this.props.actions.onCloseUserDetail();
     }
   };
@@ -312,11 +311,11 @@ export default class UserDetailsModal extends Component<> {
   };
 
   _onShowBio = () => {
-    this.setState({ tab: 'bio' });
+    this.setState({ tab: "bio" });
   };
 
   _onShowGames = () => {
-    this.setState({ tab: 'games' });
+    this.setState({ tab: "games" });
   };
 
   _onShowRankGraph = () => {
@@ -328,7 +327,7 @@ export default class UserDetailsModal extends Component<> {
     );
 
     actions.onRequestRankGraph(channelId);
-    this.setState({ tab: 'rankGraph' });
+    this.setState({ tab: "rankGraph" });
   };
 
   _onSelectGame = (game: GameSummary) => {

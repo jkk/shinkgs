@@ -1,24 +1,24 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import UserName from './UserName';
-import { A } from '../common';
-import type { User } from '../../model';
+import React, { PureComponent as Component } from "react";
+import UserName from "./UserName";
+import { A } from "../common";
+import type { User } from "../../model";
 
-class UserListItem extends Component<> {
-  static defaultProps: {
-    user: User,
-    onSelect: User => any
-  };
+type Props = {
+  user: User,
+  onSelect: User => any
+};
 
+class UserListItem extends Component<Props> {
   render() {
     let { user } = this.props;
     let flags = user.flags || {};
     let className =
-      'UserList-item' + (!flags.connected ? ' UserList-item-offline' : '');
+      "UserList-item" + (!flags.connected ? " UserList-item-offline" : "");
     return (
       <div className={className}>
         <A onClick={this._onSelect}>
-          <div className='UserList-item-name'>
+          <div className="UserList-item-name">
             <UserName user={user} extraIcons />
           </div>
         </A>
@@ -31,12 +31,16 @@ class UserListItem extends Component<> {
   };
 }
 
-export default class UserList extends Component<> {
-  static defaultProps: {
-    users: Array<User>,
-    onSelectUser: User => any
-  };
+type UserListProps = {
+  users: Array<User>,
+  onSelectUser: User => any
+};
 
+type State = {
+  fullRender: boolean
+};
+
+export default class UserList extends Component<UserListProps, State> {
   state = {
     fullRender: false
   };
@@ -55,7 +59,7 @@ export default class UserList extends Component<> {
     let { fullRender } = this.state;
     let users = fullRender ? allUsers : allUsers.slice(0, 40);
     return (
-      <div className='UserList'>
+      <div className="UserList">
         {users.map(user => (
           <UserListItem key={user.name} user={user} onSelect={onSelectUser} />
         ))}

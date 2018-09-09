@@ -1,60 +1,60 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import GameTypeIcon from '../game/GameTypeIcon';
-import GamePlayersList from '../game/GamePlayersList';
-import GameTimeSystem from '../game/GameTimeSystem';
-import { A, RichContent } from '../common';
-import UserName from '../user/UserName';
-import { formatLocaleTime } from '../../util/date';
+import React, { PureComponent as Component } from "react";
+import GameTypeIcon from "../game/GameTypeIcon";
+import GamePlayersList from "../game/GamePlayersList";
+import GameTimeSystem from "../game/GameTimeSystem";
+import { A, RichContent } from "../common";
+import UserName from "../user/UserName";
+import { formatLocaleTime } from "../../util/date";
 import type {
   User,
   ConversationMessage,
   Index,
   GameChannel
-} from '../../model';
+} from "../../model";
 
-class ChatMessageItem extends Component<> {
-  static defaultProps: {
-    currentUser: User,
-    message: ConversationMessage,
-    sender: User | string,
-    onUserDetail: string => any
-  };
+type Props = {
+  currentUser: User,
+  message: ConversationMessage,
+  sender: User | string,
+  onUserDetail: string => any
+};
 
+class ChatMessageItem extends Component<Props> {
   render() {
     let { currentUser, message, sender } = this.props;
     // TODO - for some reason this is null sometimes
     if (!sender) {
-      sender = '[Unknown]';
+      sender = "[Unknown]";
     }
     let className =
-      'ChatMessages-item' +
-      ((message.announcement ? ' ChatMessages-item-announcement' : '') +
+      "ChatMessages-item" +
+      ((message.announcement ? " ChatMessages-item-announcement" : "") +
         (currentUser.name ===
-        (typeof sender === 'string' ? sender : sender.name)
-          ? ' ChatMessages-item-self'
-          : ''));
+        (typeof sender === "string" ? sender : sender.name)
+          ? " ChatMessages-item-self"
+          : ""));
     return (
       <div className={className}>
-        <div className='ChatMessages-item-content'>
-          {typeof sender === 'string' ? (
-            <div className='ChatMessages-item-user ChatMessages-item-user-unverified'>
+        <div className="ChatMessages-item-content">
+          {typeof sender === "string" ? (
+            <div className="ChatMessages-item-user ChatMessages-item-user-unverified">
               <A onClick={this._onUserDetail}>{sender}</A>
             </div>
           ) : (
-            <div className='ChatMessages-item-user'>
+            <div className="ChatMessages-item-user">
               <A onClick={this._onUserDetail}>
                 <UserName user={sender} />
               </A>
             </div>
           )}
-          <div className='ChatMessages-item-body'>
+          <div className="ChatMessages-item-body">
             <RichContent content={message.body} />
           </div>
         </div>
         {message.date ? (
-          <div className='ChatMessages-item-time'>
-            {message.sending ? 'Sending...' : formatLocaleTime(message.date)}
+          <div className="ChatMessages-item-time">
+            {message.sending ? "Sending..." : formatLocaleTime(message.date)}
           </div>
         ) : null}
       </div>
@@ -63,25 +63,25 @@ class ChatMessageItem extends Component<> {
 
   _onUserDetail = () => {
     let { sender } = this.props;
-    this.props.onUserDetail(typeof sender === 'string' ? sender : sender.name);
+    this.props.onUserDetail(typeof sender === "string" ? sender : sender.name);
   };
 }
 
-class ChatGameLink extends Component<> {
-  static defaultProps: {
-    game: GameChannel,
-    onSelect: GameChannel => any
-  };
+type PropsChatGameLink = {
+  game: GameChannel,
+  onSelect: GameChannel => any
+};
 
+class ChatGameLink extends Component<PropsChatGameLink> {
   render() {
     let { game } = this.props;
     let className =
-      'ChatMessages-game ChatMessages-game-type-' +
+      "ChatMessages-game ChatMessages-game-type-" +
       game.type +
-      (game.deletedTime ? ' ChatMessages-game-deleted' : '');
+      (game.deletedTime ? " ChatMessages-game-deleted" : "");
     return (
       <A className={className} onClick={this._onSelect}>
-        <div className='ChatMessages-game-icon'>
+        <div className="ChatMessages-game-icon">
           <GameTypeIcon
             type={
               game.initialProposal ? game.initialProposal.gameType : game.type
@@ -90,16 +90,16 @@ class ChatGameLink extends Component<> {
             subscribersOnly={game.subscribers}
           />
         </div>
-        <div className='ChatMessages-game-players'>
+        <div className="ChatMessages-game-players">
           <GamePlayersList players={game.players} />
         </div>
-        <div className='ChatMessages-game-time'>
+        <div className="ChatMessages-game-time">
           {game.initialProposal && game.initialProposal.rules ? (
             <GameTimeSystem rules={game.initialProposal.rules} />
           ) : null}
         </div>
         {game.name ? (
-          <div className='ChatMessages-game-name'>{game.name}</div>
+          <div className="ChatMessages-game-name">{game.name}</div>
         ) : null}
       </A>
     );
@@ -111,20 +111,20 @@ class ChatGameLink extends Component<> {
 }
 
 type ChatItem =
-  | { id: number, time: number, type: 'message', message: ConversationMessage }
-  | { id: number, time: number, type: 'game', game: GameChannel };
+  | { id: number, time: number, type: "message", message: ConversationMessage }
+  | { id: number, time: number, type: "game", game: GameChannel };
 
-export default class ChatMessages extends Component<> {
-  static defaultProps: {
-    currentUser: User,
-    messages: Array<ConversationMessage>,
-    usersByName: Index<User>,
-    games?: ?Array<GameChannel>,
-    onUserDetail: string => any,
-    onJoinGame?: (gameId: number | string) => any,
-    onSelectChallenge?: number => any
-  };
+type PropsChatMessages = {
+  currentUser: User,
+  messages: Array<ConversationMessage>,
+  usersByName: Index<User>,
+  games?: ?Array<GameChannel>,
+  onUserDetail: string => any,
+  onJoinGame?: (gameId: number | string) => any,
+  onSelectChallenge?: number => any
+};
 
+export default class ChatMessages extends Component<PropsChatMessages> {
   render() {
     let {
       currentUser,
@@ -137,14 +137,14 @@ export default class ChatMessages extends Component<> {
     if (games && games.length) {
       let itemId = 1;
       let items: Array<ChatItem> = messages.map(msg => ({
-        type: 'message',
+        type: "message",
         id: itemId++,
         time: msg.date ? msg.date.getTime() : 0,
         message: msg
       }));
       for (let game of games) {
         items.push({
-          type: 'game',
+          type: "game",
           id: itemId++,
           time: game.time || 0,
           game: game
@@ -153,7 +153,7 @@ export default class ChatMessages extends Component<> {
       items.sort((a, b) => a.time - b.time);
       displayMessages = [];
       for (let item of items) {
-        if (item.type === 'message') {
+        if (item.type === "message") {
           displayMessages.push(
             <ChatMessageItem
               currentUser={currentUser}
@@ -163,7 +163,7 @@ export default class ChatMessages extends Component<> {
               onUserDetail={onUserDetail}
             />
           );
-        } else if (item.type === 'game') {
+        } else if (item.type === "game") {
           displayMessages.push(
             <ChatGameLink
               key={item.id}
@@ -184,7 +184,7 @@ export default class ChatMessages extends Component<> {
         />
       ));
     }
-    return <div className='ChatMessages'>{displayMessages}</div>;
+    return <div className="ChatMessages">{displayMessages}</div>;
   }
 
   _onSelectGame = (game: GameChannel) => {
@@ -192,7 +192,7 @@ export default class ChatMessages extends Component<> {
     if (game.deletedTime) {
       return;
     }
-    if (game.type === 'challenge' && onSelectChallenge) {
+    if (game.type === "challenge" && onSelectChallenge) {
       onSelectChallenge(game.id);
     } else if (onJoinGame) {
       onJoinGame(game.id);

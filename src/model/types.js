@@ -1,12 +1,12 @@
 // @flow
 
 export type AuthLevel =
-  | 'normal'
-  | 'robot_ranked'
-  | 'teacher'
-  | 'jr_admin'
-  | 'sr_admin'
-  | 'super_admin';
+  | "normal"
+  | "robot_ranked"
+  | "teacher"
+  | "jr_admin"
+  | "sr_admin"
+  | "super_admin";
 
 export type UserFlags = {
   guest?: boolean,
@@ -57,15 +57,15 @@ export type UnparsedUser = {
 };
 
 export type RoomCategory =
-  | 'MAIN'
-  | 'NATIONAL'
-  | 'TOURNAMENT'
-  | 'FRIENDLY'
-  | 'SPECIAL'
-  | 'LESSONS'
-  | 'CLUBS'
-  | 'TEMPORARY'
-  | 'OTHER';
+  | "MAIN"
+  | "NATIONAL"
+  | "TOURNAMENT"
+  | "FRIENDLY"
+  | "SPECIAL"
+  | "LESSONS"
+  | "CLUBS"
+  | "TEMPORARY"
+  | "OTHER";
 
 export type Room = {
   id: number,
@@ -97,29 +97,29 @@ export type Conversation = {
   chatsDisabled?: boolean,
   messages: Array<ConversationMessage>,
   callbackKey?: ?number,
-  status: 'pending' | 'created' | 'userNotFound' | 'closed'
+  status: "pending" | "created" | "userNotFound" | "closed"
 };
 
 export type GameType =
-  | 'challenge'
-  | 'demonstration'
-  | 'review'
-  | 'rengo_review'
-  | 'teaching'
-  | 'simul'
-  | 'rengo'
-  | 'free'
-  | 'ranked'
-  | 'tournament';
+  | "challenge"
+  | "demonstration"
+  | "review"
+  | "rengo_review"
+  | "teaching"
+  | "simul"
+  | "rengo"
+  | "free"
+  | "ranked"
+  | "tournament";
 
-export type GameRuleSet = 'japanese' | 'chinese' | 'aga' | 'new_zealand';
+export type GameRuleSet = "japanese" | "chinese" | "aga" | "new_zealand";
 
 export type GameRules = {
   size: number, // 2 - 38
   komi: number, // multiple of 0.5
   handicap?: number,
   rules?: GameRuleSet,
-  timeSystem?: 'none' | 'absolute' | 'byo_yomi' | 'canadian',
+  timeSystem?: "none" | "absolute" | "byo_yomi" | "canadian",
   mainTime?: number, // seconds
   byoYomiTime?: number, // seconds
   byoYomiPeriods?: number,
@@ -127,14 +127,14 @@ export type GameRules = {
 };
 
 export type GameRole =
-  | 'black'
-  | 'white'
-  | 'black_2'
-  | 'white_2'
-  | 'challengeCreator'
-  | 'owner';
+  | "black"
+  | "white"
+  | "black_2"
+  | "white_2"
+  | "challengeCreator"
+  | "owner";
 
-export type PlayerColor = 'white' | 'black';
+export type PlayerColor = "white" | "black";
 
 export type GameProposalPlayer = {
   role: GameRole,
@@ -142,7 +142,7 @@ export type GameProposalPlayer = {
   name?: string
 };
 
-export type GameProposalStatus = 'setup' | 'pending' | 'accepted' | 'declined';
+export type GameProposalStatus = "setup" | "pending" | "accepted" | "declined";
 
 export type GameProposal = {
   gameType: GameType,
@@ -153,23 +153,23 @@ export type GameProposal = {
   status?: GameProposalStatus
 };
 
-export type ProposalVisibility = 'private' | 'roomOnly' | 'public';
+export type ProposalVisibility = "private" | "roomOnly" | "public";
 
-export type ProposalEditMode = 'creating' | 'negotiating' | 'waiting';
+export type ProposalEditMode = "creating" | "negotiating" | "waiting";
 
 // Scores may be a floating point number, or a string. Numbers indicate the
 // score difference (positive a black win, negative a white win).
 export type GameScore =
   | number
-  | 'UNKNOWN'
-  | 'UNFINISHED'
-  | 'NO_RESULT'
-  | 'B+RESIGN'
-  | 'W+RESIGN'
-  | 'B+FORFEIT'
-  | 'W+FORFEIT'
-  | 'B+TIME'
-  | 'W+TIME';
+  | "UNKNOWN"
+  | "UNFINISHED"
+  | "NO_RESULT"
+  | "B+RESIGN"
+  | "W+RESIGN"
+  | "B+FORFEIT"
+  | "W+FORFEIT"
+  | "B+TIME"
+  | "W+TIME";
 
 export type GamePlayers = { [role: GameRole]: User };
 
@@ -199,23 +199,23 @@ export type ClockState = {
 };
 
 export type GameAction =
-  | 'MOVE'
-  | 'EDIT'
-  | 'SCORE'
-  | 'CHALLENGE_CREATE'
-  | 'CHALLENGE_SETUP'
-  | 'CHALLENGE_WAIT'
-  | 'CHALLENGE_ACCEPT'
-  | 'CHALLENGE_SUBMITTED'
-  | 'EDIT_DELAY';
+  | "MOVE"
+  | "EDIT"
+  | "SCORE"
+  | "CHALLENGE_CREATE"
+  | "CHALLENGE_SETUP"
+  | "CHALLENGE_WAIT"
+  | "CHALLENGE_ACCEPT"
+  | "CHALLENGE_SUBMITTED"
+  | "EDIT_DELAY";
 
 export type Point = { x: number, y: number };
 
 export type SgfEventType = string;
 
-export type SgfLoc = 'PASS' | Point;
+export type SgfLoc = "PASS" | Point;
 
-export type SgfColor = 'empty' | 'black' | 'white';
+export type SgfColor = "empty" | "black" | "white";
 
 export type SgfProp = {
   name: string,
@@ -228,36 +228,36 @@ export type SgfProp = {
 };
 
 export type SgfEvent =
-  | { type: 'PROP_ADDED', nodeId: number, prop: SgfProp }
-  | { type: 'PROP_REMOVED', nodeId: number, prop: SgfProp }
-  | { type: 'PROP_CHANGED', nodeId: number, prop: SgfProp }
-  | { type: 'CHILDREN_REORDERED', nodeId: number, children: Array<number> }
+  | { type: "PROP_ADDED", nodeId: number, prop: SgfProp }
+  | { type: "PROP_REMOVED", nodeId: number, prop: SgfProp }
+  | { type: "PROP_CHANGED", nodeId: number, prop: SgfProp }
+  | { type: "CHILDREN_REORDERED", nodeId: number, children: Array<number> }
   | {
-      type: 'CHILD_ADDED',
+      type: "CHILD_ADDED",
       nodeId: number,
       childNodeId: number,
       position?: number
     }
-  | { type: 'PROP_GROUP_ADDED', nodeId: number, props: Array<SgfProp> }
-  | { type: 'PROP_GROUP_REMOVED', nodeId: number, props: Array<SgfProp> }
-  | { type: 'ACTIVATED', nodeId: number, prevNodeId: number }
-  | { type: 'POINTER_MOVED', nodeId: number, x: number, y: number }
-  | { type: 'TIMESTAMP', nodeId: number, time: number }
-  | { type: 'SPEEX_FPP', nodeId: number, fpp: number }
-  | { type: 'SPEEX_MUTE_CHANGED', nodeId: number, mute: boolean }
-  | { type: 'SPEEX_DATA', nodeId: number, data: string };
+  | { type: "PROP_GROUP_ADDED", nodeId: number, props: Array<SgfProp> }
+  | { type: "PROP_GROUP_REMOVED", nodeId: number, props: Array<SgfProp> }
+  | { type: "ACTIVATED", nodeId: number, prevNodeId: number }
+  | { type: "POINTER_MOVED", nodeId: number, x: number, y: number }
+  | { type: "TIMESTAMP", nodeId: number, time: number }
+  | { type: "SPEEX_FPP", nodeId: number, fpp: number }
+  | { type: "SPEEX_MUTE_CHANGED", nodeId: number, mute: boolean }
+  | { type: "SPEEX_DATA", nodeId: number, data: string };
 
 export type BoardPointMark =
-  | 'whiteTerritory'
-  | 'blackTerritory'
-  | 'triangle'
-  | 'square'
-  | 'circle'
-  | 'cross'
-  | 'dead'
-  | 'active'
-  | 'pendingWhite'
-  | 'pendingBlack';
+  | "whiteTerritory"
+  | "blackTerritory"
+  | "triangle"
+  | "square"
+  | "circle"
+  | "cross"
+  | "dead"
+  | "active"
+  | "pendingWhite"
+  | "pendingBlack";
 
 export type BoardMarkup = {
   marks: { [y: number]: { [x: number]: BoardPointMark } },
@@ -351,7 +351,7 @@ export type GameChannel = {
 };
 
 export type GameFilter = {
-  type?: 'game' | 'challenge',
+  type?: "game" | "challenge",
   roomId?: ?number,
   excludeBots?: boolean
 };
@@ -364,13 +364,13 @@ export type GameChatSection = {
 };
 
 export type ChannelType =
-  | 'room'
-  | 'gameList'
-  | 'game'
-  | 'conversation'
-  | 'challenge'
-  | 'archive'
-  | 'details';
+  | "room"
+  | "gameList"
+  | "game"
+  | "conversation"
+  | "challenge"
+  | "archive"
+  | "details";
 
 export type ChannelMembership = {
   [channelId: string | number]: {
@@ -403,16 +403,16 @@ export type Index<T> = {
   [key: string | number]: T
 };
 
-export type NavOption = 'watch' | 'play' | 'chat' | 'search' | 'more';
+export type NavOption = "watch" | "play" | "chat" | "search" | "more";
 
 export type UserDetailsRequest = {
   name: string,
-  status: 'pending' | 'nonexistant' | 'received'
+  status: "pending" | "nonexistant" | "received"
 };
 
 export type KgsClientState = {
-  status: 'loggedOut' | 'loggingIn' | 'loggedIn' | 'loggingOut',
-  network: 'online' | 'offline' | 'error',
+  status: "loggedOut" | "loggingIn" | "loggedIn" | "loggingOut",
+  network: "online" | "offline" | "error",
   retryTimes: number
 };
 
@@ -427,8 +427,8 @@ export type Preferences = {
 
 // Some unfinished games we get from the archive, some from game lists
 export type UnfinishedGame =
-  | { type: 'channel', game: GameChannel }
-  | { type: 'summary', game: GameSummary };
+  | { type: "channel", game: GameChannel }
+  | { type: "summary", game: GameSummary };
 
 export type AppState = {
   +clientState: KgsClientState,

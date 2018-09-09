@@ -1,6 +1,6 @@
 // @flow
-import { get, set } from 'idb-keyval';
-import type { AppState, KgsMessage } from './types';
+import { get, set } from "idb-keyval";
+import type { AppState, KgsMessage } from "./types";
 
 export class AppStore {
   _state: { appState: AppState };
@@ -16,7 +16,7 @@ export class AppStore {
   ) {
     this._handler = handler;
     this._state = { appState: initialState };
-    this._debug = process.env.NODE_ENV === 'development';
+    this._debug = process.env.NODE_ENV === "development";
     this._recording = false;
     this._recordedMessages = [];
   }
@@ -40,7 +40,7 @@ export class AppStore {
 
   subscribe = (f: Function) => {
     if (this._subscriber) {
-      throw new Error('Only one subscriber allowed');
+      throw new Error("Only one subscriber allowed");
     }
     this._subscriber = f;
   };
@@ -63,7 +63,7 @@ export class AppStore {
       saveState = prepareSavedState(saveState);
     }
     if (this._debug) {
-      console.log('Saving app state...', { state: saveState });
+      console.log("Saving app state...", { state: saveState });
     }
     set(saveKey, saveState);
   };
@@ -73,7 +73,7 @@ export class AppStore {
     get(saveKey)
       .then(savedAppState => {
         if (this._debug) {
-          console.log('Restoring saved app state...', savedAppState);
+          console.log("Restoring saved app state...", savedAppState);
         }
         if (savedAppState) {
           this.setState(savedAppState);
@@ -81,8 +81,8 @@ export class AppStore {
         done(this.getState());
       })
       .catch(err => {
-        if (!navigator.userAgent.includes('jsdom')) {
-          console.warn('Unable to restore saved app state: ', err);
+        if (!navigator.userAgent.includes("jsdom")) {
+          console.warn("Unable to restore saved app state: ", err);
           // Revert everything, just in case we errored out in a sync render due
           // to bad app state data
         }

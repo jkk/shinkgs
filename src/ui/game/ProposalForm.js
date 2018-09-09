@@ -1,22 +1,22 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import GameTypeIcon from './GameTypeIcon';
-import GameTimeSystem from './GameTimeSystem';
-import ProposalPlayers from './ProposalPlayers';
-import ProposalFormInput from './ProposalFormInput';
-import { SelectInput } from '../common';
+import React, { PureComponent as Component } from "react";
+import GameTypeIcon from "./GameTypeIcon";
+import GameTimeSystem from "./GameTimeSystem";
+import ProposalPlayers from "./ProposalPlayers";
+import ProposalFormInput from "./ProposalFormInput";
+import { SelectInput } from "../common";
 import {
   formatDuration,
   formatGameType,
   formatGameRuleset
-} from '../../model/game';
+} from "../../model/game";
 import type {
   GameProposal,
   ProposalVisibility,
   ProposalEditMode,
   User,
   Index
-} from '../../model';
+} from "../../model";
 
 type Props = {
   currentUser: User,
@@ -33,34 +33,33 @@ type Props = {
 };
 
 const visibilityOptions = [
-  { value: 'private', label: 'Private' },
-  { value: 'roomOnly', label: 'Room Only' },
-  { value: 'public', label: 'Public' }
+  { value: "private", label: "Private" },
+  { value: "roomOnly", label: "Room Only" },
+  { value: "public", label: "Public" }
 ];
 
 const gameTypeOptions = [
-  { value: 'ranked', label: 'Ranked Game' },
-  { value: 'free', label: 'Free Game' }
+  { value: "ranked", label: "Ranked Game" },
+  { value: "free", label: "Free Game" }
 ];
 
 const rulesetOptions = [
-  { value: 'japanese', label: 'Japanese Rules' },
-  { value: 'chinese', label: 'Chinese Rules' },
-  { value: 'aga', label: 'AGA Rules' },
-  { value: 'new_zealand', label: 'New Zealand Rules' }
+  { value: "japanese", label: "Japanese Rules" },
+  { value: "chinese", label: "Chinese Rules" },
+  { value: "aga", label: "AGA Rules" },
+  { value: "new_zealand", label: "New Zealand Rules" }
 ];
 
 const timeSystemOptions = [
-  { value: 'none', label: 'No Time Limit' },
-  { value: 'absolute', label: 'Absolute Time' },
-  { value: 'byo_yomi', label: 'Byo-Yomi Time' },
-  { value: 'canadian', label: 'Canadian Time' }
+  { value: "none", label: "No Time Limit" },
+  { value: "absolute", label: "Absolute Time" },
+  { value: "byo_yomi", label: "Byo-Yomi Time" },
+  { value: "canadian", label: "Canadian Time" }
 ];
 
 const sizeOptions = [9, 13, 19];
 
-export default class ProposalForm extends Component<> {
-  static defaultProps: Props;
+export default class ProposalForm extends Component<Props> {
   render() {
     let {
       currentUser,
@@ -73,11 +72,11 @@ export default class ProposalForm extends Component<> {
       onUserDetail
     } = this.props;
     let { players, nigiri, rules } = proposal;
-    let ruleset = rules.rules || 'japanese';
+    let ruleset = rules.rules || "japanese";
     return (
-      <div className='ProposalForm'>
-        {editMode !== 'creating' ? (
-          <div className='ProposalForm-players'>
+      <div className="ProposalForm">
+        {editMode !== "creating" ? (
+          <div className="ProposalForm-players">
             <ProposalPlayers
               currentUser={currentUser}
               gameType={proposal.gameType}
@@ -91,42 +90,42 @@ export default class ProposalForm extends Component<> {
             />
           </div>
         ) : null}
-        {editMode === 'creating' ? (
-          <div className='ProposalForm-field'>
-            <div className='ProposalForm-field-content'>
+        {editMode === "creating" ? (
+          <div className="ProposalForm-field">
+            <div className="ProposalForm-field-content">
               <input
-                placeholder='Note to challengers'
-                type='text'
+                placeholder="Note to challengers"
+                type="text"
                 value={notes}
                 onChange={this._onChangeNotes}
               />
             </div>
           </div>
         ) : null}
-        {editMode !== 'creating' ? (
-          <div className='ProposalForm-type-notes'>
-            <div className='ProposalForm-game-type-icon'>
+        {editMode !== "creating" ? (
+          <div className="ProposalForm-type-notes">
+            <div className="ProposalForm-game-type-icon">
               <GameTypeIcon type={proposal.gameType} />
             </div>
             <div
               className={
-                'ProposalForm-game-type-name' +
+                "ProposalForm-game-type-name" +
                 (prevProposal && prevProposal.gameType !== proposal.gameType
-                  ? ' ProposalForm-game-type-name-hilite'
-                  : '')
+                  ? " ProposalForm-game-type-name-hilite"
+                  : "")
               }>
-              {visibility === 'private' ? 'Private ' : null}
+              {visibility === "private" ? "Private " : null}
               {formatGameType(proposal.gameType)}
             </div>
-            {notes ? <div className='ProposalForm-notes'>{notes}</div> : null}
+            {notes ? <div className="ProposalForm-notes">{notes}</div> : null}
           </div>
         ) : null}
-        {editMode === 'creating' ? (
-          <div className='ProposalForm-type-visibility'>
-            <div className='ProposalForm-field'>
-              <div className='ProposalForm-field-label'>Game Type</div>
-              <div className='ProposalForm-field-content'>
-                <div className='ProposalForm-game-type'>
+        {editMode === "creating" ? (
+          <div className="ProposalForm-type-visibility">
+            <div className="ProposalForm-field">
+              <div className="ProposalForm-field-label">Game Type</div>
+              <div className="ProposalForm-field-content">
+                <div className="ProposalForm-game-type">
                   <SelectInput
                     value={proposal.gameType}
                     onChange={this._onChangeGameType}>
@@ -137,7 +136,7 @@ export default class ProposalForm extends Component<> {
                     ))}
                   </SelectInput>
                 </div>
-                <div className='ProposalForm-visibility'>
+                <div className="ProposalForm-visibility">
                   <SelectInput
                     value={visibility}
                     onChange={this._onChangeVisibility}>
@@ -152,13 +151,13 @@ export default class ProposalForm extends Component<> {
             </div>
           </div>
         ) : null}
-        {editMode === 'creating' ? (
-          <div className='ProposalForm-rules-time'>
-            <div className='ProposalForm-time'>
+        {editMode === "creating" ? (
+          <div className="ProposalForm-rules-time">
+            <div className="ProposalForm-time">
               <div>
-                <div className='ProposalForm-field-label'>Time</div>
-                <div className='ProposalForm-field-content'>
-                  <div className='ProposalForm-input-select'>
+                <div className="ProposalForm-field-label">Time</div>
+                <div className="ProposalForm-field-content">
+                  <div className="ProposalForm-input-select">
                     <SelectInput
                       value={rules.timeSystem}
                       onChange={this._onChangeTimeSystem}>
@@ -169,35 +168,35 @@ export default class ProposalForm extends Component<> {
                       ))}
                     </SelectInput>
                   </div>
-                  {rules.timeSystem !== 'none' ? (
+                  {rules.timeSystem !== "none" ? (
                     <ProposalFormInput
                       value={formatDuration(rules.mainTime || 0)}
-                      label='main'
+                      label="main"
                       onMinus={this._onMainTimeMinus}
                       onPlus={this._onMainTimePlus}
                     />
                   ) : null}
-                  {rules.timeSystem === 'byo_yomi' ||
-                  rules.timeSystem === 'canadian' ? (
+                  {rules.timeSystem === "byo_yomi" ||
+                  rules.timeSystem === "canadian" ? (
                       <ProposalFormInput
                         value={formatDuration(rules.byoYomiTime || 0)}
-                        label='overtime'
+                        label="overtime"
                         onMinus={this._onByoYomiMinus}
                         onPlus={this._onByoYomiPlus}
                       />
                     ) : null}
-                  {rules.timeSystem === 'byo_yomi' ? (
+                  {rules.timeSystem === "byo_yomi" ? (
                     <ProposalFormInput
                       value={rules.byoYomiPeriods || 0}
-                      label='periods'
+                      label="periods"
                       onMinus={this._onPeriodsMinus}
                       onPlus={this._onPeriodsPlus}
                     />
                   ) : null}
-                  {rules.timeSystem === 'canadian' ? (
+                  {rules.timeSystem === "canadian" ? (
                     <ProposalFormInput
                       value={rules.byoYomiStones || 0}
-                      label='stones'
+                      label="stones"
                       onMinus={this._onStonesMinus}
                       onPlus={this._onStonesPlus}
                     />
@@ -205,11 +204,11 @@ export default class ProposalForm extends Component<> {
                 </div>
               </div>
             </div>
-            <div className='ProposalForm-rules'>
-              <div className='ProposalForm-field'>
-                <div className='ProposalForm-field-label'>Rules</div>
-                <div className='ProposalForm-field-content'>
-                  <div className='ProposalForm-input-select'>
+            <div className="ProposalForm-rules">
+              <div className="ProposalForm-field">
+                <div className="ProposalForm-field-label">Rules</div>
+                <div className="ProposalForm-field-content">
+                  <div className="ProposalForm-input-select">
                     <SelectInput
                       value={ruleset}
                       onChange={this._onChangeRuleset}>
@@ -222,7 +221,7 @@ export default class ProposalForm extends Component<> {
                   </div>
                   <ProposalFormInput
                     value={`${rules.size}×${rules.size}`}
-                    label='board'
+                    label="board"
                     onMinus={this._onSizeMinus}
                     onPlus={this._onSizePlus}
                   />
@@ -231,36 +230,36 @@ export default class ProposalForm extends Component<> {
             </div>
           </div>
         ) : null}
-        {editMode !== 'creating' ? (
-          <div className='ProposalForm-rules-time'>
-            <div className='ProposalForm-rules-readonly'>
-              <div className='ProposalForm-field'>
-                <div className='ProposalForm-field-label'>Time</div>
-                <div className='ProposalForm-field-content'>
+        {editMode !== "creating" ? (
+          <div className="ProposalForm-rules-time">
+            <div className="ProposalForm-rules-readonly">
+              <div className="ProposalForm-field">
+                <div className="ProposalForm-field-label">Time</div>
+                <div className="ProposalForm-field-content">
                   <GameTimeSystem rules={rules} />
                 </div>
               </div>
               {rules.rules ? (
-                <div className='ProposalForm-field'>
-                  <div className='ProposalForm-field-label'>Rules</div>
-                  <div className='ProposalForm-field-content'>
+                <div className="ProposalForm-field">
+                  <div className="ProposalForm-field-label">Rules</div>
+                  <div className="ProposalForm-field-content">
                     {formatGameRuleset(rules.rules)}
                   </div>
                 </div>
               ) : null}
-              <div className='ProposalForm-field'>
-                <div className='ProposalForm-field-label'>Board</div>
-                <div className='ProposalForm-field-content'>
+              <div className="ProposalForm-field">
+                <div className="ProposalForm-field-label">Board</div>
+                <div className="ProposalForm-field-content">
                   {rules.size}×{rules.size}
                 </div>
               </div>
             </div>
-            <div className='ProposalForm-handicap-komi'>
-              <div className='ProposalForm-handicap-komi-heading'>Handicap</div>
+            <div className="ProposalForm-handicap-komi">
+              <div className="ProposalForm-handicap-komi-heading">Handicap</div>
               <ProposalFormInput
                 value={rules.handicap || 0}
-                label='handicap'
-                readonly={editMode === 'waiting' || proposal.nigiri}
+                label="handicap"
+                readonly={editMode === "waiting" || proposal.nigiri}
                 hilited={
                   prevProposal
                     ? (prevProposal.rules.handicap || 0) !==
@@ -272,8 +271,8 @@ export default class ProposalForm extends Component<> {
               />
               <ProposalFormInput
                 value={rules.komi}
-                label='komi'
-                readonly={editMode === 'waiting' || proposal.nigiri}
+                label="komi"
+                readonly={editMode === "waiting" || proposal.nigiri}
                 hilited={
                   prevProposal ? prevProposal.rules.komi !== rules.komi : false
                 }
@@ -288,8 +287,8 @@ export default class ProposalForm extends Component<> {
   }
 
   _onChangeVisibility = (e: Object) => {
-    if (e.target.value === 'private') {
-      this.props.onChangeProposal({ ...this.props.proposal, gameType: 'free' });
+    if (e.target.value === "private") {
+      this.props.onChangeProposal({ ...this.props.proposal, gameType: "free" });
     }
     this.props.onChangeVisibility(e.target.value);
   };
@@ -297,8 +296,8 @@ export default class ProposalForm extends Component<> {
   _onChangeGameType = (e: Object) => {
     let gameType = e.target.value;
     let { visibility, proposal } = this.props;
-    if (gameType === 'ranked' && visibility === 'private') {
-      this.props.onChangeVisibility('public');
+    if (gameType === "ranked" && visibility === "private") {
+      this.props.onChangeVisibility("public");
     }
     this.props.onChangeProposal({ ...proposal, gameType });
   };
@@ -320,10 +319,10 @@ export default class ProposalForm extends Component<> {
     let proposal = this.props.proposal;
     let timeSystem = e.target.value;
     let rules = { ...proposal.rules, timeSystem };
-    if (timeSystem === 'canadian') {
+    if (timeSystem === "canadian") {
       rules.byoYomiStones = 25;
       rules.byoYomiTime = 7 * 60;
-    } else if (timeSystem === 'byo_yomi') {
+    } else if (timeSystem === "byo_yomi") {
       rules.byoYomiTime = 30;
       rules.byoYomiPeriods = 5;
     }
@@ -332,7 +331,7 @@ export default class ProposalForm extends Component<> {
 
   _onToggleRole = (name: string) => {
     let { editMode, proposal } = this.props;
-    if (editMode !== 'negotiating' || proposal.players.length !== 2) {
+    if (editMode !== "negotiating" || proposal.players.length !== 2) {
       return;
     }
     let thisPlayerOld = proposal.players.find(p => p.name === name);
@@ -345,14 +344,14 @@ export default class ProposalForm extends Component<> {
     let newProposal = { ...proposal };
     if (proposal.nigiri) {
       newProposal.nigiri = false;
-    } else if (thisPlayer.role === 'white') {
-      thisPlayer.role = 'black';
-      otherPlayer.role = 'white';
-    } else if (thisPlayer.role === 'black') {
+    } else if (thisPlayer.role === "white") {
+      thisPlayer.role = "black";
+      otherPlayer.role = "white";
+    } else if (thisPlayer.role === "black") {
       newProposal.nigiri = true;
       newProposal.rules = { ...newProposal.rules, handicap: 0 };
-      thisPlayer.role = 'white';
-      otherPlayer.role = 'black';
+      thisPlayer.role = "white";
+      otherPlayer.role = "black";
     }
     // Maintain order for the sake of KGS API
     newProposal.players = proposal.players.map(

@@ -1,20 +1,20 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import { A } from '../common';
-import GameTypeIcon from './GameTypeIcon';
-import GamePlayersList from './GamePlayersList';
-import GameRulesDisplay from './GameRulesDisplay';
-import { formatGameScore, getWinningColor } from '../../model/game';
-import { formatLocaleDateTime } from '../../util/date';
-import type { GameSummary } from '../../model';
+import React, { PureComponent as Component } from "react";
+import { A } from "../common";
+import GameTypeIcon from "./GameTypeIcon";
+import GamePlayersList from "./GamePlayersList";
+import GameRulesDisplay from "./GameRulesDisplay";
+import { formatGameScore, getWinningColor } from "../../model/game";
+import { formatLocaleDateTime } from "../../util/date";
+import type { GameSummary } from "../../model";
 
-class GameSummaryListItem extends Component<> {
-  static defaultProps: {
-    game: GameSummary,
-    player?: string,
-    onSelect: GameSummary => any
-  };
+type Props = {
+  game: GameSummary,
+  player?: string,
+  onSelect: GameSummary => any
+};
 
+class GameSummaryListItem extends Component<Props> {
   render() {
     let { game, player } = this.props;
     let type = game.type;
@@ -23,39 +23,39 @@ class GameSummaryListItem extends Component<> {
     let winningPlayer = winningColor && game.players[winningColor];
     let won = winningPlayer && winningPlayer.name === player;
     let className =
-      'GameSummaryList-item' +
+      "GameSummaryList-item" +
       (won
-        ? ' GameSummaryList-item-won'
+        ? " GameSummaryList-item-won"
         : player && winningColor
-          ? ' GameSummaryList-item-lost'
-          : '');
+          ? " GameSummaryList-item-lost"
+          : "");
     let playingNow = game.inPlay && !winningColor;
     return (
       <A className={className} onClick={this._onSelect}>
-        <div className='GameSummaryList-item-type'>
+        <div className="GameSummaryList-item-type">
           <GameTypeIcon type={type} isPrivate={game.private} />
         </div>
-        <div className='GameSummaryList-item-players'>
+        <div className="GameSummaryList-item-players">
           <GamePlayersList players={game.players} winner={winningColor} />
         </div>
-        <div className='GameSummaryList-item-info'>
+        <div className="GameSummaryList-item-info">
           {playingNow ? (
-            <div className='GameSummaryList-item-date-now'>Playing now</div>
+            <div className="GameSummaryList-item-date-now">Playing now</div>
           ) : (
             <div>
-              <div className='GameSummaryList-item-result-rules'>
+              <div className="GameSummaryList-item-result-rules">
                 {game.score ? (
-                  <div className='GameSummaryList-item-result'>
+                  <div className="GameSummaryList-item-result">
                     {formatGameScore(game.score)}
                   </div>
                 ) : null}
                 {rules ? (
-                  <div className='GameSummaryList-item-rules'>
+                  <div className="GameSummaryList-item-rules">
                     <GameRulesDisplay rules={rules} />
                   </div>
                 ) : null}
               </div>
-              <div className='GameSummaryList-item-date'>
+              <div className="GameSummaryList-item-date">
                 {formatLocaleDateTime(game.timestamp)}
               </div>
             </div>
@@ -70,13 +70,20 @@ class GameSummaryListItem extends Component<> {
   };
 }
 
-export default class GameSummaryList extends Component<> {
-  static defaultProps: {
-    games: Array<GameSummary>,
-    player?: string,
-    onSelect: GameSummary => any
-  };
+type GameSummaryListProps = {
+  games: Array<GameSummary>,
+  player?: string,
+  onSelect: GameSummary => any
+};
 
+type State = {
+  fullRender: boolean
+};
+
+export default class GameSummaryList extends Component<
+  GameSummaryListProps,
+  State
+> {
   state = {
     fullRender: false
   };
@@ -97,7 +104,7 @@ export default class GameSummaryList extends Component<> {
       games = games.slice(0, 15);
     }
     return (
-      <div className='GameSummaryList'>
+      <div className="GameSummaryList">
         {games.map(game => (
           <GameSummaryListItem
             key={game.timestamp}

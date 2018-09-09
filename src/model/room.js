@@ -5,17 +5,17 @@ import type {
   Room,
   ChannelMembership,
   Index
-} from './types';
+} from "./types";
 
 export function getDefaultRoom(
   channelMembership: ChannelMembership,
   roomsById: Index<Room>
 ) {
   let rooms = Object.keys(channelMembership)
-    .filter(id => channelMembership[id].type === 'room' && roomsById[id])
+    .filter(id => channelMembership[id].type === "room" && roomsById[id])
     .map(id => roomsById[id]);
   // TODO - hack
-  return rooms.find(r => r.name === 'English Game Room') || rooms[0];
+  return rooms.find(r => r.name === "English Game Room") || rooms[0];
 }
 
 function updateRoom(room: ?Room, values: Object): Room {
@@ -30,12 +30,12 @@ function updateRoom(room: ?Room, values: Object): Room {
     newRoom.users = values.users.map(u => u.name);
   }
   for (let key of [
-    'name',
-    'description',
-    'category',
-    'private',
-    'tournOnly',
-    'globalGamesOnly'
+    "name",
+    "description",
+    "category",
+    "private",
+    "tournOnly",
+    "globalGamesOnly"
   ]) {
     if (key in values) {
       newRoom[key] = values[key];
@@ -49,7 +49,7 @@ export function handleRoomMessage(
   msg: KgsMessage
 ): AppState {
   let chanId = msg.channelId;
-  if (msg.type === 'ROOM_NAMES' || msg.type === 'LOGIN_SUCCESS') {
+  if (msg.type === "ROOM_NAMES" || msg.type === "LOGIN_SUCCESS") {
     let roomsById: Index<Room> = { ...prevState.roomsById };
     for (let room of msg.rooms) {
       roomsById[room.channelId] = updateRoom(roomsById[room.channelId], room);
@@ -57,13 +57,13 @@ export function handleRoomMessage(
     let nextState: AppState = { ...prevState, roomsById };
     return nextState;
   } else if (
-    (msg.type === 'ROOM_DESC' || msg.type === 'ROOM_CHANNEL_INFO') &&
+    (msg.type === "ROOM_DESC" || msg.type === "ROOM_CHANNEL_INFO") &&
     chanId
   ) {
     let roomsById: Index<Room> = { ...prevState.roomsById };
     roomsById[chanId] = updateRoom(roomsById[chanId], msg);
     return { ...prevState, roomsById };
-  } else if (msg.type === 'ROOM_JOIN' && chanId) {
+  } else if (msg.type === "ROOM_JOIN" && chanId) {
     // Room info
     let roomsById: Index<Room> = { ...prevState.roomsById };
     let room: Room = updateRoom(roomsById[chanId], msg);
@@ -73,17 +73,17 @@ export function handleRoomMessage(
     let channelMembership: ChannelMembership = {
       ...prevState.channelMembership
     };
-    channelMembership[chanId] = { type: 'room', complete: false, stale: false };
+    channelMembership[chanId] = { type: "room", complete: false, stale: false };
 
     // FIXME - hack
     let activeConversationId =
-      !prevState.activeConversationId && room.name === 'English Game Room'
+      !prevState.activeConversationId && room.name === "English Game Room"
         ? chanId
         : prevState.activeConversationId;
 
     return { ...prevState, roomsById, channelMembership, activeConversationId };
   } else if (
-    msg.type === 'ROOM_NAME_FLUSH' &&
+    msg.type === "ROOM_NAME_FLUSH" &&
     chanId &&
     prevState.channelMembership[chanId]
   ) {
@@ -91,7 +91,7 @@ export function handleRoomMessage(
     chanMem[chanId].stale = true;
     return { ...prevState, channelMembership: chanMem };
   } else if (
-    msg.type === 'USER_REMOVED' &&
+    msg.type === "USER_REMOVED" &&
     chanId &&
     prevState.roomsById[chanId]
   ) {
@@ -106,7 +106,7 @@ export function handleRoomMessage(
     };
     return { ...prevState, roomsById };
   } else if (
-    msg.type === 'USER_ADDED' &&
+    msg.type === "USER_ADDED" &&
     chanId &&
     prevState.roomsById[chanId]
   ) {

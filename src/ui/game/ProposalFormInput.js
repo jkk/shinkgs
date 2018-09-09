@@ -1,6 +1,6 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import { A } from '../common';
+import React, { PureComponent as Component } from "react";
+import { A } from "../common";
 
 type Props = {
   value: string | number,
@@ -11,27 +11,26 @@ type Props = {
   onPlus: Function
 };
 
-export default class ProposalFormInput extends Component<> {
-  static defaultProps: Props;
+export default class ProposalFormInput extends Component<Props> {
   render() {
     let { value, label, readonly, hilited } = this.props;
     let className =
-      'ProposalForm-input' +
-      ((readonly ? ' ProposalForm-input-readonly' : '') +
-        (hilited ? ' ProposalForm-input-hilite' : ''));
+      "ProposalForm-input" +
+      ((readonly ? " ProposalForm-input-readonly" : "") +
+        (hilited ? " ProposalForm-input-hilite" : ""));
     return (
       <div className={className}>
-        <div className='ProposalForm-input-value'>
-          {value} <div className='ProposalForm-input-value-label'>{label}</div>
+        <div className="ProposalForm-input-value">
+          {value} <div className="ProposalForm-input-value-label">{label}</div>
         </div>
-        <div className='ProposalForm-input-plusminus'>
+        <div className="ProposalForm-input-plusminus">
           <A
             button
-            className='ProposalForm-input-minus'
+            className="ProposalForm-input-minus"
             onClick={this._onMinus}>
             –
           </A>
-          <A button className='ProposalForm-input-plus' onClick={this._onPlus}>
+          <A button className="ProposalForm-input-plus" onClick={this._onPlus}>
             +
           </A>
         </div>

@@ -1,10 +1,10 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import type { ClockState, GameRules } from '../../model';
+import React, { PureComponent as Component } from "react";
+import type { ClockState, GameRules } from "../../model";
 
 function formatTime(time: ?number) {
-  if (typeof time !== 'number') {
-    return '--';
+  if (typeof time !== "number") {
+    return "--";
   }
   if (time < 0) {
     time = 0;
@@ -15,7 +15,7 @@ function formatTime(time: ?number) {
     mins += 1;
     secs = 0;
   }
-  return '' + mins + ':' + (secs < 10 ? '0' : '') + secs;
+  return "" + mins + ":" + (secs < 10 ? "0" : "") + secs;
 }
 
 // Hacky compensation for network/rendering lag
@@ -29,8 +29,7 @@ type TimeCountdownProps = {
   byoYomiStones: ?number
 };
 
-class TimeCountdown extends Component<> {
-  static defaultProps: TimeCountdownProps;
+class TimeCountdown extends Component<TimeCountdownProps> {
   _startTime: number;
   _interval: any;
 
@@ -75,7 +74,7 @@ class TimeCountdown extends Component<> {
       if (mainTime > 0) {
         seconds = mainTime;
       } else if (mainTime < 0 && byoYomiTime) {
-        if (typeof periods === 'number' && byoYomiPeriods) {
+        if (typeof periods === "number" && byoYomiPeriods) {
           let periodsLeft = periods ? periods - 1 : byoYomiPeriods;
           // Byo yomi overtime
           periods = Math.max(
@@ -108,7 +107,7 @@ class TimeCountdown extends Component<> {
     let seconds;
     let periods;
     let stones;
-    if (clock.running && !clock.paused && typeof clock.time === 'number') {
+    if (clock.running && !clock.paused && typeof clock.time === "number") {
       seconds = this.state.seconds;
       periods = this.state.periods;
       stones = this.state.stones;
@@ -120,20 +119,20 @@ class TimeCountdown extends Component<> {
     let timeQualifier;
     let sd;
     if (periods !== undefined) {
-      timeQualifier = periods === 1 ? 'SD' : periods ? ` (${periods})` : '';
+      timeQualifier = periods === 1 ? "SD" : periods ? ` (${periods})` : "";
       sd = periods === 1;
     } else if (stones) {
-      timeQualifier = ' / ' + stones;
+      timeQualifier = " / " + stones;
       sd = true;
     } else if (seconds && stones === undefined) {
-      timeQualifier = ' SD';
+      timeQualifier = " SD";
       sd = true;
     }
     let className =
-      'TimeCountdown' +
-      (sd && typeof seconds === 'number' && seconds < 3
-        ? ' TimeCountdown-urgent'
-        : '');
+      "TimeCountdown" +
+      (sd && typeof seconds === "number" && seconds < 3
+        ? " TimeCountdown-urgent"
+        : "");
     return (
       <div className={className}>
         {formatTime(seconds)} {timeQualifier}
@@ -142,22 +141,22 @@ class TimeCountdown extends Component<> {
   }
 }
 
-export default class GameClock extends Component<> {
-  static defaultProps: {
-    nodeId: ?number,
-    active: boolean,
-    clock: ClockState,
-    timeLeft: number,
-    gameRules?: ?GameRules
-  };
+type Props = {
+  nodeId: ?number,
+  active: boolean,
+  clock: ClockState,
+  timeLeft: number,
+  gameRules?: ?GameRules
+};
 
+export default class GameClock extends Component<Props> {
   render() {
     let { nodeId, active, clock, timeLeft, gameRules } = this.props;
     let className =
-      'GameClock ' +
-      ((active ? 'GameClock-active' : 'GameClock-inactive') +
-        (active && clock.running && !clock.paused ? ' GameClock-running' : '') +
-        (clock.paused ? ' GameClock-paused' : ''));
+      "GameClock " +
+      ((active ? "GameClock-active" : "GameClock-inactive") +
+        (active && clock.running && !clock.paused ? " GameClock-running" : "") +
+        (clock.paused ? " GameClock-paused" : ""));
 
     let byoYomiTime;
     let byoYomiPeriods;
@@ -170,7 +169,7 @@ export default class GameClock extends Component<> {
 
     return (
       <div className={className}>
-        <div className='GameClock-time'>
+        <div className="GameClock-time">
           {active ? (
             <TimeCountdown
               nodeId={nodeId}
@@ -180,7 +179,7 @@ export default class GameClock extends Component<> {
               byoYomiStones={byoYomiStones}
             />
           ) : (
-            <div className='GameClock-time-frozen'>{formatTime(timeLeft)}</div>
+            <div className="GameClock-time-frozen">{formatTime(timeLeft)}</div>
           )}
         </div>
       </div>

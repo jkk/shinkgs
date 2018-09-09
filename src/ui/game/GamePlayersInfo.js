@@ -1,29 +1,29 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import GameClock from './GameClock';
-import UserName from '../user/UserName';
-import UserAvatar from '../user/UserAvatar';
-import BoardStone from '../board/BoardStone';
-import { A, Icon } from '../common';
-import { getWinningColor } from '../../model/game';
-import type { GameChannel, GameRules, User, ClockState } from '../../model';
+import React, { PureComponent as Component } from "react";
+import GameClock from "./GameClock";
+import UserName from "../user/UserName";
+import UserAvatar from "../user/UserAvatar";
+import BoardStone from "../board/BoardStone";
+import { A, Icon } from "../common";
+import { getWinningColor } from "../../model/game";
+import type { GameChannel, GameRules, User, ClockState } from "../../model";
 
-class GamePlayersInfoColor extends Component<> {
-  static defaultProps: {
-    nodeId: ?number,
-    color: 'white' | 'black' | 'owner',
-    winner: boolean,
-    owner: ?User,
-    player1: ?User,
-    player2: ?User,
-    clock: ?ClockState,
-    gameRules: ?GameRules,
-    captures: number,
-    timeLeft: number,
-    gameActive: boolean,
-    onUserDetail: User => any
-  };
+type Props = {
+  nodeId: ?number,
+  color: "white" | "black" | "owner",
+  winner: boolean,
+  owner: ?User,
+  player1: ?User,
+  player2: ?User,
+  clock: ?ClockState,
+  gameRules: ?GameRules,
+  captures: number,
+  timeLeft: number,
+  gameActive: boolean,
+  onUserDetail: User => any
+};
 
+class GamePlayersInfoColor extends Component<Props> {
   render() {
     let {
       nodeId,
@@ -42,30 +42,30 @@ class GamePlayersInfoColor extends Component<> {
       return null;
     }
     let className =
-      'GamePlayersInfo-color GamePlayersInfo-' +
+      "GamePlayersInfo-color GamePlayersInfo-" +
       color +
-      (winner ? ' GamePlayersInfo-winner' : '');
+      (winner ? " GamePlayersInfo-winner" : "");
     let icon;
-    if (color === 'white') {
-      icon = '⚪️';
-    } else if (color === 'black') {
-      icon = '⚫️';
+    if (color === "white") {
+      icon = "⚪️";
+    } else if (color === "black") {
+      icon = "⚫️";
     }
     if (owner && player1 && owner.name === player1.name) {
-      icon = '✏️' + (icon || '');
+      icon = "✏️" + (icon || "");
     }
     return (
       <div className={className}>
-        <div className='GamePlayersInfo-avatar'>
+        <div className="GamePlayersInfo-avatar">
           <A onClick={this._onClickPlayer1}>
             <UserAvatar user={player1} />
           </A>
         </div>
-        <div className='GamePlayersInfo-players'>
+        <div className="GamePlayersInfo-players">
           {player1 ? (
-            <div className='GamePlayersInfo-player1'>
-              <div className='GamePlayersInfo-players-icon'>
-                {color === 'white' || color === 'black' ? (
+            <div className="GamePlayersInfo-player1">
+              <div className="GamePlayersInfo-players-icon">
+                {color === "white" || color === "black" ? (
                   <BoardStone color={color} />
                 ) : (
                   <div>{icon}</div>
@@ -77,19 +77,19 @@ class GamePlayersInfoColor extends Component<> {
             </div>
           ) : null}
           {player2 ? (
-            <div className='GamePlayersInfo-player2'>
+            <div className="GamePlayersInfo-player2">
               <A onClick={this._onClickPlayer2}>
                 <UserName user={player2} />
               </A>
             </div>
           ) : null}
         </div>
-        {color !== 'owner' ? (
-          <div className='GamePlayersInfo-captures-clock'>
-            <div className='GamePlayersInfo-captures'>{captures} captures</div>
-            <div className='GamePlayersInfo-winner-clock'>
+        {color !== "owner" ? (
+          <div className="GamePlayersInfo-captures-clock">
+            <div className="GamePlayersInfo-captures">{captures} captures</div>
+            <div className="GamePlayersInfo-winner-clock">
               {clock ? (
-                <div className='GamePlayersInfo-clock'>
+                <div className="GamePlayersInfo-clock">
                   <GameClock
                     nodeId={nodeId}
                     active={gameActive}
@@ -100,14 +100,14 @@ class GamePlayersInfoColor extends Component<> {
                 </div>
               ) : null}
               {winner ? (
-                <div className='GamePlayersInfo-winner-badge'>
-                  <Icon name='check' /> Winner
+                <div className="GamePlayersInfo-winner-badge">
+                  <Icon name="check" /> Winner
                 </div>
               ) : null}
             </div>
           </div>
         ) : (
-          <div className='GamePlayersInfo-role'>Game Owner</div>
+          <div className="GamePlayersInfo-role">Game Owner</div>
         )}
       </div>
     );
@@ -126,12 +126,12 @@ class GamePlayersInfoColor extends Component<> {
   };
 }
 
-export default class GamePlayersInfo extends Component<> {
-  static defaultProps: {
-    game: GameChannel,
-    onUserDetail: User => any
-  };
+type GamePlayersInfoProps = {
+  game: GameChannel,
+  onUserDetail: User => any
+};
 
+export default class GamePlayersInfo extends Component<GamePlayersInfoProps> {
   render() {
     let { game, onUserDetail } = this.props;
     let players = game.players;
@@ -143,10 +143,10 @@ export default class GamePlayersInfo extends Component<> {
     let white2 = players.white_2;
     let black1 = players.black;
     let black2 = players.black_2;
-    let color1 = 'white';
+    let color1 = "white";
     if (!white1 && !white2 && !black1 && !black2) {
       white1 = players.owner;
-      color1 = 'owner';
+      color1 = "owner";
     }
     let computedState;
     let nodeId;
@@ -159,13 +159,13 @@ export default class GamePlayersInfo extends Component<> {
       gameActive = false;
     }
     let className =
-      'GamePlayersInfo' + (white2 && black2 ? ' GamePlayersInfo-rengo' : '');
+      "GamePlayersInfo" + (white2 && black2 ? " GamePlayersInfo-rengo" : "");
     return (
       <div className={className}>
         <GamePlayersInfoColor
           nodeId={nodeId}
           color={color1}
-          winner={winner === 'white'}
+          winner={winner === "white"}
           player1={white1}
           player2={white2}
           owner={players.owner}
@@ -178,8 +178,8 @@ export default class GamePlayersInfo extends Component<> {
         />
         <GamePlayersInfoColor
           nodeId={nodeId}
-          color='black'
-          winner={winner === 'black'}
+          color="black"
+          winner={winner === "black"}
           player1={black1}
           player2={black2}
           owner={players.owner}

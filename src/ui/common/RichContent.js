@@ -1,7 +1,7 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import Autolinker from 'autolinker.js';
-import { nl2br, escapeHtml } from '../../util/string';
+import React, { PureComponent as Component } from "react";
+import Autolinker from "autolinker.js";
+import { nl2br, escapeHtml } from "../../util/string";
 
 type Props = {
   content: ?string,
@@ -18,7 +18,7 @@ export class RichContent extends Component<Props> {
       newWindow: true,
       stripPrefix: false,
       truncate: null,
-      className: 'RichContent-link',
+      className: "RichContent-link",
       urls: true,
       email: true,
       twitter: false
@@ -27,11 +27,11 @@ export class RichContent extends Component<Props> {
     if (firstLineHeading) {
       html = html.replace(
         /(.+?)<br>/,
-        '<div class="RichContent-heading">$1</div>'
+        "<div class='RichContent-heading'>$1</div>"
       );
     }
     return (
-      <div className='RichContent' dangerouslySetInnerHTML={{ __html: html }} />
+      <div className="RichContent" dangerouslySetInnerHTML={{ __html: html }} />
     );
   }
 }

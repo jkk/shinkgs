@@ -2,8 +2,8 @@
 // https://github.com/react-bootstrap/react-bootstrap/blob/master/src/Portal.js
 // @flow
 
-import * as React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from "react";
+import ReactDOM from "react-dom";
 
 function getOwnerDocument(componentOrElement) {
   let elem = ReactDOM.findDOMNode(componentOrElement);
@@ -34,7 +34,7 @@ export class Portal extends React.PureComponent<> {
 
   _mountOverlayTarget() {
     if (!this._overlayTarget) {
-      this._overlayTarget = document.createElement('div');
+      this._overlayTarget = document.createElement("div");
       let container = this.getContainerDOMNode();
       if (container) {
         container.appendChild(this._overlayTarget);
@@ -82,7 +82,7 @@ export class Portal extends React.PureComponent<> {
   getOverlayDOMNode() {
     if (!this._isMounted) {
       throw new Error(
-        'getOverlayDOMNode(): A component must be mounted to have a DOM node.'
+        "getOverlayDOMNode(): A component must be mounted to have a DOM node."
       );
     }
 

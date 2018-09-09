@@ -1,15 +1,16 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import { Icon } from './Icon';
+import React, { PureComponent as Component } from "react";
+import { Icon } from "./Icon";
 
-export class SelectInput extends Component<> {
-  static defaultProps: $FlowFixMeProps;
+type Props = {};
+
+export class SelectInput extends Component<Props> {
   render() {
     return (
-      <div className='SelectInput'>
+      <div className="SelectInput">
         <select {...this.props} />
-        <div className='SelectInput-icon'>
-          <Icon name='chevron-down' />
+        <div className="SelectInput-icon">
+          <Icon name="chevron-down" />
         </div>
       </div>
     );

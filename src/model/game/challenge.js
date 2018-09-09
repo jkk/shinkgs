@@ -1,6 +1,6 @@
 // @flow
-import { userHasRank, userUnranked } from '../user';
-import type { User, GameProposal, GameRules, Index } from '../types';
+import { userHasRank, userUnranked } from "../user";
+import type { User, GameProposal, GameRules, Index } from "../types";
 
 export const DEFAULT_KOMI = 6.5;
 
@@ -25,8 +25,8 @@ export function getMatchupInfo(
     !userHasRank(user1) ||
     !userHasRank(user2) ||
     user1.rankVal === user2.rankVal ||
-    typeof rank1 !== 'number' ||
-    typeof rank2 !== 'number'
+    typeof rank1 !== "number" ||
+    typeof rank2 !== "number"
   ) {
     return {
       white: user1.name,
@@ -140,17 +140,17 @@ export function getEvenProposal(
       komi
     };
     proposal.nigiri = nigiri;
-    if (unranked && proposal.gameType === 'ranked') {
-      proposal.gameType = 'free';
+    if (unranked && proposal.gameType === "ranked") {
+      proposal.gameType = "free";
     }
     for (let player of players) {
       if (!player.name) {
         continue;
       }
       if (player.name === white) {
-        player.role = 'white';
+        player.role = "white";
       } else if (player.name === black) {
-        player.role = 'black';
+        player.role = "black";
       }
     }
   }
@@ -158,7 +158,7 @@ export function getEvenProposal(
   proposal.players = players;
 
   if (!proposal.status) {
-    proposal.status = 'setup';
+    proposal.status = "setup";
   }
 
   return proposal;
@@ -168,7 +168,7 @@ export function createInitialProposal(
   currentUser: User,
   lastProposal?: ?GameProposal
 ): GameProposal {
-  let players = [{ name: currentUser.name, role: 'white' }, { role: 'black' }];
+  let players = [{ name: currentUser.name, role: "white" }, { role: "black" }];
   let flags = currentUser.flags;
   let canPlayRanked =
     !userUnranked(currentUser) &&
@@ -177,15 +177,15 @@ export function createInitialProposal(
   let gameType = lastProposal
     ? lastProposal.gameType
     : canPlayRanked
-      ? 'ranked'
-      : 'free';
+      ? "ranked"
+      : "free";
   let rules: GameRules = lastProposal
     ? lastProposal.rules
     : {
       komi: DEFAULT_KOMI,
       size: 19,
-      rules: 'japanese',
-      timeSystem: 'byo_yomi',
+      rules: "japanese",
+      timeSystem: "byo_yomi",
       mainTime: 60 * 20,
       byoYomiPeriods: 5,
       byoYomiTime: 30

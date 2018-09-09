@@ -1,14 +1,14 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import { ScreenModal, Button } from './common';
-import ChallengeEditor from './game/ChallengeEditor';
-import GameList from './game/GameList';
-import GameSummaryList from './game/GameSummaryList';
-import GameListFilter from './game/GameListFilter';
-import GameScreen from './game/GameScreen';
-import { InvariantError } from '../util/error';
-import { getDefaultRoom } from '../model/room';
-import { isGamePlaying } from '../model/game';
+import React, { PureComponent as Component } from "react";
+import { ScreenModal, Button } from "./common";
+import ChallengeEditor from "./game/ChallengeEditor";
+import GameList from "./game/GameList";
+import GameSummaryList from "./game/GameSummaryList";
+import GameListFilter from "./game/GameListFilter";
+import GameScreen from "./game/GameScreen";
+import { InvariantError } from "../util/error";
+import { getDefaultRoom } from "../model/room";
+import { isGamePlaying } from "../model/game";
 import type {
   User,
   GameChannel,
@@ -21,7 +21,7 @@ import type {
   Preferences,
   Index,
   AppActions
-} from '../model';
+} from "../model";
 
 type Props = {
   currentUser: ?User,
@@ -39,7 +39,11 @@ type Props = {
   actions: AppActions
 };
 
-export default class PlayScreen extends Component<> {
+type State = {
+  creatingChallenge: boolean
+};
+
+export default class PlayScreen extends Component<Props, State> {
   static defaultProps: Props;
   state = {
     creatingChallenge: false
@@ -86,7 +90,7 @@ export default class PlayScreen extends Component<> {
     } = this.props;
     let { creatingChallenge } = this.state;
     if (!currentUser) {
-      throw new InvariantError('currentUser is required');
+      throw new InvariantError("currentUser is required");
     }
     let challenge = playChallengeId ? gamesById[playChallengeId] : null;
     let conversation = playChallengeId
@@ -95,9 +99,9 @@ export default class PlayScreen extends Component<> {
     let activeGame = playGameId ? gamesById[playGameId] : null;
     let defaultRoom = getDefaultRoom(channelMembership, roomsById);
     return (
-      <div className='PlayScreen'>
+      <div className="PlayScreen">
         {challenge || creatingChallenge ? (
-          <div className='PlayScreen-challenge'>
+          <div className="PlayScreen-challenge">
             <ScreenModal onClose={this._onCloseChallenge}>
               <ChallengeEditor
                 currentUser={currentUser}
@@ -114,7 +118,7 @@ export default class PlayScreen extends Component<> {
           </div>
         ) : null}
         {activeGame ? (
-          <div className='PlayScreen-game'>
+          <div className="PlayScreen-game">
             <GameScreen
               playing={isGamePlaying(activeGame)}
               game={activeGame}
@@ -125,32 +129,32 @@ export default class PlayScreen extends Component<> {
             />
           </div>
         ) : (
-          <div className='PlayScreen-list'>
+          <div className="PlayScreen-list">
             <GameListFilter
               games={challenges}
               roomsById={roomsById}
               filter={playFilter}
               onChange={actions.onShowGames}
             />
-            <div className='PlayScreen-action-buttons'>
-              <Button primary icon='plus' onClick={this._onCreateChallenge}>
+            <div className="PlayScreen-action-buttons">
+              <Button primary icon="plus" onClick={this._onCreateChallenge}>
                 Create Challenge
               </Button>
             </div>
             {unfinishedGames.length ? (
-              <div className='PlayScreen-unfinished-list'>
-                <div className='PlayScreen-unfinished-heading'>
+              <div className="PlayScreen-unfinished-list">
+                <div className="PlayScreen-unfinished-heading">
                   Unfinished Games
                 </div>
                 <GameList
                   games={unfinishedGames
-                    .filter(ug => ug.type === 'channel')
+                    .filter(ug => ug.type === "channel")
                     .map((ug: Object) => ug.game)}
                   onSelect={this._onSelectGameChannel}
                 />
                 <GameSummaryList
                   games={unfinishedGames
-                    .filter(ug => ug.type === 'summary')
+                    .filter(ug => ug.type === "summary")
                     .map((ug: Object) => ug.game)}
                   player={currentUser.name}
                   onSelect={this._onSelectGameSummary}

@@ -1,7 +1,7 @@
 // @flow
-import uuidV4 from 'uuid/v4';
-import { computeGameNodeStates, validateRuleSet, getGameLine } from './tree';
-import { parseUser } from '../user';
+import uuidV4 from "uuid/v4";
+import { computeGameNodeStates, validateRuleSet, getGameLine } from "./tree";
+import { parseUser } from "../user";
 import type {
   GameChannel,
   GameRules,
@@ -12,8 +12,8 @@ import type {
   SgfLoc,
   GameRuleSet,
   ConversationMessage
-} from '../types';
-import { GameNode } from '../types';
+} from "../types";
+import { GameNode } from "../types";
 
 export function parseGameSummary(values: Object): GameSummary {
   let rules: GameRules = {
@@ -53,7 +53,7 @@ function parseGameComments(
 ): Array<ConversationMessage> {
   let msgs = [];
   for (let prop of node.props) {
-    if (prop.name !== 'COMMENT') {
+    if (prop.name !== "COMMENT") {
       continue;
     }
     let text = prop.text;
@@ -134,9 +134,9 @@ function locsEqual(loc1: ?SgfLoc, loc2: ?SgfLoc) {
   if (!loc1 || !loc2) {
     return loc1 === loc2;
   }
-  if (loc1 === 'PASS') {
+  if (loc1 === "PASS") {
     return loc1 === loc2;
-  } else if (loc2 !== 'PASS') {
+  } else if (loc2 !== "PASS") {
     return loc1.x === loc2.x && loc1.y === loc2.y;
   } else {
     return false;
@@ -189,19 +189,19 @@ function parseSgfEvents(prevTree: ?GameTree, events: Array<SgfEvent>) {
         currentLine: [event.nodeId]
       };
     }
-    if (event.type === 'PROP_ADDED') {
+    if (event.type === "PROP_ADDED") {
       addPropsToNode(tree, event.nodeId, [event.prop]);
-    } else if (event.type === 'PROP_REMOVED') {
+    } else if (event.type === "PROP_REMOVED") {
       removePropsFromNode(tree, event.nodeId, [event.prop]);
-    } else if (event.type === 'PROP_CHANGED') {
+    } else if (event.type === "PROP_CHANGED") {
       let prop = event.prop;
-      if (prop.name === 'COMMENT') {
+      if (prop.name === "COMMENT") {
         // Special case for game chats
         addPropsToNode(tree, event.nodeId, [event.prop], new Date());
       } else {
         replaceNodeProp(tree, event.nodeId, event.prop);
       }
-    } else if (event.type === 'CHILDREN_REORDERED') {
+    } else if (event.type === "CHILDREN_REORDERED") {
       let node = tree.nodes[event.nodeId];
       let newNode = new GameNode(node.props, event.children, node.parent);
       tree.nodes = {
@@ -209,14 +209,14 @@ function parseSgfEvents(prevTree: ?GameTree, events: Array<SgfEvent>) {
         [event.nodeId]: newNode
       };
       tree.currentLine = getGameLine(tree, tree.currentNode);
-    } else if (event.type === 'CHILD_ADDED') {
+    } else if (event.type === "CHILD_ADDED") {
       addNodeChild(tree, event.nodeId, event.childNodeId, event.position || 0);
       tree.currentLine = getGameLine(tree, tree.currentNode);
-    } else if (event.type === 'PROP_GROUP_ADDED') {
+    } else if (event.type === "PROP_GROUP_ADDED") {
       addPropsToNode(tree, event.nodeId, event.props);
-    } else if (event.type === 'PROP_GROUP_REMOVED') {
+    } else if (event.type === "PROP_GROUP_REMOVED") {
       removePropsFromNode(tree, event.nodeId, event.props);
-    } else if (event.type === 'ACTIVATED') {
+    } else if (event.type === "ACTIVATED") {
       if (tree.currentNode === tree.activeNode) {
         tree.currentNode = event.nodeId;
       }
@@ -234,36 +234,36 @@ function parseGameRulesFromTree(tree: GameTree): ?GameRules {
   if (!rootNode) {
     return null;
   }
-  let rulesProp: ?Object = rootNode.props.find(p => p.name === 'RULES');
+  let rulesProp: ?Object = rootNode.props.find(p => p.name === "RULES");
   if (!rulesProp) {
     return null;
   }
-  let size = typeof rulesProp.size === 'number' ? rulesProp.size : 19;
-  let komi = typeof rulesProp.komi === 'number' ? rulesProp.komi : 6.5;
+  let size = typeof rulesProp.size === "number" ? rulesProp.size : 19;
+  let komi = typeof rulesProp.komi === "number" ? rulesProp.komi : 6.5;
   let ruleset: ?GameRuleSet =
-    typeof rulesProp.rules !== 'undefined'
+    typeof rulesProp.rules !== "undefined"
       ? validateRuleSet(rulesProp.rules)
       : null;
   let rules: GameRules = { size, komi };
   if (ruleset) {
     rules.rules = ruleset;
   }
-  if (typeof rulesProp.handicap === 'number') {
+  if (typeof rulesProp.handicap === "number") {
     rules.handicap = rulesProp.handicap;
   }
-  if (typeof rulesProp.timeSystem === 'string') {
+  if (typeof rulesProp.timeSystem === "string") {
     rules.timeSystem = rulesProp.timeSystem;
   }
-  if (typeof rulesProp.mainTime === 'number') {
+  if (typeof rulesProp.mainTime === "number") {
     rules.mainTime = rulesProp.mainTime;
   }
-  if (typeof rulesProp.byoYomiTime === 'number') {
+  if (typeof rulesProp.byoYomiTime === "number") {
     rules.byoYomiTime = rulesProp.byoYomiTime;
   }
-  if (typeof rulesProp.byoYomiPeriods === 'number') {
+  if (typeof rulesProp.byoYomiPeriods === "number") {
     rules.byoYomiPeriods = rulesProp.byoYomiPeriods;
   }
-  if (typeof rulesProp.byoYomiStones === 'number') {
+  if (typeof rulesProp.byoYomiStones === "number") {
     rules.byoYomiStones = rulesProp.byoYomiStones;
   }
   return rules;
@@ -271,31 +271,31 @@ function parseGameRulesFromTree(tree: GameTree): ?GameRules {
 
 // Props we store as-is without parsing
 const GAME_CHAN_PROPS = [
-  'initialProposal',
-  'rules',
-  'moveNum',
-  'roomId',
-  'observers',
-  'name',
-  'score',
-  'private',
-  'global',
-  'over',
-  'adjourned',
-  'subscribers',
-  'event',
-  'uploaded',
-  'audio',
-  'paused',
-  'named',
-  'saved',
-  'actions',
-  'clocks',
-  'whiteDoneSent',
-  'blackDoneSent',
-  'whiteScore',
-  'blackScore',
-  'doneId'
+  "initialProposal",
+  "rules",
+  "moveNum",
+  "roomId",
+  "observers",
+  "name",
+  "score",
+  "private",
+  "global",
+  "over",
+  "adjourned",
+  "subscribers",
+  "event",
+  "uploaded",
+  "audio",
+  "paused",
+  "named",
+  "saved",
+  "actions",
+  "clocks",
+  "whiteDoneSent",
+  "blackDoneSent",
+  "whiteScore",
+  "blackScore",
+  "doneId"
 ];
 
 let gameTimes: { [gameTime: number]: true } = {};
@@ -344,7 +344,7 @@ export function parseGameChannel(
   }
   if (values.sgfEvents) {
     let prevTree =
-      values.type === 'GAME_JOIN' && values.sgfEvents.length
+      values.type === "GAME_JOIN" && values.sgfEvents.length
         ? null
         : newChan.tree;
     newChan.tree = parseSgfEvents(prevTree, values.sgfEvents);

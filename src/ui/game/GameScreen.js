@@ -1,16 +1,16 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import GameInfo from './GameInfo';
-import GamePlayersInfo from './GamePlayersInfo';
-import GameChat from './GameChat';
-import GameMoreMenu from './GameMoreMenu';
-import GamePlayActions from './GamePlayActions';
-import GameUndoPrompt from './GameUndoPrompt';
-import BoardContainer from '../board/BoardContainer';
-import BoardNav from '../board/BoardNav';
-import UserList from '../user/UserList';
-import ChatMessageBar from '../chat/ChatMessageBar';
-import { A, Icon } from '../common';
+import React, { PureComponent as Component } from "react";
+import GameInfo from "./GameInfo";
+import GamePlayersInfo from "./GamePlayersInfo";
+import GameChat from "./GameChat";
+import GameMoreMenu from "./GameMoreMenu";
+import GamePlayActions from "./GamePlayActions";
+import GameUndoPrompt from "./GameUndoPrompt";
+import BoardContainer from "../board/BoardContainer";
+import BoardNav from "../board/BoardNav";
+import UserList from "../user/UserList";
+import ChatMessageBar from "../chat/ChatMessageBar";
+import { A, Icon } from "../common";
 import {
   formatGameScore,
   getGameLine,
@@ -19,8 +19,8 @@ import {
   getGameChatSections,
   getGamePlayerRole,
   getGameRoleColor
-} from '../../model/game';
-import { sortUsers } from '../../model/user';
+} from "../../model/game";
+import { sortUsers } from "../../model/user";
 import type {
   GameChannel,
   GameChatSection,
@@ -31,7 +31,7 @@ import type {
   Point,
   BoardPointMark,
   PlayerColor
-} from '../../model';
+} from "../../model";
 
 type Props = {
   playing?: boolean,
@@ -43,14 +43,13 @@ type Props = {
 };
 
 type State = {
-  tab: 'chat' | 'info' | 'users',
+  tab: "chat" | "info" | "users",
   chatSections: Array<GameChatSection>
 };
 
-export default class GameScreen extends Component<> {
-  static defaultProps: Props;
-  state: State = {
-    tab: 'chat',
+export default class GameScreen extends Component<Props, State> {
+  state = {
+    tab: "chat",
     chatSections: getGameChatSections(this.props.game)
   };
 
@@ -70,7 +69,7 @@ export default class GameScreen extends Component<> {
 
   componentDidMount() {
     if (document.body) {
-      document.body.classList.add('GameScreen-body');
+      document.body.classList.add("GameScreen-body");
     }
     this._setChatScroll();
   }
@@ -97,7 +96,7 @@ export default class GameScreen extends Component<> {
 
   componentWillUnmount() {
     if (document.body) {
-      document.body.classList.remove('GameScreen-body');
+      document.body.classList.remove("GameScreen-body");
     }
   }
 
@@ -126,32 +125,32 @@ export default class GameScreen extends Component<> {
     let scoring = isGameScoring(game);
     let isRengo = !!game.players.white_2;
     let className =
-      'GameScreen GameScreen-' +
-      (playing ? 'playing' : 'watching') +
-      (isRengo ? ' GameScreen-rengo' : '');
+      "GameScreen GameScreen-" +
+      (playing ? "playing" : "watching") +
+      (isRengo ? " GameScreen-rengo" : "");
     return (
       <div className={className}>
-        <div className='GameScreen-header'>
+        <div className="GameScreen-header">
           {playing ? null : (
-            <div className='GameScreen-back'>
+            <div className="GameScreen-back">
               <A onClick={this._onLeave}>
-                <div className='GameScreen-back-icon'>
-                  <Icon name='chevron-left' />
+                <div className="GameScreen-back-icon">
+                  <Icon name="chevron-left" />
                 </div>
-                <div className='GameScreen-back-label'>
-                  {playing ? 'Leave' : 'Back'}
+                <div className="GameScreen-back-label">
+                  {playing ? "Leave" : "Back"}
                 </div>
               </A>
             </div>
           )}
-          <div className='GameScreen-title'>
+          <div className="GameScreen-title">
             {game.over || game.score ? (
-              <div className='GameScreen-title-score'>
-                {game.over ? 'Game Over' : ''}
-                {game.score ? ': ' + formatGameScore(game.score) : ''}
+              <div className="GameScreen-title-score">
+                {game.over ? "Game Over" : ""}
+                {game.score ? ": " + formatGameScore(game.score) : ""}
               </div>
             ) : (
-              <div className='GameScreen-title-name'>
+              <div className="GameScreen-title-name">
                 {game.name || (moveNum ? `Move ${moveNum}` : null)}
               </div>
             )}
@@ -160,7 +159,7 @@ export default class GameScreen extends Component<> {
             <GameMoreMenu game={game} actions={actions} roomsById={roomsById} />
           )}
         </div>
-        <div className='GameScreen-main'>
+        <div className="GameScreen-main">
           <BoardContainer
             game={game}
             playing={playing}
@@ -168,13 +167,13 @@ export default class GameScreen extends Component<> {
             onClickPoint={isOurMove || scoring ? this._onClickPoint : undefined}
           />
           {game.accessDenied ? (
-            <div className='GameScreen-access-denied'>
-              <div className='GameScreen-access-denied-text'>
+            <div className="GameScreen-access-denied">
+              <div className="GameScreen-access-denied-text">
                 {game.accessDenied}
               </div>
             </div>
           ) : null}
-          <div className='GameScreen-side-container'>
+          <div className="GameScreen-side-container">
             {playing ? (
               <GamePlayActions
                 currentUser={currentUser}
@@ -189,7 +188,7 @@ export default class GameScreen extends Component<> {
                 onDoneScoring={actions.onDoneScoring}
               />
             ) : (
-              <div className='GameScreen-nav'>
+              <div className="GameScreen-nav">
                 {tree ? (
                   <BoardNav
                     nodeId={tree.currentNode}
@@ -199,35 +198,35 @@ export default class GameScreen extends Component<> {
                 ) : null}
               </div>
             )}
-            <div className='GameScreen-players-users'>
-              <div className='GameScreen-players'>
+            <div className="GameScreen-players-users">
+              <div className="GameScreen-players">
                 <GamePlayersInfo
                   game={game}
                   onUserDetail={this._onUserDetail}
                 />
               </div>
-              <div className='GameScreen-tabs'>
-                <div className='GameScreen-tabs-inner'>
+              <div className="GameScreen-tabs">
+                <div className="GameScreen-tabs-inner">
                   <A
                     className={
-                      'GameScreen-tab' +
-                      (tab === 'chat' ? ' GameScreen-tab-active' : '')
+                      "GameScreen-tab" +
+                      (tab === "chat" ? " GameScreen-tab-active" : "")
                     }
                     onClick={this._onShowChat}>
                     Chat
                   </A>
                   <A
                     className={
-                      'GameScreen-tab' +
-                      (tab === 'info' ? ' GameScreen-tab-active' : '')
+                      "GameScreen-tab" +
+                      (tab === "info" ? " GameScreen-tab-active" : "")
                     }
                     onClick={this._onShowInfo}>
                     Info
                   </A>
                   <A
                     className={
-                      'GameScreen-tab' +
-                      (tab === 'users' ? ' GameScreen-tab-active' : '')
+                      "GameScreen-tab" +
+                      (tab === "users" ? " GameScreen-tab-active" : "")
                     }
                     onClick={this._onShowUsers}>
                     {users.length} Observers
@@ -236,28 +235,28 @@ export default class GameScreen extends Component<> {
               </div>
               <div
                 className={
-                  'GameScreen-users' +
-                  (tab === 'users' ? ' GameScreen-tab-content' : '')
+                  "GameScreen-users" +
+                  (tab === "users" ? " GameScreen-tab-content" : "")
                 }>
                 <UserList users={users} onSelectUser={this._onUserDetail} />
               </div>
             </div>
             <div
               className={
-                'GameScreen-chat' +
-                (tab === 'chat' || tab === 'info'
-                  ? ' GameScreen-tab-content GameScreen-tab-content-' + tab
-                  : '')
+                "GameScreen-chat" +
+                (tab === "chat" || tab === "info"
+                  ? " GameScreen-tab-content GameScreen-tab-content-" + tab
+                  : "")
               }>
               <div
-                className='GameScreen-chat-scroll'
+                className="GameScreen-chat-scroll"
                 ref={this._setChatScrollRef}>
                 {game.tree ? (
-                  <div className='GameScreen-chat-info'>
+                  <div className="GameScreen-chat-info">
                     <GameInfo game={game} roomsById={roomsById} />
                   </div>
                 ) : null}
-                {tab === 'chat' ? (
+                {tab === "chat" ? (
                   <GameChat
                     currentUser={currentUser}
                     chatSections={chatSections}
@@ -269,14 +268,14 @@ export default class GameScreen extends Component<> {
             </div>
             <div
               className={
-                'GameScreen-chat-message-bar' +
-                (tab === 'chat' ? ' GameScreen-tab-content' : '')
+                "GameScreen-chat-message-bar" +
+                (tab === "chat" ? " GameScreen-tab-content" : "")
               }>
               <ChatMessageBar
                 conversation={{
                   id: 0,
                   messages: [],
-                  status: 'created',
+                  status: "created",
                   chatsDisabled: !game.tree
                 }}
                 onSubmit={this._onChat}
@@ -285,7 +284,7 @@ export default class GameScreen extends Component<> {
           </div>
         </div>
         {game.undoRequest ? (
-          <div className='GameScreen-undo-prompt'>
+          <div className="GameScreen-undo-prompt">
             <GameUndoPrompt
               role={game.undoRequest}
               onAccept={this._onAcceptUndo}
@@ -314,15 +313,15 @@ export default class GameScreen extends Component<> {
   };
 
   _onShowChat = () => {
-    this.setState({ tab: 'chat' });
+    this.setState({ tab: "chat" });
   };
 
   _onShowInfo = () => {
-    this.setState({ tab: 'info' });
+    this.setState({ tab: "info" });
   };
 
   _onShowUsers = () => {
-    this.setState({ tab: 'users' });
+    this.setState({ tab: "users" });
   };
 
   _onChangeCurrentNode = (nodeId: number) => {
@@ -338,9 +337,9 @@ export default class GameScreen extends Component<> {
     let scoring = isGameScoring(game);
     if (scoring) {
       let alive =
-        locMark === 'blackTerritory' ||
-        locMark === 'whiteTerritory' ||
-        locMark === 'dead';
+        locMark === "blackTerritory" ||
+        locMark === "whiteTerritory" ||
+        locMark === "dead";
       this.props.actions.onMarkLife(game, loc, alive);
     } else if (!locColor) {
       let role = getGamePlayerRole(this.props.currentUser.name, game.players);

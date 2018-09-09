@@ -1,24 +1,28 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import { A, Icon } from '../common';
-import { isAncestor } from '../../util/dom';
-import { getGamePlayerOtherRole } from '../../model/game';
-import type { GameChannel, GameRole, User } from '../../model';
+import React, { PureComponent as Component } from "react";
+import { A, Icon } from "../common";
+import { isAncestor } from "../../util/dom";
+import { getGamePlayerOtherRole } from "../../model/game";
+import type { GameChannel, GameRole, User } from "../../model";
 
-export default class GamePlayActions extends Component<> {
-  static defaultProps: {
-    currentUser: User,
-    game: GameChannel,
-    isOurMove: boolean,
-    scoring: boolean,
-    onPass: GameChannel => any,
-    onUndo: GameChannel => any,
-    onResign: GameChannel => any,
-    onLeaveGame: Function,
-    onAddTime: (game: GameChannel, role: GameRole, seconds: number) => any,
-    onDoneScoring: GameChannel => any
-  };
+type Props = {
+  currentUser: User,
+  game: GameChannel,
+  isOurMove: boolean,
+  scoring: boolean,
+  onPass: GameChannel => any,
+  onUndo: GameChannel => any,
+  onResign: GameChannel => any,
+  onLeaveGame: Function,
+  onAddTime: (game: GameChannel, role: GameRole, seconds: number) => any,
+  onDoneScoring: GameChannel => any
+};
 
+type State = {
+  moreShowing: boolean
+};
+
+export default class GamePlayActions extends Component<Props, State> {
   state = {
     moreShowing: false
   };
@@ -34,72 +38,72 @@ export default class GamePlayActions extends Component<> {
   };
 
   componentDidMount() {
-    document.addEventListener('click', this._onDocumentClick);
+    document.addEventListener("click", this._onDocumentClick);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this._onDocumentClick);
+    document.removeEventListener("click", this._onDocumentClick);
   }
 
   render() {
     let { isOurMove, scoring } = this.props;
     let { moreShowing } = this.state;
     let passClassName =
-      'GamePlayActions-item-button GamePlayActions-pass' +
-      (isOurMove ? '' : ' GamePlayActions-pass-disabled');
+      "GamePlayActions-item-button GamePlayActions-pass" +
+      (isOurMove ? "" : " GamePlayActions-pass-disabled");
     return (
-      <div className='GamePlayActions'>
+      <div className="GamePlayActions">
         {scoring ? (
-          <div className='GamePlayActions-item'>
+          <div className="GamePlayActions-item">
             <A
-              className='GamePlayActions-item-button GamePlayActions-done'
+              className="GamePlayActions-item-button GamePlayActions-done"
               onClick={this._onDone}>
               Done
             </A>
           </div>
         ) : (
-          <div className='GamePlayActions-item'>
+          <div className="GamePlayActions-item">
             <A className={passClassName} onClick={this._onPass}>
               Pass
             </A>
           </div>
         )}
-        <div className='GamePlayActions-item'>
+        <div className="GamePlayActions-item">
           <A
-            className='GamePlayActions-item-button GamePlayActions-undo'
+            className="GamePlayActions-item-button GamePlayActions-undo"
             onClick={this._onUndo}>
             Undo
           </A>
         </div>
-        <div className='GamePlayActions-item'>
+        <div className="GamePlayActions-item">
           <A
-            className='GamePlayActions-item-button GamePlayActions-resign'
+            className="GamePlayActions-item-button GamePlayActions-resign"
             onClick={this._onResign}>
             Resign
           </A>
         </div>
-        <div className='GamePlayActions-item'>
-          <div className='GamePlayActions-more-container' ref={this._setMoreEl}>
+        <div className="GamePlayActions-item">
+          <div className="GamePlayActions-more-container" ref={this._setMoreEl}>
             <A
-              className='GamePlayActions-item-button GamePlayActions-more'
+              className="GamePlayActions-item-button GamePlayActions-more"
               onClick={this._onToggleMore}>
-              More <Icon name='angle-down' />
+              More <Icon name="angle-down" />
             </A>
             {moreShowing ? (
-              <div className='GamePlayActions-more-menu'>
+              <div className="GamePlayActions-more-menu">
                 <A
-                  className='GamePlayActions-more-item'
+                  className="GamePlayActions-more-item"
                   onClick={this._onAdd1Minute}>
                   Add 1 Minute
                 </A>
                 <A
-                  className='GamePlayActions-more-item'
+                  className="GamePlayActions-more-item"
                   onClick={this._onAdd5Minutes}>
                   Add 5 Minutes
                 </A>
-                <div className='GamePlayActions-more-menu-separator' />
+                <div className="GamePlayActions-more-menu-separator" />
                 <A
-                  className='GamePlayActions-more-item GamePlayActions-leave'
+                  className="GamePlayActions-more-item GamePlayActions-leave"
                   onClick={this._onLeaveGame}>
                   Leave Game
                 </A>

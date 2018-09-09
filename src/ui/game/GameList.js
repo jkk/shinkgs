@@ -1,19 +1,19 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import { A } from '../common';
-import GameTypeIcon from './GameTypeIcon';
-import GamePlayersList from './GamePlayersList';
-import GameRulesDisplay from './GameRulesDisplay';
-import { formatGameScore, getWinningColor } from '../../model/game';
-import type { GameChannel, GameFilter, Room, Index } from '../../model';
+import React, { PureComponent as Component } from "react";
+import { A } from "../common";
+import GameTypeIcon from "./GameTypeIcon";
+import GamePlayersList from "./GamePlayersList";
+import GameRulesDisplay from "./GameRulesDisplay";
+import { formatGameScore, getWinningColor } from "../../model/game";
+import type { GameChannel, GameFilter, Room, Index } from "../../model";
 
-class GameListItem extends Component<> {
-  static defaultProps: {
-    game: GameChannel,
-    room: ?Room,
-    onSelect: number => any
-  };
+type Props = {
+  game: GameChannel,
+  room: ?Room,
+  onSelect: number => any
+};
 
+class GameListItem extends Component<Props> {
   render() {
     let { game, room } = this.props;
     let type;
@@ -26,53 +26,53 @@ class GameListItem extends Component<> {
       type = game.type;
     }
     let className =
-      'GameList-item' +
-      ((game.adjourned ? ' GameList-item-adjourned' : '') +
-        (game.event ? ' GameList-item-event' : '') +
-        (game.type === 'challenge'
-          ? ' GameList-item-challenge'
-          : ' GameList-item-active'));
+      "GameList-item" +
+      ((game.adjourned ? " GameList-item-adjourned" : "") +
+        (game.event ? " GameList-item-event" : "") +
+        (game.type === "challenge"
+          ? " GameList-item-challenge"
+          : " GameList-item-active"));
     return (
       <A className={className} onClick={this._onSelect}>
-        <div className='GameList-item-type'>
+        <div className="GameList-item-type">
           <GameTypeIcon
             type={type}
             subscribersOnly={game.subscribers}
             isPrivate={game.private}
           />
         </div>
-        <div className='GameList-item-players'>
+        <div className="GameList-item-players">
           <GamePlayersList
             players={game.players}
             winner={getWinningColor(game.score)}
           />
         </div>
-        <div className='GameList-item-info'>
+        <div className="GameList-item-info">
           {game.over && game.score ? (
-            <div className='GameList-item-result'>
+            <div className="GameList-item-result">
               {formatGameScore(game.score)}
             </div>
-          ) : game.type !== 'challenge' ? (
-            <div className='GameList-item-move'>
+          ) : game.type !== "challenge" ? (
+            <div className="GameList-item-move">
               {game.moveNum ? `Mv ${game.moveNum}` : null}
             </div>
           ) : null}
-          {game.type !== 'challenge' ? (
-            <div className='GameList-item-observers'>
+          {game.type !== "challenge" ? (
+            <div className="GameList-item-observers">
               {game.observers ? `Ob ${game.observers}` : null}
             </div>
           ) : null}
           {rules ? (
-            <div className='GameList-item-rules'>
+            <div className="GameList-item-rules">
               <GameRulesDisplay rules={rules} />
             </div>
           ) : null}
           {game.name ? (
-            <div className='GameList-item-name'>{game.name}</div>
+            <div className="GameList-item-name">{game.name}</div>
           ) : null}
         </div>
         {room ? (
-          <div className='GameList-item-room'>{room.name || 'Automatch'}</div>
+          <div className="GameList-item-room">{room.name || "Automatch"}</div>
         ) : null}
       </A>
     );
@@ -83,14 +83,18 @@ class GameListItem extends Component<> {
   };
 }
 
-export default class GameList extends Component<> {
-  static defaultProps: {
-    games: Array<GameChannel>,
-    filter?: GameFilter,
-    roomsById?: Index<Room>,
-    onSelect: number => any
-  };
+type GameListProps = {
+  games: Array<GameChannel>,
+  filter?: GameFilter,
+  roomsById?: Index<Room>,
+  onSelect: number => any
+};
 
+type State = {
+  fullRender: boolean
+};
+
+export default class GameList extends Component<GameListProps, State> {
   state = {
     fullRender: false
   };
@@ -130,7 +134,7 @@ export default class GameList extends Component<> {
     }
 
     return (
-      <div className='GameList'>
+      <div className="GameList">
         {displayGames.length ? (
           displayGames.map(game => (
             <GameListItem
@@ -141,7 +145,7 @@ export default class GameList extends Component<> {
             />
           ))
         ) : (
-          <div className='GameList-empty'>None</div>
+          <div className="GameList-empty">None</div>
         )}
       </div>
     );

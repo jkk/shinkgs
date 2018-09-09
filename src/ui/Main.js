@@ -1,23 +1,23 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import Nav from './meta/Nav';
-import OfflineAlert from './meta/OfflineAlert';
-import UnderConstructionModal from './meta/UnderConstructionModal';
-import FeedbackModal from './meta/FeedbackModal';
-import WatchScreen from './WatchScreen';
-import PlayScreen from './PlayScreen';
-import SearchScreen from './SearchScreen';
-import ChatScreen from './chat/ChatScreen';
-import MoreScreen from './meta/MoreScreen';
-import UserDetailsModal from './user/UserDetailsModal';
-import type { AppState, AppActions } from '../model';
+import React, { PureComponent as Component } from "react";
+import Nav from "./meta/Nav";
+import OfflineAlert from "./meta/OfflineAlert";
+import UnderConstructionModal from "./meta/UnderConstructionModal";
+import FeedbackModal from "./meta/FeedbackModal";
+import WatchScreen from "./WatchScreen";
+import PlayScreen from "./PlayScreen";
+import SearchScreen from "./SearchScreen";
+import ChatScreen from "./chat/ChatScreen";
+import MoreScreen from "./meta/MoreScreen";
+import UserDetailsModal from "./user/UserDetailsModal";
+import type { AppState, AppActions } from "../model";
 
-export default class Main extends Component<> {
-  static defaultProps: {
-    appState: AppState,
-    actions: AppActions
-  };
+type Props = {
+  appState: AppState,
+  actions: AppActions
+};
 
+export default class Main extends Component<Props> {
   render() {
     let { appState, actions } = this.props;
     let {
@@ -36,23 +36,23 @@ export default class Main extends Component<> {
     let screenProps = { ...appState, actions };
 
     let content;
-    if (nav === 'watch') {
+    if (nav === "watch") {
       content = <WatchScreen {...screenProps} />;
-    } else if (nav === 'play') {
+    } else if (nav === "play") {
       content = <PlayScreen {...screenProps} />;
-    } else if (nav === 'chat') {
+    } else if (nav === "chat") {
       content = <ChatScreen {...screenProps} />;
-    } else if (nav === 'search') {
+    } else if (nav === "search") {
       content = <SearchScreen {...screenProps} />;
-    } else if (nav === 'more') {
+    } else if (nav === "more") {
       content = <MoreScreen {...screenProps} />;
     }
 
     let activeChallenge = playChallengeId ? gamesById[playChallengeId] : null;
     let offline =
-      clientState.status === 'loggedOut' || clientState.network !== 'online';
+      clientState.status === "loggedOut" || clientState.network !== "online";
     return (
-      <div className='Main'>
+      <div className="Main">
         {offline ? (
           <OfflineAlert
             logoutError={logoutError}
@@ -69,7 +69,7 @@ export default class Main extends Component<> {
           actions={actions}
         />
         <div
-          className={'Main-content Main-' + (offline ? 'offline' : 'online')}>
+          className={"Main-content Main-" + (offline ? "offline" : "online")}>
           {content}
         </div>
         {userDetailsRequest ? <UserDetailsModal {...screenProps} /> : null}

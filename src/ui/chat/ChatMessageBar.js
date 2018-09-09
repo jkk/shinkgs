@@ -1,14 +1,14 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import { isTouchDevice } from '../../util/dom';
-import type { Conversation } from '../../model';
+import React, { PureComponent as Component } from "react";
+import { isTouchDevice } from "../../util/dom";
+import type { Conversation } from "../../model";
 
 type Props = {
   conversation: ?Conversation,
   onSubmit: string => any
 };
 
-export default class ChatMessageBar extends Component<> {
+export default class ChatMessageBar extends Component<Props> {
   static defaultProps: Props;
   _input: ?HTMLInputElement;
 
@@ -24,18 +24,18 @@ export default class ChatMessageBar extends Component<> {
     let { conversation } = this.props;
     let placeholder;
     if (!conversation || conversation.chatsDisabled) {
-      placeholder = '[Chats disabled]';
+      placeholder = "[Chats disabled]";
     } else {
-      placeholder = 'Type a message...';
+      placeholder = "Type a message...";
     }
     return (
-      <div className='ChatMessageBar'>
-        <div className='ChatMessageBar-inner'>
-          <form action='#' method='post' onSubmit={this._onSubmit}>
+      <div className="ChatMessageBar">
+        <div className="ChatMessageBar-inner">
+          <form action="#" method="post" onSubmit={this._onSubmit}>
             <input
               ref={this._setInputRef}
-              className='ChatMessageBar-input'
-              type='text'
+              className="ChatMessageBar-input"
+              type="text"
               placeholder={placeholder}
               autoFocus={!isTouchDevice()}
             />
@@ -55,7 +55,7 @@ export default class ChatMessageBar extends Component<> {
     if (
       !conversation ||
       conversation.chatsDisabled ||
-      conversation.status !== 'created'
+      conversation.status !== "created"
     ) {
       return;
     }
@@ -67,7 +67,7 @@ export default class ChatMessageBar extends Component<> {
     if (!body) {
       return;
     }
-    input.value = '';
+    input.value = "";
     this.props.onSubmit(body);
   };
 }

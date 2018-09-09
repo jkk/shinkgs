@@ -5,21 +5,21 @@ import type {
   ChannelMembership,
   Index,
   Conversation
-} from './types';
+} from "./types";
 
 export function handleChannelMessage(
   prevState: AppState,
   msg: KgsMessage
 ): AppState {
   if (
-    msg.type === 'JOIN_COMPLETE' &&
+    msg.type === "JOIN_COMPLETE" &&
     msg.channelId &&
     prevState.channelMembership[msg.channelId]
   ) {
     let chanMem: ChannelMembership = { ...prevState.channelMembership };
     chanMem[msg.channelId] = { ...chanMem[msg.channelId], complete: true };
     return { ...prevState, channelMembership: chanMem };
-  } else if ((msg.type === 'UNJOIN' || msg.type === 'CLOSE') && msg.channelId) {
+  } else if ((msg.type === "UNJOIN" || msg.type === "CLOSE") && msg.channelId) {
     let chanMem: ChannelMembership = { ...prevState.channelMembership };
     delete chanMem[msg.channelId];
     let nextState = { ...prevState, channelMembership: chanMem };

@@ -1,43 +1,43 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import { A } from './A';
-import { isAncestor } from '../../util/dom';
+import React, { PureComponent as Component } from "react";
+import { A } from "./A";
+import { isAncestor } from "../../util/dom";
 
-export class ScreenModal extends Component<> {
-  static defaultProps: {
-    children?: any,
-    title?: any,
-    onClose: Function
-  };
+type Props = {
+  children?: any,
+  title?: any,
+  onClose: Function
+};
 
+export class ScreenModal extends Component<Props> {
   _mainDiv: ?HTMLElement;
 
   componentDidMount() {
-    document.addEventListener('keyup', this._onKeyUp);
+    document.addEventListener("keyup", this._onKeyUp);
     if (document.body) {
-      document.body.classList.add('no-scroll');
+      document.body.classList.add("no-scroll");
     }
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keyup', this._onKeyUp);
+    document.removeEventListener("keyup", this._onKeyUp);
     if (document.body) {
-      document.body.classList.remove('no-scroll');
+      document.body.classList.remove("no-scroll");
     }
   }
 
   render() {
     let { children, title, onClose } = this.props;
     let className =
-      'ScreenModal ScreenModal-' + (title ? 'with-title' : 'without-title');
+      "ScreenModal ScreenModal-" + (title ? "with-title" : "without-title");
     return (
       <div className={className} onClick={this._onMaybeClose}>
-        <div className='ScreenModal-main' ref={this._setMainRef}>
-          {title ? <div className='ScreenModal-title'>{title}</div> : null}
-          <A className='ScreenModal-close' onClick={onClose}>
+        <div className="ScreenModal-main" ref={this._setMainRef}>
+          {title ? <div className="ScreenModal-title">{title}</div> : null}
+          <A className="ScreenModal-close" onClick={onClose}>
             &times;
           </A>
-          <div className='ScreenModal-content'>{children}</div>
+          <div className="ScreenModal-content">{children}</div>
         </div>
       </div>
     );
@@ -48,7 +48,7 @@ export class ScreenModal extends Component<> {
   };
 
   _onKeyUp = (e: Object) => {
-    if (e.key === 'Escape' || e.keyCode === 27) {
+    if (e.key === "Escape" || e.keyCode === 27) {
       this.props.onClose();
     }
   };

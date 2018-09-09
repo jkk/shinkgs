@@ -1,36 +1,36 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import { A } from '../common';
-import { range } from '../../util/collection';
+import React, { PureComponent as Component } from "react";
+import { A } from "../common";
+import { range } from "../../util/collection";
 import type {
   BoardState,
   BoardMarkup,
   BoardPointMark,
   PlayerColor,
   Point
-} from '../../model/types';
+} from "../../model/types";
 
-let xLabels = 'ABCDEFGHJKLMNOPQRST'.split('');
+let xLabels = "ABCDEFGHJKLMNOPQRST".split("");
 
-class BoardStoneSlot extends Component<> {
-  static defaultProps: {
-    x: number,
-    y: number,
-    color: ?PlayerColor,
-    mark: ?BoardPointMark,
-    label: ?string,
-    onClick: ?(loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => any
-  };
+type Props = {
+  x: number,
+  y: number,
+  color: ?PlayerColor,
+  mark: ?BoardPointMark,
+  label: ?string,
+  onClick: ?(loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => any
+};
 
+class BoardStoneSlot extends Component<Props> {
   render() {
     let { color, mark, label } = this.props;
     return (
-      <A button className='Board-stone-slot' onClick={this._onClickPoint}>
-        {color ? <div className={'Board-stone Board-stone-' + color} /> : null}
+      <A button className="Board-stone-slot" onClick={this._onClickPoint}>
+        {color ? <div className={"Board-stone Board-stone-" + color} /> : null}
         {mark ? (
-          <div className={'Board-stone-mark Board-stone-mark-' + mark} />
+          <div className={"Board-stone-mark Board-stone-mark-" + mark} />
         ) : null}
-        {label ? <div className='Board-stone-label'>{label}</div> : null}
+        {label ? <div className="Board-stone-label">{label}</div> : null}
       </A>
     );
   }
@@ -43,83 +43,83 @@ class BoardStoneSlot extends Component<> {
   };
 }
 
-export default class Board extends Component<> {
-  static defaultProps: {
-    board: BoardState,
-    markup: BoardMarkup,
-    width: number,
-    onClickPoint?: ?(
-      loc: Point,
-      color?: ?PlayerColor,
-      mark?: ?BoardPointMark
-    ) => any
-  };
+type PropsBoard = {
+  board: BoardState,
+  markup: BoardMarkup,
+  width: number,
+  onClickPoint?: ?(
+    loc: Point,
+    color?: ?PlayerColor,
+    mark?: ?BoardPointMark
+  ) => any
+};
 
+export default class Board extends Component<PropsBoard> {
   render() {
     let { board, markup, onClickPoint } = this.props;
     let size = board.length;
     let sizeRange = range(size);
     let className =
-      'Board' +
-      ' Board-size-' +
+      "Board" +
+      " Board-size-" +
       size +
-      (onClickPoint ? ' Board-clickable' : '');
+      (onClickPoint ? " Board-clickable" : "");
     return (
       <div className={className}>
-        <div className='Board-inner'>
-          <div className='Board-grid'>
-            <div className='Board-grid-lines-y'>
+        <div className="Board-inner">
+          <div className="Board-grid">
+            <div className="Board-grid-lines-y">
               {sizeRange.map(y => (
-                <div key={y} className='Board-grid-line-y' />
+                <div key={y} className="Board-grid-line-y" />
               ))}
             </div>
-            <div className='Board-grid-lines-x'>
+            <div className="Board-grid-lines-x">
               {sizeRange.map(x => (
-                <div key={x} className='Board-grid-line-x' />
+                <div key={x} className="Board-grid-line-x" />
               ))}
             </div>
           </div>
-          <div className='Board-star-points'>
+          <div className="Board-star-points">
             {range(0, 9).map(i => (
               <div
                 key={i}
-                className={'Board-star-point Board-star-point-' + i}
+                className={"Board-star-point Board-star-point-" + i}
               />
             ))}
           </div>
-          <div className='Board-coords'>
-            <div className='Board-coords-top'>
+          <div className="Board-coords">
+            <div className="Board-coords-top">
               {sizeRange.map(x => (
-                <div key={x} className='Board-coord-label'>
+                <div key={x} className="Board-coord-label">
                   {xLabels[x]}
                 </div>
               ))}
             </div>
-            <div className='Board-coords-bottom'>
+            <div className="Board-coords-bottom">
               {sizeRange.map(x => (
-                <div key={x} className='Board-coord-label'>
+                <div key={x} className="Board-coord-label">
                   {xLabels[x]}
                 </div>
               ))}
             </div>
-            <div className='Board-coords-left'>
+            <div className="Board-coords-left">
               {sizeRange.map(y => (
-                <div key={y} className='Board-coord-label'>
+                <div key={y} className="Board-coord-label">
                   {size - y}
                 </div>
               ))}
             </div>
-            <div className='Board-coords-right'>
+            <div className="Board-coords-right">
               {sizeRange.map(y => (
-                <div key={y} className='Board-coord-label'>
+                <div key={y} className="Board-coord-label">
                   {size - y}
                 </div>
               ))}
             </div>
           </div>
-          <div className='Board-stones'>
+          <div className="Board-stones">
             {range(size).map(y => (
-              <div key={y} className='Board-stones-line'>
+              <div key={y} className="Board-stones-line">
                 {range(size).map(x => {
                   let color = board[y][x];
                   let mark = markup.marks[y] && markup.marks[y][x];

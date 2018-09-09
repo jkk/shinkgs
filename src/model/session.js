@@ -1,7 +1,7 @@
 // @flow
-import { getEmptyServerState } from './appState';
-import { parseUser } from './user';
-import type { AppState, KgsMessage } from './types';
+import { getEmptyServerState } from "./appState";
+import { parseUser } from "./user";
+import type { AppState, KgsMessage } from "./types";
 
 export function handleSessionMessage(
   prevState: AppState,
@@ -9,7 +9,7 @@ export function handleSessionMessage(
 ): AppState {
   let nextState: AppState;
   switch (msg.type) {
-  case 'RESTORE_APP_STATE':
+  case "RESTORE_APP_STATE":
     // TODO - mark appropriate data as stale
     nextState = {
       ...msg.appState,
@@ -17,17 +17,17 @@ export function handleSessionMessage(
       logoutError: null
     };
     return nextState;
-  case 'APP_STATE_INITIALIZED':
+  case "APP_STATE_INITIALIZED":
     return {
       ...prevState,
       initialized: true
     };
-  case 'CLIENT_STATE_CHANGE':
+  case "CLIENT_STATE_CHANGE":
     return {
       ...prevState,
       clientState: msg.clientState
     };
-  case 'HELLO':
+  case "HELLO":
     return {
       ...prevState,
       serverInfo: {
@@ -37,98 +37,98 @@ export function handleSessionMessage(
         versionBugfix: msg.versionBugfix
       }
     };
-  case 'LOGIN_START':
+  case "LOGIN_START":
     return {
       ...prevState,
       loginError: null,
       logoutError: null
     };
-  case 'LOGIN_FAILED_MISSING_INFO':
+  case "LOGIN_FAILED_MISSING_INFO":
     return {
       ...prevState,
-      loginError: 'Enter username and password'
+      loginError: "Enter username and password"
     };
-  case 'LOGIN_FAILED_NO_SUCH_USER':
+  case "LOGIN_FAILED_NO_SUCH_USER":
     return {
       ...prevState,
-      loginError: 'Login failed - no such user'
+      loginError: "Login failed - no such user"
     };
-  case 'LOGIN_FAILED_KEEP_OUT':
+  case "LOGIN_FAILED_KEEP_OUT":
     return {
       ...prevState,
-      loginError: msg.text || 'Login failed - you are temporarily banned'
+      loginError: msg.text || "Login failed - you are temporarily banned"
     };
-  case 'LOGIN_FAILED_BAD_PASSWORD':
+  case "LOGIN_FAILED_BAD_PASSWORD":
     return {
       ...prevState,
-      loginError: msg.text || 'Login failed - bad password'
+      loginError: msg.text || "Login failed - bad password"
     };
-  case 'LOGIN_FAILED_USER_ALREADY_EXISTS':
+  case "LOGIN_FAILED_USER_ALREADY_EXISTS":
     return {
       ...prevState,
-      loginError: msg.text || 'Login failed - user already exists'
+      loginError: msg.text || "Login failed - user already exists"
     };
-  case 'LOGIN_SUCCESS':
+  case "LOGIN_SUCCESS":
     return {
       ...prevState,
       loginError: null,
       currentUser: parseUser(null, msg.you),
       preferences: { ...prevState.preferences, username: msg.you.name }
     };
-  case 'LOGOUT_START':
+  case "LOGOUT_START":
     return {
       ...prevState,
       ...getEmptyServerState()
     };
-  case 'LOGOUT':
+  case "LOGOUT":
     nextState = { ...prevState };
     if (msg.text) {
       nextState.logoutError = msg.text;
       // Sometimes KGS will give you a LOGOUT error when you try to log in,
       // even though you're not logged in yet
-      if (prevState.clientState.status === 'loggedOut') {
+      if (prevState.clientState.status === "loggedOut") {
         nextState.loginError = msg.text;
       }
     }
     return nextState;
-  case 'RECONNECT':
+  case "RECONNECT":
     return {
       ...prevState,
       logoutError:
-          'Automatically logged out because your account has been logged into another system'
+          "Automatically logged out because your account has been logged into another system"
     };
-  case 'SESSION_EXPIRED':
+  case "SESSION_EXPIRED":
     return {
       ...prevState,
-      logoutError: 'Previous session expired or became invalid'
+      logoutError: "Previous session expired or became invalid"
     };
-  case 'NAV_CHANGE':
+  case "NAV_CHANGE":
     return {
       ...prevState,
       nav: msg.nav,
       userDetailsRequest: null
     };
-  case 'SHOW_UNDER_CONSTRUCTION':
+  case "SHOW_UNDER_CONSTRUCTION":
     return {
       ...prevState,
       showUnderConstruction: true
     };
-  case 'HIDE_UNDER_CONSTRUCTION':
+  case "HIDE_UNDER_CONSTRUCTION":
     return {
       ...prevState,
       showUnderConstruction: false
     };
-  case 'SHOW_FEEDBACK_MODAL':
+  case "SHOW_FEEDBACK_MODAL":
     return {
       ...prevState,
       showFeedbackModal: true
     };
-  case 'HIDE_FEEDBACK_MODAL':
+  case "HIDE_FEEDBACK_MODAL":
     return {
       ...prevState,
       showFeedbackModal: false
     };
-  case 'UPDATE_PREFERENCES':
+  case "UPDATE_PREFERENCES":
     return {
       ...prevState,
       preferences: { ...prevState.preferences, ...msg.preferences }

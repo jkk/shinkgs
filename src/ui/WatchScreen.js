@@ -1,9 +1,9 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import GameList from './game/GameList';
-import GameListFilter from './game/GameListFilter';
-import GameScreen from './game/GameScreen';
-import { InvariantError } from '../util/error';
+import React, { PureComponent as Component } from "react";
+import GameList from "./game/GameList";
+import GameListFilter from "./game/GameListFilter";
+import GameScreen from "./game/GameScreen";
+import { InvariantError } from "../util/error";
 import type {
   GameChannel,
   GameFilter,
@@ -11,7 +11,7 @@ import type {
   User,
   Index,
   AppActions
-} from '../model';
+} from "../model";
 
 type Props = {
   currentUser: ?User,
@@ -24,7 +24,7 @@ type Props = {
   actions: AppActions
 };
 
-export default class WatchScreen extends Component<> {
+export default class WatchScreen extends Component<Props> {
   static defaultProps: Props;
   componentDidMount() {
     window.scrollTo(0, 0);
@@ -54,13 +54,13 @@ export default class WatchScreen extends Component<> {
       actions
     } = this.props;
     if (!currentUser) {
-      throw new InvariantError('currentUser is required');
+      throw new InvariantError("currentUser is required");
     }
     let activeGame = watchGameId ? gamesById[watchGameId] : null;
     return (
-      <div className='WatchScreen'>
+      <div className="WatchScreen">
         {activeGame ? (
-          <div className='WatchScreen-game'>
+          <div className="WatchScreen-game">
             <GameScreen
               game={activeGame}
               usersByName={usersByName}
@@ -70,7 +70,7 @@ export default class WatchScreen extends Component<> {
             />
           </div>
         ) : (
-          <div className='WatchScreen-list'>
+          <div className="WatchScreen-list">
             <GameListFilter
               games={activeGames}
               roomsById={roomsById}

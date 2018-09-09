@@ -1,34 +1,34 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import { A } from '../common';
-import { quoteRegExpPattern } from '../../util/string';
-import { isMobileScreen } from '../../util/dom';
-import type { Room, Index } from '../../model/types';
+import React, { PureComponent as Component } from "react";
+import { A } from "../common";
+import { quoteRegExpPattern } from "../../util/string";
+import { isMobileScreen } from "../../util/dom";
+import type { Room, Index } from "../../model/types";
 
 const CAT_LABELS = {
-  MAIN: 'Main',
-  NATIONAL: 'National',
-  TOURNAMENT: 'Tournaments',
-  FRIENDLY: 'Social',
-  SPECIAL: 'Special',
-  LESSONS: 'Lessons',
-  CLUBS: 'Clubs',
-  TEMPORARY: 'New Rooms',
-  OTHER: 'Other'
+  MAIN: "Main",
+  NATIONAL: "National",
+  TOURNAMENT: "Tournaments",
+  FRIENDLY: "Social",
+  SPECIAL: "Special",
+  LESSONS: "Lessons",
+  CLUBS: "Clubs",
+  TEMPORARY: "New Rooms",
+  OTHER: "Other"
 };
 
-class ChatRoomListItem extends Component<> {
-  static defaultProps: {
-    room: Room,
-    onJoin: Room => any
-  };
+type Props = {
+  room: Room,
+  onJoin: Room => any
+};
 
+class ChatRoomListItem extends Component<Props> {
   render() {
     let { room } = this.props;
     return (
-      <A className='ChatRoomList-room' onClick={this._onJoin}>
+      <A className="ChatRoomList-room" onClick={this._onJoin}>
         {room.name}
-        {room.private ? ' 🔒' : null}
+        {room.private ? " 🔒" : null}
       </A>
     );
   }
@@ -38,21 +38,25 @@ class ChatRoomListItem extends Component<> {
   };
 }
 
-export default class ChatRoomList extends Component<> {
-  static defaultProps: {
-    roomsById: Index<Room>,
-    onJoinRoom: Room => any
-  };
+type PropsChatRoomList = {
+  roomsById: Index<Room>,
+  onJoinRoom: Room => any
+};
 
+type State = {
+  search: string
+};
+
+export default class ChatRoomList extends Component<PropsChatRoomList, State> {
   state = {
-    search: ('': string)
+    search: ("": string)
   };
 
   render() {
     let { roomsById, onJoinRoom } = this.props;
     let { search } = this.state;
     let searchRegex = search
-      ? new RegExp(quoteRegExpPattern(search), 'gi')
+      ? new RegExp(quoteRegExpPattern(search), "gi")
       : null;
     let roomsByCat = {};
     for (let id of Object.keys(roomsById)) {
@@ -60,7 +64,7 @@ export default class ChatRoomList extends Component<> {
       if (!name || (searchRegex && !searchRegex.test(name))) {
         continue;
       }
-      let cat = roomsById[id].category || 'OTHER';
+      let cat = roomsById[id].category || "OTHER";
       if (!roomsByCat[cat]) {
         roomsByCat[cat] = [];
       }
@@ -70,23 +74,23 @@ export default class ChatRoomList extends Component<> {
       roomsByCat[cat].sort((a, b) => a.name.localeCompare(b.name));
     }
     return (
-      <div className='ChatRoomList'>
-        <div className='ChatRoomList-search'>
+      <div className="ChatRoomList">
+        <div className="ChatRoomList-search">
           <input
-            className='ChatRoomList-search-input'
-            type='text'
-            placeholder='Search Rooms'
+            className="ChatRoomList-search-input"
+            type="text"
+            placeholder="Search Rooms"
             autoFocus={!isMobileScreen()}
             value={search}
             onChange={this._onSearch}
           />
         </div>
         {Object.keys(roomsByCat).map(catId => (
-          <div className='ChatRoomList-cat' key={catId}>
-            <div className='ChatRoomList-cat-title'>
-              {CAT_LABELS[catId] || 'Other'}
+          <div className="ChatRoomList-cat" key={catId}>
+            <div className="ChatRoomList-cat-title">
+              {CAT_LABELS[catId] || "Other"}
             </div>
-            <div className='ChatRoomList-rooms'>
+            <div className="ChatRoomList-rooms">
               {roomsByCat[catId].map(room => (
                 <ChatRoomListItem
                   key={room.id}

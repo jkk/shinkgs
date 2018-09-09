@@ -1,20 +1,20 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
+import React, { PureComponent as Component } from "react";
 
-export class A extends Component<> {
-  static defaultProps: {
-    href?: string,
-    button?: boolean,
-    disabled?: boolean,
-    onClick?: (e: Event) => void | Promise<any>,
-    className?: string,
-    children?: any
-  };
+type Props = {
+  href?: string,
+  button?: boolean,
+  disabled?: boolean,
+  onClick?: (e: Event) => void | Promise<any>,
+  className?: string,
+  children?: any
+};
 
+export class A extends Component<Props> {
   render() {
     let { href, button, disabled, className, children } = this.props;
     return href || !button ? (
-      <a className={className} href={href || '#'} onClick={this._onClick}>
+      <a className={className} href={href || "#"} onClick={this._onClick}>
         {children}
       </a>
     ) : (

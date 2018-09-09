@@ -1,12 +1,12 @@
 // @flow
-import React, { PureComponent as Component } from 'react';
-import Board from './Board';
+import React, { PureComponent as Component } from "react";
+import Board from "./Board";
 import type {
   GameChannel,
   Point,
   BoardPointMark,
   PlayerColor
-} from '../../model/types';
+} from "../../model/types";
 
 type Props = {
   game: GameChannel,
@@ -24,7 +24,7 @@ type State = {
   marginTop: number
 };
 
-export default class BoardContainer extends Component<> {
+export default class BoardContainer extends Component<Props, State> {
   static defaultProps: Props;
   state: State = { boardWidth: null, marginTop: 0 };
 
@@ -47,11 +47,11 @@ export default class BoardContainer extends Component<> {
 
   componentDidMount() {
     this._setBoardWidth();
-    window.addEventListener('resize', this._setBoardWidth);
+    window.addEventListener("resize", this._setBoardWidth);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this._setBoardWidth);
+    window.removeEventListener("resize", this._setBoardWidth);
   }
 
   render() {
@@ -61,7 +61,7 @@ export default class BoardContainer extends Component<> {
     if (!boardWidth) {
       return (
         <div
-          className='GameScreen-board-container'
+          className="GameScreen-board-container"
           ref={this._setContainerRef}
         />
       );
@@ -78,11 +78,11 @@ export default class BoardContainer extends Component<> {
       }
     }
     return (
-      <div className='GameScreen-board-container' ref={this._setContainerRef}>
+      <div className="GameScreen-board-container" ref={this._setContainerRef}>
         <div
-          className='GameScreen-board'
+          className="GameScreen-board"
           style={{ width: boardWidth, height: boardWidth, marginTop }}>
-          <div className='GameScreen-board-inner'>
+          <div className="GameScreen-board-inner">
             {board && markup ? (
               <Board
                 board={board}

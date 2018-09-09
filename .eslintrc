@@ -31,9 +31,9 @@
     "react/display-name": 0,
     "react/wrap-multilines": 0,
     "react/self-closing-comp": 0,
-    "jsx-quotes": ["error", "prefer-single"],
+    "jsx-quotes": ["error", "prefer-double"],
     // overrides
-    "quotes": [2, "single", {"avoidEscape": true, "allowTemplateLiterals": true}],
+    "quotes": [2, "double", {"avoidEscape": true, "allowTemplateLiterals": true}],
     "indent": ["error", 2],
     "semi": 2,
     "curly": 2,
