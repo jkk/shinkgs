@@ -1,11 +1,11 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
-import {isTouchDevice} from '../../util/dom';
-import type {Conversation} from '../../model';
+import React, { PureComponent as Component } from 'react';
+import { isTouchDevice } from '../../util/dom';
+import type { Conversation } from '../../model';
 
 type Props = {
   conversation: ?Conversation,
-  onSubmit: string => any;
+  onSubmit: string => any
 };
 
 export default class ChatMessageBar extends Component<> {
@@ -21,7 +21,7 @@ export default class ChatMessageBar extends Component<> {
   }
 
   render() {
-    let {conversation} = this.props;
+    let { conversation } = this.props;
     let placeholder;
     if (!conversation || conversation.chatsDisabled) {
       placeholder = '[Chats disabled]';
@@ -37,7 +37,8 @@ export default class ChatMessageBar extends Component<> {
               className='ChatMessageBar-input'
               type='text'
               placeholder={placeholder}
-              autoFocus={!isTouchDevice()} />
+              autoFocus={!isTouchDevice()}
+            />
           </form>
         </div>
       </div>
@@ -46,12 +47,16 @@ export default class ChatMessageBar extends Component<> {
 
   _setInputRef = (ref: HTMLInputElement) => {
     this._input = ref;
-  }
+  };
 
   _onSubmit = (e: Object) => {
     e.preventDefault();
-    let {conversation} = this.props;
-    if (!conversation || conversation.chatsDisabled || conversation.status !== 'created') {
+    let { conversation } = this.props;
+    if (
+      !conversation ||
+      conversation.chatsDisabled ||
+      conversation.status !== 'created'
+    ) {
       return;
     }
     let input = this._input;
@@ -64,5 +69,5 @@ export default class ChatMessageBar extends Component<> {
     }
     input.value = '';
     this.props.onSubmit(body);
-  }
+  };
 }

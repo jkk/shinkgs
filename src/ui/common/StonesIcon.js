@@ -1,5 +1,5 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 
 export class StonesIcon extends Component<> {
   static defaultProps: {};

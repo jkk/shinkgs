@@ -1,5 +1,5 @@
 // @flow
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import createHistory from 'history/createBrowserHistory';
 import LoginScreen from './ui/LoginScreen';
 import {
@@ -10,7 +10,7 @@ import {
   KgsClient,
   AppActions
 } from './model';
-import type { KgsClientState, NavOption} from './model';
+import type { KgsClientState, NavOption } from './model';
 
 class App extends Component<> {
   static defaultProps: any;
@@ -29,10 +29,13 @@ class App extends Component<> {
     this._history = createHistory();
 
     this._client = new KgsClient();
-    this._store = new AppStore(handleMessage, getInitialState(this._client.state));
+    this._store = new AppStore(
+      handleMessage,
+      getInitialState(this._client.state)
+    );
     this._actions = new AppActions(this._store, this._client, this._history);
 
-    this.state = {appState: this._store.getState()};
+    this.state = { appState: this._store.getState() };
 
     if (process.env.NODE_ENV === 'development') {
       window.App = this;
@@ -44,13 +47,13 @@ class App extends Component<> {
 
   _onUnload = () => {
     this._actions.onSaveAppState();
-  }
+  };
 
   _onVisibilityChange = () => {
     if (document.visibilityState === 'hidden') {
       this._actions.onSaveAppState();
     }
-  }
+  };
 
   _onStoreChange = () => {
     let nextState = this._store.getState();
@@ -58,19 +61,19 @@ class App extends Component<> {
       // Just loaded - sync URL with state if necessary
       this._syncNav();
     }
-    this.setState({appState: nextState});
-  }
+    this.setState({ appState: nextState });
+  };
 
   _onClientChange = (clientState: KgsClientState) => {
-    this._store.dispatch({type: 'CLIENT_STATE_CHANGE', clientState});
-  }
+    this._store.dispatch({ type: 'CLIENT_STATE_CHANGE', clientState });
+  };
 
   _onHistoryChange = (loc: Object, action: string) => {
     let path: NavOption = loc.pathname.substring(1);
     if (action === 'POP') {
-      this._actions.onChangeNav(path, {push: false});
+      this._actions.onChangeNav(path, { push: false });
     }
-  }
+  };
 
   componentDidMount() {
     this._store.subscribe(this._onStoreChange);
@@ -104,39 +107,35 @@ class App extends Component<> {
       if (!isValidNav(path)) {
         this._history.replace('/' + state.nav);
       } else if (path !== state.nav) {
-        this._actions.onChangeNav(path, {push: false});
+        this._actions.onChangeNav(path, { push: false });
       }
     }
-  }
+  };
 
   _loadMainComponent = () => {
     import('./App').then(() => {
       this._mainComponent = require('./ui/Main').default;
       this.forceUpdate();
     });
-  }
+  };
 
   render() {
-    let {appState} = this.state;
+    let { appState } = this.state;
 
     if (!appState.initialized) {
       return <div />;
     }
 
     if (!appState.currentUser) {
-      return (
-        <LoginScreen
-          {...appState}
-          actions={this._actions} />
-      );
+      return <LoginScreen {...appState} actions={this._actions} />;
     }
 
     let Main = this._mainComponent;
     return Main ? (
-      <Main
-        appState={appState}
-        actions={this._actions} />
-    ) : <div />;
+      <Main appState={appState} actions={this._actions} />
+    ) : (
+      <div />
+    );
   }
 }
 

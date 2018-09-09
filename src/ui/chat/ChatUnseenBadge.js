@@ -1,11 +1,7 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
-import {UnseenBadge} from '../common';
-import type {
-  Conversation,
-  ChannelMembership,
-  Index
-} from '../../model';
+import React, { PureComponent as Component } from 'react';
+import { UnseenBadge } from '../common';
+import type { Conversation, ChannelMembership, Index } from '../../model';
 
 export default class ChatUnseenBadge extends Component<> {
   static defaultProps: {
@@ -14,7 +10,7 @@ export default class ChatUnseenBadge extends Component<> {
   };
 
   render() {
-    let {conversationsById, channelMembership} = this.props;
+    let { conversationsById, channelMembership } = this.props;
     let majorCount = 0;
     let minorCount = 0;
     for (let id of Object.keys(conversationsById)) {

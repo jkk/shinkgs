@@ -1,6 +1,6 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
-import {A, Button, Icon, TabNav, UnseenBadge} from '../common';
+import React, { PureComponent as Component } from 'react';
+import { A, Button, Icon, TabNav, UnseenBadge } from '../common';
 import ProposalForm from './ProposalForm';
 import ChatMessages from '../chat/ChatMessages';
 import ChatMessageBar from '../chat/ChatMessageBar';
@@ -10,7 +10,7 @@ import {
   createInitialProposal,
   getOtherPlayerName
 } from '../../model/game';
-import {InvariantError} from '../../util/error';
+import { InvariantError } from '../../util/error';
 import type {
   GameChannel,
   GameProposal,
@@ -50,12 +50,7 @@ export default class ChallengeEditor extends Component<> {
   state: State = this._getInitialState(this.props);
 
   _getInitialState(props: Props): State {
-    let {
-      challenge,
-      currentUser,
-      usersByName,
-      preferences
-    } = props;
+    let { challenge, currentUser, usersByName, preferences } = props;
     let proposal;
     let visibility;
     let notes;
@@ -75,13 +70,24 @@ export default class ChallengeEditor extends Component<> {
         proposal = challengeProposal;
       } else {
         // Challenge we joined - create an even proposal
-        proposal = getEvenProposal(challengeProposal, currentUser.name, usersByName);
+        proposal = getEvenProposal(
+          challengeProposal,
+          currentUser.name,
+          usersByName
+        );
       }
-      visibility = proposal.private ? 'private' : (challenge.global ? 'public' : 'roomOnly');
+      visibility = proposal.private
+        ? 'private'
+        : challenge.global
+          ? 'public'
+          : 'roomOnly';
       notes = challenge.name || '';
     } else {
       let lastProposal = preferences.lastProposal;
-      proposal = createInitialProposal(currentUser, lastProposal ? lastProposal.proposal : null);
+      proposal = createInitialProposal(
+        currentUser,
+        lastProposal ? lastProposal.proposal : null
+      );
       visibility = lastProposal ? lastProposal.visibility : 'public';
       notes = lastProposal && lastProposal.notes ? lastProposal.notes : '';
     }
@@ -96,33 +102,42 @@ export default class ChallengeEditor extends Component<> {
   }
 
   componentDidUpdate(nextProps: Props) {
-    let {challenge} = nextProps;
+    let { challenge } = nextProps;
     let sentProposal = challenge && challenge.sentProposal;
-    let {proposal} = this.state;
+    let { proposal } = this.state;
     let newProposal;
     if (sentProposal && sentProposal.status !== proposal.status) {
       // Challenge sending
-      newProposal = {...proposal, status: sentProposal.status};
+      newProposal = { ...proposal, status: sentProposal.status };
     } else if (challenge && !this.props.challenge) {
       // Challenge created
-      newProposal = {...challenge.initialProposal, status: 'pending'};
+      newProposal = { ...challenge.initialProposal, status: 'pending' };
     }
 
     // Check to see if our rank changed and, if so, correct the suggested
     // handicap and color (this can happen when you're new and your rank
     // hasn't settled)
-    let {currentUser, usersByName} = nextProps;
+    let { currentUser, usersByName } = nextProps;
     if (challenge && this.props.currentUser.rank !== currentUser.rank) {
       let creator = challenge.players.challengeCreator;
-      if (proposal.status !== 'pending' && creator && creator.name !== currentUser.name && challenge.initialProposal) {
-        newProposal = newProposal || {...proposal};
-        let evenProposal = getEvenProposal(challenge.initialProposal, currentUser.name, usersByName);
+      if (
+        proposal.status !== 'pending' &&
+        creator &&
+        creator.name !== currentUser.name &&
+        challenge.initialProposal
+      ) {
+        newProposal = newProposal || { ...proposal };
+        let evenProposal = getEvenProposal(
+          challenge.initialProposal,
+          currentUser.name,
+          usersByName
+        );
         newProposal.rules.handicap = evenProposal.rules.handicap;
         newProposal.players = evenProposal.players;
       }
     }
     if (newProposal) {
-      this.setState({proposal: newProposal});
+      this.setState({ proposal: newProposal });
     }
   }
 
@@ -148,7 +163,7 @@ export default class ChallengeEditor extends Component<> {
     // let sentProposal = challenge && challenge.sentProposal;
     let creator = challenge ? challenge.players.challengeCreator : currentUser;
     let isCreator = creator && creator.name === currentUser.name;
-    let {status} = proposal;
+    let { status } = proposal;
     let roomId = challenge ? challenge.roomId : initialRoomId;
     let room = roomId && roomsById[roomId];
 
@@ -157,7 +172,9 @@ export default class ChallengeEditor extends Component<> {
     }
 
     let pending = status === 'pending';
-    let userActions = challenge ? getActionsForUser(challenge.actions, currentUser.name) : {};
+    let userActions = challenge
+      ? getActionsForUser(challenge.actions, currentUser.name)
+      : {};
     let receivedProposals = challenge ? challenge.receivedProposals : [];
     let proposalCount = receivedProposals ? receivedProposals.length : 0;
 
@@ -188,17 +205,23 @@ export default class ChallengeEditor extends Component<> {
         if (receivedProposals && receivedProposals.length) {
           // Creator that can accept/decline challenges
           editProposal = receivedProposals[selectedProposalIndex];
-          let challengerName = getOtherPlayerName(editProposal, currentUser.name);
+          let challengerName = getOtherPlayerName(
+            editProposal,
+            currentUser.name
+          );
           if (!challengerName) {
             throw new InvariantError('No challenger');
           }
-          prevProposal = getEvenProposal(initialProposal, challengerName, usersByName);
+          prevProposal = getEvenProposal(
+            initialProposal,
+            challengerName,
+            usersByName
+          );
           buttons = (
             <div className='ChallengeEditor-buttons-decision'>
               <Button primary onClick={this._onAcceptProposal}>
                 &nbsp;&nbsp;Accept&nbsp;&nbsp;
-              </Button>
-              {' '}
+              </Button>{' '}
               <Button danger onClick={this._onDeclineProposal}>
                 Decline
               </Button>
@@ -239,20 +262,19 @@ export default class ChallengeEditor extends Component<> {
           onUserDetail={actions.onUserDetail}
           onChangeProposal={this._onChangeProposal}
           onChangeNotes={this._onChangeNotes}
-          onChangeVisibility={this._onChangeVisibility} />
+          onChangeVisibility={this._onChangeVisibility}
+        />
         <div className='ChallengeEditor-buttons'>
-          {buttons}
-          {' '}
-          {editMode === 'creating' || editMode === 'negotiating' ?
+          {buttons}{' '}
+          {editMode === 'creating' || editMode === 'negotiating' ? (
             <div className='ChallengeEditor-cancel'>
-              <Button
-                muted
-                onClick={onCancel}>
+              <Button muted onClick={onCancel}>
                 Cancel
               </Button>
-            </div> : null}
+            </div>
+          ) : null}
         </div>
-        {proposalCount > 1 ?
+        {proposalCount > 1 ? (
           <div className='ChallengeEditor-prevnext'>
             <A
               button
@@ -268,7 +290,8 @@ export default class ChallengeEditor extends Component<> {
               onClick={this._onNextProposal}>
               <Icon name='chevron-right' />
             </A>
-          </div> : null}
+          </div>
+        ) : null}
       </div>
     );
 
@@ -277,7 +300,8 @@ export default class ChallengeEditor extends Component<> {
         Chat
         <div className='ChallengeEditor-chat-label-badge'>
           <UnseenBadge
-            majorCount={(conversation && conversation.unseenCount) || 0} />
+            majorCount={(conversation && conversation.unseenCount) || 0}
+          />
         </div>
       </div>
     );
@@ -288,12 +312,11 @@ export default class ChallengeEditor extends Component<> {
             currentUser={currentUser}
             messages={conversation.messages}
             onUserDetail={actions.onUserDetail}
-            usersByName={usersByName} />
+            usersByName={usersByName}
+          />
         </div>
         <div className='ChallengeEditor-chat-message-bar'>
-          <ChatMessageBar
-            conversation={conversation}
-            onSubmit={this._onChat} />
+          <ChatMessageBar conversation={conversation} onSubmit={this._onChat} />
         </div>
       </div>
     ) : null;
@@ -302,118 +325,124 @@ export default class ChallengeEditor extends Component<> {
       <div className='ChallengeEditor'>
         <div className='ChallengeEditor-header'>
           {isCreator ? 'Create Challenge' : 'Challenge'}
-          {room && room.name ?
-            <div className='ChallengeEditor-room-name'>
-              {room.name}
-            </div> : null}
+          {room && room.name ? (
+            <div className='ChallengeEditor-room-name'>{room.name}</div>
+          ) : null}
         </div>
-        {status === 'declined' ?
+        {status === 'declined' ? (
           <div className='ChallengeEditor-declined'>
             Your proposal was declined
-          </div> : null}
-        {status === 'accepted' ?
+          </div>
+        ) : null}
+        {status === 'accepted' ? (
           <div className='ChallengeEditor-accepted'>
             <Icon name='check' /> Starting game...
-          </div> : null}
-        {editMode !== 'creating' ?
+          </div>
+        ) : null}
+        {editMode !== 'creating' ? (
           <div className='ChallengeEditor-tabs'>
             <TabNav
               activeTabId={activeTab}
               onSelectTab={this._onSelectTab}
               tabs={[
-                {id: 'proposal', label: 'Proposal', content: proposalContent},
-                {id: 'chat', label: chatLabel, content: chatContent}
-              ]} />
-          </div> :
-          proposalContent}
+                { id: 'proposal', label: 'Proposal', content: proposalContent },
+                { id: 'chat', label: chatLabel, content: chatContent }
+              ]}
+            />
+          </div>
+        ) : (
+          proposalContent
+        )}
       </div>
     );
   }
 
   _onChangeProposal = (proposal: GameProposal) => {
-    this.setState({proposal});
-  }
+    this.setState({ proposal });
+  };
 
   _onChangeNotes = (notes: string) => {
-    this.setState({notes});
-  }
+    this.setState({ notes });
+  };
 
   _onChangeVisibility = (visibility: ProposalVisibility) => {
-    this.setState({visibility});
-  }
+    this.setState({ visibility });
+  };
 
   _onPrevProposal = () => {
     this.setState(state => ({
       selectedProposalIndex: state.selectedProposalIndex - 1
     }));
-  }
+  };
 
   _onNextProposal = () => {
     this.setState(state => ({
       selectedProposalIndex: state.selectedProposalIndex + 1
     }));
-  }
+  };
 
   _onSubmitProposal = () => {
-    let {challenge} = this.props;
-    let {proposal} = this.state;
+    let { challenge } = this.props;
+    let { proposal } = this.state;
     if (challenge) {
       this.props.actions.onSubmitChallengeProposal(challenge.id, proposal);
     }
-  }
+  };
 
   _onCreateChallenge = () => {
-    let {challenge, initialRoomId} = this.props;
-    let {proposal, visibility, notes} = this.state;
+    let { challenge, initialRoomId } = this.props;
+    let { proposal, visibility, notes } = this.state;
     if (!challenge) {
       // Creating a challenge - we have no app state for it yet, so just
       // set the status here
-      this.setState({proposal: {...proposal, status: 'pending'}});
+      this.setState({ proposal: { ...proposal, status: 'pending' } });
     }
     let roomId = challenge ? challenge.roomId : initialRoomId;
     if (roomId) {
       this.props.actions.onCreateChallenge(proposal, roomId, visibility, notes);
     }
-  }
+  };
 
   _onAcceptProposal = () => {
-    let {selectedProposalIndex} = this.state;
-    let {challenge} = this.props;
-    let proposal = challenge
-      && challenge.receivedProposals
-      && challenge.receivedProposals[selectedProposalIndex];
+    let { selectedProposalIndex } = this.state;
+    let { challenge } = this.props;
+    let proposal =
+      challenge &&
+      challenge.receivedProposals &&
+      challenge.receivedProposals[selectedProposalIndex];
     if (challenge && proposal) {
       this.props.actions.onAcceptChallengeProposal(challenge.id, proposal);
     }
-  }
+  };
 
   _onDeclineProposal = () => {
-    let {selectedProposalIndex} = this.state;
-    let {currentUser, challenge} = this.props;
-    let proposal = challenge
-      && challenge.receivedProposals
-      && challenge.receivedProposals[selectedProposalIndex];
+    let { selectedProposalIndex } = this.state;
+    let { currentUser, challenge } = this.props;
+    let proposal =
+      challenge &&
+      challenge.receivedProposals &&
+      challenge.receivedProposals[selectedProposalIndex];
     if (challenge && proposal) {
       let otherName = getOtherPlayerName(proposal, currentUser.name);
       if (otherName) {
         this.props.actions.onDeclineChallengeProposal(challenge.id, otherName);
-        this.setState({selectedProposalIndex: 0});
+        this.setState({ selectedProposalIndex: 0 });
       }
     }
-  }
+  };
 
   _onSelectTab = (tab: string) => {
-    let {challenge} = this.props;
+    let { challenge } = this.props;
     if (tab === 'chat' && challenge) {
       this.props.actions.markConversationSeen(challenge.id);
     }
-    this.setState({activeTab: tab});
-  }
+    this.setState({ activeTab: tab });
+  };
 
   _onChat = (body: string) => {
-    let {challenge} = this.props;
+    let { challenge } = this.props;
     if (challenge) {
       this.props.actions.onSendChat(body, challenge.id);
     }
-  }
+  };
 }

@@ -1,17 +1,12 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 import GameClock from './GameClock';
 import UserName from '../user/UserName';
 import UserAvatar from '../user/UserAvatar';
 import BoardStone from '../board/BoardStone';
-import {A, Icon} from '../common';
-import {getWinningColor} from '../../model/game';
-import type {
-  GameChannel,
-  GameRules,
-  User,
-  ClockState
-} from '../../model';
+import { A, Icon } from '../common';
+import { getWinningColor } from '../../model/game';
+import type { GameChannel, GameRules, User, ClockState } from '../../model';
 
 class GamePlayersInfoColor extends Component<> {
   static defaultProps: {
@@ -29,7 +24,7 @@ class GamePlayersInfoColor extends Component<> {
     onUserDetail: User => any
   };
 
-  render () {
+  render() {
     let {
       nodeId,
       color,
@@ -46,9 +41,10 @@ class GamePlayersInfoColor extends Component<> {
     if (!player1 && !player2) {
       return null;
     }
-    let className = 'GamePlayersInfo-color GamePlayersInfo-' + color + (
-      winner ? ' GamePlayersInfo-winner' : ''
-    );
+    let className =
+      'GamePlayersInfo-color GamePlayersInfo-' +
+      color +
+      (winner ? ' GamePlayersInfo-winner' : '');
     let icon;
     if (color === 'white') {
       icon = '⚪️';
@@ -61,47 +57,58 @@ class GamePlayersInfoColor extends Component<> {
     return (
       <div className={className}>
         <div className='GamePlayersInfo-avatar'>
-          <A onClick={this._onClickPlayer1}><UserAvatar user={player1} /></A>
+          <A onClick={this._onClickPlayer1}>
+            <UserAvatar user={player1} />
+          </A>
         </div>
         <div className='GamePlayersInfo-players'>
-          {player1 ?
+          {player1 ? (
             <div className='GamePlayersInfo-player1'>
               <div className='GamePlayersInfo-players-icon'>
-                {color === 'white' || color === 'black' ?
-                  <BoardStone color={color} /> :
-                  <div>{icon}</div>}
+                {color === 'white' || color === 'black' ? (
+                  <BoardStone color={color} />
+                ) : (
+                  <div>{icon}</div>
+                )}
               </div>
-              <A onClick={this._onClickPlayer1}><UserName user={player1} /></A>
-            </div> : null}
-          {player2 ?
-            <div className='GamePlayersInfo-player2'>
-              <A onClick={this._onClickPlayer2}><UserName user={player2} /></A>
-            </div> : null}
-        </div>
-        {color !== 'owner' ?
-          <div className='GamePlayersInfo-captures-clock'>
-            <div className='GamePlayersInfo-captures'>
-              {captures} captures
+              <A onClick={this._onClickPlayer1}>
+                <UserName user={player1} />
+              </A>
             </div>
+          ) : null}
+          {player2 ? (
+            <div className='GamePlayersInfo-player2'>
+              <A onClick={this._onClickPlayer2}>
+                <UserName user={player2} />
+              </A>
+            </div>
+          ) : null}
+        </div>
+        {color !== 'owner' ? (
+          <div className='GamePlayersInfo-captures-clock'>
+            <div className='GamePlayersInfo-captures'>{captures} captures</div>
             <div className='GamePlayersInfo-winner-clock'>
-              {clock ?
+              {clock ? (
                 <div className='GamePlayersInfo-clock'>
                   <GameClock
                     nodeId={nodeId}
                     active={gameActive}
                     clock={clock}
                     timeLeft={timeLeft}
-                    gameRules={gameRules} />
-                </div> : null}
-              {winner ?
+                    gameRules={gameRules}
+                  />
+                </div>
+              ) : null}
+              {winner ? (
                 <div className='GamePlayersInfo-winner-badge'>
                   <Icon name='check' /> Winner
-                </div> : null}
+                </div>
+              ) : null}
             </div>
-          </div> :
-          <div className='GamePlayersInfo-role'>
-            Game Owner
-          </div>}
+          </div>
+        ) : (
+          <div className='GamePlayersInfo-role'>Game Owner</div>
+        )}
       </div>
     );
   }
@@ -110,13 +117,13 @@ class GamePlayersInfoColor extends Component<> {
     if (this.props.player1) {
       this.props.onUserDetail(this.props.player1);
     }
-  }
+  };
 
   _onClickPlayer2 = () => {
     if (this.props.player2) {
       this.props.onUserDetail(this.props.player2);
     }
-  }
+  };
 }
 
 export default class GamePlayersInfo extends Component<> {
@@ -125,8 +132,8 @@ export default class GamePlayersInfo extends Component<> {
     onUserDetail: User => any
   };
 
-  render () {
-    let {game, onUserDetail} = this.props;
+  render() {
+    let { game, onUserDetail } = this.props;
     let players = game.players;
     let winner = getWinningColor(game.score);
     if (!players) {
@@ -151,9 +158,8 @@ export default class GamePlayersInfo extends Component<> {
     } else {
       gameActive = false;
     }
-    let className = 'GamePlayersInfo' + (
-      white2 && black2 ? ' GamePlayersInfo-rengo' : ''
-    );
+    let className =
+      'GamePlayersInfo' + (white2 && black2 ? ' GamePlayersInfo-rengo' : '');
     return (
       <div className={className}>
         <GamePlayersInfoColor
@@ -168,7 +174,8 @@ export default class GamePlayersInfo extends Component<> {
           gameActive={gameActive}
           clock={game.clocks && game.clocks[color1]}
           gameRules={game.rules}
-          onUserDetail={onUserDetail} />
+          onUserDetail={onUserDetail}
+        />
         <GamePlayersInfoColor
           nodeId={nodeId}
           color='black'
@@ -181,7 +188,8 @@ export default class GamePlayersInfo extends Component<> {
           gameActive={gameActive}
           clock={game.clocks && game.clocks.black}
           gameRules={game.rules}
-          onUserDetail={onUserDetail} />
+          onUserDetail={onUserDetail}
+        />
       </div>
     );
   }

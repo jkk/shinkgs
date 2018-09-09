@@ -1,9 +1,9 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 import GameList from './game/GameList';
 import GameListFilter from './game/GameListFilter';
 import GameScreen from './game/GameScreen';
-import {InvariantError} from '../util/error';
+import { InvariantError } from '../util/error';
 import type {
   GameChannel,
   GameFilter,
@@ -31,10 +31,12 @@ export default class WatchScreen extends Component<> {
   }
 
   componentDidUpdate(nextProps: Props) {
-    let {watchGameId} = this.props;
-    let {watchGameId: nextWatchGameId} = nextProps;
+    let { watchGameId } = this.props;
+    let { watchGameId: nextWatchGameId } = nextProps;
     let activeGame = watchGameId ? this.props.gamesById[watchGameId] : null;
-    let nextActiveGame = nextWatchGameId ? nextProps.gamesById[nextWatchGameId] : null;
+    let nextActiveGame = nextWatchGameId
+      ? nextProps.gamesById[nextWatchGameId]
+      : null;
     if (!activeGame && nextActiveGame) {
       window.scrollTo(0, 0);
     }
@@ -57,27 +59,32 @@ export default class WatchScreen extends Component<> {
     let activeGame = watchGameId ? gamesById[watchGameId] : null;
     return (
       <div className='WatchScreen'>
-        {activeGame ?
+        {activeGame ? (
           <div className='WatchScreen-game'>
             <GameScreen
               game={activeGame}
               usersByName={usersByName}
               roomsById={roomsById}
               currentUser={currentUser}
-              actions={actions} />
-          </div> :
+              actions={actions}
+            />
+          </div>
+        ) : (
           <div className='WatchScreen-list'>
             <GameListFilter
               games={activeGames}
               roomsById={roomsById}
               filter={watchFilter}
-              onChange={actions.onShowGames} />
+              onChange={actions.onShowGames}
+            />
             <GameList
               games={activeGames}
               filter={watchFilter}
               roomsById={roomsById}
-              onSelect={actions.onJoinGame} />
-          </div>}
+              onSelect={actions.onJoinGame}
+            />
+          </div>
+        )}
       </div>
     );
   }

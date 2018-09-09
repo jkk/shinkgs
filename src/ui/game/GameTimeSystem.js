@@ -1,13 +1,8 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
-import {Icon} from '../common';
-import {
-  formatGameTimeSystem,
-  getGameTimeSpeed
-} from '../../model/game';
-import type {
-  GameRules
-} from '../../model';
+import React, { PureComponent as Component } from 'react';
+import { Icon } from '../common';
+import { formatGameTimeSystem, getGameTimeSpeed } from '../../model/game';
+import type { GameRules } from '../../model';
 
 export default class GameTimeSystem extends Component<> {
   static defaultProps: {
@@ -15,11 +10,16 @@ export default class GameTimeSystem extends Component<> {
   };
 
   render() {
-    let {rules} = this.props;
+    let { rules } = this.props;
     let speed = getGameTimeSpeed(rules);
     let icon;
     if (speed === 'very fast') {
-      icon = <div><Icon name='bolt' /><Icon name='bolt' /></div>;
+      icon = (
+        <div>
+          <Icon name='bolt' />
+          <Icon name='bolt' />
+        </div>
+      );
     } else if (speed === 'fast') {
       icon = <Icon name='bolt' />;
     } else if (speed === 'slow') {
@@ -27,10 +27,7 @@ export default class GameTimeSystem extends Component<> {
     }
     return (
       <div className='GameTimeSystem'>
-        {icon ?
-          <div className='GameTimeSystem-icon'>
-            {icon}
-          </div> : null}
+        {icon ? <div className='GameTimeSystem-icon'>{icon}</div> : null}
         {formatGameTimeSystem(rules)}
       </div>
     );

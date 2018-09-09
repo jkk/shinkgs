@@ -53,7 +53,6 @@ export class Portal extends React.PureComponent<> {
   }
 
   _renderOverlay() {
-
     let overlay = !this.props.children
       ? null
       : React.Children.only(this.props.children);
@@ -82,7 +81,9 @@ export class Portal extends React.PureComponent<> {
 
   getOverlayDOMNode() {
     if (!this._isMounted) {
-      throw new Error('getOverlayDOMNode(): A component must be mounted to have a DOM node.');
+      throw new Error(
+        'getOverlayDOMNode(): A component must be mounted to have a DOM node.'
+      );
     }
 
     if (this._overlayInstance) {
@@ -97,6 +98,8 @@ export class Portal extends React.PureComponent<> {
   }
 
   getContainerDOMNode() {
-    return ReactDOM.findDOMNode(this.props.container) || getOwnerDocument(this).body;
+    return (
+      ReactDOM.findDOMNode(this.props.container) || getOwnerDocument(this).body
+    );
   }
 }

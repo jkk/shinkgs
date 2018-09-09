@@ -1,10 +1,10 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
-import {A} from '../common';
+import React, { PureComponent as Component } from 'react';
+import { A } from '../common';
 import MoreMenu from './MoreMenu';
 import UserName from '../user/UserName';
-import {InvariantError} from '../../util/error';
-import type {User, AppActions} from '../../model';
+import { InvariantError } from '../../util/error';
+import type { User, AppActions } from '../../model';
 
 export default class MoreScreen extends Component<> {
   static defaultProps: {
@@ -25,7 +25,7 @@ export default class MoreScreen extends Component<> {
   }
 
   render() {
-    let {currentUser, actions} = this.props;
+    let { currentUser, actions } = this.props;
     if (!currentUser) {
       throw new InvariantError('currentUser is required');
     }
@@ -36,17 +36,15 @@ export default class MoreScreen extends Component<> {
             <UserName user={currentUser} />
           </A>
         </div>
-        <MoreMenu
-          currentUser={currentUser}
-          actions={actions} />
+        <MoreMenu currentUser={currentUser} actions={actions} />
       </div>
     );
   }
 
   _onShowProfile = () => {
-    let {currentUser} = this.props;
+    let { currentUser } = this.props;
     if (currentUser) {
       this.props.actions.onUserDetail(currentUser.name);
     }
-  }
+  };
 }

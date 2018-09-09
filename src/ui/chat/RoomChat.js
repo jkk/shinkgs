@@ -1,12 +1,12 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 import ChatMessages from './ChatMessages';
 import ChatMessageBar from './ChatMessageBar';
 import RoomGameLinks from './RoomGameLinks';
-import {RichContent} from '../common';
+import { RichContent } from '../common';
 import UserList from '../user/UserList';
-import {sortUsers} from '../../model/user';
-import {isMobileScreen} from '../../util/dom';
+import { sortUsers } from '../../model/user';
+import { isMobileScreen } from '../../util/dom';
 import type {
   Room,
   User,
@@ -55,16 +55,17 @@ export default class RoomChat extends Component<> {
       <div className='RoomChat'>
         <div className='RoomChat-messages-container' ref={setMessagesDivRef}>
           <div className='RoomChat-desc'>
-            {room.description ?
+            {room.description ? (
               <div className='RoomChat-desc-text'>
                 <RichContent
                   content={room.description.replace(/[\r\n]+$/, '')}
-                  firstLineHeading />
-                {games && games.length ?
-                  <RoomGameLinks
-                    games={games}
-                    onSelect={this._onShowGames}/> : null }
-              </div> : null}
+                  firstLineHeading
+                />
+                {games && games.length ? (
+                  <RoomGameLinks games={games} onSelect={this._onShowGames} />
+                ) : null}
+              </div>
+            ) : null}
           </div>
           <div className='RoomChat-messages'>
             <ChatMessages
@@ -74,30 +75,29 @@ export default class RoomChat extends Component<> {
               games={games && games.length < 20 ? games : null}
               onUserDetail={onUserDetail}
               onJoinGame={onJoinGame}
-              onSelectChallenge={onSelectChallenge} />
+              onSelectChallenge={onSelectChallenge}
+            />
           </div>
         </div>
         <div className='RoomChat-message-bar' ref={setMessageInputRef}>
-          <ChatMessageBar
-            conversation={conversation}
-            onSubmit={onSendChat} />
+          <ChatMessageBar conversation={conversation} onSubmit={onSendChat} />
         </div>
-        {!isMobileScreen() ?
+        {!isMobileScreen() ? (
           <div className='RoomChat-sidebar'>
             <div className='RoomChat-users'>
-              {users ?
-                <UserList
-                  users={users}
-                  onSelectUser={this._onUserDetail} /> : null}
+              {users ? (
+                <UserList users={users} onSelectUser={this._onUserDetail} />
+              ) : null}
             </div>
-          </div> : null}
+          </div>
+        ) : null}
       </div>
     );
   }
 
   _onUserDetail = (user: User) => {
     this.props.onUserDetail(user.name);
-  }
+  };
 
   _onShowGames = (games: Array<GameChannel>) => {
     let filter: GameFilter = {
@@ -105,5 +105,5 @@ export default class RoomChat extends Component<> {
       type: games.length && games[0].type === 'challenge' ? 'challenge' : 'game'
     };
     this.props.onShowGames(filter);
-  }
+  };
 }

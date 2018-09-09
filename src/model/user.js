@@ -50,16 +50,16 @@ export function getUserStatusText(user: User) {
 
 export function getUserAuthName(user: User) {
   switch (user.authLevel) {
-    case 'jr_admin':
-      return 'Junior Admin';
-    case 'sr_admin':
-      return 'Senior Admin';
-    case 'super_admin':
-      return 'Super Admin';
-    case 'teacher':
-      return 'Teacher';
-    default:
-      return null;
+  case 'jr_admin':
+    return 'Junior Admin';
+  case 'sr_admin':
+    return 'Senior Admin';
+  case 'super_admin':
+    return 'Super Admin';
+  case 'teacher':
+    return 'Teacher';
+  default:
+    return null;
   }
 }
 
@@ -82,50 +82,50 @@ export function parseUser(user: ?User, values: Object, details?: Object): User {
     let flags: UserFlags = {};
     for (let c of flagsStr) {
       switch (c) {
-        case 'g':
-          flags.guest = true;
-          break;
-        case 'c':
-          flags.connected = true;
-          break;
-        case 'd':
-          flags.deleted = true;
-          break;
-        case 's':
-          flags.sleeping = true;
-          break;
-        case 'a':
-          flags.avatar = true;
-          break;
-        case 'r':
-          flags.robot = true;
-          break;
-        case 'T':
-          flags.tourneyWinner = true;
-          break;
-        case 't':
-          flags.tourneyRunnerUp = true;
-          break;
-        case 'p':
-          flags.playing = true;
-          break;
-        case 'P':
-          flags.playingTourney = true;
-          break;
-        case '*':
-          flags.kgsPlus = true;
-          break;
-        case '!':
-          flags.kgsMeijin = true;
-          break;
-        case '=':
-          flags.canPlayRanked = true;
-          break;
-        case '~':
-          flags.selfish = true;
-          break;
-        default:
-          break;
+      case 'g':
+        flags.guest = true;
+        break;
+      case 'c':
+        flags.connected = true;
+        break;
+      case 'd':
+        flags.deleted = true;
+        break;
+      case 's':
+        flags.sleeping = true;
+        break;
+      case 'a':
+        flags.avatar = true;
+        break;
+      case 'r':
+        flags.robot = true;
+        break;
+      case 'T':
+        flags.tourneyWinner = true;
+        break;
+      case 't':
+        flags.tourneyRunnerUp = true;
+        break;
+      case 'p':
+        flags.playing = true;
+        break;
+      case 'P':
+        flags.playingTourney = true;
+        break;
+      case '*':
+        flags.kgsPlus = true;
+        break;
+      case '!':
+        flags.kgsMeijin = true;
+        break;
+      case '=':
+        flags.canPlayRanked = true;
+        break;
+      case '~':
+        flags.selfish = true;
+        break;
+      default:
+        break;
       }
     }
     newUser.flags = flags;

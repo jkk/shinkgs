@@ -1,5 +1,5 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 
 export class CheckboxInput extends Component<> {
   static defaultProps: {
@@ -8,10 +8,10 @@ export class CheckboxInput extends Component<> {
   };
 
   render() {
-    let {label, checked, ...inputProps} = this.props;
-    let className = 'CheckboxInput ' + (
-      checked ? 'CheckboxInput-checked' : 'CheckboxInput-unchecked'
-    );
+    let { label, checked, ...inputProps } = this.props;
+    let className =
+      'CheckboxInput ' +
+      (checked ? 'CheckboxInput-checked' : 'CheckboxInput-unchecked');
     return (
       <div className={className}>
         <label>

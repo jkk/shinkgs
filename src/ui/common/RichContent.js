@@ -1,16 +1,16 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 import Autolinker from 'autolinker.js';
-import {nl2br, escapeHtml} from '../../util/string';
+import { nl2br, escapeHtml } from '../../util/string';
 
 type Props = {
   content: ?string,
-    firstLineHeading?: ?boolean
+  firstLineHeading?: ?boolean
 };
 
 export class RichContent extends Component<Props> {
   render() {
-    let {content, firstLineHeading} = this.props;
+    let { content, firstLineHeading } = this.props;
     if (!content || !content.trim()) {
       return null;
     }
@@ -25,12 +25,13 @@ export class RichContent extends Component<Props> {
     };
     let html = nl2br(Autolinker.link(escapeHtml(content), opts));
     if (firstLineHeading) {
-      html = html.replace(/(.+?)<br>/, '<div class="RichContent-heading">$1</div>');
+      html = html.replace(
+        /(.+?)<br>/,
+        '<div class="RichContent-heading">$1</div>'
+      );
     }
     return (
-      <div
-        className='RichContent'
-        dangerouslySetInnerHTML={{__html: html}} />
+      <div className='RichContent' dangerouslySetInnerHTML={{ __html: html }} />
     );
   }
 }

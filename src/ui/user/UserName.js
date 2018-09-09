@@ -35,13 +35,11 @@ export default class UserName extends Component<Props> {
           <span
             role='img'
             className='UserName-selfish'
-            aria-labelledby='selfish'
-          >
+            aria-labelledby='selfish'>
             <span
               role='img'
               className='UserName-selfish-icon'
-              aria-labelledby='selfish'
-            >
+              aria-labelledby='selfish'>
               ~
             </span>
           </span>

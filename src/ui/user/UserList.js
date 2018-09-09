@@ -1,10 +1,8 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 import UserName from './UserName';
-import {A} from '../common';
-import type {
-  User
-} from '../../model';
+import { A } from '../common';
+import type { User } from '../../model';
 
 class UserListItem extends Component<> {
   static defaultProps: {
@@ -13,11 +11,10 @@ class UserListItem extends Component<> {
   };
 
   render() {
-    let {user} = this.props;
+    let { user } = this.props;
     let flags = user.flags || {};
-    let className = 'UserList-item' + (
-      (!flags.connected ? ' UserList-item-offline' : '')
-    );
+    let className =
+      'UserList-item' + (!flags.connected ? ' UserList-item-offline' : '');
     return (
       <div className={className}>
         <A onClick={this._onSelect}>
@@ -31,7 +28,7 @@ class UserListItem extends Component<> {
 
   _onSelect = () => {
     this.props.onSelect(this.props.user);
-  }
+  };
 }
 
 export default class UserList extends Component<> {
@@ -45,26 +42,23 @@ export default class UserList extends Component<> {
   };
 
   componentDidMount() {
-    let {users} = this.props;
+    let { users } = this.props;
     if (users.length > 40) {
       setTimeout(() => {
-        this.setState({fullRender: true});
+        this.setState({ fullRender: true });
       }, 32);
     }
   }
 
   render() {
-    let {users: allUsers, onSelectUser} = this.props;
-    let {fullRender} = this.state;
+    let { users: allUsers, onSelectUser } = this.props;
+    let { fullRender } = this.state;
     let users = fullRender ? allUsers : allUsers.slice(0, 40);
     return (
       <div className='UserList'>
-        {users.map(user =>
-          <UserListItem
-            key={user.name}
-            user={user}
-            onSelect={onSelectUser} />
-        )}
+        {users.map(user => (
+          <UserListItem key={user.name} user={user} onSelect={onSelectUser} />
+        ))}
       </div>
     );
   }

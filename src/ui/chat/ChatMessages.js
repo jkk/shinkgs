@@ -1,11 +1,11 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 import GameTypeIcon from '../game/GameTypeIcon';
 import GamePlayersList from '../game/GamePlayersList';
 import GameTimeSystem from '../game/GameTimeSystem';
-import {A, RichContent} from '../common';
+import { A, RichContent } from '../common';
 import UserName from '../user/UserName';
-import {formatLocaleTime} from '../../util/date';
+import { formatLocaleTime } from '../../util/date';
 import type {
   User,
   ConversationMessage,
@@ -22,43 +22,49 @@ class ChatMessageItem extends Component<> {
   };
 
   render() {
-    let {currentUser, message, sender} = this.props;
+    let { currentUser, message, sender } = this.props;
     // TODO - for some reason this is null sometimes
     if (!sender) {
       sender = '[Unknown]';
     }
-    let className = 'ChatMessages-item' + (
-      (message.announcement ? ' ChatMessages-item-announcement' : '') +
-      (currentUser.name === (typeof sender === 'string' ? sender : sender.name) ? ' ChatMessages-item-self' : '')
-    );
+    let className =
+      'ChatMessages-item' +
+      ((message.announcement ? ' ChatMessages-item-announcement' : '') +
+        (currentUser.name ===
+        (typeof sender === 'string' ? sender : sender.name)
+          ? ' ChatMessages-item-self'
+          : ''));
     return (
       <div className={className}>
         <div className='ChatMessages-item-content'>
-          {typeof sender === 'string' ?
+          {typeof sender === 'string' ? (
             <div className='ChatMessages-item-user ChatMessages-item-user-unverified'>
               <A onClick={this._onUserDetail}>{sender}</A>
-            </div> :
+            </div>
+          ) : (
             <div className='ChatMessages-item-user'>
-              <A onClick={this._onUserDetail}><UserName user={sender} /></A>
-            </div>}
+              <A onClick={this._onUserDetail}>
+                <UserName user={sender} />
+              </A>
+            </div>
+          )}
           <div className='ChatMessages-item-body'>
             <RichContent content={message.body} />
           </div>
         </div>
-        {message.date ?
+        {message.date ? (
           <div className='ChatMessages-item-time'>
             {message.sending ? 'Sending...' : formatLocaleTime(message.date)}
-          </div> : null}
+          </div>
+        ) : null}
       </div>
     );
   }
 
   _onUserDetail = () => {
-    let {sender} = this.props;
-    this.props.onUserDetail(
-      typeof sender === 'string' ? sender : sender.name
-    );
-  }
+    let { sender } = this.props;
+    this.props.onUserDetail(typeof sender === 'string' ? sender : sender.name);
+  };
 }
 
 class ChatGameLink extends Component<> {
@@ -68,42 +74,45 @@ class ChatGameLink extends Component<> {
   };
 
   render() {
-    let {game} = this.props;
-    let className = 'ChatMessages-game ChatMessages-game-type-' + game.type + (
-      game.deletedTime ? ' ChatMessages-game-deleted' : ''
-    );
+    let { game } = this.props;
+    let className =
+      'ChatMessages-game ChatMessages-game-type-' +
+      game.type +
+      (game.deletedTime ? ' ChatMessages-game-deleted' : '');
     return (
       <A className={className} onClick={this._onSelect}>
         <div className='ChatMessages-game-icon'>
           <GameTypeIcon
-            type={game.initialProposal ? game.initialProposal.gameType : game.type}
+            type={
+              game.initialProposal ? game.initialProposal.gameType : game.type
+            }
             isPrivate={game.private}
-            subscribersOnly={game.subscribers} />
+            subscribersOnly={game.subscribers}
+          />
         </div>
         <div className='ChatMessages-game-players'>
           <GamePlayersList players={game.players} />
         </div>
         <div className='ChatMessages-game-time'>
-          {game.initialProposal && game.initialProposal.rules ?
-            <GameTimeSystem rules={game.initialProposal.rules} /> : null}
+          {game.initialProposal && game.initialProposal.rules ? (
+            <GameTimeSystem rules={game.initialProposal.rules} />
+          ) : null}
         </div>
-        {game.name ?
-          <div className='ChatMessages-game-name'>
-            {game.name}
-          </div> : null}
+        {game.name ? (
+          <div className='ChatMessages-game-name'>{game.name}</div>
+        ) : null}
       </A>
     );
   }
 
   _onSelect = () => {
     this.props.onSelect(this.props.game);
-  }
+  };
 }
 
-type ChatItem = (
-  {id: number, time: number, type: 'message', message: ConversationMessage} |
-  {id: number, time: number, type: 'game', game: GameChannel}
-);
+type ChatItem =
+  | { id: number, time: number, type: 'message', message: ConversationMessage }
+  | { id: number, time: number, type: 'game', game: GameChannel };
 
 export default class ChatMessages extends Component<> {
   static defaultProps: {
@@ -151,36 +160,35 @@ export default class ChatMessages extends Component<> {
               key={item.id}
               message={item.message}
               sender={usersByName[item.message.sender] || item.message.sender}
-              onUserDetail={onUserDetail} />
+              onUserDetail={onUserDetail}
+            />
           );
         } else if (item.type === 'game') {
           displayMessages.push(
             <ChatGameLink
               key={item.id}
               game={item.game}
-              onSelect={this._onSelectGame} />
+              onSelect={this._onSelectGame}
+            />
           );
         }
       }
     } else {
-      displayMessages = messages.map(msg =>
+      displayMessages = messages.map(msg => (
         <ChatMessageItem
           currentUser={currentUser}
           key={msg.id}
           message={msg}
           sender={usersByName[msg.sender] || msg.sender}
-          onUserDetail={onUserDetail} />
-      );
+          onUserDetail={onUserDetail}
+        />
+      ));
     }
-    return (
-      <div className='ChatMessages'>
-        {displayMessages}
-      </div>
-    );
+    return <div className='ChatMessages'>{displayMessages}</div>;
   }
 
   _onSelectGame = (game: GameChannel) => {
-    let {onJoinGame, onSelectChallenge} = this.props;
+    let { onJoinGame, onSelectChallenge } = this.props;
     if (game.deletedTime) {
       return;
     }
@@ -189,5 +197,5 @@ export default class ChatMessages extends Component<> {
     } else if (onJoinGame) {
       onJoinGame(game.id);
     }
-  }
+  };
 }

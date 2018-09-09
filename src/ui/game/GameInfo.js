@@ -1,23 +1,19 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 import type { Children } from 'react';
 import GameTimeSystem from './GameTimeSystem';
-import {formatGameType, formatGameRuleset} from '../../model/game';
-import type {
-  GameChannel,
-  Room,
-  Index
-} from '../../model';
+import { formatGameType, formatGameRuleset } from '../../model/game';
+import type { GameChannel, Room, Index } from '../../model';
 
 export default class GameInfo extends Component<> {
   static defaultProps: {
     game: GameChannel,
     roomsById: Index<Room>,
-    children?: Children,
+    children?: Children
   };
 
   render() {
-    let {game, roomsById, children} = this.props;
+    let { game, roomsById, children } = this.props;
     let rules = game.rules;
     let room = roomsById[game.roomId];
     let rows = [];
@@ -32,9 +28,7 @@ export default class GameInfo extends Component<> {
     rows.push(
       <tr key='type'>
         <th>Type</th>
-        <td>
-          {formatGameType(game.type)}
-        </td>
+        <td>{formatGameType(game.type)}</td>
       </tr>
     );
     if (rules) {
@@ -56,7 +50,9 @@ export default class GameInfo extends Component<> {
         rows.push(
           <tr key='time'>
             <th>Time</th>
-            <td><GameTimeSystem rules={rules} /></td>
+            <td>
+              <GameTimeSystem rules={rules} />
+            </td>
           </tr>
         );
       }

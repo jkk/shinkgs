@@ -2,7 +2,7 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import Fastclick from 'fastclick';
 import App from './App';
-import {isTouchDevice} from './util/dom';
+import { isTouchDevice } from './util/dom';
 import './index.css';
 import 'font-awesome/css/font-awesome.css';
 
@@ -14,12 +14,12 @@ if (document.body) {
   document.body.classList.add(isTouchDevice() ? 'touch' : 'no-touch');
 
   // Remove tap delay on iOS standalone
-  if (window.navigator.standalone && /iPad|iPhone|iPod/.test(window.navigator.userAgent)) {
+  if (
+    window.navigator.standalone &&
+    /iPad|iPhone|iPod/.test(window.navigator.userAgent)
+  ) {
     Fastclick.attach(document.body);
   }
 }
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+ReactDOM.render(<App />, document.getElementById('root'));

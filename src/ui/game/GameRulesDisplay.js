@@ -1,9 +1,7 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 import GameTimeSystem from './GameTimeSystem';
-import type {
-  GameRules
-} from '../../model';
+import type { GameRules } from '../../model';
 
 export default class GameRulesDisplay extends Component<> {
   static defaultProps: {
@@ -11,22 +9,23 @@ export default class GameRulesDisplay extends Component<> {
   };
 
   render() {
-    let {rules} = this.props;
+    let { rules } = this.props;
     return (
       <div className='GameRulesDisplay'>
-        {rules.timeSystem ?
+        {rules.timeSystem ? (
           <div className='GameRulesDisplay-time'>
             <GameTimeSystem rules={rules} />
-          </div> : null}
-        {(rules.size && rules.size !== 19) || rules.handicap ?
+          </div>
+        ) : null}
+        {(rules.size && rules.size !== 19) || rules.handicap ? (
           <div className='GameRulesDisplay-size'>
             {rules.size !== 19 ? `${rules.size}×${rules.size}` : ''}
             {rules.handicap ? ' H' + rules.handicap : ''}
-          </div> : null}
-        {rules.komi ?
-          <div className='GameRulesDisplay-komi'>
-            Komi {rules.komi}
-          </div> : null}
+          </div>
+        ) : null}
+        {rules.komi ? (
+          <div className='GameRulesDisplay-komi'>Komi {rules.komi}</div>
+        ) : null}
       </div>
     );
   }

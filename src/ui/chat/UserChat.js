@@ -1,15 +1,11 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 import ChatMessages from './ChatMessages';
 import ChatMessageBar from './ChatMessageBar';
-import {Button} from '../common';
+import { Button } from '../common';
 import UserIcons from '../user/UserIcons';
-import {getUserStatusText} from '../../model/user';
-import type {
-  User,
-  Conversation,
-  Index
-} from '../../model';
+import { getUserStatusText } from '../../model/user';
+import type { User, Conversation, Index } from '../../model';
 
 export default class UserChat extends Component<> {
   static defaultProps: {
@@ -43,31 +39,28 @@ export default class UserChat extends Component<> {
           <div className='UserChat-icons'>
             <UserIcons user={user} />
           </div>
-          <div className='UserChat-info-status'>
-            {getUserStatusText(user)}
-          </div>
+          <div className='UserChat-info-status'>{getUserStatusText(user)}</div>
         </div>
       );
     }
     return (
       <div className='UserChat'>
         <div className='UserChat-view-profile'>
-          <Button small secondary onClick={this._onViewProfile}>View Profile</Button>
+          <Button small secondary onClick={this._onViewProfile}>
+            View Profile
+          </Button>
         </div>
-        <div className='UserChat-info'>
-          {info}
-        </div>
+        <div className='UserChat-info'>{info}</div>
         <div className='UserChat-messages' ref={setMessagesDivRef}>
           <ChatMessages
             currentUser={currentUser}
             messages={conversation.messages}
             usersByName={usersByName}
-            onUserDetail={onUserDetail} />
+            onUserDetail={onUserDetail}
+          />
         </div>
         <div className='UserChat-message-bar' ref={setMessageInputRef}>
-          <ChatMessageBar
-            conversation={conversation}
-            onSubmit={onSendChat} />
+          <ChatMessageBar conversation={conversation} onSubmit={onSendChat} />
         </div>
       </div>
     );
@@ -75,5 +68,5 @@ export default class UserChat extends Component<> {
 
   _onViewProfile = () => {
     this.props.onUserDetail(this.props.user.name);
-  }
+  };
 }

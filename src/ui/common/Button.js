@@ -1,6 +1,6 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
-import {Icon} from './Icon';
+import React, { PureComponent as Component } from 'react';
+import { Icon } from './Icon';
 
 export class Button extends Component<> {
   static defaultProps: {
@@ -58,17 +58,15 @@ export class Button extends Component<> {
     if (!children) {
       className += ' Button-no-label';
     }
-    let iconEl = icon || loading ? (
-      <div className='Button-icon'>
-        <Icon name={loading ? 'spinner' : icon} />
-      </div>
-    ) : null;
+    let iconEl =
+      icon || loading ? (
+        <div className='Button-icon'>
+          <Icon name={loading ? 'spinner' : icon} />
+        </div>
+      ) : null;
     if (href) {
       return (
-        <a
-          className={className}
-          href={href}
-          target={target}>
+        <a className={className} href={href} target={target}>
           {iconEl} {children}
         </a>
       );

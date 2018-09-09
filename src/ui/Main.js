@@ -1,5 +1,5 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 import Nav from './meta/Nav';
 import OfflineAlert from './meta/OfflineAlert';
 import UnderConstructionModal from './meta/UnderConstructionModal';
@@ -10,10 +10,7 @@ import SearchScreen from './SearchScreen';
 import ChatScreen from './chat/ChatScreen';
 import MoreScreen from './meta/MoreScreen';
 import UserDetailsModal from './user/UserDetailsModal';
-import type {
-  AppState,
-  AppActions
-} from '../model';
+import type { AppState, AppActions } from '../model';
 
 export default class Main extends Component<> {
   static defaultProps: {
@@ -22,10 +19,7 @@ export default class Main extends Component<> {
   };
 
   render() {
-    let {
-      appState,
-      actions
-    } = this.props;
+    let { appState, actions } = this.props;
     let {
       nav,
       currentUser,
@@ -39,63 +33,55 @@ export default class Main extends Component<> {
       showUnderConstruction,
       showFeedbackModal
     } = appState;
-    let screenProps = {...appState, actions};
+    let screenProps = { ...appState, actions };
 
     let content;
     if (nav === 'watch') {
-      content = (
-        <WatchScreen {...screenProps} />
-      );
+      content = <WatchScreen {...screenProps} />;
     } else if (nav === 'play') {
-      content = (
-        <PlayScreen {...screenProps} />
-      );
+      content = <PlayScreen {...screenProps} />;
     } else if (nav === 'chat') {
-      content = (
-        <ChatScreen {...screenProps} />
-      );
+      content = <ChatScreen {...screenProps} />;
     } else if (nav === 'search') {
-      content = (
-        <SearchScreen {...screenProps} />
-      );
+      content = <SearchScreen {...screenProps} />;
     } else if (nav === 'more') {
-      content = (
-        <MoreScreen {...screenProps} />
-      );
+      content = <MoreScreen {...screenProps} />;
     }
 
     let activeChallenge = playChallengeId ? gamesById[playChallengeId] : null;
-    let offline = clientState.status === 'loggedOut' || clientState.network !== 'online';
+    let offline =
+      clientState.status === 'loggedOut' || clientState.network !== 'online';
     return (
       <div className='Main'>
-        {offline ?
+        {offline ? (
           <OfflineAlert
             logoutError={logoutError}
             clientState={clientState}
-            onLogout={actions.onLogout} /> :
-          null}
+            onLogout={actions.onLogout}
+          />
+        ) : null}
         <Nav
           nav={nav}
           currentUser={currentUser}
           conversationsById={conversationsById}
           channelMembership={channelMembership}
           activeChallenge={activeChallenge}
-          actions={actions} />
-        <div className={'Main-content Main-' + (offline ? 'offline' : 'online')}>
+          actions={actions}
+        />
+        <div
+          className={'Main-content Main-' + (offline ? 'offline' : 'online')}>
           {content}
         </div>
-        {userDetailsRequest ?
-          <UserDetailsModal {...screenProps} /> :
-          null}
-        {showUnderConstruction ?
-          <UnderConstructionModal
-            onClose={actions.onHideUnderConstruction} /> :
-          null}
-        {showFeedbackModal ?
+        {userDetailsRequest ? <UserDetailsModal {...screenProps} /> : null}
+        {showUnderConstruction ? (
+          <UnderConstructionModal onClose={actions.onHideUnderConstruction} />
+        ) : null}
+        {showFeedbackModal ? (
           <FeedbackModal
             currentUser={currentUser}
-            onClose={actions.onHideFeedbackModal} /> :
-          null}
+            onClose={actions.onHideFeedbackModal}
+          />
+        ) : null}
       </div>
     );
   }

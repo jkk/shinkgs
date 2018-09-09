@@ -1,5 +1,5 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 import Board from './Board';
 import type {
   GameChannel,
@@ -11,7 +11,12 @@ import type {
 type Props = {
   game: GameChannel,
   playing?: boolean,
-  onClickPoint: (game: GameChannel, loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => any
+  onClickPoint: (
+    game: GameChannel,
+    loc: Point,
+    color?: ?PlayerColor,
+    mark?: ?BoardPointMark
+  ) => any
 };
 
 type State = {
@@ -21,7 +26,7 @@ type State = {
 
 export default class BoardContainer extends Component<> {
   static defaultProps: Props;
-  state: State = {boardWidth: null, marginTop: 0};
+  state: State = { boardWidth: null, marginTop: 0 };
 
   _containerRef: ?HTMLElement;
 
@@ -30,18 +35,15 @@ export default class BoardContainer extends Component<> {
       // Note: this is tightly coupled to the CSS layout
       let containerWidth = this._containerRef.offsetWidth;
       let containerHeight = this._containerRef.offsetHeight;
-      let boardWidth = Math.min(
-        containerWidth,
-        containerHeight
-      );
+      let boardWidth = Math.min(containerWidth, containerHeight);
       let marginTop = -35;
       if (containerWidth <= 736 || containerWidth - boardWidth < 180) {
         boardWidth = Math.min(containerWidth, containerHeight - 35);
         marginTop = 0;
       }
-      this.setState({boardWidth, marginTop});
+      this.setState({ boardWidth, marginTop });
     }
-  }
+  };
 
   componentDidMount() {
     this._setBoardWidth();
@@ -53,12 +55,15 @@ export default class BoardContainer extends Component<> {
   }
 
   render() {
-    let {game, onClickPoint} = this.props;
-    let {boardWidth, marginTop} = this.state;
+    let { game, onClickPoint } = this.props;
+    let { boardWidth, marginTop } = this.state;
 
     if (!boardWidth) {
       return (
-        <div className='GameScreen-board-container' ref={this._setContainerRef} />
+        <div
+          className='GameScreen-board-container'
+          ref={this._setContainerRef}
+        />
       );
     }
 
@@ -76,14 +81,16 @@ export default class BoardContainer extends Component<> {
       <div className='GameScreen-board-container' ref={this._setContainerRef}>
         <div
           className='GameScreen-board'
-          style={{width: boardWidth, height: boardWidth, marginTop}}>
+          style={{ width: boardWidth, height: boardWidth, marginTop }}>
           <div className='GameScreen-board-inner'>
-            {board && markup ?
+            {board && markup ? (
               <Board
                 board={board}
                 markup={markup}
                 width={boardWidth}
-                onClickPoint={onClickPoint ? this._onClickPoint : undefined} /> : null}
+                onClickPoint={onClickPoint ? this._onClickPoint : undefined}
+              />
+            ) : null}
           </div>
         </div>
       </div>
@@ -92,9 +99,13 @@ export default class BoardContainer extends Component<> {
 
   _setContainerRef = (ref: HTMLElement) => {
     this._containerRef = ref;
-  }
+  };
 
-  _onClickPoint = (loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => {
+  _onClickPoint = (
+    loc: Point,
+    color?: ?PlayerColor,
+    mark?: ?BoardPointMark
+  ) => {
     this.props.onClickPoint(this.props.game, loc, color, mark);
-  }
+  };
 }

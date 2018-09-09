@@ -1,5 +1,5 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 
 export class UnseenBadge extends Component<> {
   static defaultProps: {
@@ -8,12 +8,15 @@ export class UnseenBadge extends Component<> {
   };
 
   render() {
-    let {majorCount, minorCount} = this.props;
+    let { majorCount, minorCount } = this.props;
     if (!majorCount && !minorCount) {
       return null;
     }
     return (
-      <div className={'UnseenBadge UnseenBadge-' + (majorCount ? 'major' : 'minor')}>
+      <div
+        className={
+          'UnseenBadge UnseenBadge-' + (majorCount ? 'major' : 'minor')
+        }>
         {majorCount || minorCount}
       </div>
     );

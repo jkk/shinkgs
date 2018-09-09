@@ -1,10 +1,12 @@
 // @flow
 
 export function quoteRegExpPattern(s: any) {
-  return String(s)
-    .replace(/([-()[\]{}+?*.$^|,:#<!\\])/g, '\\$1')
-    // eslint-disable-next-line
-    .replace(/\x08/g, '\\x08');
+  return (
+    String(s)
+      .replace(/([-()[\]{}+?*.$^|,:#<!\\])/g, '\\$1')
+      // eslint-disable-next-line
+      .replace(/\x08/g, '\\x08')
+  );
 }
 
 export function nl2br(s: string) {

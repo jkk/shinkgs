@@ -10,7 +10,15 @@ import UserList from '../user/UserList';
 import { sortUsers, getUserStatusText } from '../../model/user';
 import { isMobileScreen } from '../../util/dom';
 import { InvariantError } from '../../util/error';
-import type { Room, User, Conversation, Index, ChannelMembership, GameChannel, AppActions } from '../../model';
+import type {
+  Room,
+  User,
+  Conversation,
+  Index,
+  ChannelMembership,
+  GameChannel,
+  AppActions
+} from '../../model';
 
 class ChatTab extends Component<> {
   static defaultProps: {
@@ -23,12 +31,7 @@ class ChatTab extends Component<> {
   };
 
   render() {
-    let {
-      conversation,
-      user,
-      room,
-      active
-    } = this.props;
+    let { conversation, user, room, active } = this.props;
     let label;
     if (user) {
       label = (
@@ -39,27 +42,37 @@ class ChatTab extends Component<> {
     } else if (room) {
       label = (
         <div className='ChatScreen-tab-room-name'>
-          {room.name}{room.private ? ' 🔒' : null}
+          {room.name}
+          {room.private ? ' 🔒' : null}
         </div>
       );
     } else {
       label = '[Empty]';
     }
     return (
-      <div className={'ChatScreen-tab' + (active ? ' ChatScreen-tab-active' : '')}>
+      <div
+        className={'ChatScreen-tab' + (active ? ' ChatScreen-tab-active' : '')}>
         <A className='ChatScreen-tab-label' onClick={this._onSelect}>
           <div className='ChatScreen-tab-name'>
-            {conversation.unseenCount ?
+            {conversation.unseenCount ? (
               <div className='ChatScreen-tab-badge'>
                 <ChatUnseenBadge
-                  conversationsById={{ [conversation.id]: conversation }} />
-              </div> : null}
+                  conversationsById={{ [conversation.id]: conversation }}
+                />
+              </div>
+            ) : null}
             {label}
           </div>
           <div className='ChatScreen-tab-info'>
-            {room ?
-              (room.users ? <div>{room.users.length} users</div> : '...') :
-              (user ? getUserStatusText(user) : null)}
+            {room ? (
+              room.users ? (
+                <div>{room.users.length} users</div>
+              ) : (
+                '...'
+              )
+            ) : user ? (
+              getUserStatusText(user)
+            ) : null}
           </div>
         </A>
         <A className='ChatScreen-tab-close' onClick={this._onClose}>
@@ -71,11 +84,11 @@ class ChatTab extends Component<> {
 
   _onSelect = () => {
     this.props.onSelect(this.props.conversation.id);
-  }
+  };
 
   _onClose = () => {
     this.props.onClose(this.props.conversation.id);
-  }
+  };
 }
 
 class ChatScreenBanner extends Component<> {
@@ -103,9 +116,9 @@ class ChatScreenBanner extends Component<> {
       return (
         <div className='ChatScreen-banner'>
           <A className='ChatScreen-banner-title' onClick={onShowRoomChat}>
-            {activeRoom && activeRoom.users ?
-              `${activeRoom.users.length} users` :
-              'Room users'}
+            {activeRoom && activeRoom.users
+              ? `${activeRoom.users.length} users`
+              : 'Room users'}
           </A>
           <div className='ChatScreen-back'>
             <A onClick={onShowRoomChat}>
@@ -121,25 +134,30 @@ class ChatScreenBanner extends Component<> {
     return (
       <div className='ChatScreen-banner'>
         <A className='ChatScreen-banner-title' onClick={onShowRoomUsers}>
-          {activeRoom ?
+          {activeRoom ? (
             <div className='ChatScreen-banner-title-room'>
               {activeRoom.name} {activeRoom.private ? <Icon name='lock' /> : ''}
-            </div> :
-            (activeUser ?
-              <div className='ChatScreen-banner-title-user'>
-                <UserName user={activeUser} extraIcons />
-              </div> : null)}
+            </div>
+          ) : activeUser ? (
+            <div className='ChatScreen-banner-title-user'>
+              <UserName user={activeUser} extraIcons />
+            </div>
+          ) : null}
         </A>
-        <A className='ChatScreen-banner-info' onClick={activeRoom ? onShowRoomUsers : undefined}>
-          {activeRoom ?
+        <A
+          className='ChatScreen-banner-info'
+          onClick={activeRoom ? onShowRoomUsers : undefined}>
+          {activeRoom ? (
             <div className='ChatScreen-banner-info-room'>
-              {activeRoom.users ?
-                <div>{activeRoom.users.length} users</div> : null}
-            </div> :
-            (activeUser ?
-              <div className='ChatScreen-banner-info-user'>
-                {getUserStatusText(activeUser)}
-              </div> : null)}
+              {activeRoom.users ? (
+                <div>{activeRoom.users.length} users</div>
+              ) : null}
+            </div>
+          ) : activeUser ? (
+            <div className='ChatScreen-banner-info-user'>
+              {getUserStatusText(activeUser)}
+            </div>
+          ) : null}
         </A>
         <div className='ChatScreen-back'>
           <A onClick={onShowList}>
@@ -148,8 +166,7 @@ class ChatScreenBanner extends Component<> {
             </div>
             <div className='ChatScreen-back-label'>Chats</div>
             <div className='ChatScreen-back-badge'>
-              <ChatUnseenBadge
-                conversationsById={conversationsById} />
+              <ChatUnseenBadge conversationsById={conversationsById} />
             </div>
           </A>
         </div>
@@ -264,14 +281,14 @@ export default class ChatScreen extends Component<Props> {
     let nextConvId = nextState.activeConversationId;
     let thisConvId = this.state.activeConversationId;
     let nextLen = nextState.activeConv && nextState.activeConv.messages.length;
-    let thisLen = this.state.activeConv && this.state.activeConv.messages.length;
+    let thisLen =
+      this.state.activeConv && this.state.activeConv.messages.length;
     // TODO - check games
     this.setState(nextState, () => {
       if (nextConvId !== thisConvId || (nextLen || 0) > (thisLen || 0)) {
         this._setScroll();
       }
     });
-
   }
 
   componentDidMount() {
@@ -318,30 +335,34 @@ export default class ChatScreen extends Component<Props> {
       sortUsers(users);
     }
 
-    let tabs = roomConvs.map(conv =>
-      <ChatTab
-        key={conv.id}
-        conversation={conv}
-        active={activeConversationId === conv.id}
-        room={roomsById[conv.id]}
-        onSelect={this._onSelectConversation}
-        onClose={this._onCloseConversation} />
-    ).concat(userConvs.map(conv =>
-      <ChatTab
-        key={conv.id}
-        conversation={conv}
-        active={activeConversationId === conv.id}
-        user={conv.user ? usersByName[conv.user] : null}
-        onSelect={this._onSelectConversation}
-        onClose={this._onCloseConversation} />
-    ));
+    let tabs = roomConvs
+      .map(conv => (
+        <ChatTab
+          key={conv.id}
+          conversation={conv}
+          active={activeConversationId === conv.id}
+          room={roomsById[conv.id]}
+          onSelect={this._onSelectConversation}
+          onClose={this._onCloseConversation}
+        />
+      ))
+      .concat(
+        userConvs.map(conv => (
+          <ChatTab
+            key={conv.id}
+            conversation={conv}
+            active={activeConversationId === conv.id}
+            user={conv.user ? usersByName[conv.user] : null}
+            onSelect={this._onSelectConversation}
+            onClose={this._onCloseConversation}
+          />
+        ))
+      );
 
     let modal = showingRoomList ? (
       <div className='ChatScreen-rooms-list'>
         <Modal title='Rooms' onClose={this._onCloseRoomList}>
-          <ChatRoomList
-            roomsById={roomsById}
-            onJoinRoom={this._onJoinRoom} />
+          <ChatRoomList roomsById={roomsById} onJoinRoom={this._onJoinRoom} />
         </Modal>
       </div>
     ) : null;
@@ -352,7 +373,9 @@ export default class ChatScreen extends Component<Props> {
           <div className='ChatScreen-list'>
             {tabs}
             <div className='ChatScreen-tab ChatScreen-tab-join'>
-              <A className='ChatScreen-tab-label' onClick={this._onShowRoomList}>
+              <A
+                className='ChatScreen-tab-label'
+                onClick={this._onShowRoomList}>
                 Join Room...
               </A>
             </div>
@@ -371,19 +394,22 @@ export default class ChatScreen extends Component<Props> {
           activeUser={activeUser}
           onShowList={this._onShowList}
           onShowRoomUsers={this._onShowRoomUsers}
-          onShowRoomChat={this._onShowRoomChat} />
+          onShowRoomChat={this._onShowRoomChat}
+        />
         <div className='ChatScreen-tabs'>
           <div className='ChatScreen-tabs-inner'>
             {tabs}
             <div className='ChatScreen-tab ChatScreen-tab-join'>
-              <A className='ChatScreen-tab-label' onClick={this._onShowRoomList}>
+              <A
+                className='ChatScreen-tab-label'
+                onClick={this._onShowRoomList}>
                 Join Room...
               </A>
             </div>
           </div>
         </div>
         <div className='ChatScreen-active-chat'>
-          {activeConv && activeUser ?
+          {activeConv && activeUser ? (
             <UserChat
               currentUser={currentUser}
               user={activeUser}
@@ -392,14 +418,15 @@ export default class ChatScreen extends Component<Props> {
               onUserDetail={actions.onUserDetail}
               onSendChat={this._onSendChat}
               setMessagesDivRef={this._setMessagesDivRef}
-              setMessageInputRef={this._setMessageInputRef} /> : null}
-          {activeConv && activeRoom ?
-            (showingRoomUsers ?
+              setMessageInputRef={this._setMessageInputRef}
+            />
+          ) : null}
+          {activeConv && activeRoom ? (
+            showingRoomUsers ? (
               <div className='ChatScreen-room-users'>
-                <UserList
-                  users={users}
-                  onSelectUser={this._onUserDetail} />
-              </div> :
+                <UserList users={users} onSelectUser={this._onUserDetail} />
+              </div>
+            ) : (
               <RoomChat
                 currentUser={currentUser}
                 room={activeRoom}
@@ -412,7 +439,10 @@ export default class ChatScreen extends Component<Props> {
                 onSelectChallenge={actions.onSelectChallenge}
                 onSendChat={this._onSendChat}
                 setMessagesDivRef={this._setMessagesDivRef}
-                setMessageInputRef={this._setMessageInputRef} />) : null}
+                setMessageInputRef={this._setMessageInputRef}
+              />
+            )
+          ) : null}
         </div>
         {modal}
       </div>
@@ -421,20 +451,20 @@ export default class ChatScreen extends Component<Props> {
 
   _setMessagesDivRef = (ref: HTMLElement) => {
     this._messagesDiv = ref;
-  }
+  };
 
   _setMessageInputRef = (ref: HTMLElement) => {
     this._messageInput = ref;
-  }
+  };
 
   _onSelectConversation = (conversationId: number) => {
     this.setState({ showingList: false });
     this.props.actions.onSelectConversation(conversationId);
-  }
+  };
 
   _onCloseConversation = (conversationId: number) => {
     this.props.actions.onCloseConversation(conversationId);
-  }
+  };
 
   _onSendChat = (body: string) => {
     let { activeConversationId, activeUser } = this.state;
@@ -445,41 +475,41 @@ export default class ChatScreen extends Component<Props> {
       return;
     }
     this.props.actions.onSendChat(body, activeConversationId);
-  }
+  };
 
   _onShowList = () => {
     this.setState({ showingList: true }, () => {
       window.scrollTo(0, 0);
     });
-  }
+  };
 
   _onShowRoomUsers = () => {
     this.setState({ showingRoomUsers: true }, () => {
       window.scrollTo(0, 0);
     });
-  }
+  };
 
   _onShowRoomChat = () => {
     this.setState({ showingRoomUsers: false }, () => {
       this._setScroll();
     });
-  }
+  };
 
   _onShowRoomList = () => {
     this.props.actions.onFetchRoomList();
     this.setState({ showingRoomList: true });
-  }
+  };
 
   _onCloseRoomList = () => {
     this.setState({ showingRoomList: false });
-  }
+  };
 
   _onJoinRoom = (room: Room) => {
     this._onCloseRoomList();
     this.props.actions.onJoinRoom(room);
-  }
+  };
 
   _onUserDetail = (user: User) => {
     this.props.actions.onUserDetail(user.name);
-  }
+  };
 }

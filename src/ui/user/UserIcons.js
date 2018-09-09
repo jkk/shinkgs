@@ -1,6 +1,6 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
-import type {User} from '../../model';
+import React, { PureComponent as Component } from 'react';
+import type { User } from '../../model';
 
 const EMPTY_FLAGS = {};
 
@@ -10,12 +10,15 @@ export default class UserIcons extends Component<> {
   };
 
   render() {
-    let {user} = this.props;
+    let { user } = this.props;
     let flags = user.flags || EMPTY_FLAGS;
     let icons = [];
     if (user.authLevel === 'jr_admin') {
       icons.push('⭐️');
-    } else if (user.authLevel === 'sr_admin' || user.authLevel === 'super_admin') {
+    } else if (
+      user.authLevel === 'sr_admin' ||
+      user.authLevel === 'super_admin'
+    ) {
       icons.push('🌟');
     } else if (user.authLevel === 'teacher') {
       // icons.push('🎓');
@@ -40,9 +43,11 @@ export default class UserIcons extends Component<> {
     }
     return (
       <div className='UserIcons'>
-        {icons.map(icon =>
-          <div key={icon} className='UserIcons-icon'>{icon}</div>
-        )}
+        {icons.map(icon => (
+          <div key={icon} className='UserIcons-icon'>
+            {icon}
+          </div>
+        ))}
       </div>
     );
   }
