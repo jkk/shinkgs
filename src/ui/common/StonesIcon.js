@@ -1,7 +1,7 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
 
-export class StonesIcon extends Component {
+export class StonesIcon extends Component<{}> {
   render() {
     return (
       <div className='StonesIcon'>

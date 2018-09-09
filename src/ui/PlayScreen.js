@@ -39,9 +39,7 @@ type Props = {
   actions: AppActions
 };
 
-export default class PlayScreen extends Component {
-
-  props: Props;
+export default class PlayScreen extends Component<Props, $FlowFixMeState> {
   state = {
     creatingChallenge: false
   };
@@ -50,22 +48,22 @@ export default class PlayScreen extends Component {
     window.scrollTo(0, 0);
   }
 
-   componentDidUpdate(nextProps: Props) {
-    let {playGameId} = this.props;
-    let {playGameId: nextPlayGameId} = nextProps;
-    let activeGame = playGameId ? this.props.gamesById[playGameId] : null;
-    let nextActiveGame = nextPlayGameId ? nextProps.gamesById[nextPlayGameId] : null;
-    if (!activeGame && nextActiveGame) {
-      // Game started - scroll to top
-      window.scrollTo(0, 0);
-    }
-    let {playChallengeId} = nextProps;
-    let {creatingChallenge} = this.state;
-    if (creatingChallenge && (nextActiveGame || playChallengeId)) {
-      // Challenge creates successfully - don't need UI state to show modal
-      this.setState({creatingChallenge: false});
-    }
-  }
+  componentDidUpdate(nextProps: Props) {
+   let {playGameId} = this.props;
+   let {playGameId: nextPlayGameId} = nextProps;
+   let activeGame = playGameId ? this.props.gamesById[playGameId] : null;
+   let nextActiveGame = nextPlayGameId ? nextProps.gamesById[nextPlayGameId] : null;
+   if (!activeGame && nextActiveGame) {
+     // Game started - scroll to top
+     window.scrollTo(0, 0);
+   }
+   let {playChallengeId} = nextProps;
+   let {creatingChallenge} = this.state;
+   if (creatingChallenge && (nextActiveGame || playChallengeId)) {
+     // Challenge creates successfully - don't need UI state to show modal
+     this.setState({creatingChallenge: false});
+   }
+ }
 
   render() {
     let {

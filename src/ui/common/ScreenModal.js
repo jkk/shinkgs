@@ -3,14 +3,11 @@ import React, {PureComponent as Component} from 'react';
 import {A} from './A';
 import {isAncestor} from '../../util/dom';
 
-export class ScreenModal extends Component {
-
-  props: {
-    children?: any,
-    title?: any,
-    onClose: Function
-  };
-
+export class ScreenModal extends Component<{
+  children?: any,
+  title?: any,
+  onClose: Function
+}> {
   _mainDiv: ?HTMLElement;
 
   componentDidMount() {
@@ -70,5 +67,4 @@ export class ScreenModal extends Component {
     }
     this.props.onClose();
   }
-
 }

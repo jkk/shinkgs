@@ -44,10 +44,7 @@ type State = {
   editing: boolean
 };
 
-export default class UserDetailsModal extends Component {
-
-  props: Props;
-
+export default class UserDetailsModal extends Component<Props, State> {
   state: State = {
     tab: 'bio',
     editing: false

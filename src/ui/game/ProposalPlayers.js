@@ -12,20 +12,17 @@ import type {
   Index
 } from '../../model';
 
-class ProposalPlayersItem extends Component {
-
-  props: {
-    player: GameProposalPlayer,
-    prevPlayer: ?GameProposalPlayer,
-    index: number,
-    user: User | string | void,
-    nigiri: boolean,
-    prevNigiri: boolean | null,
-    playerHilite?: boolean,
-    onUserDetail: string => any,
-    onToggleRole: string => any
-  };
-
+class ProposalPlayersItem extends Component<{
+  player: GameProposalPlayer,
+  prevPlayer: ?GameProposalPlayer,
+  index: number,
+  user: User | string | void,
+  nigiri: boolean,
+  prevNigiri: boolean | null,
+  playerHilite?: boolean,
+  onUserDetail: string => any,
+  onToggleRole: string => any
+}> {
   render() {
     let {player, prevPlayer, index, user, nigiri, prevNigiri, playerHilite} = this.props;
     let icon;
@@ -93,10 +90,7 @@ type Props = {
   onToggleRole: string => any
 };
 
-export default class ProposalPlayers extends Component {
-
-  props: Props;
-
+export default class ProposalPlayers extends Component<Props> {
   render() {
     let {
       currentUser,

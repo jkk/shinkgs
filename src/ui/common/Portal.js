@@ -2,7 +2,7 @@
 // https://github.com/react-bootstrap/react-bootstrap/blob/master/src/Portal.js
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 function getOwnerDocument(componentOrElement) {
@@ -10,7 +10,7 @@ function getOwnerDocument(componentOrElement) {
   return (elem && elem.ownerDocument) || document;
 }
 
-export class Portal extends React.PureComponent {
+export class Portal extends React.PureComponent<$FlowFixMeProps> {
 
   _isMounted = false;
   _overlayTarget: any;

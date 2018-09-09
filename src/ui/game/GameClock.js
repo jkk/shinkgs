@@ -29,16 +29,11 @@ type TimeCountdownProps = {
   byoYomiStones: ?number
 };
 
-class TimeCountdown extends Component {
-
-  props: TimeCountdownProps;
-
-  state: {
-    seconds: number,
-    periods: ?number,
-    stones: ?number
-  };
-
+class TimeCountdown extends Component<TimeCountdownProps, {
+  seconds: number,
+  periods: ?number,
+  stones: ?number
+}> {
   _startTime: number;
   _interval: any;
 
@@ -145,16 +140,13 @@ class TimeCountdown extends Component {
   }
 }
 
-export default class GameClock extends Component {
-
-  props: {
-    nodeId: ?number,
-    active: boolean,
-    clock: ClockState,
-    timeLeft: number,
-    gameRules?: ?GameRules
-  };
-
+export default class GameClock extends Component<{
+  nodeId: ?number,
+  active: boolean,
+  clock: ClockState,
+  timeLeft: number,
+  gameRules?: ?GameRules
+}> {
   render() {
     let {nodeId, active, clock, timeLeft, gameRules} = this.props;
     let className = 'GameClock ' + (

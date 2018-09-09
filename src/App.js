@@ -12,12 +12,9 @@ import {
 } from './model';
 import type { AppState, KgsClientState, NavOption} from './model';
 
-class App extends Component {
-
-  state: {
-    appState: AppState
-  };
-
+class App extends Component<any, {
+  appState: AppState
+}> {
   _store: AppStore;
   _client: KgsClient;
   _actions: AppActions;
@@ -142,7 +139,6 @@ class App extends Component {
         actions={this._actions} />
     ) : <div />;
   }
-
 }
 
 export default App;

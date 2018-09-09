@@ -5,12 +5,9 @@ import type {
   GameRules
 } from '../../model';
 
-export default class GameRulesDisplay extends Component {
-
-  props: {
-    rules: GameRules
-  };
-
+export default class GameRulesDisplay extends Component<{
+  rules: GameRules
+}> {
   render() {
     let {rules} = this.props;
     return (

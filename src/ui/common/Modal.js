@@ -4,14 +4,11 @@ import {A} from './A';
 import {Portal} from './Portal';
 import {isAncestor} from '../../util/dom';
 
-export class Modal extends Component {
-
-  props: {
-    children?: any,
-    title?: any,
-    onClose: Function
-  };
-
+export class Modal extends Component<{
+  children?: any,
+  title?: any,
+  onClose: Function
+}> {
   _mainDiv: ?HTMLElement;
 
   componentDidMount() {
@@ -73,5 +70,4 @@ export class Modal extends Component {
     }
     this.props.onClose();
   }
-
 }

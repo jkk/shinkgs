@@ -9,20 +9,11 @@ import type {
   Index
 } from '../../model';
 
-export default class GameInfo extends Component {
-
-  // NOTE There doesn't seem to be a standard way to type the children property
-  // using Flow. The Children type is being used here, but is currently defined
-  // as 'any' in the Flow source code, so this is mostly decoration. See:
-  // https://github.com/facebook/flow/issues/1964
-  // BD 2017-05-30
-
-  props: {
-    game: GameChannel,
-    roomsById: Index<Room>,
-    children?: Children,
-  };
-
+export default class GameInfo extends Component<{
+  game: GameChannel,
+  roomsById: Index<Room>,
+  children?: Children,
+}> {
   render() {
     let {game, roomsById, children} = this.props;
     let rules = game.rules;

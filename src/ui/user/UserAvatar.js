@@ -3,12 +3,9 @@ import React, {PureComponent as Component} from 'react';
 import {Icon} from '../common';
 import type {User} from '../../model';
 
-export default class UserAvatar extends Component {
-
-  props: {
-    user: ?User
-  };
-
+export default class UserAvatar extends Component<{
+  user: ?User
+}> {
   render() {
     let {user} = this.props;
     return (

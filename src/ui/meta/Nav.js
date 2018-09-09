@@ -16,17 +16,16 @@ import type {
   Index
 } from '../../model';
 
-export default class Nav extends Component {
-
-  props: {
-    nav: NavOption,
-    currentUser: ?User,
-    conversationsById: Index<Conversation>,
-    channelMembership: ChannelMembership,
-    activeChallenge: ?GameChannel,
-    actions: AppActions
-  };
-
+export default class Nav extends Component<{
+  nav: NavOption,
+  currentUser: ?User,
+  conversationsById: Index<Conversation>,
+  channelMembership: ChannelMembership,
+  activeChallenge: ?GameChannel,
+  actions: AppActions
+}, {
+  showingMoreMenu: boolean
+}> {
   state: {
     showingMoreMenu: boolean
   } = {

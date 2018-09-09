@@ -47,9 +47,7 @@ type State = {
   chatSections: Array<GameChatSection>
 };
 
-export default class GameScreen extends Component {
-
-  props: Props;
+export default class GameScreen extends Component<Props, State> {
   state: State = {
     tab: 'chat',
     chatSections: getGameChatSections(this.props.game)
@@ -57,9 +55,9 @@ export default class GameScreen extends Component {
 
   _chatScrollRef: ?HTMLElement;
 
-/*  componentWillReceiveProps(nextProps: Props) {
-    this.setState({chatSections: getGameChatSections(nextProps.game)});
-  }*/
+  /*  componentWillReceiveProps(nextProps: Props) {
+      this.setState({chatSections: getGameChatSections(nextProps.game)});
+    }*/
 
   _setChatScroll = () => {
     setTimeout(() => {
@@ -328,5 +326,4 @@ export default class GameScreen extends Component {
       this.props.actions.onDeclineUndo(game, game.undoRequest);
     }
   }
-
 }

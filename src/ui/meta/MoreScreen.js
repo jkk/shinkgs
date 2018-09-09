@@ -6,13 +6,10 @@ import UserName from '../user/UserName';
 import {InvariantError} from '../../util/error';
 import type {User, AppActions} from '../../model';
 
-export default class MoreScreen extends Component {
-
-  props: {
-    currentUser: ?User,
-    actions: AppActions
-  };
-
+export default class MoreScreen extends Component<{
+  currentUser: ?User,
+  actions: AppActions
+}> {
   componentDidMount() {
     if (document.body) {
       document.body.classList.add('MoreScreen-body');

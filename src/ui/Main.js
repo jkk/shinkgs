@@ -15,13 +15,10 @@ import type {
   AppActions
 } from '../model';
 
-export default class Main extends Component {
-
-  props: {
-    appState: AppState,
-    actions: AppActions
-  };
-
+export default class Main extends Component<{
+  appState: AppState,
+  actions: AppActions
+}> {
   render() {
     let {
       appState,
@@ -100,5 +97,4 @@ export default class Main extends Component {
       </div>
     );
   }
-
 }

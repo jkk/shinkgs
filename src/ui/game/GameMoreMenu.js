@@ -1,6 +1,5 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
-import type { Element } from 'react';
 import {A, Icon} from '../common';
 import {getKgsSgfUrl, formatGameScore} from '../../model/game';
 import {isAncestor} from '../../util/dom';
@@ -26,14 +25,11 @@ const MORE_INFO_PROPS: { [string]: string } = {
   TRANSCRIBER: 'Transcriber',
 };
 
-export default class GameMoreMenu extends Component {
-
-  props: {
-    game: GameChannel,
-    actions: AppActions,
-    roomsById: Index<Room>,
-  };
-
+export default class GameMoreMenu extends Component<{
+  game: GameChannel,
+  actions: AppActions,
+  roomsById: Index<Room>,
+}, $FlowFixMeState> {
   state = {
     moreShowing: (false: boolean),
     gameInfoShowing: (false: boolean),
@@ -131,7 +127,7 @@ export default class GameMoreMenu extends Component {
     this._moreEl = ref;
   }
 
-  _generateMoreInfo(rootNode: GameNode): Element<any>[] {
+  _generateMoreInfo(rootNode: GameNode): React.Element<any>[] {
     let infoProps = rootNode.props.filter(prop => prop.name in MORE_INFO_PROPS);
 
     let rows = infoProps.map((prop: SgfProp) => {

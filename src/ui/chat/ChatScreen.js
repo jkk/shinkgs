@@ -20,17 +20,14 @@ import type {
   AppActions
 } from '../../model';
 
-class ChatTab extends Component {
-
-  props: {
-    conversation: Conversation,
-    active: boolean,
-    room?: ?Room,
-    user?: ?User,
-    onSelect: number => any,
-    onClose: number => any
-  };
-
+class ChatTab extends Component<{
+  conversation: Conversation,
+  active: boolean,
+  room?: ?Room,
+  user?: ?User,
+  onSelect: number => any,
+  onClose: number => any
+}> {
   render() {
     let {
       conversation,
@@ -87,18 +84,15 @@ class ChatTab extends Component {
   }
 }
 
-class ChatScreenBanner extends Component {
-
-  props: {
-    conversationsById: Index<Conversation>,
-    activeRoom: ?Room,
-    showingRoomUsers: ?boolean,
-    activeUser: ?User,
-    onShowList: Function,
-    onShowRoomUsers: Function,
-    onShowRoomChat: Function
-  };
-
+class ChatScreenBanner extends Component<{
+  conversationsById: Index<Conversation>,
+  activeRoom: ?Room,
+  showingRoomUsers: ?boolean,
+  activeUser: ?User,
+  onShowList: Function,
+  onShowRoomUsers: Function,
+  onShowRoomChat: Function
+}> {
   render() {
     let {
       conversationsById,
@@ -192,9 +186,7 @@ type State = {
   showingRoomList?: ?boolean
 };
 
-export default class ChatScreen extends Component {
-
-  props: Props;
+export default class ChatScreen extends Component<Props, State> {
   state: State = this._getState(this.props);
 
   _messagesDiv: ?HTMLElement;
@@ -269,19 +261,19 @@ export default class ChatScreen extends Component {
     }
   }
 
-   componentDidUpdate(nextProps: Props) {
-    let nextState = this._getState(nextProps);
-    let nextConvId = nextState.activeConversationId;
-    let thisConvId = this.state.activeConversationId;
-    let nextLen = nextState.activeConv && nextState.activeConv.messages.length;
-    let thisLen = this.state.activeConv && this.state.activeConv.messages.length;
-    // TODO - check games
-    this.setState(nextState, () => {
-      if (nextConvId !== thisConvId || (nextLen || 0) > (thisLen || 0)) {
-        this._setScroll();
-      }
-    });
-  }
+  componentDidUpdate(nextProps: Props) {
+   let nextState = this._getState(nextProps);
+   let nextConvId = nextState.activeConversationId;
+   let thisConvId = this.state.activeConversationId;
+   let nextLen = nextState.activeConv && nextState.activeConv.messages.length;
+   let thisLen = this.state.activeConv && this.state.activeConv.messages.length;
+   // TODO - check games
+   this.setState(nextState, () => {
+     if (nextConvId !== thisConvId || (nextLen || 0) > (thisLen || 0)) {
+       this._setScroll();
+     }
+   });
+ }
 
   componentDidMount() {
     this._setScroll();
@@ -491,5 +483,4 @@ export default class ChatScreen extends Component {
   _onUserDetail = (user: User) => {
     this.props.actions.onUserDetail(user.name);
   }
-
 }

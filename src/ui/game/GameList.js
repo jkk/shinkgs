@@ -15,14 +15,11 @@ import type {
   Index
 } from '../../model';
 
-class GameListItem extends Component {
-
-  props: {
-    game: GameChannel,
-    room: ?Room,
-    onSelect: number => any
-  };
-
+class GameListItem extends Component<{
+  game: GameChannel,
+  room: ?Room,
+  onSelect: number => any
+}> {
   render() {
     let {game, room} = this.props;
     let type;
@@ -87,15 +84,12 @@ class GameListItem extends Component {
   }
 }
 
-export default class GameList extends Component {
-
-  props: {
-    games: Array<GameChannel>,
-    filter?: GameFilter,
-    roomsById?: Index<Room>,
-    onSelect: number => any
-  };
-
+export default class GameList extends Component<{
+  games: Array<GameChannel>,
+  filter?: GameFilter,
+  roomsById?: Index<Room>,
+  onSelect: number => any
+}, $FlowFixMeState> {
   state = {
     fullRender: false
   };
@@ -150,5 +144,4 @@ export default class GameList extends Component {
       </div>
     );
   }
-
 }

@@ -2,7 +2,7 @@
 import React, {PureComponent as Component} from 'react';
 import {Icon} from './Icon';
 
-export class SelectInput extends Component {
+export class SelectInput extends Component<$FlowFixMeProps> {
   render() {
     return (
       <div className='SelectInput'>

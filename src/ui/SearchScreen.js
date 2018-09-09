@@ -12,13 +12,12 @@ import type {
   AppActions
 } from '../model';
 
-export default class SearchScreen extends Component {
-
-  props: {
-    usersByName: Index<User>,
-    actions: AppActions
-  };
-
+export default class SearchScreen extends Component<{
+  usersByName: Index<User>,
+  actions: AppActions
+}, {
+  query: string
+}> {
   state: {
     query: string
   } = {
@@ -81,5 +80,4 @@ export default class SearchScreen extends Component {
   _onSelectUser = (user: User) => {
     this.props.actions.onUserDetail(user.name);
   }
-
 }

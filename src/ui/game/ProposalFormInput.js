@@ -11,10 +11,7 @@ type Props = {
   onPlus: Function
 };
 
-export default class ProposalFormInput extends Component {
-
-  props: Props;
-
+export default class ProposalFormInput extends Component<Props> {
   render() {
     let {value, label, readonly, hilited} = this.props;
     let className = 'ProposalForm-input' + (

@@ -59,10 +59,7 @@ const timeSystemOptions = [
 
 const sizeOptions = [9, 13, 19];
 
-export default class ProposalForm extends Component {
-
-  props: Props;
-
+export default class ProposalForm extends Component<Props> {
   render() {
     let {
       currentUser,
@@ -516,5 +513,4 @@ export default class ProposalForm extends Component {
       {...proposal, rules: {...proposal.rules, byoYomiStones}}
     );
   }
-
 }

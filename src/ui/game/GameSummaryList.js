@@ -10,14 +10,11 @@ import type {
   GameSummary
 } from '../../model';
 
-class GameSummaryListItem extends Component {
-
-  props: {
-    game: GameSummary,
-    player?: string,
-    onSelect: GameSummary => any
-  };
-
+class GameSummaryListItem extends Component<{
+  game: GameSummary,
+  player?: string,
+  onSelect: GameSummary => any
+}> {
   render() {
     let {game, player} = this.props;
     let type = game.type;
@@ -72,14 +69,11 @@ class GameSummaryListItem extends Component {
   }
 }
 
-export default class GameSummaryList extends Component {
-
-  props: {
-    games: Array<GameSummary>,
-    player?: string,
-    onSelect: GameSummary => any
-  };
-
+export default class GameSummaryList extends Component<{
+  games: Array<GameSummary>,
+  player?: string,
+  onSelect: GameSummary => any
+}, $FlowFixMeState> {
   state = {
     fullRender: false
   };
@@ -111,5 +105,4 @@ export default class GameSummaryList extends Component {
       </div>
     );
   }
-
 }

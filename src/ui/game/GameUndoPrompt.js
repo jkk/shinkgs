@@ -3,14 +3,11 @@ import React, {PureComponent as Component} from 'react';
 import {Button} from '../common';
 import type {GameRole} from '../../model';
 
-export default class GameUndoPrompt extends Component {
-
-  props: {
-    role: GameRole,
-    onAccept: Function,
-    onDecline: Function
-  };
-
+export default class GameUndoPrompt extends Component<{
+  role: GameRole,
+  onAccept: Function,
+  onDecline: Function
+}> {
   render() {
     let {onAccept, onDecline} = this.props;
     return (

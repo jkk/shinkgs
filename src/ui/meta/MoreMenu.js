@@ -4,13 +4,10 @@ import {A} from '../common';
 import {AppActions} from '../../model';
 import type {User} from '../../model';
 
-export default class MoreMenu extends Component {
-
-  props: {
-    currentUser: ?User,
-    actions: AppActions
-  };
-
+export default class MoreMenu extends Component<{
+  currentUser: ?User,
+  actions: AppActions
+}> {
   render() {
     let {actions} = this.props;
     return (

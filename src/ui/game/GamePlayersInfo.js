@@ -13,23 +13,20 @@ import type {
   ClockState
 } from '../../model';
 
-class GamePlayersInfoColor extends Component {
-
-  props: {
-    nodeId: ?number,
-    color: 'white' | 'black' | 'owner',
-    winner: boolean,
-    owner: ?User,
-    player1: ?User,
-    player2: ?User,
-    clock: ?ClockState,
-    gameRules: ?GameRules,
-    captures: number,
-    timeLeft: number,
-    gameActive: boolean,
-    onUserDetail: User => any
-  };
-
+class GamePlayersInfoColor extends Component<{
+  nodeId: ?number,
+  color: 'white' | 'black' | 'owner',
+  winner: boolean,
+  owner: ?User,
+  player1: ?User,
+  player2: ?User,
+  clock: ?ClockState,
+  gameRules: ?GameRules,
+  captures: number,
+  timeLeft: number,
+  gameActive: boolean,
+  onUserDetail: User => any
+}> {
   render () {
     let {
       nodeId,
@@ -118,16 +115,12 @@ class GamePlayersInfoColor extends Component {
       this.props.onUserDetail(this.props.player2);
     }
   }
-
 }
 
-export default class GamePlayersInfo extends Component {
-
-  props: {
-    game: GameChannel,
-    onUserDetail: User => any
-  };
-
+export default class GamePlayersInfo extends Component<{
+  game: GameChannel,
+  onUserDetail: User => any
+}> {
   render () {
     let {game, onUserDetail} = this.props;
     let players = game.players;

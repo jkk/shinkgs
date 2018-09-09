@@ -3,15 +3,15 @@ import React, {PureComponent as Component} from 'react';
 import {Button, CheckboxInput} from '../common';
 import type {User, UserDetails} from '../../model';
 
-export default class UserDetailsEditForm extends Component {
-
-  props: {
-    user: User,
-    details: UserDetails,
-    onSave: (user: User, details: UserDetails, newPassword: string) => any,
-    onCancel: Function
-  };
-
+export default class UserDetailsEditForm extends Component<{
+  user: User,
+  details: UserDetails,
+  onSave: (user: User, details: UserDetails, newPassword: string) => any,
+  onCancel: Function
+}, {
+  details: UserDetails,
+  newPassword: string
+}> {
   state: {
     details: UserDetails,
     newPassword: string

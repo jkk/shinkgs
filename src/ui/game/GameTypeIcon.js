@@ -18,14 +18,11 @@ const GAME_TYPE_CODE = {
   'tournament': '🏆'
 };
 
-export default class GameTypeIcon extends Component {
-
-  props: {
-    type: GameType,
-    subscribersOnly?: boolean,
-    isPrivate?: boolean
-  };
-
+export default class GameTypeIcon extends Component<{
+  type: GameType,
+  subscribersOnly?: boolean,
+  isPrivate?: boolean
+}> {
   render() {
     let {type, subscribersOnly, isPrivate} = this.props;
     let typeClassName = 'GameTypeIcon GameTypeIcon-' + (

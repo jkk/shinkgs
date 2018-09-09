@@ -6,13 +6,10 @@ import type {
   PlayerColor
 } from '../../model';
 
-export default class GamePlayersList extends Component {
-
-  props: {
-    players: ?GamePlayers,
-    winner?: ?PlayerColor
-  };
-
+export default class GamePlayersList extends Component<{
+  players: ?GamePlayers,
+  winner?: ?PlayerColor
+}> {
   render () {
     let {players, winner} = this.props;
     if (!players) {

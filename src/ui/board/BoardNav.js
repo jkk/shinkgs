@@ -3,14 +3,11 @@ import React, {PureComponent as Component} from 'react';
 import Slider from 'rc-slider/lib/Slider';
 import {A, Icon} from '../common';
 
-export default class BoardNav extends Component {
-
-  props: {
-    nodeId: number,
-    currentLine: Array<number>,
-    onChangeCurrentNode: number => any
-  };
-
+export default class BoardNav extends Component<{
+  nodeId: number,
+  currentLine: Array<number>,
+  onChangeCurrentNode: number => any
+}> {
   componentDidMount() {
     document.addEventListener('keydown', this._onKeyDown);
   }

@@ -2,7 +2,7 @@
 import React, {PureComponent as Component} from 'react';
 import {Icon} from './Icon';
 
-export class Spinner extends Component {
+export class Spinner extends Component<{}> {
   render() {
     return (
       <div className='Spinner'>
