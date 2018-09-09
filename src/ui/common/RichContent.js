@@ -3,12 +3,12 @@ import React, {PureComponent as Component} from 'react';
 import Autolinker from 'autolinker.js';
 import {nl2br, escapeHtml} from '../../util/string';
 
-export class RichContent extends Component<> {
-  static defaultProps: {
-    content: ?string,
+type Props = {
+  content: ?string,
     firstLineHeading?: ?boolean
-  };
+};
 
+export class RichContent extends Component<Props> {
   render() {
     let {content, firstLineHeading} = this.props;
     if (!content || !content.trim()) {
@@ -25,7 +25,7 @@ export class RichContent extends Component<> {
     };
     let html = nl2br(Autolinker.link(escapeHtml(content), opts));
     if (firstLineHeading) {
-      html = html.replace(/(.+?)<br>/, '<div class='RichContent-heading'>$1</div>');
+      html = html.replace(/(.+?)<br>/, '<div class="RichContent-heading">$1</div>');
     }
     return (
       <div
