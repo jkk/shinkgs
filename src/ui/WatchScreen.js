@@ -32,7 +32,7 @@ export default class WatchScreen extends Component {
     window.scrollTo(0, 0);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+   componentDidUpdate(nextProps: Props) {
     let {watchGameId} = this.props;
     let {watchGameId: nextWatchGameId} = nextProps;
     let activeGame = watchGameId ? this.props.gamesById[watchGameId] : null;

@@ -57,9 +57,9 @@ export default class GameScreen extends Component {
 
   _chatScrollRef: ?HTMLElement;
 
-  componentWillReceiveProps(nextProps: Props) {
+/*  componentWillReceiveProps(nextProps: Props) {
     this.setState({chatSections: getGameChatSections(nextProps.game)});
-  }
+  }*/
 
   _setChatScroll = () => {
     setTimeout(() => {

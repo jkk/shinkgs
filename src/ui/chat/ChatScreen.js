@@ -269,7 +269,7 @@ export default class ChatScreen extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+   componentDidUpdate(nextProps: Props) {
     let nextState = this._getState(nextProps);
     let nextConvId = nextState.activeConversationId;
     let thisConvId = this.state.activeConversationId;

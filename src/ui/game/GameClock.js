@@ -53,7 +53,7 @@ class TimeCountdown extends Component {
     this._startTime = (new Date()).getTime() - TIME_SKEW;
   }
 
-  componentWillReceiveProps(nextProps: TimeCountdownProps) {
+  componentDidUpdate(nextProps: TimeCountdownProps) {
     let oldClock = this.props.clock;
     let newClock = nextProps.clock;
     if (

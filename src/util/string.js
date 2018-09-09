@@ -3,6 +3,7 @@
 export function quoteRegExpPattern(s: any) {
   return String(s)
     .replace(/([-()[\]{}+?*.$^|,:#<!\\])/g, '\\$1')
+    // eslint-disable-next-line
     .replace(/\x08/g, '\\x08');
 }
 

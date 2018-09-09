@@ -4,7 +4,7 @@
   "devDependencies": {
     "flow-bin": "0.80.0",
     "node-sass": "4.9.3",
-    "react-scripts": "1.1.5"
+    "react-scripts": "2.0.0-next.a671462c"
   },
   "dependencies": {
     "autolinker.js": "0.7.0",
@@ -35,5 +35,17 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "https://www.gokgs.com"
+  "proxy": "https://www.gokgs.com",
+  "browserslist": {
+    "development": [
+      "last 2 chrome versions",
+      "last 2 firefox versions",
+      "last 2 edge versions"
+    ],
+    "production": [
+      ">0.25%",
+      "not op_mini all",
+      "ie 11"
+    ]
+  }
 }

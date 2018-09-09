@@ -22,7 +22,8 @@ export default class UserRankGraph extends Component {
     super(props);
 
     if (!Chartist || !ChartistGraph) {
-      require.ensure([], require => {
+      //require.ensure([], require => {
+      import('./UserRankGraph').then(() => {
         ChartistGraph = require('react-chartist').default;
         Chartist = require('chartist');
         this.forceUpdate();

@@ -46,7 +46,7 @@ type State = {
 };
 
 export default class ChallengeEditor extends Component {
-  
+
   props: Props;
   state: State = this._getInitialState(this.props);
 
@@ -96,7 +96,7 @@ export default class ChallengeEditor extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+   componentDidUpdate(nextProps: Props) {
     let {challenge} = nextProps;
     let sentProposal = challenge && challenge.sentProposal;
     let {proposal} = this.state;

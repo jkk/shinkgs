@@ -50,7 +50,7 @@ export default class PlayScreen extends Component {
     window.scrollTo(0, 0);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+   componentDidUpdate(nextProps: Props) {
     let {playGameId} = this.props;
     let {playGameId: nextPlayGameId} = nextProps;
     let activeGame = playGameId ? this.props.gamesById[playGameId] : null;

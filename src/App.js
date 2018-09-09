@@ -118,8 +118,7 @@ class App extends Component {
   }
 
   _loadMainComponent = () => {
-    // $FlowFixMe: Flow doesn't know what require.ensure is
-    require.ensure([], require => {
+    import('./App').then(() => {
       this._mainComponent = require('./ui/Main').default;
       this.forceUpdate();
     });
