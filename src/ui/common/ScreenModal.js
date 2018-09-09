@@ -38,16 +38,16 @@ export class ScreenModal extends Component<> {
     return (
       <div className={className} onClick={this._onMaybeClose}>
         <div className='ScreenModal-main' ref={this._setMainRef}>
-        {title ?
+          {title ?
             <div className='ScreenModal-title'>
-            {title}
+              {title}
             </div> : null}
-        <A className='ScreenModal-close' onClick={onClose}>
+          <A className='ScreenModal-close' onClick={onClose}>
             &times;
-        </A>
-        <div className='ScreenModal-content'>
+          </A>
+          <div className='ScreenModal-content'>
             {children}
-        </div>
+          </div>
         </div>
       </div>
     );

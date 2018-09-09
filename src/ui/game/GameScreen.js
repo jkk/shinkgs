@@ -180,13 +180,13 @@ export default class GameScreen extends Component<> {
                 onLeaveGame={this._onLeave}
                 onAddTime={actions.onAddGameTime}
                 onDoneScoring={actions.onDoneScoring} /> :
-                <div className='GameScreen-nav'>
-                  {tree ?
-                    <BoardNav
-                      nodeId={tree.currentNode}
-                      currentLine={tree.currentLine}
-                      onChangeCurrentNode={this._onChangeCurrentNode} /> : null}
-                </div>}
+              <div className='GameScreen-nav'>
+                {tree ?
+                  <BoardNav
+                    nodeId={tree.currentNode}
+                    currentLine={tree.currentLine}
+                    onChangeCurrentNode={this._onChangeCurrentNode} /> : null}
+              </div>}
             <div className='GameScreen-players-users'>
               <div className='GameScreen-players'>
                 <GamePlayersInfo

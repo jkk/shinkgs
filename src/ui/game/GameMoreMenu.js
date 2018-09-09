@@ -5,10 +5,10 @@ import { getKgsSgfUrl, formatGameScore } from '../../model/game';
 import { isAncestor } from '../../util/dom';
 import type {
   GameChannel,
-    AppActions,
-    Index, Room,
-    GameNode,
-    SgfProp
+  AppActions,
+  Index, Room,
+  GameNode,
+  SgfProp
 } from '../../model';
 import GameInfo from './GameInfo';
 import { Modal } from '../common';

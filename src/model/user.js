@@ -260,7 +260,7 @@ export function handleUserMessage(
       msg.type === 'GAME_STATE' ||
       msg.type === 'GAME_NAME_CHANGE' ||
       msg.type === 'CHALLENGE_JOIN')
-    ) {
+  ) {
     if (prevState.currentUser) {
       for (let user of msg.users) {
         if (user.name === prevState.currentUser.name) {

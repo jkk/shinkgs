@@ -96,35 +96,35 @@ export default class ChallengeEditor extends Component<> {
   }
 
   componentDidUpdate(nextProps: Props) {
-   let {challenge} = nextProps;
-   let sentProposal = challenge && challenge.sentProposal;
-   let {proposal} = this.state;
-   let newProposal;
-   if (sentProposal && sentProposal.status !== proposal.status) {
-     // Challenge sending
-     newProposal = {...proposal, status: sentProposal.status};
-   } else if (challenge && !this.props.challenge) {
-     // Challenge created
-     newProposal = {...challenge.initialProposal, status: 'pending'};
-   }
+    let {challenge} = nextProps;
+    let sentProposal = challenge && challenge.sentProposal;
+    let {proposal} = this.state;
+    let newProposal;
+    if (sentProposal && sentProposal.status !== proposal.status) {
+      // Challenge sending
+      newProposal = {...proposal, status: sentProposal.status};
+    } else if (challenge && !this.props.challenge) {
+      // Challenge created
+      newProposal = {...challenge.initialProposal, status: 'pending'};
+    }
 
-   // Check to see if our rank changed and, if so, correct the suggested
-   // handicap and color (this can happen when you're new and your rank
-   // hasn't settled)
-   let {currentUser, usersByName} = nextProps;
-   if (challenge && this.props.currentUser.rank !== currentUser.rank) {
-     let creator = challenge.players.challengeCreator;
-     if (proposal.status !== 'pending' && creator && creator.name !== currentUser.name && challenge.initialProposal) {
-       newProposal = newProposal || {...proposal};
-       let evenProposal = getEvenProposal(challenge.initialProposal, currentUser.name, usersByName);
-       newProposal.rules.handicap = evenProposal.rules.handicap;
-       newProposal.players = evenProposal.players;
-     }
-   }
-   if (newProposal) {
-     this.setState({proposal: newProposal});
-   }
- }
+    // Check to see if our rank changed and, if so, correct the suggested
+    // handicap and color (this can happen when you're new and your rank
+    // hasn't settled)
+    let {currentUser, usersByName} = nextProps;
+    if (challenge && this.props.currentUser.rank !== currentUser.rank) {
+      let creator = challenge.players.challengeCreator;
+      if (proposal.status !== 'pending' && creator && creator.name !== currentUser.name && challenge.initialProposal) {
+        newProposal = newProposal || {...proposal};
+        let evenProposal = getEvenProposal(challenge.initialProposal, currentUser.name, usersByName);
+        newProposal.rules.handicap = evenProposal.rules.handicap;
+        newProposal.players = evenProposal.players;
+      }
+    }
+    if (newProposal) {
+      this.setState({proposal: newProposal});
+    }
+  }
 
   render() {
     let {

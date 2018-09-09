@@ -24,10 +24,11 @@
   },
   "scripts": {
     "start": "yarn run build-sass && yarn run start-sass & HTTPS=true react-scripts start",
-    "start-sass": "node-sass --include-path='node_modules' --watch src/css -o src",
     "build": "yarn run build-sass && react-scripts build",
+    "start-sass": "node-sass --include-path='node_modules' --watch src/css -o src",
     "build-sass": "node-sass --include-path='node_modules' src/css/index.scss src/index.css",
-    "lint": "./node_modules/eslint/bin/eslint.js src; flow check",
+    "lint": "./node_modules/eslint/bin/eslint.js src/",
+    "flow": "flow check",
     "test": "react-scripts test --env=jsdom",
     "deploy-now": "yarn build && cp server/* build && now build",
     "eject": "react-scripts eject"

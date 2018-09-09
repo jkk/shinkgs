@@ -55,8 +55,8 @@ export class Portal extends React.PureComponent<> {
   _renderOverlay() {
 
     let overlay = !this.props.children
-    ? null
-    : React.Children.only(this.props.children);
+      ? null
+      : React.Children.only(this.props.children);
 
     // Save reference for future access.
     if (overlay !== null) {

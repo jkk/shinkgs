@@ -1,10 +1,10 @@
 // @flow
-import {get, set} from 'idb-keyval';
-import type {AppState, KgsMessage} from './types';
+import { get, set } from 'idb-keyval';
+import type { AppState, KgsMessage } from './types';
 
 export class AppStore {
 
-  _state: {appState: AppState};
+  _state: { appState: AppState };
   _handler: (state: AppState, msg: KgsMessage) => any;
   _subscriber: ?Function;
   _debug: boolean;
@@ -16,7 +16,7 @@ export class AppStore {
     initialState: AppState
   ) {
     this._handler = handler;
-    this._state = {appState: initialState};
+    this._state = { appState: initialState };
     this._debug = process.env.NODE_ENV === 'development';
     this._recording = false;
     this._recordedMessages = [];
@@ -59,12 +59,12 @@ export class AppStore {
   }
 
   saveState = (saveKey: string, prepareSavedState?: AppState => AppState) => {
-    let saveState = {...this.getState(), savedAt: new Date()};
+    let saveState = { ...this.getState(), savedAt: new Date() };
     if (prepareSavedState) {
       saveState = prepareSavedState(saveState);
     }
     if (this._debug) {
-      console.log('Saving app state...', {state: saveState});
+      console.log('Saving app state...', { state: saveState });
     }
     set(saveKey, saveState);
   }
@@ -80,9 +80,11 @@ export class AppStore {
       }
       done(this.getState());
     }).catch(err => {
-      console.warn('Unable to restore saved app state', err);
-      // Revert everything, just in case we errored out in a sync render due
-      // to bad app state data
+      if (!navigator.userAgent.includes('jsdom')) {
+        console.warn('Unable to restore saved app state: ', err);
+        // Revert everything, just in case we errored out in a sync render due
+        // to bad app state data
+      }
       if (prevState) {
         this.setState(prevState);
       }

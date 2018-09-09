@@ -182,7 +182,7 @@ type State = {
   showingRoomList?: ?boolean
 };
 
-export default class ChatScreen extends Component<> {
+export default class ChatScreen extends Component<Props> {
   static defaultProps: Props;
   state: State = this._getState(this.props);
 
@@ -258,7 +258,7 @@ export default class ChatScreen extends Component<> {
     }
   }
 
-  componentDidUpdate(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     let nextState = this._getState(nextProps);
     let nextConvId = nextState.activeConversationId;
     let thisConvId = this.state.activeConversationId;
@@ -270,6 +270,7 @@ export default class ChatScreen extends Component<> {
         this._setScroll();
       }
     });
+
   }
 
   componentDidMount() {

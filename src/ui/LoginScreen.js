@@ -75,11 +75,11 @@ export default class LoginScreen extends Component<> {
           <div className={'LoginScreen-title' + (logoLoaded ? ' LoginScreen-title-logo-loaded' : '')}>
             <div className='LoginScreen-title-icon'>
               <img
-                  src={publicUrl + '/apple-touch-icon.png'}
-                  width={48}
-                  height={48}
-                  alt=""
-                  onLoad={this._onLogoLoad} />
+                src={publicUrl + '/apple-touch-icon.png'}
+                width={48}
+                height={48}
+                alt=''
+                onLoad={this._onLogoLoad} />
             </div>
             <div className='LoginScreen-title-text'>
               Shin KGS

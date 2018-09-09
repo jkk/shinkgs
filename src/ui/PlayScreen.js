@@ -1,14 +1,14 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
-import {ScreenModal, Button} from './common';
+import React, { PureComponent as Component } from 'react';
+import { ScreenModal, Button } from './common';
 import ChallengeEditor from './game/ChallengeEditor';
 import GameList from './game/GameList';
 import GameSummaryList from './game/GameSummaryList';
 import GameListFilter from './game/GameListFilter';
 import GameScreen from './game/GameScreen';
-import {InvariantError} from '../util/error';
-import {getDefaultRoom} from '../model/room';
-import {isGamePlaying} from '../model/game';
+import { InvariantError } from '../util/error';
+import { getDefaultRoom } from '../model/room';
+import { isGamePlaying } from '../model/game';
 import type {
   User,
   GameChannel,
@@ -50,21 +50,21 @@ export default class PlayScreen extends Component<> {
   }
 
   componentDidUpdate(nextProps: Props) {
-   let {playGameId} = this.props;
-   let {playGameId: nextPlayGameId} = nextProps;
-   let activeGame = playGameId ? this.props.gamesById[playGameId] : null;
-   let nextActiveGame = nextPlayGameId ? nextProps.gamesById[nextPlayGameId] : null;
-   if (!activeGame && nextActiveGame) {
-     // Game started - scroll to top
-     window.scrollTo(0, 0);
-   }
-   let {playChallengeId} = nextProps;
-   let {creatingChallenge} = this.state;
-   if (creatingChallenge && (nextActiveGame || playChallengeId)) {
-     // Challenge creates successfully - don't need UI state to show modal
-     this.setState({creatingChallenge: false});
-   }
- }
+    let { playGameId } = this.props;
+    let { playGameId: nextPlayGameId } = nextProps;
+    let activeGame = playGameId ? this.props.gamesById[playGameId] : null;
+    let nextActiveGame = nextPlayGameId ? nextProps.gamesById[nextPlayGameId] : null;
+    if (!activeGame && nextActiveGame) {
+      // Game started - scroll to top
+      window.scrollTo(0, 0);
+    }
+    let { playChallengeId } = nextProps;
+    let { creatingChallenge } = this.state;
+    if (creatingChallenge && (nextActiveGame || playChallengeId)) {
+      // Challenge creates successfully - don't need UI state to show modal
+      this.setState({ creatingChallenge: false });
+    }
+  }
 
   render() {
     let {
@@ -82,7 +82,7 @@ export default class PlayScreen extends Component<> {
       preferences,
       actions
     } = this.props;
-    let {creatingChallenge} = this.state;
+    let { creatingChallenge } = this.state;
     if (!currentUser) {
       throw new InvariantError('currentUser is required');
     }
@@ -139,7 +139,7 @@ export default class PlayScreen extends Component<> {
                 <GameSummaryList
                   games={unfinishedGames.filter(ug => ug.type === 'summary').map((ug: Object) => ug.game)}
                   player={currentUser.name}
-                  onSelect={this._onSelectGameSummary}/>
+                  onSelect={this._onSelectGameSummary} />
               </div> : null}
             <GameList
               games={challenges}
@@ -152,18 +152,18 @@ export default class PlayScreen extends Component<> {
   }
 
   _onCloseChallenge = () => {
-    let {playChallengeId} = this.props;
-    let {creatingChallenge} = this.state;
+    let { playChallengeId } = this.props;
+    let { creatingChallenge } = this.state;
     if (playChallengeId) {
       this.props.actions.onCloseChallenge(playChallengeId);
     }
     if (creatingChallenge) {
-      this.setState({creatingChallenge: false});
+      this.setState({ creatingChallenge: false });
     }
   }
 
   _onCreateChallenge = () => {
-    this.setState({creatingChallenge: true});
+    this.setState({ creatingChallenge: true });
   }
 
   _onSelectGameChannel = (gameId: number) => {
