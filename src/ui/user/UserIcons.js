@@ -4,9 +4,11 @@ import type {User} from '../../model';
 
 const EMPTY_FLAGS = {};
 
-export default class UserIcons extends Component<{
-  user: User
-}> {
+export default class UserIcons extends Component<> {
+  static defaultProps: {
+    user: User
+  };
+
   render() {
     let {user} = this.props;
     let flags = user.flags || EMPTY_FLAGS;

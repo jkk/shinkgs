@@ -5,18 +5,20 @@ import {isAncestor} from '../../util/dom';
 import {getGamePlayerOtherRole} from '../../model/game';
 import type {GameChannel, GameRole, User} from '../../model';
 
-export default class GamePlayActions extends Component<{
-  currentUser: User,
-  game: GameChannel,
-  isOurMove: boolean,
-  scoring: boolean,
-  onPass: GameChannel => any,
-  onUndo: GameChannel => any,
-  onResign: GameChannel => any,
-  onLeaveGame: Function,
-  onAddTime: (game: GameChannel, role: GameRole, seconds: number) => any,
-  onDoneScoring: GameChannel => any
-}, $FlowFixMeState> {
+export default class GamePlayActions extends Component<$FlowFixMeState> {
+  static defaultProps: {
+    currentUser: User,
+    game: GameChannel,
+    isOurMove: boolean,
+    scoring: boolean,
+    onPass: GameChannel => any,
+    onUndo: GameChannel => any,
+    onResign: GameChannel => any,
+    onLeaveGame: Function,
+    onAddTime: (game: GameChannel, role: GameRole, seconds: number) => any,
+    onDoneScoring: GameChannel => any
+  };
+
   state = {
     moreShowing: false
   };

@@ -8,7 +8,8 @@ type Props = {
   onSubmit: string => any;
 };
 
-export default class ChatMessageBar extends Component<Props> {
+export default class ChatMessageBar extends Component<> {
+  static defaultProps: Props;
   _input: ?HTMLInputElement;
 
   componentDidUpdate(prevProps: Props) {

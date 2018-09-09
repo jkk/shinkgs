@@ -11,16 +11,18 @@ import type {
   Index
 } from '../../model';
 
-export default class UserChat extends Component<{
-  currentUser: User,
-  user: User,
-  conversation: Conversation,
-  usersByName: Index<User>,
-  onUserDetail: string => any,
-  onSendChat: string => any,
-  setMessagesDivRef: HTMLElement => any,
-  setMessageInputRef: HTMLElement => any
-}> {
+export default class UserChat extends Component<> {
+  static defaultProps: {
+    currentUser: User,
+    user: User,
+    conversation: Conversation,
+    usersByName: Index<User>,
+    onUserDetail: string => any,
+    onSendChat: string => any,
+    setMessagesDivRef: HTMLElement => any,
+    setMessageInputRef: HTMLElement => any
+  };
+
   render() {
     let {
       currentUser,

@@ -5,10 +5,12 @@ import type {
   GameChannel
 } from '../../model';
 
-class RoomGameLink extends Component<{
-  games: Array<GameChannel>,
-  onSelect: (games: Array<GameChannel>) => any
-}> {
+class RoomGameLink extends Component<> {
+  static defaultProps: {
+    games: Array<GameChannel>,
+    onSelect: (games: Array<GameChannel>) => any
+  };
+
   render() {
     let {games} = this.props;
     let isChallenges = games.length && games[0].type === 'challenge';
@@ -36,10 +38,12 @@ class RoomGameLink extends Component<{
   }
 }
 
-export default class RoomGameLinks extends Component<{
-  games: Array<GameChannel>,
-  onSelect: (games: Array<GameChannel>) => any
-}> {
+export default class RoomGameLinks extends Component<> {
+  static defaultProps: {
+    games: Array<GameChannel>,
+    onSelect: (games: Array<GameChannel>) => any
+  };
+
   render() {
     let {games, onSelect} = this.props;
     let activeGames = [];

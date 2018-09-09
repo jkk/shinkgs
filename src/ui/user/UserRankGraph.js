@@ -15,9 +15,7 @@ type Props = {
 	graph: ?RankGraph
 };
 
-export default class UserRankGraph extends Component {
-  props: Props;
-
+export default class UserRankGraph extends Component<Props> {
   constructor(props) {
     super(props);
 

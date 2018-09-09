@@ -1,7 +1,8 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
 
-export class StonesIcon extends Component<{}> {
+export class StonesIcon extends Component<> {
+  static defaultProps: {};
   render() {
     return (
       <div className='StonesIcon'>

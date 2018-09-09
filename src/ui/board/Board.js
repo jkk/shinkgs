@@ -12,14 +12,16 @@ import type {
 
 let xLabels = 'ABCDEFGHJKLMNOPQRST'.split('');
 
-class BoardStoneSlot extends Component<{
-  x: number,
-  y: number,
-  color: ?PlayerColor,
-  mark: ?BoardPointMark,
-  label: ?string,
-  onClick: ?((loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => any)
-}> {
+class BoardStoneSlot extends Component<> {
+  static defaultProps: {
+    x: number,
+    y: number,
+    color: ?PlayerColor,
+    mark: ?BoardPointMark,
+    label: ?string,
+    onClick: ?((loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => any)
+  };
+
   render() {
     let {color, mark, label} = this.props;
     return (
@@ -42,12 +44,14 @@ class BoardStoneSlot extends Component<{
   }
 }
 
-export default class Board extends Component<{
-  board: BoardState,
-  markup: BoardMarkup,
-  width: number,
-  onClickPoint?: ?((loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => any)
-}> {
+export default class Board extends Component<> {
+  static defaultProps: {
+    board: BoardState,
+    markup: BoardMarkup,
+    width: number,
+    onClickPoint?: ?((loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => any)
+  };
+
   render() {
     let {board, markup, onClickPoint} = this.props;
     let size = board.length;

@@ -7,12 +7,14 @@ import type {
   Index
 } from '../../model';
 
-export default class GameChat extends Component<{
-  currentUser: User,
-  chatSections: Array<GameChatSection>,
-  usersByName: Index<User>,
-  onUserDetail: string => any
-}> {
+export default class GameChat extends Component<> {
+  static defaultProps: {
+    currentUser: User,
+    chatSections: Array<GameChatSection>,
+    usersByName: Index<User>,
+    onUserDetail: string => any
+  };
+
   render() {
     let {currentUser, chatSections, usersByName, onUserDetail} = this.props;
     return (

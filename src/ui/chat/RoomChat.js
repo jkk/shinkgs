@@ -16,20 +16,22 @@ import type {
   GameFilter
 } from '../../model';
 
-export default class RoomChat extends Component<{
-  currentUser: User,
-  room: Room,
-  conversation: Conversation,
-  usersByName: Index<User>,
-  games?: ?Array<GameChannel>,
-  onUserDetail: string => any,
-  onJoinGame: (gameId: number | string) => any,
-  onSelectChallenge: number => any,
-  onShowGames: (filter: GameFilter) => any,
-  onSendChat: string => any,
-  setMessagesDivRef: HTMLElement => any,
-  setMessageInputRef: HTMLElement => any
-}> {
+export default class RoomChat extends Component<> {
+  static defaultProps: {
+    currentUser: User,
+    room: Room,
+    conversation: Conversation,
+    usersByName: Index<User>,
+    games?: ?Array<GameChannel>,
+    onUserDetail: string => any,
+    onJoinGame: (gameId: number | string) => any,
+    onSelectChallenge: number => any,
+    onShowGames: (filter: GameFilter) => any,
+    onSendChat: string => any,
+    setMessagesDivRef: HTMLElement => any,
+    setMessageInputRef: HTMLElement => any
+  };
+
   render() {
     let {
       currentUser,

@@ -10,11 +10,13 @@ import type {
   GameSummary
 } from '../../model';
 
-class GameSummaryListItem extends Component<{
-  game: GameSummary,
-  player?: string,
-  onSelect: GameSummary => any
-}> {
+class GameSummaryListItem extends Component<> {
+  static defaultProps: {
+    game: GameSummary,
+    player?: string,
+    onSelect: GameSummary => any
+  };
+
   render() {
     let {game, player} = this.props;
     let type = game.type;
@@ -69,11 +71,13 @@ class GameSummaryListItem extends Component<{
   }
 }
 
-export default class GameSummaryList extends Component<{
-  games: Array<GameSummary>,
-  player?: string,
-  onSelect: GameSummary => any
-}, $FlowFixMeState> {
+export default class GameSummaryList extends Component<$FlowFixMeState> {
+  static defaultProps: {
+    games: Array<GameSummary>,
+    player?: string,
+    onSelect: GameSummary => any
+  };
+
   state = {
     fullRender: false
   };

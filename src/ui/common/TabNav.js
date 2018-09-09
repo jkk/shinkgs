@@ -2,11 +2,13 @@
 import React, {PureComponent as Component} from 'react';
 import {A} from './A';
 
-class TabNavTab extends Component<{
-  tab: {id: string, label: any, content: any},
-  active: boolean,
-  onSelect: string => any
-}> {
+class TabNavTab extends Component<> {
+  static defaultProps: {
+    tab: {id: string, label: any, content: any},
+    active: boolean,
+    onSelect: string => any
+  };
+
   render() {
     let {tab, active} = this.props;
     return (
@@ -24,15 +26,17 @@ class TabNavTab extends Component<{
   }
 }
 
-export class TabNav extends Component<{
-  tabs: Array<{
-    id: string,
-    label: any,
-    content: any
-  }>,
-  activeTabId?: string,
-  onSelectTab?: string => any
-}, $FlowFixMeState> {
+export class TabNav extends Component<$FlowFixMeState> {
+  static defaultProps: {
+    tabs: Array<{
+      id: string,
+      label: any,
+      content: any
+    }>,
+    activeTabId?: string,
+    onSelectTab?: string => any
+  };
+
   state = {
     activeTabId: this.props.activeTabId || this.props.tabs[0].id
   };

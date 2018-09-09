@@ -6,10 +6,12 @@ import type {
   User
 } from '../../model';
 
-class UserListItem extends Component<{
-  user: User,
-  onSelect: User => any
-}> {
+class UserListItem extends Component<> {
+  static defaultProps: {
+    user: User,
+    onSelect: User => any
+  };
+
   render() {
     let {user} = this.props;
     let flags = user.flags || {};
@@ -32,10 +34,12 @@ class UserListItem extends Component<{
   }
 }
 
-export default class UserList extends Component<{
-  users: Array<User>,
-  onSelectUser: User => any
-}, $FlowFixMeState> {
+export default class UserList extends Component<$FlowFixMeState> {
+  static defaultProps: {
+    users: Array<User>,
+    onSelectUser: User => any
+  };
+
   state = {
     fullRender: false
   };

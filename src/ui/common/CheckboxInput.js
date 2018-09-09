@@ -1,10 +1,12 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
 
-export class CheckboxInput extends Component<{
-  label: any,
-  checked: boolean
-}> {
+export class CheckboxInput extends Component<> {
+  static defaultProps: {
+    label: any,
+    checked: boolean
+  };
+
   render() {
     let {label, checked, ...inputProps} = this.props;
     let className = 'CheckboxInput ' + (

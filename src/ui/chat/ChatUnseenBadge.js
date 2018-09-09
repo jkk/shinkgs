@@ -7,10 +7,12 @@ import type {
   Index
 } from '../../model';
 
-export default class ChatUnseenBadge extends Component<{
-  conversationsById: Index<Conversation>,
-  channelMembership?: ChannelMembership
-}> {
+export default class ChatUnseenBadge extends Component<> {
+  static defaultProps: {
+    conversationsById: Index<Conversation>,
+    channelMembership?: ChannelMembership
+  };
+
   render() {
     let {conversationsById, channelMembership} = this.props;
     let majorCount = 0;

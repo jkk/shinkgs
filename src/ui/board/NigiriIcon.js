@@ -2,7 +2,8 @@
 import React, {PureComponent as Component} from 'react';
 import BoardStone from './BoardStone';
 
-export default class NigiriIcon extends Component<{}> {
+export default class NigiriIcon extends Component<> {
+  static defaultProps: {};
   render() {
     return (
       <div className='NigiriIcon'>

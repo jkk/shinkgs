@@ -4,11 +4,13 @@ import {Modal, Button} from '../common';
 import type {User} from '../../model';
 
 export default class FeedbackModal extends Component<{
-  currentUser: ?User,
-  onClose: Function
-}, {
   status: 'pending' | 'submitted' | 'done'
 }> {
+  static defaultProps: {
+    currentUser: ?User,
+    onClose: Function
+  };
+
   state: {
     status: 'pending' | 'submitted' | 'done'
   } = {

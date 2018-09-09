@@ -5,9 +5,11 @@ import type {
   GameRules
 } from '../../model';
 
-export default class GameRulesDisplay extends Component<{
-  rules: GameRules
-}> {
+export default class GameRulesDisplay extends Component<> {
+  static defaultProps: {
+    rules: GameRules
+  };
+
   render() {
     let {rules} = this.props;
     return (

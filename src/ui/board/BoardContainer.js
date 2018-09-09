@@ -19,7 +19,8 @@ type State = {
   marginTop: number
 };
 
-export default class BoardContainer extends Component<Props, State> {
+export default class BoardContainer extends Component<State> {
+  static defaultProps: Props;
   state: State = {boardWidth: null, marginTop: 0};
 
   _containerRef: ?HTMLElement;

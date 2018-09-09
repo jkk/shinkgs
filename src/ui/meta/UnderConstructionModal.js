@@ -2,9 +2,11 @@
 import React, {PureComponent as Component} from 'react';
 import {Modal, Button} from '../common';
 
-export default class UnderConstructionModal extends Component<{
-  onClose: Function
-}> {
+export default class UnderConstructionModal extends Component<> {
+  static defaultProps: {
+    onClose: Function
+  };
+
   render() {
     let {onClose} = this.props;
     return (

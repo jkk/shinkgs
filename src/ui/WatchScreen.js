@@ -24,7 +24,8 @@ type Props = {
   actions: AppActions
 };
 
-export default class WatchScreen extends Component<Props> {
+export default class WatchScreen extends Component<> {
+  static defaultProps: Props;
   componentDidMount() {
     window.scrollTo(0, 0);
   }

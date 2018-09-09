@@ -9,9 +9,11 @@ import type {
   GameRules
 } from '../../model';
 
-export default class GameTimeSystem extends Component<{
-  rules: GameRules
-}> {
+export default class GameTimeSystem extends Component<> {
+  static defaultProps: {
+    rules: GameRules
+  };
+
   render() {
     let {rules} = this.props;
     let speed = getGameTimeSpeed(rules);

@@ -8,12 +8,14 @@ import type {
   Room
 } from '../../model';
 
-export default class GameListFilter extends Component<{
-  games: Array<GameChannel>,
-  roomsById: Index<Room>,
-  filter: GameFilter,
-  onChange: GameFilter => any
-}> {
+export default class GameListFilter extends Component<> {
+  static defaultProps: {
+    games: Array<GameChannel>,
+    roomsById: Index<Room>,
+    filter: GameFilter,
+    onChange: GameFilter => any
+  };
+
   render() {
     let {games, roomsById, filter} = this.props;
 

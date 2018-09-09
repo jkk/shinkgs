@@ -11,7 +11,8 @@ type Props = {
 
 const EMPTY_FLAGS = {};
 
-export default class UserName extends Component<Props> {
+export default class UserName extends Component<> {
+  static defaultProps: Props;
   render() {
     let {user, prefixIcons, extraIcons} = this.props;
     let className = 'UserName';

@@ -11,12 +11,14 @@ type SavedLogin = {
   password: string | null
 };
 
-export default class LoginScreen extends Component<{
-  loginError: ?string,
-  clientState: KgsClientState,
-  preferences: Preferences,
-  actions: AppActions
-}, $FlowFixMeState> {
+export default class LoginScreen extends Component<$FlowFixMeState> {
+  static defaultProps: {
+    loginError: ?string,
+    clientState: KgsClientState,
+    preferences: Preferences,
+    actions: AppActions
+  };
+
   state = {
     logoLoaded: false,
     username: this.props.preferences.username || '',

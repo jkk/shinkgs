@@ -4,14 +4,16 @@ import {Button, CheckboxInput} from '../common';
 import type {User, UserDetails} from '../../model';
 
 export default class UserDetailsEditForm extends Component<{
-  user: User,
-  details: UserDetails,
-  onSave: (user: User, details: UserDetails, newPassword: string) => any,
-  onCancel: Function
-}, {
   details: UserDetails,
   newPassword: string
 }> {
+  static defaultProps: {
+    user: User,
+    details: UserDetails,
+    onSave: (user: User, details: UserDetails, newPassword: string) => any,
+    onCancel: Function
+  };
+
   state: {
     details: UserDetails,
     newPassword: string

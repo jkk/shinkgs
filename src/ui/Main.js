@@ -15,10 +15,12 @@ import type {
   AppActions
 } from '../model';
 
-export default class Main extends Component<{
-  appState: AppState,
-  actions: AppActions
-}> {
+export default class Main extends Component<> {
+  static defaultProps: {
+    appState: AppState,
+    actions: AppActions
+  };
+
   render() {
     let {
       appState,

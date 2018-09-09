@@ -2,22 +2,24 @@
 import React, {PureComponent as Component} from 'react';
 import {Icon} from './Icon';
 
-export class Button extends Component<{
-  type?: 'button' | 'submit',
-  onClick?: (e: Event) => any,
-  href?: string,
-  target?: string,
-  secondary?: boolean,
-  danger?: boolean,
-  warning?: boolean,
-  muted?: boolean,
-  small?: boolean,
-  icon?: string,
-  disabled?: boolean,
-  loading?: boolean,
-  children?: any,
-  className?: string
-}> {
+export class Button extends Component<> {
+  static defaultProps: {
+    type?: 'button' | 'submit',
+    onClick?: (e: Event) => any,
+    href?: string,
+    target?: string,
+    secondary?: boolean,
+    danger?: boolean,
+    warning?: boolean,
+    muted?: boolean,
+    small?: boolean,
+    icon?: string,
+    disabled?: boolean,
+    loading?: boolean,
+    children?: any,
+    className?: string
+  };
+
   render() {
     let {
       type,

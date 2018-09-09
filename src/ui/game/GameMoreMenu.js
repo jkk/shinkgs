@@ -25,11 +25,13 @@ const MORE_INFO_PROPS: { [string]: string } = {
   TRANSCRIBER: 'Transcriber',
 };
 
-export default class GameMoreMenu extends Component<{
-  game: GameChannel,
-  actions: AppActions,
-  roomsById: Index<Room>,
-}, $FlowFixMeState> {
+export default class GameMoreMenu extends Component<$FlowFixMeState> {
+  static defaultProps: {
+    game: GameChannel,
+    actions: AppActions,
+    roomsById: Index<Room>,
+  };
+
   state = {
     moreShowing: (false: boolean),
     gameInfoShowing: (false: boolean),

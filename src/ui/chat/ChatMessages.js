@@ -13,12 +13,14 @@ import type {
   GameChannel
 } from '../../model';
 
-class ChatMessageItem extends Component<{
-  currentUser: User,
-  message: ConversationMessage,
-  sender: User | string,
-  onUserDetail: string => any
-}> {
+class ChatMessageItem extends Component<> {
+  static defaultProps: {
+    currentUser: User,
+    message: ConversationMessage,
+    sender: User | string,
+    onUserDetail: string => any
+  };
+
   render() {
     let {currentUser, message, sender} = this.props;
     // TODO - for some reason this is null sometimes
@@ -59,10 +61,12 @@ class ChatMessageItem extends Component<{
   }
 }
 
-class ChatGameLink extends Component<{
-  game: GameChannel,
-  onSelect: GameChannel => any
-}> {
+class ChatGameLink extends Component<> {
+  static defaultProps: {
+    game: GameChannel,
+    onSelect: GameChannel => any
+  };
+
   render() {
     let {game} = this.props;
     let className = 'ChatMessages-game ChatMessages-game-type-' + game.type + (
@@ -101,15 +105,17 @@ type ChatItem = (
   {id: number, time: number, type: 'game', game: GameChannel}
 );
 
-export default class ChatMessages extends Component<{
-  currentUser: User,
-  messages: Array<ConversationMessage>,
-  usersByName: Index<User>,
-  games?: ?Array<GameChannel>,
-  onUserDetail: string => any,
-  onJoinGame?: (gameId: number | string) => any,
-  onSelectChallenge?: number => any
-}> {
+export default class ChatMessages extends Component<> {
+  static defaultProps: {
+    currentUser: User,
+    messages: Array<ConversationMessage>,
+    usersByName: Index<User>,
+    games?: ?Array<GameChannel>,
+    onUserDetail: string => any,
+    onJoinGame?: (gameId: number | string) => any,
+    onSelectChallenge?: number => any
+  };
+
   render() {
     let {
       currentUser,

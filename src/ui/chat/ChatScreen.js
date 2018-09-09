@@ -20,14 +20,16 @@ import type {
   AppActions
 } from '../../model';
 
-class ChatTab extends Component<{
-  conversation: Conversation,
-  active: boolean,
-  room?: ?Room,
-  user?: ?User,
-  onSelect: number => any,
-  onClose: number => any
-}> {
+class ChatTab extends Component<> {
+  static defaultProps: {
+    conversation: Conversation,
+    active: boolean,
+    room?: ?Room,
+    user?: ?User,
+    onSelect: number => any,
+    onClose: number => any
+  };
+
   render() {
     let {
       conversation,
@@ -84,15 +86,17 @@ class ChatTab extends Component<{
   }
 }
 
-class ChatScreenBanner extends Component<{
-  conversationsById: Index<Conversation>,
-  activeRoom: ?Room,
-  showingRoomUsers: ?boolean,
-  activeUser: ?User,
-  onShowList: Function,
-  onShowRoomUsers: Function,
-  onShowRoomChat: Function
-}> {
+class ChatScreenBanner extends Component<> {
+  static defaultProps: {
+    conversationsById: Index<Conversation>,
+    activeRoom: ?Room,
+    showingRoomUsers: ?boolean,
+    activeUser: ?User,
+    onShowList: Function,
+    onShowRoomUsers: Function,
+    onShowRoomChat: Function
+  };
+
   render() {
     let {
       conversationsById,
@@ -186,7 +190,8 @@ type State = {
   showingRoomList?: ?boolean
 };
 
-export default class ChatScreen extends Component<Props, State> {
+export default class ChatScreen extends Component<State> {
+  static defaultProps: Props;
   state: State = this._getState(this.props);
 
   _messagesDiv: ?HTMLElement;

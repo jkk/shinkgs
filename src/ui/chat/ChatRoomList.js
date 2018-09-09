@@ -20,10 +20,12 @@ const CAT_LABELS = {
   'OTHER': 'Other'
 };
 
-class ChatRoomListItem extends Component<{
-  room: Room,
-  onJoin: Room => any
-}> {
+class ChatRoomListItem extends Component<> {
+  static defaultProps: {
+    room: Room,
+    onJoin: Room => any
+  };
+
   render() {
     let {room} = this.props;
     return (
@@ -38,10 +40,12 @@ class ChatRoomListItem extends Component<{
   }
 }
 
-export default class ChatRoomList extends Component<{
-  roomsById: Index<Room>,
-  onJoinRoom: Room => any
-}, $FlowFixMeState> {
+export default class ChatRoomList extends Component<$FlowFixMeState> {
+  static defaultProps: {
+    roomsById: Index<Room>,
+    onJoinRoom: Room => any
+  };
+
   state = {
     search: ('': string)
   };

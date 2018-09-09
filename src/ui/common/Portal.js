@@ -10,7 +10,8 @@ function getOwnerDocument(componentOrElement) {
   return (elem && elem.ownerDocument) || document;
 }
 
-export class Portal extends React.PureComponent<$FlowFixMeProps> {
+export class Portal extends React.PureComponent<> {
+  static defaultProps: $FlowFixMeProps;
 
   _isMounted = false;
   _overlayTarget: any;

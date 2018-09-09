@@ -9,11 +9,13 @@ import type {
   Index
 } from '../../model';
 
-export default class GameInfo extends Component<{
-  game: GameChannel,
-  roomsById: Index<Room>,
-  children?: Children,
-}> {
+export default class GameInfo extends Component<> {
+  static defaultProps: {
+    game: GameChannel,
+    roomsById: Index<Room>,
+    children?: Children,
+  };
+
   render() {
     let {game, roomsById, children} = this.props;
     let rules = game.rules;

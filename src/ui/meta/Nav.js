@@ -17,15 +17,17 @@ import type {
 } from '../../model';
 
 export default class Nav extends Component<{
-  nav: NavOption,
-  currentUser: ?User,
-  conversationsById: Index<Conversation>,
-  channelMembership: ChannelMembership,
-  activeChallenge: ?GameChannel,
-  actions: AppActions
-}, {
   showingMoreMenu: boolean
 }> {
+  static defaultProps: {
+    nav: NavOption,
+    currentUser: ?User,
+    conversationsById: Index<Conversation>,
+    channelMembership: ChannelMembership,
+    activeChallenge: ?GameChannel,
+    actions: AppActions
+  };
+
   state: {
     showingMoreMenu: boolean
   } = {

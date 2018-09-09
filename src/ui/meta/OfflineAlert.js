@@ -3,11 +3,13 @@ import React, {PureComponent as Component} from 'react';
 import {Button} from '../common';
 import type {KgsClientState} from '../../model/types';
 
-export default class OfflineAlert extends Component<{
-  logoutError: ?string,
-  clientState: KgsClientState,
-  onLogout: Function
-}> {
+export default class OfflineAlert extends Component<> {
+  static defaultProps: {
+    logoutError: ?string,
+    clientState: KgsClientState,
+    onLogout: Function
+  };
+
   render() {
     let {
       logoutError,

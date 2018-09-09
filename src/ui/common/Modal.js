@@ -4,11 +4,13 @@ import {A} from './A';
 import {Portal} from './Portal';
 import {isAncestor} from '../../util/dom';
 
-export class Modal extends Component<{
-  children?: any,
-  title?: any,
-  onClose: Function
-}> {
+export class Modal extends Component<> {
+  static defaultProps: {
+    children?: any,
+    title?: any,
+    onClose: Function
+  };
+
   _mainDiv: ?HTMLElement;
 
   componentDidMount() {

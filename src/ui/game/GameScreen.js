@@ -47,7 +47,8 @@ type State = {
   chatSections: Array<GameChatSection>
 };
 
-export default class GameScreen extends Component<Props, State> {
+export default class GameScreen extends Component<State> {
+  static defaultProps: Props;
   state: State = {
     tab: 'chat',
     chatSections: getGameChatSections(this.props.game)

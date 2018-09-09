@@ -13,11 +13,13 @@ import type {
 } from '../model';
 
 export default class SearchScreen extends Component<{
-  usersByName: Index<User>,
-  actions: AppActions
-}, {
   query: string
 }> {
+  static defaultProps: {
+    usersByName: Index<User>,
+    actions: AppActions
+  };
+
   state: {
     query: string
   } = {
