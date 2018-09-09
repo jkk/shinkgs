@@ -1,11 +1,7 @@
 // @flow
 import uuidV4 from 'uuid/v4';
-import {
-  computeGameNodeStates,
-  validateRuleSet,
-  getGameLine
-} from './tree';
-import {parseUser} from '../user';
+import { computeGameNodeStates, validateRuleSet, getGameLine } from './tree';
+import { parseUser } from '../user';
 import type {
   GameChannel,
   GameRules,
@@ -17,7 +13,7 @@ import type {
   GameRuleSet,
   ConversationMessage
 } from '../types';
-import {GameNode} from '../types';
+import { GameNode } from '../types';
 
 export function parseGameSummary(values: Object): GameSummary {
   let rules: GameRules = {
@@ -96,7 +92,11 @@ function addPropsToNode(
   let node = tree.nodes[nodeId];
   let newProps = node ? [...node.props] : [];
   newProps.push(...props);
-  let newNode = new GameNode(newProps, node ? node.children : [], node ? node.parent : null);
+  let newNode = new GameNode(
+    newProps,
+    node ? node.children : [],
+    node ? node.parent : null
+  );
   tree.nodes = {
     ...tree.nodes,
     [nodeId]: newNode
@@ -121,7 +121,11 @@ function addNodeChild(
   }
   tree.nodes = {
     ...tree.nodes,
-    [nodeId]: new GameNode(node ? node.props : [], newChildren, node ? node.parent : null),
+    [nodeId]: new GameNode(
+      node ? node.props : [],
+      newChildren,
+      node ? node.parent : null
+    ),
     [childNodeId]: new GameNode([], [], nodeId)
   };
 }
@@ -133,26 +137,24 @@ function locsEqual(loc1: ?SgfLoc, loc2: ?SgfLoc) {
   if (loc1 === 'PASS') {
     return loc1 === loc2;
   } else if (loc2 !== 'PASS') {
-    return (
-      loc1.x === loc2.x &&
-      loc1.y === loc2.y
-    );
+    return loc1.x === loc2.x && loc1.y === loc2.y;
   } else {
     return false;
   }
 }
 
 function propMatches(prop1: SgfProp, prop2: SgfProp) {
-  return (
-    prop1.name === prop2.name &&
-    locsEqual(prop1.loc, prop2.loc)
-  );
+  return prop1.name === prop2.name && locsEqual(prop1.loc, prop2.loc);
 }
 
-function removePropsFromNode(tree: GameTree, nodeId: number, props: Array<SgfProp>) {
+function removePropsFromNode(
+  tree: GameTree,
+  nodeId: number,
+  props: Array<SgfProp>
+) {
   let node = tree.nodes[nodeId];
-  let newProps = node.props.filter(nprop =>
-    !props.find(prop => propMatches(prop, nprop))
+  let newProps = node.props.filter(
+    nprop => !props.find(prop => propMatches(prop, nprop))
   );
   let newNode = new GameNode(newProps, node.children, node.parent);
   tree.nodes = {
@@ -163,8 +165,8 @@ function removePropsFromNode(tree: GameTree, nodeId: number, props: Array<SgfPro
 
 function replaceNodeProp(tree: GameTree, nodeId: number, prop: SgfProp) {
   let node = tree.nodes[nodeId];
-  let newProps = node.props.filter(nprop =>
-    propMatches(prop, nprop) ? prop : nprop
+  let newProps = node.props.filter(
+    nprop => (propMatches(prop, nprop) ? prop : nprop)
   );
   let newNode = new GameNode(newProps, node.children, node.parent);
   tree.nodes = {
@@ -174,7 +176,7 @@ function replaceNodeProp(tree: GameTree, nodeId: number, prop: SgfProp) {
 }
 
 function parseSgfEvents(prevTree: ?GameTree, events: Array<SgfEvent>) {
-  let tree: ?GameTree = prevTree ? {...prevTree} : null;
+  let tree: ?GameTree = prevTree ? { ...prevTree } : null;
   for (let event of events) {
     if (!tree) {
       tree = {
@@ -238,9 +240,11 @@ function parseGameRulesFromTree(tree: GameTree): ?GameRules {
   }
   let size = typeof rulesProp.size === 'number' ? rulesProp.size : 19;
   let komi = typeof rulesProp.komi === 'number' ? rulesProp.komi : 6.5;
-  let ruleset: ?GameRuleSet = typeof rulesProp.rules !== 'undefined' ?
-    validateRuleSet(rulesProp.rules) : null;
-  let rules: GameRules = {size, komi};
+  let ruleset: ?GameRuleSet =
+    typeof rulesProp.rules !== 'undefined'
+      ? validateRuleSet(rulesProp.rules)
+      : null;
+  let rules: GameRules = { size, komi };
   if (ruleset) {
     rules.rules = ruleset;
   }
@@ -294,7 +298,7 @@ const GAME_CHAN_PROPS = [
   'doneId'
 ];
 
-let gameTimes: {[gameTime: number]: true} = {};
+let gameTimes: { [gameTime: number]: true } = {};
 
 function getUniqueGameTime() {
   let time = Date.now();
@@ -305,10 +309,11 @@ function getUniqueGameTime() {
   return time;
 }
 
-export function parseGameChannel(chan: ?GameChannel, values: Object): GameChannel {
-  let newChan: Object = chan ?
-    {...chan} :
-    {time: getUniqueGameTime()};
+export function parseGameChannel(
+  chan: ?GameChannel,
+  values: Object
+): GameChannel {
+  let newChan: Object = chan ? { ...chan } : { time: getUniqueGameTime() };
   if (values.channelId) {
     newChan.id = values.channelId;
   }
@@ -332,15 +337,16 @@ export function parseGameChannel(chan: ?GameChannel, values: Object): GameChanne
     if (values.handicap) {
       rules.handicap = values.handicap;
     }
-    newChan.rules = newChan.rules ? {...newChan.rules, ...rules} : rules;
+    newChan.rules = newChan.rules ? { ...newChan.rules, ...rules } : rules;
   }
   if (values.users) {
     newChan.users = values.users.map(u => u.name);
   }
   if (values.sgfEvents) {
-    let prevTree = values.type === 'GAME_JOIN' && values.sgfEvents.length
-      ? null
-      : newChan.tree;
+    let prevTree =
+      values.type === 'GAME_JOIN' && values.sgfEvents.length
+        ? null
+        : newChan.tree;
     newChan.tree = parseSgfEvents(prevTree, values.sgfEvents);
     if (newChan.tree) {
       delete newChan.tree.pendingMove;
@@ -349,7 +355,7 @@ export function parseGameChannel(chan: ?GameChannel, values: Object): GameChanne
     if (newChan.tree) {
       let treeRules = parseGameRulesFromTree(newChan.tree);
       if (treeRules) {
-        newChan.rules = {...treeRules, ...newChan.rules};
+        newChan.rules = { ...treeRules, ...newChan.rules };
       }
     }
   }

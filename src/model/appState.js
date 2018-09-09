@@ -1,5 +1,5 @@
 // @flow
-import type {AppState, KgsClientState} from './types';
+import type { AppState, KgsClientState } from './types';
 
 // Resets on each login
 export function getEmptyServerState() {

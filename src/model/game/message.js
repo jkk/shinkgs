@@ -1,8 +1,5 @@
 // @flow
-import {
-  parseGameChannel,
-  parseGameSummary
-} from './parse';
+import { parseGameChannel, parseGameSummary } from './parse';
 import {
   isGameProposalPlayer,
   isGamePlayer,
@@ -10,9 +7,7 @@ import {
   computeGameNodeStates,
   getGameLine
 } from './tree';
-import {
-  sortGames
-} from './display';
+import { sortGames } from './display';
 import type {
   AppState,
   KgsMessage,
@@ -23,24 +18,28 @@ import type {
   ChannelMembership
 } from '../types';
 
-function _handleGameMessage(
-  prevState: AppState,
-  msg: KgsMessage
-): AppState {
+function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
   let chanId = msg.channelId;
-  if (msg.type === 'ROOM_JOIN' || msg.type === 'GAME_LIST' || msg.type === 'GLOBAL_GAMES_JOIN') {
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+  if (
+    msg.type === 'ROOM_JOIN' ||
+    msg.type === 'GAME_LIST' ||
+    msg.type === 'GLOBAL_GAMES_JOIN'
+  ) {
+    let gamesById: Index<GameChannel> = { ...prevState.gamesById };
     if (msg.games) {
       for (let game of msg.games) {
-        gamesById[game.channelId] = parseGameChannel(gamesById[game.channelId], game);
+        gamesById[game.channelId] = parseGameChannel(
+          gamesById[game.channelId],
+          game
+        );
       }
     }
-    let nextState = {...prevState, gamesById};
+    let nextState = { ...prevState, gamesById };
 
     // Channel membership
     if (msg.type === 'GLOBAL_GAMES_JOIN' && chanId) {
-      let chanMem: ChannelMembership = {...prevState.channelMembership};
-      chanMem[chanId] = {type: 'gameList', complete: false, stale: false};
+      let chanMem: ChannelMembership = { ...prevState.channelMembership };
+      chanMem[chanId] = { type: 'gameList', complete: false, stale: false };
       nextState.channelMembership = chanMem;
     }
 
@@ -54,15 +53,16 @@ function _handleGameMessage(
       let watching = prevState.channelMembership[msg.gameId];
       let inRoom = prevState.channelMembership[game.roomId];
       if (!watching && (!inRoom || (inRoom && game.roomId === chanId))) {
-        let gamesById: Index<GameChannel> = {...prevState.gamesById};
+        let gamesById: Index<GameChannel> = { ...prevState.gamesById };
         gamesById[msg.gameId] = {
           ...game,
           deletedTime: Date.now()
         };
-        let playChallengeId = prevState.playChallengeId === msg.gameId
-          ? null
-          : prevState.playChallengeId;
-        return {...prevState, gamesById, playChallengeId};
+        let playChallengeId =
+          prevState.playChallengeId === msg.gameId
+            ? null
+            : prevState.playChallengeId;
+        return { ...prevState, gamesById, playChallengeId };
       }
     }
   } else if (
@@ -73,27 +73,34 @@ function _handleGameMessage(
       msg.type === 'CHALLENGE_JOIN') &&
     chanId
   ) {
-
     // Special case to remove game name
     if (msg.type === 'GAME_NAME_CHANGE' && !msg.name) {
       msg.name = null;
     }
 
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    let gamesById: Index<GameChannel> = { ...prevState.gamesById };
     let game = parseGameChannel(gamesById[chanId], msg);
     let summary = game.summary;
     gamesById[chanId] = game;
-    let nextState = {...prevState, gamesById};
+    let nextState = { ...prevState, gamesById };
 
     // Channel membership
     if (msg.type === 'GAME_JOIN' || msg.type === 'CHALLENGE_JOIN') {
-      let chanMem: ChannelMembership = {...prevState.channelMembership};
-      chanMem[chanId] = {type: 'game', complete: false, stale: false};
+      let chanMem: ChannelMembership = { ...prevState.channelMembership };
+      chanMem[chanId] = { type: 'game', complete: false, stale: false };
       nextState.channelMembership = chanMem;
 
-      if (prevState.watchGameId && summary && summary.timestamp === prevState.watchGameId) {
+      if (
+        prevState.watchGameId &&
+        summary &&
+        summary.timestamp === prevState.watchGameId
+      ) {
         nextState.watchGameId = chanId;
-      } else if (prevState.playGameId && summary && summary.timestamp === prevState.playGameId) {
+      } else if (
+        prevState.playGameId &&
+        summary &&
+        summary.timestamp === prevState.playGameId
+      ) {
         nextState.playGameId = chanId;
       }
     }
@@ -107,47 +114,54 @@ function _handleGameMessage(
   } else if (msg.type === 'GAME_REVIEW') {
     let oldGameId: number = msg.originalId;
     let newGameId: number = msg.review.channelId;
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    let gamesById: Index<GameChannel> = { ...prevState.gamesById };
     let game = parseGameChannel(gamesById[oldGameId], msg.review);
     gamesById[newGameId] = game;
-    let playGameId = prevState.playGameId === oldGameId ? newGameId : prevState.playGameId;
-    let nextState = {...prevState, gamesById, playGameId};
-    let chanMem: ChannelMembership = {...prevState.channelMembership};
-    chanMem[newGameId] = {type: 'game', complete: false, stale: false};
+    let playGameId =
+      prevState.playGameId === oldGameId ? newGameId : prevState.playGameId;
+    let nextState = { ...prevState, gamesById, playGameId };
+    let chanMem: ChannelMembership = { ...prevState.channelMembership };
+    chanMem[newGameId] = { type: 'game', complete: false, stale: false };
     nextState.channelMembership = chanMem;
     return nextState;
   } else if (msg.type === 'GAME_NOTIFY') {
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    let gamesById: Index<GameChannel> = { ...prevState.gamesById };
     let gameId = msg.game.channelId;
     gamesById[gameId] = parseGameChannel(gamesById[gameId], msg.game);
-    return {...prevState, gamesById};
+    return { ...prevState, gamesById };
   } else if (msg.type === 'AUTOMATCH_PREFS') {
-    return {...prevState, automatchPrefs: msg};
+    return { ...prevState, automatchPrefs: msg };
   } else if (msg.type === 'ARCHIVE_JOIN' && chanId) {
-    let gameSummariesByUser: Index<Array<GameSummary>> = {...prevState.gameSummariesByUser};
+    let gameSummariesByUser: Index<Array<GameSummary>> = {
+      ...prevState.gameSummariesByUser
+    };
     let name = msg.user.name;
     let summaries = msg.games.map(g => parseGameSummary(g));
     summaries.sort((a, b) => b.timestamp.localeCompare(a.timestamp));
     gameSummariesByUser[name] = summaries;
-    let nextState = {...prevState, gameSummariesByUser};
+    let nextState = { ...prevState, gameSummariesByUser };
 
     // Channel membership
-    let chanMem: ChannelMembership = {...prevState.channelMembership};
-    chanMem[chanId] = {type: 'archive', complete: false, stale: false};
+    let chanMem: ChannelMembership = { ...prevState.channelMembership };
+    chanMem[chanId] = { type: 'archive', complete: false, stale: false };
     nextState.channelMembership = chanMem;
 
     return nextState;
   } else if (msg.type === 'ARCHIVE_GAMES_CHANGED') {
     // FIXME: hack - hardcoded to currentUser since the message doens't include
     // the user, and we only stay subscribed to archive for currentUser
-    let gameSummariesByUser: Index<Array<GameSummary>> = {...prevState.gameSummariesByUser};
+    let gameSummariesByUser: Index<Array<GameSummary>> = {
+      ...prevState.gameSummariesByUser
+    };
     let name = prevState.currentUser ? prevState.currentUser.name : 'FIXME';
     let summaries = msg.games.map(g => parseGameSummary(g));
     let oldSummaries = gameSummariesByUser[name];
     if (oldSummaries) {
       let mergedSummaries = [...oldSummaries];
       for (let summary of summaries) {
-        let index = mergedSummaries.findIndex(s => s.timestamp === summary.timestamp);
+        let index = mergedSummaries.findIndex(
+          s => s.timestamp === summary.timestamp
+        );
         if (index >= 0) {
           mergedSummaries[index] = summary;
         } else {
@@ -160,29 +174,41 @@ function _handleGameMessage(
       summaries.sort((a, b) => b.timestamp.localeCompare(a.timestamp));
       gameSummariesByUser[name] = summaries;
     }
-    return {...prevState, gameSummariesByUser};
+    return { ...prevState, gameSummariesByUser };
   } else if (msg.type === 'ARCHIVE_GAME_REMOVED') {
     // FIXME: hack - hardcoded to currentUser since the message doens't include
     // the user, and we only stay subscribed to archive for currentUser
-    let gameSummariesByUser: Index<Array<GameSummary>> = {...prevState.gameSummariesByUser};
+    let gameSummariesByUser: Index<Array<GameSummary>> = {
+      ...prevState.gameSummariesByUser
+    };
     let name = prevState.currentUser ? prevState.currentUser.name : 'FIXME';
     let oldSummaries = gameSummariesByUser[name];
     if (oldSummaries) {
-      gameSummariesByUser[name] = oldSummaries.filter(summary =>
-        summary.timestamp !== msg.timestamp
+      gameSummariesByUser[name] = oldSummaries.filter(
+        summary => summary.timestamp !== msg.timestamp
       );
-      return {...prevState, gameSummariesByUser};
+      return { ...prevState, gameSummariesByUser };
     }
   } else if (msg.type === 'WATCH_FILTER_CHANGE') {
-    return {...prevState, watchFilter: prevState.watchFilter ? {...prevState.watchFilter, ...msg.filter} : msg.filter};
+    return {
+      ...prevState,
+      watchFilter: prevState.watchFilter
+        ? { ...prevState.watchFilter, ...msg.filter }
+        : msg.filter
+    };
   } else if (msg.type === 'PLAY_FILTER_CHANGE') {
-    return {...prevState, playFilter: prevState.playFilter ? {...prevState.playFilter, ...msg.filter} : msg.filter};
+    return {
+      ...prevState,
+      playFilter: prevState.playFilter
+        ? { ...prevState.playFilter, ...msg.filter }
+        : msg.filter
+    };
   } else if (msg.type === 'WATCH_GAME') {
-    return {...prevState, watchGameId: msg.gameId, userDetailsRequest: null};
+    return { ...prevState, watchGameId: msg.gameId, userDetailsRequest: null };
   } else if (msg.type === 'PLAY_CHALLENGE') {
-    return {...prevState, playChallengeId: msg.challengeId};
+    return { ...prevState, playChallengeId: msg.challengeId };
   } else if (msg.type === 'CLOSE_CHALLENGE' && chanId) {
-    let challenge = {...prevState.gamesById[chanId]};
+    let challenge = { ...prevState.gamesById[chanId] };
     delete challenge.sentProposal;
     delete challenge.receivedProposals;
     return {
@@ -194,8 +220,8 @@ function _handleGameMessage(
       playChallengeId: null
     };
   } else if (msg.type === 'CHALLENGE_DECLINE' && chanId) {
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
-    let challenge = {...prevState.gamesById[chanId]};
+    let gamesById: Index<GameChannel> = { ...prevState.gamesById };
+    let challenge = { ...prevState.gamesById[chanId] };
     challenge.sentProposal = {
       ...challenge.sentProposal,
       status: 'declined'
@@ -206,14 +232,15 @@ function _handleGameMessage(
       gamesById
     };
   } else if (msg.type === 'START_CHALLENGE_DECLINE' && chanId) {
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
-    let challenge = {...prevState.gamesById[chanId]};
+    let gamesById: Index<GameChannel> = { ...prevState.gamesById };
+    let challenge = { ...prevState.gamesById[chanId] };
     if (challenge.receivedProposals) {
-      challenge.receivedProposals = challenge.receivedProposals.filter(proposal =>
-        !proposal.players.some(p => {
-          let name = p.user ? p.user.name : p.name;
-          return name === msg.name;
-        })
+      challenge.receivedProposals = challenge.receivedProposals.filter(
+        proposal =>
+          !proposal.players.some(p => {
+            let name = p.user ? p.user.name : p.name;
+            return name === msg.name;
+          })
       );
     }
     gamesById[chanId] = challenge;
@@ -222,8 +249,8 @@ function _handleGameMessage(
       gamesById
     };
   } else if (msg.type === 'START_CHALLENGE_SUBMIT' && chanId) {
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
-    let sentProposal = {...msg.proposal, status: 'pending'};
+    let gamesById: Index<GameChannel> = { ...prevState.gamesById };
+    let sentProposal = { ...msg.proposal, status: 'pending' };
     gamesById[chanId] = {
       ...gamesById[chanId],
       sentProposal
@@ -233,7 +260,7 @@ function _handleGameMessage(
       gamesById
     };
   } else if (msg.type === 'CHALLENGE_SUBMIT' && chanId) {
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    let gamesById: Index<GameChannel> = { ...prevState.gamesById };
     let receivedProposals = gamesById[chanId].receivedProposals
       ? [...gamesById[chanId].receivedProposals]
       : [];
@@ -250,7 +277,7 @@ function _handleGameMessage(
     let currentUser = prevState.currentUser;
     let name = currentUser && currentUser.name;
     let isPlayer = name && isGameProposalPlayer(name, msg.proposal);
-    let nextState = {...prevState, playChallengeId: null};
+    let nextState = { ...prevState, playChallengeId: null };
     if (isPlayer) {
       nextState.playGameId = msg.gameChannelId;
     } else {
@@ -258,7 +285,7 @@ function _handleGameMessage(
     }
     return nextState;
   } else if (msg.type === 'PLAY_GAME') {
-    return {...prevState, playGameId: msg.gameId, userDetailsRequest: null};
+    return { ...prevState, playGameId: msg.gameId, userDetailsRequest: null };
   } else if (msg.type === 'GAME_UNDO_REQUEST' && chanId) {
     // Note - API returns a weird response for role
     let rawRole = msg.role;
@@ -273,20 +300,20 @@ function _handleGameMessage(
     } else {
       throw Error('Unrecognized role');
     }
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
-    gamesById[chanId] = {...gamesById[chanId], undoRequest: role};
-    return {...prevState, gamesById};
+    let gamesById: Index<GameChannel> = { ...prevState.gamesById };
+    gamesById[chanId] = { ...gamesById[chanId], undoRequest: role };
+    return { ...prevState, gamesById };
   } else if (msg.type === 'GAME_UNDO_DECLINE' && chanId) {
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
-    gamesById[chanId] = {...gamesById[chanId]};
+    let gamesById: Index<GameChannel> = { ...prevState.gamesById };
+    gamesById[chanId] = { ...gamesById[chanId] };
     delete gamesById[chanId].undoRequest;
-    return {...prevState, gamesById};
+    return { ...prevState, gamesById };
   } else if (msg.type === 'START_GAME_MOVE' && chanId) {
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
-    gamesById[chanId] = {...gamesById[chanId]};
+    let gamesById: Index<GameChannel> = { ...prevState.gamesById };
+    gamesById[chanId] = { ...gamesById[chanId] };
     let tree = gamesById[chanId].tree;
     if (tree) {
-      tree = ({...tree}: GameTree);
+      tree = ({ ...tree }: GameTree);
       tree.pendingMove = {
         nodeId: tree.activeNode,
         color: msg.color,
@@ -294,10 +321,14 @@ function _handleGameMessage(
       };
       tree.computedState = computeGameNodeStates(tree, tree.activeNode);
       gamesById[chanId].tree = tree;
-      return {...prevState, gamesById};
+      return { ...prevState, gamesById };
     }
-  } else if (msg.type === 'USER_REMOVED' && chanId && prevState.gamesById[chanId]) {
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+  } else if (
+    msg.type === 'USER_REMOVED' &&
+    chanId &&
+    prevState.gamesById[chanId]
+  ) {
+    let gamesById: Index<GameChannel> = { ...prevState.gamesById };
     let users = gamesById[chanId].users;
     if (!users) {
       return prevState;
@@ -309,16 +340,22 @@ function _handleGameMessage(
     let receivedProposals = gamesById[chanId].receivedProposals;
     if (receivedProposals) {
       // Remove proposals if this user was a challenger
-      gamesById[chanId].receivedProposals = receivedProposals.filter(proposal =>
-        !proposal.players.some(p =>
-          (p.name && p.name === msg.user.name) ||
-          (p.user && p.user.name === msg.user.name)
-        )
+      gamesById[chanId].receivedProposals = receivedProposals.filter(
+        proposal =>
+          !proposal.players.some(
+            p =>
+              (p.name && p.name === msg.user.name) ||
+              (p.user && p.user.name === msg.user.name)
+          )
       );
     }
-    return {...prevState, gamesById};
-  } else if (msg.type === 'USER_ADDED' && chanId && prevState.gamesById[chanId]) {
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
+    return { ...prevState, gamesById };
+  } else if (
+    msg.type === 'USER_ADDED' &&
+    chanId &&
+    prevState.gamesById[chanId]
+  ) {
+    let gamesById: Index<GameChannel> = { ...prevState.gamesById };
     let users = gamesById[chanId].users;
     if (!users || users.find(name => name === msg.user.name)) {
       return prevState;
@@ -327,7 +364,7 @@ function _handleGameMessage(
       ...gamesById[chanId],
       users: [...users, msg.user.name]
     };
-    return {...prevState, gamesById};
+    return { ...prevState, gamesById };
   } else if (msg.type === 'CHANNEL_SUBSCRIBERS_ONLY' && chanId) {
     let gamesById: Index<GameChannel> = {
       ...prevState.gamesById,
@@ -336,7 +373,7 @@ function _handleGameMessage(
         accessDenied: 'KGS Plus Subscribers Only'
       }
     };
-    return {...prevState, gamesById};
+    return { ...prevState, gamesById };
   } else if (msg.type === 'PRIVATE_KEEP_OUT' && chanId) {
     let game = prevState.gamesById[chanId];
     if (!game) {
@@ -349,55 +386,59 @@ function _handleGameMessage(
         accessDenied: 'Private Game'
       }
     };
-    return {...prevState, gamesById};
+    return { ...prevState, gamesById };
   } else if (msg.type === 'SET_CURRENT_GAME_NODE' && chanId) {
-    let gamesById: Index<GameChannel> = {...prevState.gamesById};
-    gamesById[chanId] = {...gamesById[chanId]};
+    let gamesById: Index<GameChannel> = { ...prevState.gamesById };
+    gamesById[chanId] = { ...gamesById[chanId] };
     let tree = gamesById[chanId].tree;
     if (tree) {
-      tree = ({...tree}: GameTree);
+      tree = ({ ...tree }: GameTree);
       tree.currentNode = msg.currentNode;
       if (tree.currentLine.indexOf(tree.currentNode) === -1) {
         tree.currentLine = getGameLine(tree, tree.currentNode);
       }
       gamesById[chanId].tree = tree;
-      return {...prevState, gamesById};
+      return { ...prevState, gamesById };
     }
   }
   return prevState;
 }
 
-
 export function handleGameMessage(
   prevState: AppState,
   msg: KgsMessage
 ): AppState {
-
   let nextState = _handleGameMessage(prevState, msg);
   let currentUser = nextState.currentUser;
   let unfinishedGames;
 
   // If games changed, separate active games from challenges; sort
   if (prevState.gamesById !== nextState.gamesById) {
-    let allGames = Object.keys(nextState.gamesById).map(id => nextState.gamesById[id]);
+    let allGames = Object.keys(nextState.gamesById).map(
+      id => nextState.gamesById[id]
+    );
 
-    let activeGames = allGames.filter(g => g.type !== 'challenge' && !g.deletedTime);
+    let activeGames = allGames.filter(
+      g => g.type !== 'challenge' && !g.deletedTime
+    );
     sortGames(activeGames);
 
-    let challenges = allGames.filter(g => g.type === 'challenge' && !g.deletedTime);
+    let challenges = allGames.filter(
+      g => g.type === 'challenge' && !g.deletedTime
+    );
     sortGames(challenges);
 
     if (currentUser) {
       let currentName = currentUser.name;
-      unfinishedGames = activeGames.filter(g =>
-        isGamePlayer(currentName, g.players) &&
-        isGamePlaying(g)
-      ).map(g => ({
-        type: 'channel', game: g
-      }));
+      unfinishedGames = activeGames
+        .filter(g => isGamePlayer(currentName, g.players) && isGamePlaying(g))
+        .map(g => ({
+          type: 'channel',
+          game: g
+        }));
     }
 
-    nextState = {...nextState, activeGames, challenges};
+    nextState = { ...nextState, activeGames, challenges };
   }
 
   if (currentUser) {
@@ -405,18 +446,19 @@ export function handleGameMessage(
     let prevSummaries = prevState.gameSummariesByUser[currentUser.name];
     if (prevSummaries !== nextSummaries) {
       unfinishedGames = (unfinishedGames || []).concat(
-        nextSummaries.filter(summary =>
-          summary.score === 'UNFINISHED' && summary.inPlay
-        ).map(summary => ({
-          type: 'summary', game: summary
-        }))
+        nextSummaries
+          .filter(summary => summary.score === 'UNFINISHED' && summary.inPlay)
+          .map(summary => ({
+            type: 'summary',
+            game: summary
+          }))
       );
       nextState = {
         ...nextState,
         unfinishedGames
       };
     } else if (unfinishedGames) {
-      nextState = {...nextState, unfinishedGames};
+      nextState = { ...nextState, unfinishedGames };
     }
   }
 

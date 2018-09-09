@@ -30,13 +30,13 @@ function compareGames(a: GameChannel, b: GameChannel) {
   }
   let pa = a.players.owner || a.players.challengeCreator || a.players.white;
   let pb = b.players.owner || b.players.challengeCreator || b.players.white;
-  let par = ((pa && pa.rankVal) || -99);
-  let pbr = ((pb && pb.rankVal) || -99);
+  let par = (pa && pa.rankVal) || -99;
+  let pbr = (pb && pb.rankVal) || -99;
   if (par === pbr) {
     let pa2 = a.players.black;
     let pb2 = b.players.black;
-    let pa2r = ((pa2 && pa2.rankVal) || -99);
-    let pb2r = ((pb2 && pb2.rankVal) || -99);
+    let pa2r = (pa2 && pa2.rankVal) || -99;
+    let pb2r = (pb2 && pb2.rankVal) || -99;
     if (pb2r === pa2r) {
       return (pa ? pa.name : '').localeCompare(pb ? pb.name : '');
     } else {
@@ -51,9 +51,9 @@ export function sortGames(games: Array<GameChannel>) {
 }
 
 const GAME_RESULT_LABEL = {
-  'UNKNOWN': 'Unknown',
-  'UNFINISHED': 'Unfinished',
-  'NO_RESULT': 'No Result',
+  UNKNOWN: 'Unknown',
+  UNFINISHED: 'Unfinished',
+  NO_RESULT: 'No Result',
   'B+RESIGN': 'B+Resign',
   'W+RESIGN': 'W+Resign',
   'B+FORFEIT': 'B+Forfeit',
@@ -88,7 +88,7 @@ export function getWinningColor(score: ?GameScore): ?PlayerColor {
 
 export function formatDuration(duration: number) {
   let mins = Math.floor(duration / 60);
-  let secs = duration - (mins * 60);
+  let secs = duration - mins * 60;
   return '' + mins + ':' + (secs < 10 ? '0' : '') + secs;
 }
 
@@ -125,8 +125,8 @@ export function getGameTimeSpeed(rules: GameRules): GameTimeSpeed {
       return pace >= 7.2 ? 'fast' : 'very fast';
     }
   } else if (rules.timeSystem === 'byo_yomi') {
-    let secs = (rules.byoYomiTime || 0);
-    let periods = (rules.byoYomiPeriods || 0);
+    let secs = rules.byoYomiTime || 0;
+    let periods = rules.byoYomiPeriods || 0;
     if (secs > 60) {
       return 'slow';
     }
@@ -135,7 +135,8 @@ export function getGameTimeSpeed(rules: GameRules): GameTimeSpeed {
     } else {
       if (periods === 1 && secs < 60) {
         return 'very fast';
-      } if (secs >= 30) {
+      }
+      if (secs >= 30) {
         return 'normal';
       } else if (secs >= 10) {
         return 'fast';
@@ -154,30 +155,36 @@ export function formatGameTimeSystem(rules: GameRules) {
     return formatDuration(rules.mainTime || 0) + ' absolute';
   } else if (rules.timeSystem === 'byo_yomi') {
     return (
-      formatDuration(rules.mainTime || 0) + ' + ' +
-      (rules.byoYomiPeriods || 0) + '×' + formatDuration(rules.byoYomiTime || 0)
+      formatDuration(rules.mainTime || 0) +
+      ' + ' +
+      (rules.byoYomiPeriods || 0) +
+      '×' +
+      formatDuration(rules.byoYomiTime || 0)
       // ' (byo-yomi)'
     );
   } else if (rules.timeSystem === 'canadian') {
     return (
-      formatDuration(rules.mainTime || 0) + ' + ' +
-      formatDuration(rules.byoYomiTime || 0) + '/' + (rules.byoYomiStones || 0)
+      formatDuration(rules.mainTime || 0) +
+      ' + ' +
+      formatDuration(rules.byoYomiTime || 0) +
+      '/' +
+      (rules.byoYomiStones || 0)
       // ' (Canadian)'
     );
   }
 }
 
 const GAME_TYPE_LABEL = {
-  'challenge': 'Challenge',
-  'demonstration': 'Demonstration',
-  'review': 'Review',
-  'rengo_review': 'Rengo Review',
-  'teaching': 'Teaching',
-  'simul': 'Simul',
-  'rengo': 'Rengo',
-  'free': 'Free',
-  'ranked': 'Ranked',
-  'tournament': 'Tournament'
+  challenge: 'Challenge',
+  demonstration: 'Demonstration',
+  review: 'Review',
+  rengo_review: 'Rengo Review',
+  teaching: 'Teaching',
+  simul: 'Simul',
+  rengo: 'Rengo',
+  free: 'Free',
+  ranked: 'Ranked',
+  tournament: 'Tournament'
 };
 
 export function formatGameType(type: GameType) {
@@ -185,10 +192,10 @@ export function formatGameType(type: GameType) {
 }
 
 const RULESET_LABEL = {
-  'japanese': 'Japanese',
-  'chinese': 'Chinese',
-  'aga': 'AGA',
-  'new_zealand': 'New Zealand'
+  japanese: 'Japanese',
+  chinese: 'Chinese',
+  aga: 'AGA',
+  new_zealand: 'New Zealand'
 };
 
 export function formatGameRuleset(ruleset: GameRuleSet) {
@@ -196,12 +203,12 @@ export function formatGameRuleset(ruleset: GameRuleSet) {
 }
 
 const ROLE_LABELS = {
-  'black': 'Black',
-  'white': 'White',
-  'black_2': 'Black 2',
-  'white_2': 'White 2',
-  'challengeCreator': 'Creator',
-  'owner': 'Owner'
+  black: 'Black',
+  white: 'White',
+  black_2: 'Black 2',
+  white_2: 'White 2',
+  challengeCreator: 'Creator',
+  owner: 'Owner'
 };
 
 export function formatGameRole(role: GameRole) {

@@ -1,5 +1,5 @@
 // @flow
-import {InvariantError} from '../../util/error';
+import { InvariantError } from '../../util/error';
 import type {
   SgfLoc,
   SgfProp,
@@ -33,7 +33,11 @@ type StoneGroup = {
   liberties: number
 };
 
-export function getStoneGroup(board: BoardState, x: number, y: number): StoneGroup | null {
+export function getStoneGroup(
+  board: BoardState,
+  x: number,
+  y: number
+): StoneGroup | null {
   let color = board[y][x];
   if (!color) {
     return null;
@@ -42,8 +46,8 @@ export function getStoneGroup(board: BoardState, x: number, y: number): StoneGro
   let id = y * size + x;
   let points: Array<Point> = [];
   let liberties = 0;
-  let pointsChecked = {[id]: true};
-  let pointsToCheck: Array<Point> = [{x, y}];
+  let pointsChecked = { [id]: true };
+  let pointsToCheck: Array<Point> = [{ x, y }];
   while (pointsToCheck.length) {
     let pt = pointsToCheck.pop();
     let ptId = pt.y * size + pt.x;
@@ -58,7 +62,7 @@ export function getStoneGroup(board: BoardState, x: number, y: number): StoneGro
         liberties++;
       } else if (bpt === color && !pointsChecked[bptId]) {
         pointsChecked[bptId] = true;
-        pointsToCheck.push({y: pt.y - 1, x: pt.x});
+        pointsToCheck.push({ y: pt.y - 1, x: pt.x });
       }
     }
     if (pt.y < size - 1) {
@@ -68,7 +72,7 @@ export function getStoneGroup(board: BoardState, x: number, y: number): StoneGro
         liberties++;
       } else if (bpt === color && !pointsChecked[bptId]) {
         pointsChecked[bptId] = true;
-        pointsToCheck.push({y: pt.y + 1, x: pt.x});
+        pointsToCheck.push({ y: pt.y + 1, x: pt.x });
       }
     }
     if (pt.x > 0) {
@@ -78,7 +82,7 @@ export function getStoneGroup(board: BoardState, x: number, y: number): StoneGro
         liberties++;
       } else if (bpt === color && !pointsChecked[bptId]) {
         pointsChecked[bptId] = true;
-        pointsToCheck.push({y: pt.y, x: pt.x - 1});
+        pointsToCheck.push({ y: pt.y, x: pt.x - 1 });
       }
     }
     if (pt.x < size - 1) {
@@ -88,7 +92,7 @@ export function getStoneGroup(board: BoardState, x: number, y: number): StoneGro
         liberties++;
       } else if (bpt === color && !pointsChecked[bptId]) {
         pointsChecked[bptId] = true;
-        pointsToCheck.push({y: pt.y, x: pt.x + 1});
+        pointsToCheck.push({ y: pt.y, x: pt.x + 1 });
       }
     }
   }
@@ -120,21 +124,36 @@ function removeDeadStonesAround(board: BoardState, x: number, y: number) {
   // Below
   if (y < size - 1) {
     let group = getStoneGroup(board, x, y + 1);
-    if (group && group.color === oppositeColor && !group.liberties && !groups[group.id]) {
+    if (
+      group &&
+      group.color === oppositeColor &&
+      !group.liberties &&
+      !groups[group.id]
+    ) {
       groups[group.id] = group;
     }
   }
   // Left
   if (x > 0) {
     let group = getStoneGroup(board, x - 1, y);
-    if (group && group.color === oppositeColor && !group.liberties && !groups[group.id]) {
+    if (
+      group &&
+      group.color === oppositeColor &&
+      !group.liberties &&
+      !groups[group.id]
+    ) {
       groups[group.id] = group;
     }
   }
   // Right
   if (x < size - 1) {
     let group = getStoneGroup(board, x + 1, y);
-    if (group && group.color === oppositeColor && !group.liberties && !groups[group.id]) {
+    if (
+      group &&
+      group.color === oppositeColor &&
+      !group.liberties &&
+      !groups[group.id]
+    ) {
       groups[group.id] = group;
     }
   }

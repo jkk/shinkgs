@@ -1,7 +1,7 @@
 // @flow
 import uuidV4 from 'uuid/v4';
-import {isTempId} from './tempId';
-import {InvariantError} from '../util/error';
+import { isTempId } from './tempId';
+import { InvariantError } from '../util/error';
 import type {
   AppState,
   KgsMessage,
@@ -34,30 +34,38 @@ export function handleConversationMessage(
   msg: KgsMessage
 ): AppState {
   let chanId = msg.channelId;
-  if ((msg.type === 'CONVO_JOIN' || msg.type === 'ROOM_JOIN' || msg.type === 'CHALLENGE_JOIN') && chanId) {
-    let conversationsById: Index<Conversation> = {...prevState.conversationsById};
+  if (
+    (msg.type === 'CONVO_JOIN' ||
+      msg.type === 'ROOM_JOIN' ||
+      msg.type === 'CHALLENGE_JOIN') &&
+    chanId
+  ) {
+    let conversationsById: Index<Conversation> = {
+      ...prevState.conversationsById
+    };
     let convo = createConversation(msg);
 
     let tempConvoId;
     if (msg.callbackKey) {
-      tempConvoId = Object.keys(conversationsById).find(cid =>
-        isTempId(conversationsById[cid].id) &&
-        conversationsById[cid].callbackKey === msg.callbackKey
+      tempConvoId = Object.keys(conversationsById).find(
+        cid =>
+          isTempId(conversationsById[cid].id) &&
+          conversationsById[cid].callbackKey === msg.callbackKey
       );
       if (tempConvoId) {
         tempConvoId = parseInt(tempConvoId, 10);
-        convo = {...conversationsById[tempConvoId], ...convo};
+        convo = { ...conversationsById[tempConvoId], ...convo };
         delete conversationsById[tempConvoId];
       }
     }
     conversationsById[chanId] = convo;
 
-    let nextState = {...prevState, conversationsById};
+    let nextState = { ...prevState, conversationsById };
 
     // Channel membership
     if (msg.type === 'CONVO_JOIN') {
-      let chanMem: ChannelMembership = {...prevState.channelMembership};
-      chanMem[chanId] = {type: 'conversation', complete: false, stale: false};
+      let chanMem: ChannelMembership = { ...prevState.channelMembership };
+      chanMem[chanId] = { type: 'conversation', complete: false, stale: false };
       if (tempConvoId) {
         delete chanMem[tempConvoId];
       }
@@ -72,8 +80,15 @@ export function handleConversationMessage(
     }
 
     return nextState;
-  } else if ((msg.type === 'CHAT' || msg.type === 'ANNOUNCE' || msg.type === 'MODERATED_CHAT') && chanId) {
-    let conversationsById: Index<Conversation> = {...prevState.conversationsById};
+  } else if (
+    (msg.type === 'CHAT' ||
+      msg.type === 'ANNOUNCE' ||
+      msg.type === 'MODERATED_CHAT') &&
+    chanId
+  ) {
+    let conversationsById: Index<Conversation> = {
+      ...prevState.conversationsById
+    };
     if (!conversationsById[chanId]) {
       conversationsById[chanId] = createConversation(msg);
     }
@@ -94,13 +109,14 @@ export function handleConversationMessage(
       convoMsg.sending = true;
       messages = [...conversationsById[chanId].messages];
     } else {
-      let matchingMsg = conversationsById[chanId].messages.find(m =>
-        m.sending && m.body === convoMsg.body && m.sender === convoMsg.sender
+      let matchingMsg = conversationsById[chanId].messages.find(
+        m =>
+          m.sending && m.body === convoMsg.body && m.sender === convoMsg.sender
       );
       if (matchingMsg) {
         let matchingId = matchingMsg.id;
-        messages = conversationsById[chanId].messages.filter(m =>
-          m.id !== matchingId
+        messages = conversationsById[chanId].messages.filter(
+          m => m.id !== matchingId
         );
         convoMsg.date = matchingMsg.date;
       } else {
@@ -112,15 +128,14 @@ export function handleConversationMessage(
       ...conversationsById[chanId],
       messages
     };
-    let isUnseen = (
+    let isUnseen =
       prevState.nav !== 'chat' ||
-      prevState.activeConversationId !== newConvo.id
-    );
+      prevState.activeConversationId !== newConvo.id;
     if (isUnseen) {
       newConvo.unseenCount = (newConvo.unseenCount || 0) + 1;
     }
     conversationsById[chanId] = newConvo;
-    return {...prevState, conversationsById};
+    return { ...prevState, conversationsById };
   } else if (msg.type === 'ANNOUNCEMENT') {
     // Global announcement - add to all conversations
     let convoMsg: ConversationMessage = {
@@ -130,25 +145,29 @@ export function handleConversationMessage(
       date: new Date(),
       announcement: true
     };
-    let conversationsById: Index<Conversation> = {...prevState.conversationsById};
+    let conversationsById: Index<Conversation> = {
+      ...prevState.conversationsById
+    };
     for (let convoId of Object.keys(conversationsById)) {
       conversationsById[convoId] = {
         ...conversationsById[convoId],
         messages: [...conversationsById[convoId].messages, convoMsg]
       };
     }
-    return {...prevState, conversationsById};
+    return { ...prevState, conversationsById };
   } else if (msg.type === 'CONVO_NO_SUCH_USER') {
     // TODO
   } else if (msg.type === 'CLOSE_CONVERSATION') {
     let convoId = msg.conversationId;
-    let conversationsById: Index<Conversation> = {...prevState.conversationsById};
+    let conversationsById: Index<Conversation> = {
+      ...prevState.conversationsById
+    };
     if (conversationsById[convoId]) {
       conversationsById[convoId] = {
         ...conversationsById[convoId],
         status: 'closed'
       };
-      let nextState = {...prevState, conversationsById};
+      let nextState = { ...prevState, conversationsById };
       if (prevState.activeConversationId === convoId) {
         nextState.activeConversationId = null;
       }
@@ -161,14 +180,16 @@ export function handleConversationMessage(
     };
   } else if (msg.type === 'SAW_CONVERSATION') {
     let convoId = msg.conversationId;
-    let conversationsById: Index<Conversation> = {...prevState.conversationsById};
+    let conversationsById: Index<Conversation> = {
+      ...prevState.conversationsById
+    };
     if (conversationsById[convoId]) {
       conversationsById[convoId] = {
         ...conversationsById[convoId],
         lastSeen: Date.now(),
         unseenCount: 0
       };
-      return {...prevState, conversationsById};
+      return { ...prevState, conversationsById };
     }
   }
   return prevState;

@@ -1,13 +1,12 @@
 // @flow
 
-export type AuthLevel = (
-  'normal' |
-  'robot_ranked' |
-  'teacher' |
-  'jr_admin' |
-  'sr_admin' |
-  'super_admin'
-);
+export type AuthLevel =
+  | 'normal'
+  | 'robot_ranked'
+  | 'teacher'
+  | 'jr_admin'
+  | 'sr_admin'
+  | 'super_admin';
 
 export type UserFlags = {
   guest?: boolean,
@@ -57,17 +56,16 @@ export type UnparsedUser = {
   authLevel?: AuthLevel
 };
 
-export type RoomCategory = (
-  'MAIN' |
-  'NATIONAL' |
-  'TOURNAMENT' |
-  'FRIENDLY' |
-  'SPECIAL' |
-  'LESSONS' |
-  'CLUBS' |
-  'TEMPORARY' |
-  'OTHER'
-);
+export type RoomCategory =
+  | 'MAIN'
+  | 'NATIONAL'
+  | 'TOURNAMENT'
+  | 'FRIENDLY'
+  | 'SPECIAL'
+  | 'LESSONS'
+  | 'CLUBS'
+  | 'TEMPORARY'
+  | 'OTHER';
 
 export type Room = {
   id: number,
@@ -102,18 +100,17 @@ export type Conversation = {
   status: 'pending' | 'created' | 'userNotFound' | 'closed'
 };
 
-export type GameType = (
-  'challenge' |
-  'demonstration' |
-  'review' |
-  'rengo_review' |
-  'teaching' |
-  'simul' |
-  'rengo' |
-  'free' |
-  'ranked' |
-  'tournament'
-);
+export type GameType =
+  | 'challenge'
+  | 'demonstration'
+  | 'review'
+  | 'rengo_review'
+  | 'teaching'
+  | 'simul'
+  | 'rengo'
+  | 'free'
+  | 'ranked'
+  | 'tournament';
 
 export type GameRuleSet = 'japanese' | 'chinese' | 'aga' | 'new_zealand';
 
@@ -129,14 +126,13 @@ export type GameRules = {
   byoYomiStones?: number
 };
 
-export type GameRole = (
-  'black' |
-  'white' |
-  'black_2' |
-  'white_2' |
-  'challengeCreator' |
-  'owner'
-);
+export type GameRole =
+  | 'black'
+  | 'white'
+  | 'black_2'
+  | 'white_2'
+  | 'challengeCreator'
+  | 'owner';
 
 export type PlayerColor = 'white' | 'black';
 
@@ -146,12 +142,7 @@ export type GameProposalPlayer = {
   name?: string
 };
 
-export type GameProposalStatus = (
-  'setup' |
-  'pending' |
-  'accepted' |
-  'declined'
-);
+export type GameProposalStatus = 'setup' | 'pending' | 'accepted' | 'declined';
 
 export type GameProposal = {
   gameType: GameType,
@@ -168,20 +159,19 @@ export type ProposalEditMode = 'creating' | 'negotiating' | 'waiting';
 
 // Scores may be a floating point number, or a string. Numbers indicate the
 // score difference (positive a black win, negative a white win).
-export type GameScore = (
-  number |
-  'UNKNOWN' |
-  'UNFINISHED' |
-  'NO_RESULT' |
-  'B+RESIGN' |
-  'W+RESIGN' |
-  'B+FORFEIT' |
-  'W+FORFEIT' |
-  'B+TIME' |
-  'W+TIME'
-);
+export type GameScore =
+  | number
+  | 'UNKNOWN'
+  | 'UNFINISHED'
+  | 'NO_RESULT'
+  | 'B+RESIGN'
+  | 'W+RESIGN'
+  | 'B+FORFEIT'
+  | 'W+FORFEIT'
+  | 'B+TIME'
+  | 'W+TIME';
 
-export type GamePlayers = {[role: GameRole]: User};
+export type GamePlayers = { [role: GameRole]: User };
 
 export type GameSummary = {
   timestamp: string, // unique identifier
@@ -196,7 +186,7 @@ export type GameSummary = {
 };
 
 export type RankGraph = {
-  data: {series: Array<{x: Date, y: number}>},
+  data: { series: Array<{ x: Date, y: number }> },
   months: Array<string>
 };
 
@@ -208,19 +198,18 @@ export type ClockState = {
   stonesLeft?: number
 };
 
-export type GameAction = (
-  'MOVE' |
-  'EDIT' |
-  'SCORE' |
-  'CHALLENGE_CREATE' |
-  'CHALLENGE_SETUP' |
-  'CHALLENGE_WAIT' |
-  'CHALLENGE_ACCEPT' |
-  'CHALLENGE_SUBMITTED' |
-  'EDIT_DELAY'
-);
+export type GameAction =
+  | 'MOVE'
+  | 'EDIT'
+  | 'SCORE'
+  | 'CHALLENGE_CREATE'
+  | 'CHALLENGE_SETUP'
+  | 'CHALLENGE_WAIT'
+  | 'CHALLENGE_ACCEPT'
+  | 'CHALLENGE_SUBMITTED'
+  | 'EDIT_DELAY';
 
-export type Point = {x: number, y: number};
+export type Point = { x: number, y: number };
 
 export type SgfEventType = string;
 
@@ -238,38 +227,41 @@ export type SgfProp = {
   int?: number
 };
 
-export type SgfEvent = (
-  {type: 'PROP_ADDED', nodeId: number, prop: SgfProp} |
-  {type: 'PROP_REMOVED', nodeId: number, prop: SgfProp} |
-  {type: 'PROP_CHANGED', nodeId: number, prop: SgfProp} |
-  {type: 'CHILDREN_REORDERED', nodeId: number, children: Array<number>} |
-  {type: 'CHILD_ADDED', nodeId: number, childNodeId: number, position?: number} |
-  {type: 'PROP_GROUP_ADDED', nodeId: number, props: Array<SgfProp>} |
-  {type: 'PROP_GROUP_REMOVED', nodeId: number, props: Array<SgfProp>} |
-  {type: 'ACTIVATED', nodeId: number, prevNodeId: number} |
-  {type: 'POINTER_MOVED', nodeId: number, x: number, y: number} |
-  {type: 'TIMESTAMP', nodeId: number, time: number} |
-  {type: 'SPEEX_FPP', nodeId: number, fpp: number} |
-  {type: 'SPEEX_MUTE_CHANGED', nodeId: number, mute: boolean} |
-  {type: 'SPEEX_DATA', nodeId: number, data: string}
-);
+export type SgfEvent =
+  | { type: 'PROP_ADDED', nodeId: number, prop: SgfProp }
+  | { type: 'PROP_REMOVED', nodeId: number, prop: SgfProp }
+  | { type: 'PROP_CHANGED', nodeId: number, prop: SgfProp }
+  | { type: 'CHILDREN_REORDERED', nodeId: number, children: Array<number> }
+  | {
+      type: 'CHILD_ADDED',
+      nodeId: number,
+      childNodeId: number,
+      position?: number
+    }
+  | { type: 'PROP_GROUP_ADDED', nodeId: number, props: Array<SgfProp> }
+  | { type: 'PROP_GROUP_REMOVED', nodeId: number, props: Array<SgfProp> }
+  | { type: 'ACTIVATED', nodeId: number, prevNodeId: number }
+  | { type: 'POINTER_MOVED', nodeId: number, x: number, y: number }
+  | { type: 'TIMESTAMP', nodeId: number, time: number }
+  | { type: 'SPEEX_FPP', nodeId: number, fpp: number }
+  | { type: 'SPEEX_MUTE_CHANGED', nodeId: number, mute: boolean }
+  | { type: 'SPEEX_DATA', nodeId: number, data: string };
 
-export type BoardPointMark = (
-  'whiteTerritory' |
-  'blackTerritory' |
-  'triangle' |
-  'square' |
-  'circle' |
-  'cross' |
-  'dead' |
-  'active' |
-  'pendingWhite' |
-  'pendingBlack'
-);
+export type BoardPointMark =
+  | 'whiteTerritory'
+  | 'blackTerritory'
+  | 'triangle'
+  | 'square'
+  | 'circle'
+  | 'cross'
+  | 'dead'
+  | 'active'
+  | 'pendingWhite'
+  | 'pendingBlack';
 
 export type BoardMarkup = {
-  marks: {[y: number]: {[x: number]: BoardPointMark}},
-  labels: {[y: number]: {[x: number]: ?string}}
+  marks: { [y: number]: { [x: number]: BoardPointMark } },
+  labels: { [y: number]: { [x: number]: ?string } }
 };
 
 export type BoardState = Array<Array<?PlayerColor>>; // y[x]
@@ -287,11 +279,7 @@ export class GameNode {
   props: Array<SgfProp>;
   children: Array<number>;
   parent: ?number;
-  constructor(
-    props: Array<SgfProp>,
-    children: Array<number>,
-    parent: ?number
-  ) {
+  constructor(props: Array<SgfProp>, children: Array<number>, parent: ?number) {
     this.props = props;
     this.children = children;
     this.parent = parent;
@@ -336,8 +324,8 @@ export type GameChannel = {
   observers?: number,
   name?: string,
   score?: GameScore,
-  actions?: Array<{action: GameAction, user: UnparsedUser}>,
-  clocks?: {[role: GameRole]: ClockState},
+  actions?: Array<{ action: GameAction, user: UnparsedUser }>,
+  clocks?: { [role: GameRole]: ClockState },
   whiteDoneSent?: boolean,
   blackDoneSent?: boolean,
   whiteScore?: boolean,
@@ -375,15 +363,14 @@ export type GameChatSection = {
   messages: Array<ConversationMessage>
 };
 
-export type ChannelType = (
-  'room' |
-  'gameList' |
-  'game' |
-  'conversation' |
-  'challenge' |
-  'archive' |
-  'details'
-);
+export type ChannelType =
+  | 'room'
+  | 'gameList'
+  | 'game'
+  | 'conversation'
+  | 'challenge'
+  | 'archive'
+  | 'details';
 
 export type ChannelMembership = {
   [channelId: string | number]: {
@@ -440,8 +427,8 @@ export type Preferences = {
 
 // Some unfinished games we get from the archive, some from game lists
 export type UnfinishedGame =
-  {type: 'channel', game: GameChannel} |
-  {type: 'summary', game: GameSummary};
+  | { type: 'channel', game: GameChannel }
+  | { type: 'summary', game: GameSummary };
 
 export type AppState = {
   +clientState: KgsClientState,
@@ -476,7 +463,7 @@ export type AppState = {
   +showFeedbackModal: boolean
 };
 
-export type KgsMessage = (
+export type KgsMessage =
   // TODO - exhaustive types
   // {
   //   type: 'CHAT' | 'ANNOUNCE' | 'MODERATED_CHAT',
@@ -490,10 +477,9 @@ export type KgsMessage = (
     type: string,
     channelId?: number,
     [key: string]: any
-  }
-);
+  };
 
 export type MessageDispatcher = (
   msgs: KgsMessage | Array<KgsMessage>,
-  callback?: AppState => any
+  callback?: (AppState) => any
 ) => any;

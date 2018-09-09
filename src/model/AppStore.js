@@ -3,7 +3,6 @@ import { get, set } from 'idb-keyval';
 import type { AppState, KgsMessage } from './types';
 
 export class AppStore {
-
   _state: { appState: AppState };
   _handler: (state: AppState, msg: KgsMessage) => any;
   _subscriber: ?Function;
@@ -37,26 +36,26 @@ export class AppStore {
       let clonedMsgs: Array<KgsMessage> = JSON.parse(JSON.stringify(msgs));
       this._recordedMessages.push(...clonedMsgs);
     }
-  }
+  };
 
   subscribe = (f: Function) => {
     if (this._subscriber) {
       throw new Error('Only one subscriber allowed');
     }
     this._subscriber = f;
-  }
+  };
 
   unsubscribe = () => {
     this._subscriber = null;
-  }
+  };
 
   setState = (nextState: AppState) => {
     this._state.appState = nextState;
-  }
+  };
 
   getState = () => {
     return this._state.appState;
-  }
+  };
 
   saveState = (saveKey: string, prepareSavedState?: AppState => AppState) => {
     let saveState = { ...this.getState(), savedAt: new Date() };
@@ -67,39 +66,40 @@ export class AppStore {
       console.log('Saving app state...', { state: saveState });
     }
     set(saveKey, saveState);
-  }
+  };
 
   restoreSavedState = (saveKey: string, done: AppState => any) => {
     let prevState = this.getState();
-    get(saveKey).then(savedAppState => {
-      if (this._debug) {
-        console.log('Restoring saved app state...', savedAppState);
-      }
-      if (savedAppState) {
-        this.setState(savedAppState);
-      }
-      done(this.getState());
-    }).catch(err => {
-      if (!navigator.userAgent.includes('jsdom')) {
-        console.warn('Unable to restore saved app state: ', err);
-        // Revert everything, just in case we errored out in a sync render due
-        // to bad app state data
-      }
-      if (prevState) {
-        this.setState(prevState);
-      }
-      done(this.getState());
-    });
-  }
+    get(saveKey)
+      .then(savedAppState => {
+        if (this._debug) {
+          console.log('Restoring saved app state...', savedAppState);
+        }
+        if (savedAppState) {
+          this.setState(savedAppState);
+        }
+        done(this.getState());
+      })
+      .catch(err => {
+        if (!navigator.userAgent.includes('jsdom')) {
+          console.warn('Unable to restore saved app state: ', err);
+          // Revert everything, just in case we errored out in a sync render due
+          // to bad app state data
+        }
+        if (prevState) {
+          this.setState(prevState);
+        }
+        done(this.getState());
+      });
+  };
 
   startRecording = () => {
     this._recordedMessages = [];
     this._recording = true;
-  }
+  };
 
   stopRecording = () => {
     this._recording = false;
     return this._recordedMessages;
-  }
-
+  };
 }

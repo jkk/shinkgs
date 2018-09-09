@@ -1,12 +1,12 @@
 // @flow
-import type {AppState, KgsMessage} from './types';
-import {handleSessionMessage} from './session';
-import {handleRoomMessage} from './room';
-import {handleGameMessage} from './game';
-import {handleUserMessage} from './user';
-import {handleChannelMessage} from './channel';
-import {handleConversationMessage} from './conversation';
-import {handlePlaybackMessage} from './playback';
+import type { AppState, KgsMessage } from './types';
+import { handleSessionMessage } from './session';
+import { handleRoomMessage } from './room';
+import { handleGameMessage } from './game';
+import { handleUserMessage } from './user';
+import { handleChannelMessage } from './channel';
+import { handleConversationMessage } from './conversation';
+import { handlePlaybackMessage } from './playback';
 
 export * from './types';
 export * from './appState';
@@ -16,11 +16,11 @@ export * from './KgsClient';
 
 // Message types we at least sometimes ignore
 const IGNORED_MESSAGE_TYPES = {
-  'GAME_CONTAINER_REMOVE_GAME': true,
-  'GAME_OVER': true,
-  'GAME_TIME_EXPIRED': true,
-  'CHALLENGE_CREATED': true,
-  'SYNC': true
+  GAME_CONTAINER_REMOVE_GAME: true,
+  GAME_OVER: true,
+  GAME_TIME_EXPIRED: true,
+  CHALLENGE_CREATED: true,
+  SYNC: true
 };
 
 export function handleMessage(prevState: AppState, msg: KgsMessage): AppState {
