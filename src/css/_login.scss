@@ -51,10 +51,12 @@
     opacity: 1;
     transform: translateY(0) rotate(0);
   }
+
   .LoginScreen-title-text {
     opacity: 1;
     transform: translateY(0);
   }
+
   .LoginScreen-title-text-beta {
     opacity: 1;
     transform: scale(1);
@@ -64,17 +66,21 @@
 .LoginScreen-form {
   position: relative;
   text-align: left;
-  input[type=text], input[type=password] {
+
+  input[type=text],
+  input[type=password] {
     width: 100%;
     // margin: 0 0 5px 0;
     border: none;
     border-radius: 0;
     padding: 12px;
+
     &:nth-child(1) {
       border-bottom: 1px solid #ddd;
       border-top-left-radius: 4px;
       border-top-right-radius: 4px;
     }
+
     &:nth-child(2) {
       border-bottom-left-radius: 4px;
       border-bottom-right-radius: 4px;
@@ -97,6 +103,7 @@
   font-size: 14px;
   color: $muted;
   margin: 5px 0 10px 0;
+
   .CheckboxInput label:before {
     background: #444;
     border: 1px solid $semi-muted;
@@ -106,9 +113,11 @@
 
 .LoginScreen-form-button {
   margin: 10px 0 0 0;
+
   .Button {
     padding: 10px 35px;
   }
+
   .Button-loading {
     padding: 10px 20px;
   }
@@ -121,8 +130,10 @@
   // bottom: 30px;
   font-size: 14px;
   color: $very-muted;
+
   a {
     color: $semi-muted;
+
     &:active {
       color: $content-fg;
     }
@@ -130,7 +141,9 @@
 }
 
 .no-touch .LoginScreen-help a {
-  &:hover, &:focus {
+
+  &:hover,
+  &:focus {
     color: $content-fg;
   }
 }
@@ -149,8 +162,10 @@
   padding: 20px 0 80px 0;
   font-size: 14px;
   color: $very-muted;
+
   a {
     color: $semi-muted;
+
     &:active {
       color: $content-fg;
     }
@@ -158,7 +173,9 @@
 }
 
 .no-touch .LoginScreen-footer a {
-  &:hover, &:focus {
+
+  &:hover,
+  &:focus {
     color: $content-fg;
   }
 }

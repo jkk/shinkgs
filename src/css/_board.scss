@@ -69,7 +69,6 @@
 }
 
 .Board-size-19 {
-
   .Board-grid-lines-y {
     width: (100% - (100% / 19));
     left: (100% / 19 / 2.1);
@@ -107,6 +106,7 @@
     height: (100% / 19);
     // border-bottom: 1px solid $board-border;
     box-sizing: border-box;
+
     .Board-coord-label {
       display: inline-block;
       width: (100% / 19);
@@ -129,6 +129,7 @@
     // line-height: 1;
     // border-bottom: 1px solid $board-border;
     box-sizing: border-box;
+
     .Board-coord-label {
       padding-top: 25%;
     }
@@ -207,7 +208,6 @@
 }
 
 .Board-size-9 {
-
   .Board-grid-lines-y {
     width: (100% - (100% / 9));
     left: (100% / 9 / 2.1);
@@ -245,6 +245,7 @@
     height: (100% / 9);
     // border-bottom: 1px solid $board-border;
     box-sizing: border-box;
+
     .Board-coord-label {
       display: inline-block;
       width: (100% / 9);
@@ -267,6 +268,7 @@
     // line-height: 1;
     // border-bottom: 1px solid $board-border;
     box-sizing: border-box;
+
     .Board-coord-label {
       padding-top: 25%;
     }
@@ -345,7 +347,6 @@
 }
 
 .Board-size-13 {
-
   .Board-grid-lines-y {
     width: (100% - (100% / 13));
     left: (100% / 13 / 2.1);
@@ -383,6 +384,7 @@
     height: (100% / 13);
     // border-bottom: 1px solid $board-border;
     box-sizing: border-box;
+
     .Board-coord-label {
       display: inline-block;
       width: (100% / 13);
@@ -405,6 +407,7 @@
     // line-height: 1;
     // border-bottom: 1px solid $board-border;
     box-sizing: border-box;
+
     .Board-coord-label {
       padding-top: 25%;
     }
@@ -484,6 +487,7 @@
 
 .no-touch .Board-clickable .Board-stone-slot:hover {
   cursor: pointer;
+
   &:after {
     content: " ";
     position: absolute;
@@ -506,6 +510,7 @@
   text-align: center;
   line-height: 0;
   z-index: 2;
+
   &:after {
     content: " ";
     position: absolute;
@@ -529,6 +534,7 @@
   bottom: 0;
   text-align: center;
   line-height: 0;
+
   // padding-top: 50%;
   &:before {
     content: " ";
@@ -548,6 +554,7 @@
   &:before {
     background-color: #e8e8e8;
   }
+
   &:after {
     content: " ";
     position: absolute;
@@ -557,7 +564,7 @@
     height: 85%;
     border-radius: 100%;
     z-index: 1;
-    background: radial-gradient(ellipse at center, rgba(255,255,255,1) 20%,rgba(255,255,255,0) 70%);
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 20%, rgba(255, 255, 255, 0) 70%);
   }
 }
 
@@ -566,6 +573,7 @@
   &:before {
     background-color: $stone-black;
   }
+
   &:after {
     content: " ";
     position: absolute;
@@ -575,7 +583,7 @@
     height: 80%;
     border-radius: 100%;
     z-index: 1;
-    background: radial-gradient(ellipse at center, rgba(#505050, 1) 10%,rgba(#505050,0) 55%);
+    background: radial-gradient(ellipse at center, rgba(#505050, 1) 10%, rgba(#505050, 0) 55%);
   }
 }
 
@@ -619,6 +627,7 @@
   color: $board-mark;
   font-weight: bold;
   font-size: 16px;
+
   &:before {
     content: "▵";
   }
@@ -635,6 +644,7 @@
   color: $board-mark;
   font-weight: bold;
   font-size: 16px;
+
   &:before {
     content: "×";
   }
@@ -642,6 +652,7 @@
 
 .Board-stone-mark-whiteTerritory {
   z-index: 3;
+
   &:after {
     content: " ";
     position: absolute;
@@ -656,6 +667,7 @@
 
 .Board-stone-mark-blackTerritory {
   z-index: 3;
+
   &:after {
     content: " ";
     position: absolute;
@@ -708,6 +720,7 @@
   transform: rotate(-45deg);
   border-radius: 50%;
   box-shadow: -1px 2px 2px rgba(#000, 0.3);
+
   .NigiriIcon-black,
   .NigiriIcon-white {
     position: absolute;
@@ -718,23 +731,27 @@
     overflow: hidden;
     // clip-path: inset(10px 20px 30px 40px);
   }
+
   .NigiriIcon-black-inner,
   .NigiriIcon-white-inner {
     position: relative;
     height: 200%;
   }
+
   .NigiriIcon-white {
     top: auto;
     bottom: 0;
     transform: rotate(180deg);
     // clip-path: inset(30px 40px 10px 20px);
   }
+
   .Board-stone:before {
     box-shadow: none;
   }
 }
 
 @media only screen and (max-width: 999px) {
+
   .Board-stone-label,
   .Board-stone-mark-cross,
   .Board-stone-mark-triangle {
@@ -743,6 +760,7 @@
 }
 
 @media only screen and (max-width: 850px) {
+
   .Board-stone-label,
   .Board-stone-mark-cross,
   .Board-stone-mark-triangle {
@@ -752,6 +770,7 @@
 }
 
 @media only screen and (max-width: 440px) {
+
   .Board-stone-label,
   .Board-stone-mark-cross,
   .Board-stone-mark-triangle {
@@ -768,6 +787,7 @@
   text-align: center;
   line-height: 0;
   z-index: 3;
+
   // padding-top: 50%;
   &:after {
     content: " ";
