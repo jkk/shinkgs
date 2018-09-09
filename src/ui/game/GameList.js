@@ -86,7 +86,7 @@ class GameListItem extends Component<> {
   }
 }
 
-export default class GameList extends Component<$FlowFixMeState> {
+export default class GameList extends Component<> {
   static defaultProps: {
     games: Array<GameChannel>,
     filter?: GameFilter,

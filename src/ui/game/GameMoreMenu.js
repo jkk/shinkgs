@@ -1,18 +1,18 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
-import {A, Icon} from '../common';
-import {getKgsSgfUrl, formatGameScore} from '../../model/game';
-import {isAncestor} from '../../util/dom';
+import React, { PureComponent as Component } from 'react';
+import { A, Icon } from '../common';
+import { getKgsSgfUrl, formatGameScore } from '../../model/game';
+import { isAncestor } from '../../util/dom';
 import type {
   GameChannel,
-  AppActions,
-  Index, Room,
-  GameNode,
-  SgfProp
+    AppActions,
+    Index, Room,
+    GameNode,
+    SgfProp
 } from '../../model';
 import GameInfo from './GameInfo';
-import {Modal} from '../common';
-import {formatLocaleDateTime} from '../../util/date';
+import { Modal } from '../common';
+import { formatLocaleDateTime } from '../../util/date';
 
 const MORE_INFO_PROPS: { [string]: string } = {
   ANNOTATOR: 'Annotator',
@@ -25,7 +25,7 @@ const MORE_INFO_PROPS: { [string]: string } = {
   TRANSCRIBER: 'Transcriber',
 };
 
-export default class GameMoreMenu extends Component<$FlowFixMeState> {
+export default class GameMoreMenu extends Component<> {
   static defaultProps: {
     game: GameChannel,
     actions: AppActions,
@@ -42,7 +42,7 @@ export default class GameMoreMenu extends Component<$FlowFixMeState> {
   _onDocumentClick = (e: Object) => {
     if (this.state.moreShowing && this._moreEl) {
       if (e.target !== this._moreEl && !isAncestor(e.target, this._moreEl)) {
-        this.setState({moreShowing: false});
+        this.setState({ moreShowing: false });
       }
     }
   }
@@ -56,8 +56,8 @@ export default class GameMoreMenu extends Component<$FlowFixMeState> {
   }
 
   render() {
-    let {game, roomsById} = this.props;
-    let {moreShowing, gameInfoShowing} = this.state;
+    let { game, roomsById } = this.props;
+    let { moreShowing, gameInfoShowing } = this.state;
     let sgfUrl = game.summary ? getKgsSgfUrl(game.summary) : '#';
     let eidogoUrl = 'http://eidogo.com/#url:' + sgfUrl;
     let gokibitzUrl = 'https://gokibitz.com/fetch#' + sgfUrl;
@@ -70,7 +70,7 @@ export default class GameMoreMenu extends Component<$FlowFixMeState> {
             <th>Size</th>
             <td>{`${game.rules.size} x ${game.rules.size}`}</td>
           </tr>
-        : null}
+          : null}
         <tr>
           <th key='gameid'>ID</th>
           <td>{game.id}</td>
@@ -84,7 +84,7 @@ export default class GameMoreMenu extends Component<$FlowFixMeState> {
             <th>Result</th>
             <td>{formatGameScore(game.score)}</td>
           </tr>
-        : null}
+          : null}
         {moreInfoRows}
       </GameInfo>
     );
@@ -120,7 +120,7 @@ export default class GameMoreMenu extends Component<$FlowFixMeState> {
               {gameInfo}
             </div>
           </Modal>
-        : null}
+          : null}
       </div>
     );
   }
@@ -147,10 +147,10 @@ export default class GameMoreMenu extends Component<$FlowFixMeState> {
   }
 
   _onToggleDropdown = () => {
-    this.setState({moreShowing: !this.state.moreShowing});
+    this.setState({ moreShowing: !this.state.moreShowing });
   }
 
   _onToggleGameInfo = () => {
-    this.setState({gameInfoShowing: !this.state.gameInfoShowing});
+    this.setState({ gameInfoShowing: !this.state.gameInfoShowing });
   }
 }

@@ -10,11 +10,9 @@ import {
   KgsClient,
   AppActions
 } from './model';
-import type { AppState, KgsClientState, NavOption} from './model';
+import type { KgsClientState, NavOption} from './model';
 
-class App extends Component<{
-  appState: AppState
-}> {
+class App extends Component<> {
   static defaultProps: any;
   _store: AppStore;
   _client: KgsClient;

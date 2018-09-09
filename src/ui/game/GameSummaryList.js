@@ -71,7 +71,7 @@ class GameSummaryListItem extends Component<> {
   }
 }
 
-export default class GameSummaryList extends Component<$FlowFixMeState> {
+export default class GameSummaryList extends Component<> {
   static defaultProps: {
     games: Array<GameSummary>,
     player?: string,

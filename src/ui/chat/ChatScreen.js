@@ -1,24 +1,16 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from 'react';
 import ChatRoomList from './ChatRoomList';
 import ChatUnseenBadge from './ChatUnseenBadge';
 import RoomChat from './RoomChat';
 import UserChat from './UserChat';
-import {A, Icon, Modal} from '../common';
+import { A, Icon, Modal } from '../common';
 import UserName from '../user/UserName';
 import UserList from '../user/UserList';
-import {sortUsers, getUserStatusText} from '../../model/user';
-import {isMobileScreen} from '../../util/dom';
-import {InvariantError} from '../../util/error';
-import type {
-  Room,
-  User,
-  Conversation,
-  Index,
-  ChannelMembership,
-  GameChannel,
-  AppActions
-} from '../../model';
+import { sortUsers, getUserStatusText } from '../../model/user';
+import { isMobileScreen } from '../../util/dom';
+import { InvariantError } from '../../util/error';
+import type { Room, User, Conversation, Index, ChannelMembership, GameChannel, AppActions } from '../../model';
 
 class ChatTab extends Component<> {
   static defaultProps: {
@@ -60,7 +52,7 @@ class ChatTab extends Component<> {
             {conversation.unseenCount ?
               <div className='ChatScreen-tab-badge'>
                 <ChatUnseenBadge
-                  conversationsById={{[conversation.id]: conversation}} />
+                  conversationsById={{ [conversation.id]: conversation }} />
               </div> : null}
             {label}
           </div>
@@ -190,7 +182,7 @@ type State = {
   showingRoomList?: ?boolean
 };
 
-export default class ChatScreen extends Component<State> {
+export default class ChatScreen extends Component<> {
   static defaultProps: Props;
   state: State = this._getState(this.props);
 
@@ -252,7 +244,7 @@ export default class ChatScreen extends Component<State> {
   }
 
   _setScroll() {
-    let {activeConv} = this.state;
+    let { activeConv } = this.state;
     if (activeConv && activeConv.messages.length && document.documentElement) {
       // Hack to scroll div or window depending on if we're on mobile or not
       if (this._messagesDiv && !isMobileScreen()) {
@@ -267,18 +259,18 @@ export default class ChatScreen extends Component<State> {
   }
 
   componentDidUpdate(nextProps: Props) {
-   let nextState = this._getState(nextProps);
-   let nextConvId = nextState.activeConversationId;
-   let thisConvId = this.state.activeConversationId;
-   let nextLen = nextState.activeConv && nextState.activeConv.messages.length;
-   let thisLen = this.state.activeConv && this.state.activeConv.messages.length;
-   // TODO - check games
-   this.setState(nextState, () => {
-     if (nextConvId !== thisConvId || (nextLen || 0) > (thisLen || 0)) {
-       this._setScroll();
-     }
-   });
- }
+    let nextState = this._getState(nextProps);
+    let nextConvId = nextState.activeConversationId;
+    let thisConvId = this.state.activeConversationId;
+    let nextLen = nextState.activeConv && nextState.activeConv.messages.length;
+    let thisLen = this.state.activeConv && this.state.activeConv.messages.length;
+    // TODO - check games
+    this.setState(nextState, () => {
+      if (nextConvId !== thisConvId || (nextLen || 0) > (thisLen || 0)) {
+        this._setScroll();
+      }
+    });
+  }
 
   componentDidMount() {
     this._setScroll();
@@ -434,7 +426,7 @@ export default class ChatScreen extends Component<State> {
   }
 
   _onSelectConversation = (conversationId: number) => {
-    this.setState({showingList: false});
+    this.setState({ showingList: false });
     this.props.actions.onSelectConversation(conversationId);
   }
 
@@ -443,7 +435,7 @@ export default class ChatScreen extends Component<State> {
   }
 
   _onSendChat = (body: string) => {
-    let {activeConversationId, activeUser} = this.state;
+    let { activeConversationId, activeUser } = this.state;
     if (!activeConversationId) {
       return;
     }
@@ -454,30 +446,30 @@ export default class ChatScreen extends Component<State> {
   }
 
   _onShowList = () => {
-    this.setState({showingList: true}, () => {
+    this.setState({ showingList: true }, () => {
       window.scrollTo(0, 0);
     });
   }
 
   _onShowRoomUsers = () => {
-    this.setState({showingRoomUsers: true}, () => {
+    this.setState({ showingRoomUsers: true }, () => {
       window.scrollTo(0, 0);
     });
   }
 
   _onShowRoomChat = () => {
-    this.setState({showingRoomUsers: false}, () => {
+    this.setState({ showingRoomUsers: false }, () => {
       this._setScroll();
     });
   }
 
   _onShowRoomList = () => {
     this.props.actions.onFetchRoomList();
-    this.setState({showingRoomList: true});
+    this.setState({ showingRoomList: true });
   }
 
   _onCloseRoomList = () => {
-    this.setState({showingRoomList: false});
+    this.setState({ showingRoomList: false });
   }
 
   _onJoinRoom = (room: Room) => {

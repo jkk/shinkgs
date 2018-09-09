@@ -26,7 +26,7 @@ class TabNavTab extends Component<> {
   }
 }
 
-export class TabNav extends Component<$FlowFixMeState> {
+export class TabNav extends Component<> {
   static defaultProps: {
     tabs: Array<{
       id: string,

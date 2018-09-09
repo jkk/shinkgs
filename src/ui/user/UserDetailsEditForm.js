@@ -3,10 +3,7 @@ import React, {PureComponent as Component} from 'react';
 import {Button, CheckboxInput} from '../common';
 import type {User, UserDetails} from '../../model';
 
-export default class UserDetailsEditForm extends Component<{
-  details: UserDetails,
-  newPassword: string
-}> {
+export default class UserDetailsEditForm extends Component<> {
   static defaultProps: {
     user: User,
     details: UserDetails,

@@ -11,7 +11,7 @@ type SavedLogin = {
   password: string | null
 };
 
-export default class LoginScreen extends Component<$FlowFixMeState> {
+export default class LoginScreen extends Component<> {
   static defaultProps: {
     loginError: ?string,
     clientState: KgsClientState,

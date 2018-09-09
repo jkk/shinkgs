@@ -3,9 +3,7 @@ import React, {PureComponent as Component} from 'react';
 import {Modal, Button} from '../common';
 import type {User} from '../../model';
 
-export default class FeedbackModal extends Component<{
-  status: 'pending' | 'submitted' | 'done'
-}> {
+export default class FeedbackModal extends Component<> {
   static defaultProps: {
     currentUser: ?User,
     onClose: Function

@@ -29,11 +29,7 @@ type TimeCountdownProps = {
   byoYomiStones: ?number
 };
 
-class TimeCountdown extends Component<{
-  seconds: number,
-  periods: ?number,
-  stones: ?number
-}> {
+class TimeCountdown extends Component<> {
   static defaultProps: TimeCountdownProps;
   _startTime: number;
   _interval: any;

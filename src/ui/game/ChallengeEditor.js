@@ -45,7 +45,7 @@ type State = {
   activeTab: string
 };
 
-export default class ChallengeEditor extends Component<State> {
+export default class ChallengeEditor extends Component<> {
   static defaultProps: Props;
   state: State = this._getInitialState(this.props);
 

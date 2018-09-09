@@ -12,9 +12,7 @@ import type {
   AppActions
 } from '../model';
 
-export default class SearchScreen extends Component<{
-  query: string
-}> {
+export default class SearchScreen extends Component<> {
   static defaultProps: {
     usersByName: Index<User>,
     actions: AppActions

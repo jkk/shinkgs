@@ -40,7 +40,7 @@ class ChatRoomListItem extends Component<> {
   }
 }
 
-export default class ChatRoomList extends Component<$FlowFixMeState> {
+export default class ChatRoomList extends Component<> {
   static defaultProps: {
     roomsById: Index<Room>,
     onJoinRoom: Room => any

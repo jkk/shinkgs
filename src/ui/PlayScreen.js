@@ -39,7 +39,7 @@ type Props = {
   actions: AppActions
 };
 
-export default class PlayScreen extends Component<$FlowFixMeState> {
+export default class PlayScreen extends Component<> {
   static defaultProps: Props;
   state = {
     creatingChallenge: false

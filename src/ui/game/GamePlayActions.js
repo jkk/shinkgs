@@ -5,7 +5,7 @@ import {isAncestor} from '../../util/dom';
 import {getGamePlayerOtherRole} from '../../model/game';
 import type {GameChannel, GameRole, User} from '../../model';
 
-export default class GamePlayActions extends Component<$FlowFixMeState> {
+export default class GamePlayActions extends Component<> {
   static defaultProps: {
     currentUser: User,
     game: GameChannel,

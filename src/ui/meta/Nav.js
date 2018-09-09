@@ -16,9 +16,7 @@ import type {
   Index
 } from '../../model';
 
-export default class Nav extends Component<{
-  showingMoreMenu: boolean
-}> {
+export default class Nav extends Component<> {
   static defaultProps: {
     nav: NavOption,
     currentUser: ?User,

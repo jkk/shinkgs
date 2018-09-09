@@ -31,14 +31,14 @@ export default class WatchScreen extends Component<> {
   }
 
   componentDidUpdate(nextProps: Props) {
-   let {watchGameId} = this.props;
-   let {watchGameId: nextWatchGameId} = nextProps;
-   let activeGame = watchGameId ? this.props.gamesById[watchGameId] : null;
-   let nextActiveGame = nextWatchGameId ? nextProps.gamesById[nextWatchGameId] : null;
-   if (!activeGame && nextActiveGame) {
-     window.scrollTo(0, 0);
-   }
- }
+    let {watchGameId} = this.props;
+    let {watchGameId: nextWatchGameId} = nextProps;
+    let activeGame = watchGameId ? this.props.gamesById[watchGameId] : null;
+    let nextActiveGame = nextWatchGameId ? nextProps.gamesById[nextWatchGameId] : null;
+    if (!activeGame && nextActiveGame) {
+      window.scrollTo(0, 0);
+    }
+  }
 
   render() {
     let {

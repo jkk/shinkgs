@@ -34,7 +34,7 @@ class UserListItem extends Component<> {
   }
 }
 
-export default class UserList extends Component<$FlowFixMeState> {
+export default class UserList extends Component<> {
   static defaultProps: {
     users: Array<User>,
     onSelectUser: User => any
