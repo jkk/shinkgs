@@ -25,7 +25,7 @@ export class RichContent extends Component<> {
     };
     let html = nl2br(Autolinker.link(escapeHtml(content), opts));
     if (firstLineHeading) {
-      html = html.replace(/(.+?)<br>/, '<div class="RichContent-heading">$1</div>');
+      html = html.replace(/(.+?)<br>/, '<div class='RichContent-heading'>$1</div>');
     }
     return (
       <div

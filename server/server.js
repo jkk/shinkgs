@@ -39,7 +39,7 @@ app.get('/*', function(req,res) {
   res.sendFile(index);
 });
 
-// console.log("Serving files from " + path.join(__dirname, '../'));
+// console.log('Serving files from ' + path.join(__dirname, '../'));
 // app.use(express.static(__dirname, 'public'));
 
 // Listen for requests
