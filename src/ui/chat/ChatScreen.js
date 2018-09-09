@@ -258,6 +258,7 @@ export default class ChatScreen extends Component<Props> {
     }
   }
 
+  // FIXME: UNSAFE_componentWillReceiveProps is deprecated.
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     let nextState = this._getState(nextProps);
     let nextConvId = nextState.activeConversationId;
