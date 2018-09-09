@@ -2,7 +2,7 @@
 
 export function quoteRegExpPattern(s: any) {
   return String(s)
-    .replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, '\\$1')
+    .replace(/([-()[\]{}+?*.$^|,:#<!\\])/g, '\\$1')
     .replace(/\x08/g, '\\x08');
 }
 

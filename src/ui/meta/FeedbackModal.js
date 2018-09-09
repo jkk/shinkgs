@@ -31,7 +31,7 @@ export default class FeedbackModal extends Component {
               className='FeedbackModal-twitter'
               href='https://twitter.com/jkkramer'
               target='_blank'
-              rel='noopener'>
+              rel='noopener noreferrer'>
               @jkkramer
             </a>,
             {' '}
@@ -39,12 +39,12 @@ export default class FeedbackModal extends Component {
               className='FeedbackModal-twitter'
               href='mailto:jkkramer@gmail.com'
               target='_blank'
-              rel='noopener'>
+              rel='noopener noreferrer'>
               jkkramer@gmail.com
             </a>
             , or use this handy form:
           </p>
-          
+
           <form
             className='FeedbackModal-form'
             method='post'
@@ -81,6 +81,7 @@ export default class FeedbackModal extends Component {
         <div className='FeedbackModal'>
           {content}
           <iframe
+            title='Feedback'
             name='mailer'
             src='https://jkk-micromailer.now.sh/'
             style={{position: 'absolute', width: 0, height: 0, border: 0}} />

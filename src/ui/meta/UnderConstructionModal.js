@@ -21,9 +21,9 @@ export default class UnderConstructionModal extends Component {
               That feature isn't available yet.
             </p>
             <p>
-              Want to help? Send feedback to <a href='https://twitter.com/jkkramer' target='_blank' rel='noopener'>@jkkramer</a>
+              Want to help? Send feedback to <a href='https://twitter.com/jkkramer' target='_blank' rel='noopener noreferrer'>@jkkramer</a>
               {' '}
-              or visit the <a href='https://github.com/jkk/shinkgs' target='_blank' rel='noopener'>GitHub project</a> find out how to contribute.
+              or visit the <a href='https://github.com/jkk/shinkgs' target='_blank' rel='noopener noreferrer'>GitHub project</a> find out how to contribute.
             </p>
             <Button primary onClick={onClose}>OK</Button>
           </div>

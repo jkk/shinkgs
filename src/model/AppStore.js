@@ -1,5 +1,5 @@
 // @flow
-import idbKeyval from 'idb-keyval';
+import {get, set} from 'idb-keyval';
 import type {AppState, KgsMessage} from './types';
 
 export class AppStore {
@@ -66,12 +66,12 @@ export class AppStore {
     if (this._debug) {
       console.log('Saving app state...', {state: saveState});
     }
-    idbKeyval.set(saveKey, saveState);
+    set(saveKey, saveState);
   }
 
   restoreSavedState = (saveKey: string, done: AppState => any) => {
     let prevState = this.getState();
-    idbKeyval.get(saveKey).then(savedAppState => {
+    get(saveKey).then(savedAppState => {
       if (this._debug) {
         console.log('Restoring saved app state...', savedAppState);
       }

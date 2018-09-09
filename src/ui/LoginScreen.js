@@ -1,6 +1,6 @@
 // @flow
 import React, {PureComponent as Component} from 'react';
-import idbKeyval from 'idb-keyval';
+import {get, set} from 'idb-keyval';
 import {Button, CheckboxInput} from './common';
 import {isTouchDevice} from '../util/dom';
 import type {KgsClientState, Preferences, AppActions} from '../model';
@@ -19,7 +19,7 @@ export default class LoginScreen extends Component {
     preferences: Preferences,
     actions: AppActions
   };
-  
+
   state = {
     logoLoaded: false,
     username: this.props.preferences.username || '',
@@ -33,7 +33,7 @@ export default class LoginScreen extends Component {
     }
     // We store password in component-local state to make it less likely
     // to show up in logs and such
-    idbKeyval.get('savedLogin').then((savedLogin: ?SavedLogin) => {
+    get('savedLogin').then((savedLogin: ?SavedLogin) => {
       if (savedLogin) {
         let nextState = {};
         if (savedLogin.savePassword !== null) {
@@ -79,7 +79,7 @@ export default class LoginScreen extends Component {
                   src={publicUrl + '/apple-touch-icon.png'}
                   width={48}
                   height={48}
-                  role='presentation'
+                  alt=""
                   onLoad={this._onLogoLoad} />
             </div>
             <div className='LoginScreen-title-text'>
@@ -128,20 +128,20 @@ export default class LoginScreen extends Component {
             </div>
           </form>
           <div className='LoginScreen-help'>
-            <a href='https://www.gokgs.com/' target='_blank' rel='noopener'>Sign up</a>
+            <a href='https://www.gokgs.com/' target='_blank' rel='noopener noreferrer'>Sign up</a>
             &nbsp;&nbsp;|&nbsp;&nbsp;
-            <a href='https://www.gokgs.com/password.jsp' target='_blank' rel='noopener'>Forgot password</a>
+            <a href='https://www.gokgs.com/password.jsp' target='_blank' rel='noopener noreferrer'>Forgot password</a>
           </div>
           <div className='LoginScreen-footer'>
-            <a href='https://twitter.com/jkkramer' target='_blank' rel='noopener'>
+            <a href='https://twitter.com/jkkramer' target='_blank' rel='noopener noreferrer'>
               By @jkkramer
             </a>
             &nbsp;&nbsp;|&nbsp;&nbsp;
-            <a href='https://github.com/jkk/shinkgs' target='_blank' rel='noopener'>
+            <a href='https://github.com/jkk/shinkgs' target='_blank' rel='noopener noreferrer'>
               GitHub
             </a>
             &nbsp;&nbsp;|&nbsp;&nbsp;
-            <a href='https://www.gokgs.com/' target='_blank' rel='noopener'>
+            <a href='https://www.gokgs.com/' target='_blank' rel='noopener noreferrer'>
               Official KGS
             </a>
           </div>
@@ -160,7 +160,7 @@ export default class LoginScreen extends Component {
         savePassword,
         password: savePassword ? password : null
       };
-      idbKeyval.set('savedLogin', savedLogin);
+      set('savedLogin', savedLogin);
     }
   }
 

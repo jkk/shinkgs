@@ -15,7 +15,7 @@ export default class UserAvatar extends Component {
       <div className='UserAvatar'>
         {user ?
           (user.flags && user.flags.avatar ?
-            <img src={`http://goserver.gokgs.com/avatars/${user.name}.jpg`} role='presentation' /> :
+            <img src={`http://goserver.gokgs.com/avatars/${user.name}.jpg`} alt=""/> :
             <div className='UserAvatar-missing'>
               <Icon name='user' />
             </div>) : null}

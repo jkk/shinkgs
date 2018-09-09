@@ -67,7 +67,7 @@ function parseGameComments(
     let lines = text.split(/[\r\n]+/m);
     let lineMsgs: Array<ConversationMessage> = [];
     for (let line of lines) {
-      let match = line.match(/([a-zA-Z0-9]{1,10})[0-9\s\[\]dpk\?\-]*?:(.+)/);
+      let match = line.match(/([a-zA-Z0-9]{1,10})[0-9\s[\]dpk?-]*?:(.+)/);
       let username = match && match[1];
       let body = match && match[2];
       if (!username || !body) {

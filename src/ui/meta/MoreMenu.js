@@ -28,13 +28,13 @@ export default class MoreMenu extends Component {
             <A className='MoreMenu-item' onClick={this._onFeedback}>
               Send Feedback
             </A>
-            <a className='MoreMenu-item' href='https://twitter.com/jkkramer' target='_blank' rel='noopener'>
+            <a className='MoreMenu-item' href='https://twitter.com/jkkramer' target='_blank' rel='noopener noreferrer'>
               By @jkkramer
             </a>
-            <a className='MoreMenu-item' href='https://github.com/jkk/shinkgs' target='_blank' rel='noopener'>
+            <a className='MoreMenu-item' href='https://github.com/jkk/shinkgs' target='_blank' rel='noopener noreferrer'>
               GitHub
             </a>
-            <a className='MoreMenu-item' href='https://www.gokgs.com/' target='_blank' rel='noopener'>
+            <a className='MoreMenu-item' href='https://www.gokgs.com/' target='_blank' rel='noopener noreferrer'>
               Official KGS
             </a>
           </div>
