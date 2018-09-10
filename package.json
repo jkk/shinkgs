@@ -31,7 +31,8 @@
     "flow": "flow check",
     "test": "react-scripts test --env=jsdom",
     "deploy-now": "yarn build && cp server/* build && now build",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "now-build": "echo 'Built on Travis CI'"
   },
   "eslintConfig": {
     "extends": "react-app"

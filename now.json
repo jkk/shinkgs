@@ -1,0 +1,7 @@
+{
+    "files": [
+        "build",
+        "package.json",
+        "yarn.lock"
+    ]
+}
