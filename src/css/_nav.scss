@@ -298,6 +298,12 @@ a.MainNav-account-trigger {
   font-size: 14px;
 }
 
+@media only screen and (max-width: 850px) {
+  .MainNav-contribute {
+    display: none;
+  }
+}
+
 @media #{$mobile-query} {
   .MainNav-feedback {
     display: none;
