@@ -51,7 +51,7 @@ export default class ChallengeEditor extends Component<Props, State> {
 
   _getInitialState(props: Props): State {
     let { challenge, currentUser, usersByName, preferences } = props;
-    let proposal;
+    let proposal: GameProposal;
     let visibility;
     let notes;
     if (challenge) {
