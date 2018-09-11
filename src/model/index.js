@@ -20,7 +20,7 @@ const IGNORED_MESSAGE_TYPES = {
   GAME_OVER: true,
   GAME_TIME_EXPIRED: true,
   CHALLENGE_CREATED: true,
-  SYNC: true
+  SYNC: true,
 };
 
 export function handleMessage(prevState: AppState, msg: KgsMessage): AppState {

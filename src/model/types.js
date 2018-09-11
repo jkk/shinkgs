@@ -22,7 +22,7 @@ export type UserFlags = {
   kgsPlus?: boolean,
   kgsMeijin?: boolean,
   canPlayRanked?: boolean,
-  selfish?: boolean
+  selfish?: boolean,
 };
 
 export type UserDetails = {
@@ -37,7 +37,7 @@ export type UserDetails = {
   personalInfo: string,
   locale: string,
   email?: string,
-  subscriptions?: string
+  subscriptions?: string,
 };
 
 export type User = {
@@ -46,14 +46,14 @@ export type User = {
   rank?: string,
   rankVal?: number,
   authLevel?: AuthLevel,
-  details?: UserDetails
+  details?: UserDetails,
 };
 
 export type UnparsedUser = {
   name: string,
   flags?: string,
   rank?: string,
-  authLevel?: AuthLevel
+  authLevel?: AuthLevel,
 };
 
 export type RoomCategory =
@@ -76,7 +76,7 @@ export type Room = {
   category: ?RoomCategory,
   private?: boolean,
   tournOnly?: boolean,
-  globalGamesOnly?: boolean
+  globalGamesOnly?: boolean,
 };
 
 export type ConversationMessage = {
@@ -86,7 +86,7 @@ export type ConversationMessage = {
   date: ?Date, // date received; server doesn't provide it
   sending?: boolean,
   announcement?: boolean,
-  moderated?: boolean
+  moderated?: boolean,
 };
 
 export type Conversation = {
@@ -97,7 +97,7 @@ export type Conversation = {
   chatsDisabled?: boolean,
   messages: Array<ConversationMessage>,
   callbackKey?: ?number,
-  status: "pending" | "created" | "userNotFound" | "closed"
+  status: "pending" | "created" | "userNotFound" | "closed",
 };
 
 export type GameType =
@@ -123,7 +123,7 @@ export type GameRules = {
   mainTime?: number, // seconds
   byoYomiTime?: number, // seconds
   byoYomiPeriods?: number,
-  byoYomiStones?: number
+  byoYomiStones?: number,
 };
 
 export type GameRole =
@@ -139,7 +139,7 @@ export type PlayerColor = "white" | "black";
 export type GameProposalPlayer = {
   role: GameRole,
   user?: UnparsedUser,
-  name?: string
+  name?: string,
 };
 
 export type GameProposalStatus = "setup" | "pending" | "accepted" | "declined";
@@ -150,7 +150,7 @@ export type GameProposal = {
   nigiri: boolean,
   players: Array<GameProposalPlayer>,
   private?: boolean,
-  status?: GameProposalStatus
+  status?: GameProposalStatus,
 };
 
 export type ProposalVisibility = "private" | "roomOnly" | "public";
@@ -182,12 +182,12 @@ export type GameSummary = {
   revision?: string,
   tag?: string,
   private?: boolean,
-  inPlay?: boolean
+  inPlay?: boolean,
 };
 
 export type RankGraph = {
   data: { series: Array<{ x: Date, y: number }> },
-  months: Array<string>
+  months: Array<string>,
 };
 
 export type ClockState = {
@@ -195,7 +195,7 @@ export type ClockState = {
   running?: boolean,
   time?: number,
   periodsLeft?: number,
-  stonesLeft?: number
+  stonesLeft?: number,
 };
 
 export type GameAction =
@@ -224,7 +224,7 @@ export type SgfProp = {
   loc?: SgfLoc,
   loc2?: SgfLoc,
   float?: number,
-  int?: number
+  int?: number,
 };
 
 export type SgfEvent =
@@ -236,7 +236,7 @@ export type SgfEvent =
       type: "CHILD_ADDED",
       nodeId: number,
       childNodeId: number,
-      position?: number
+      position?: number,
     }
   | { type: "PROP_GROUP_ADDED", nodeId: number, props: Array<SgfProp> }
   | { type: "PROP_GROUP_REMOVED", nodeId: number, props: Array<SgfProp> }
@@ -261,7 +261,7 @@ export type BoardPointMark =
 
 export type BoardMarkup = {
   marks: { [y: number]: { [x: number]: BoardPointMark } },
-  labels: { [y: number]: { [x: number]: ?string } }
+  labels: { [y: number]: { [x: number]: ?string } },
 };
 
 export type BoardState = Array<Array<?PlayerColor>>; // y[x]
@@ -272,7 +272,7 @@ export type GameNodeComputedState = {
   blackTimeLeft: number,
   whiteTimeLeft: number,
   board: BoardState,
-  markup: BoardMarkup
+  markup: BoardMarkup,
 };
 
 export class GameNode {
@@ -289,24 +289,24 @@ export class GameNode {
 export type PendingMove = {
   nodeId: number,
   color: PlayerColor,
-  loc: Point
+  loc: Point,
 };
 
 export type GameTree = {
   nodes: {
-    [nodeId: number]: GameNode
+    [nodeId: number]: GameNode,
   },
   computedState: {
-    [nodeId: number]: GameNodeComputedState
+    [nodeId: number]: GameNodeComputedState,
   },
   messages: {
-    [nodeId: number]: Array<ConversationMessage>
+    [nodeId: number]: Array<ConversationMessage>,
   },
   rootNode: number,
   activeNode: number,
   currentNode: number,
   currentLine: Array<number>,
-  pendingMove?: PendingMove
+  pendingMove?: PendingMove,
 };
 
 export type GameChannel = {
@@ -347,20 +347,20 @@ export type GameChannel = {
   audio?: boolean,
   paused?: boolean,
   named?: boolean,
-  saved?: boolean
+  saved?: boolean,
 };
 
 export type GameFilter = {
   type?: "game" | "challenge",
   roomId?: ?number,
-  excludeBots?: boolean
+  excludeBots?: boolean,
 };
 
 export type GameChatSection = {
   nodeId: number,
   moveNum: number,
   actions: Array<string>,
-  messages: Array<ConversationMessage>
+  messages: Array<ConversationMessage>,
 };
 
 export type ChannelType =
@@ -376,8 +376,8 @@ export type ChannelMembership = {
   [channelId: string | number]: {
     type: ChannelType,
     complete: boolean,
-    stale: boolean
-  }
+    stale: boolean,
+  },
 };
 
 export type AutomatchPrefs = {
@@ -390,30 +390,30 @@ export type AutomatchPrefs = {
   mediumOk: boolean,
   rankedOk: boolean,
   robotOk: boolean,
-  unrankedOk: boolean
+  unrankedOk: boolean,
 };
 
 export type Playback = {
   dateStamp: string,
   gameSummary: GameSummary,
-  subscribersOnly: boolean
+  subscribersOnly: boolean,
 };
 
 export type Index<T> = {
-  [key: string | number]: T
+  [key: string | number]: T,
 };
 
 export type NavOption = "watch" | "play" | "chat" | "search" | "more";
 
 export type UserDetailsRequest = {
   name: string,
-  status: "pending" | "nonexistant" | "received"
+  status: "pending" | "nonexistant" | "received",
 };
 
 export type KgsClientState = {
   status: "loggedOut" | "loggingIn" | "loggedIn" | "loggingOut",
   network: "online" | "offline" | "error",
-  retryTimes: number
+  retryTimes: number,
 };
 
 export type Preferences = {
@@ -421,8 +421,8 @@ export type Preferences = {
   lastProposal?: {
     proposal: GameProposal,
     visibility: ProposalVisibility,
-    notes?: string
-  }
+    notes?: string,
+  },
 };
 
 // Some unfinished games we get from the archive, some from game lists
@@ -460,7 +460,7 @@ export type AppState = {
   +activeConversationId: ?number,
   +userDetailsRequest: ?UserDetailsRequest,
   +showUnderConstruction: boolean,
-  +showFeedbackModal: boolean
+  +showFeedbackModal: boolean,
 };
 
 export type KgsMessage =
@@ -476,7 +476,7 @@ export type KgsMessage =
   {
     type: string,
     channelId?: number,
-    [key: string]: any
+    [key: string]: any,
   };
 
 export type MessageDispatcher = (

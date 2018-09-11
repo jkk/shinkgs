@@ -15,16 +15,16 @@ type Props = {
   onResign: GameChannel => any,
   onLeaveGame: Function,
   onAddTime: (game: GameChannel, role: GameRole, seconds: number) => any,
-  onDoneScoring: GameChannel => any
+  onDoneScoring: GameChannel => any,
 };
 
 type State = {
-  moreShowing: boolean
+  moreShowing: boolean,
 };
 
 export default class GamePlayActions extends Component<Props, State> {
   state = {
-    moreShowing: false
+    moreShowing: false,
   };
 
   _moreEl: any;

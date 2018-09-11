@@ -5,7 +5,7 @@ import type { GameChannel } from "../../model";
 
 type Props = {
   games: Array<GameChannel>,
-  onSelect: (games: Array<GameChannel>) => any
+  onSelect: (games: Array<GameChannel>) => any,
 };
 
 class RoomGameLink extends Component<Props> {
@@ -38,7 +38,7 @@ class RoomGameLink extends Component<Props> {
 
 type RoomGameLinksProps = {
   games: Array<GameChannel>,
-  onSelect: (games: Array<GameChannel>) => any
+  onSelect: (games: Array<GameChannel>) => any,
 };
 
 export default class RoomGameLinks extends Component<RoomGameLinksProps> {

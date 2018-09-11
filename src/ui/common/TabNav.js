@@ -5,7 +5,7 @@ import { A } from "./A";
 type Props = {
   tab: { id: string, label: any, content: any },
   active: boolean,
-  onSelect: string => any
+  onSelect: string => any,
 };
 
 class TabNavTab extends Component<Props> {
@@ -30,19 +30,19 @@ type TabNavProps = {
   tabs: Array<{
     id: string,
     label: any,
-    content: any
+    content: any,
   }>,
   activeTabId?: string,
-  onSelectTab?: string => any
+  onSelectTab?: string => any,
 };
 
 type State = {
-  activeTabId: any
+  activeTabId: any,
 };
 
 export class TabNav extends Component<TabNavProps, State> {
   state = {
-    activeTabId: this.props.activeTabId || this.props.tabs[0].id
+    activeTabId: this.props.activeTabId || this.props.tabs[0].id,
   };
 
   render() {

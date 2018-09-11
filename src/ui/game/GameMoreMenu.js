@@ -9,7 +9,7 @@ import type {
   Index,
   Room,
   GameNode,
-  SgfProp
+  SgfProp,
 } from "../../model";
 import GameInfo from "./GameInfo";
 import { Modal } from "../common";
@@ -23,24 +23,24 @@ const MORE_INFO_PROPS: { [string]: string } = {
   PLAYERTEAM: "Team",
   ROUND: "Round",
   SOURCE: "Source",
-  TRANSCRIBER: "Transcriber"
+  TRANSCRIBER: "Transcriber",
 };
 
 type Props = {
   game: GameChannel,
   actions: AppActions,
-  roomsById: Index<Room>
+  roomsById: Index<Room>,
 };
 
 type State = {
   moreShowing: boolean,
-  gameInfoShowing: boolean
+  gameInfoShowing: boolean,
 };
 
 export default class GameMoreMenu extends Component<Props, State> {
   state = {
     moreShowing: false,
-    gameInfoShowing: false
+    gameInfoShowing: false,
   };
 
   _moreEl: ?HTMLElement;

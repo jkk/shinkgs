@@ -15,7 +15,7 @@ type Props = {
   disabled?: boolean,
   loading?: boolean,
   children?: any,
-  className?: string
+  className?: string,
 };
 
 export class Button extends Component<Props> {
@@ -33,7 +33,7 @@ export class Button extends Component<Props> {
       icon,
       disabled,
       loading,
-      children
+      children,
     } = this.props;
     let className = "Button";
     if (secondary) {

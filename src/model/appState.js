@@ -25,7 +25,7 @@ export function getEmptyServerState() {
     activeConversationId: null,
     userDetailsRequest: null,
     showUnderConstruction: false,
-    showFeedbackModal: false
+    showFeedbackModal: false,
   };
 }
 
@@ -39,7 +39,7 @@ export function getInitialState(clientState: KgsClientState): AppState {
     loginError: null,
     logoutError: null,
     clientState,
-    ...getEmptyServerState()
+    ...getEmptyServerState(),
   };
 }
 
@@ -51,7 +51,7 @@ export function prepareSavedAppState(appState: AppState): AppState {
     ...appState,
     clientState: {
       ...appState.clientState,
-      network: "online"
-    }
+      network: "online",
+    },
   };
 }

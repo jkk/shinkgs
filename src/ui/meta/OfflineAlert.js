@@ -6,7 +6,7 @@ import type { KgsClientState } from "../../model/types";
 type Props = {
   logoutError: ?string,
   clientState: KgsClientState,
-  onLogout: Function
+  onLogout: Function,
 };
 
 export default class OfflineAlert extends Component<Props> {

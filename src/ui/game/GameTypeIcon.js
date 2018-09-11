@@ -13,13 +13,13 @@ const GAME_TYPE_CODE = {
   rengo: "2",
   free: "F",
   ranked: "R",
-  tournament: "🏆"
+  tournament: "🏆",
 };
 
 type Props = {
   type: GameType,
   subscribersOnly?: boolean,
-  isPrivate?: boolean
+  isPrivate?: boolean,
 };
 
 export default class GameTypeIcon extends Component<Props> {

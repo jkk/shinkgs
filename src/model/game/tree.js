@@ -17,7 +17,7 @@ import type {
   BoardMarkup,
   SgfProp,
   PendingMove,
-  PlayerColor
+  PlayerColor,
 } from "../types";
 
 export function getGameLine(tree: GameTree, nodeId: number): Array<number> {
@@ -66,13 +66,13 @@ const BOARD_MARKS = {
   TRIANGLE: "triangle",
   SQUARE: "square",
   CROSS: "cross",
-  DEAD: "dead"
+  DEAD: "dead",
 };
 
 export function getMarkupForProps(props: Array<SgfProp>): BoardMarkup {
   let markup: BoardMarkup = {
     marks: {},
-    labels: {}
+    labels: {},
   };
   for (let prop of props) {
     let loc = prop.loc;
@@ -143,7 +143,7 @@ export function computeGameNodeStates(
   // Don't redo already-computed state. Anything that happened before
   // the node we're looking at is still valid.
   let computedState: { [nodeId: number]: GameNodeComputedState } = {
-    ...tree.computedState
+    ...tree.computedState,
   };
   let startIdx = line.indexOf(nodeId);
   let blackCaps;
@@ -193,7 +193,7 @@ export function computeGameNodeStates(
       blackTimeLeft,
       whiteTimeLeft,
       board,
-      markup
+      markup,
     };
   }
   return computedState;

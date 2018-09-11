@@ -16,11 +16,11 @@ export class ApiError extends Error {
 const initialClientState = {
   status: "loggedOut",
   network: "online",
-  retryTimes: 0
+  retryTimes: 0,
 };
 
 type SendMessageOptions = {
-  sync?: boolean
+  sync?: boolean,
 };
 
 type StateChangeListener = (
@@ -70,7 +70,7 @@ export class KgsClient {
     if (this._debug) {
       console.log("[KGS Client] State changed", {
         state: this.state,
-        prevState
+        prevState,
       });
     }
     if (this._onChange) {
@@ -97,7 +97,7 @@ export class KgsClient {
         type: "LOGIN",
         name: username,
         password,
-        locale
+        locale,
       });
       setTimeout(() => {
         if (this._debug) {
@@ -119,7 +119,7 @@ export class KgsClient {
     this.setState({
       ...this.state,
       network: "online",
-      status: "loggingOut"
+      status: "loggingOut",
     });
     return this.sendMessage({ type: "LOGOUT" }, opts);
   };

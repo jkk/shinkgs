@@ -8,14 +8,14 @@ import { SelectInput } from "../common";
 import {
   formatDuration,
   formatGameType,
-  formatGameRuleset
+  formatGameRuleset,
 } from "../../model/game";
 import type {
   GameProposal,
   ProposalVisibility,
   ProposalEditMode,
   User,
-  Index
+  Index,
 } from "../../model";
 
 type Props = {
@@ -29,32 +29,32 @@ type Props = {
   onUserDetail: string => any,
   onChangeProposal: GameProposal => any,
   onChangeNotes: string => any,
-  onChangeVisibility: ProposalVisibility => any
+  onChangeVisibility: ProposalVisibility => any,
 };
 
 const visibilityOptions = [
   { value: "private", label: "Private" },
   { value: "roomOnly", label: "Room Only" },
-  { value: "public", label: "Public" }
+  { value: "public", label: "Public" },
 ];
 
 const gameTypeOptions = [
   { value: "ranked", label: "Ranked Game" },
-  { value: "free", label: "Free Game" }
+  { value: "free", label: "Free Game" },
 ];
 
 const rulesetOptions = [
   { value: "japanese", label: "Japanese Rules" },
   { value: "chinese", label: "Chinese Rules" },
   { value: "aga", label: "AGA Rules" },
-  { value: "new_zealand", label: "New Zealand Rules" }
+  { value: "new_zealand", label: "New Zealand Rules" },
 ];
 
 const timeSystemOptions = [
   { value: "none", label: "No Time Limit" },
   { value: "absolute", label: "Absolute Time" },
   { value: "byo_yomi", label: "Byo-Yomi Time" },
-  { value: "canadian", label: "Canadian Time" }
+  { value: "canadian", label: "Canadian Time" },
 ];
 
 const sizeOptions = [9, 13, 19];
@@ -69,7 +69,7 @@ export default class ProposalForm extends Component<Props> {
       notes,
       visibility,
       usersByName,
-      onUserDetail
+      onUserDetail,
     } = this.props;
     let { players, nigiri, rules } = proposal;
     let ruleset = rules.rules || "japanese";
@@ -311,7 +311,7 @@ export default class ProposalForm extends Component<Props> {
     let rules = e.target.value;
     this.props.onChangeProposal({
       ...proposal,
-      rules: { ...proposal.rules, rules }
+      rules: { ...proposal.rules, rules },
     });
   };
 
@@ -369,7 +369,7 @@ export default class ProposalForm extends Component<Props> {
     let size = sizeOptions[idx];
     this.props.onChangeProposal({
       ...proposal,
-      rules: { ...proposal.rules, size }
+      rules: { ...proposal.rules, size },
     });
   };
 
@@ -382,7 +382,7 @@ export default class ProposalForm extends Component<Props> {
     let size = sizeOptions[idx];
     this.props.onChangeProposal({
       ...proposal,
-      rules: { ...proposal.rules, size }
+      rules: { ...proposal.rules, size },
     });
   };
 
@@ -397,7 +397,7 @@ export default class ProposalForm extends Component<Props> {
     }
     this.props.onChangeProposal({
       ...proposal,
-      rules: { ...proposal.rules, handicap }
+      rules: { ...proposal.rules, handicap },
     });
   };
 
@@ -412,7 +412,7 @@ export default class ProposalForm extends Component<Props> {
     }
     this.props.onChangeProposal({
       ...proposal,
-      rules: { ...proposal.rules, handicap }
+      rules: { ...proposal.rules, handicap },
     });
   };
 
@@ -433,7 +433,7 @@ export default class ProposalForm extends Component<Props> {
     }
     this.props.onChangeProposal({
       ...proposal,
-      rules: { ...proposal.rules, komi }
+      rules: { ...proposal.rules, komi },
     });
   };
 
@@ -454,7 +454,7 @@ export default class ProposalForm extends Component<Props> {
     }
     this.props.onChangeProposal({
       ...proposal,
-      rules: { ...proposal.rules, komi }
+      rules: { ...proposal.rules, komi },
     });
   };
 
@@ -469,7 +469,7 @@ export default class ProposalForm extends Component<Props> {
     }
     this.props.onChangeProposal({
       ...proposal,
-      rules: { ...proposal.rules, mainTime }
+      rules: { ...proposal.rules, mainTime },
     });
   };
 
@@ -486,7 +486,7 @@ export default class ProposalForm extends Component<Props> {
     }
     this.props.onChangeProposal({
       ...proposal,
-      rules: { ...proposal.rules, mainTime }
+      rules: { ...proposal.rules, mainTime },
     });
   };
 
@@ -503,7 +503,7 @@ export default class ProposalForm extends Component<Props> {
     }
     this.props.onChangeProposal({
       ...proposal,
-      rules: { ...proposal.rules, byoYomiTime }
+      rules: { ...proposal.rules, byoYomiTime },
     });
   };
 
@@ -520,7 +520,7 @@ export default class ProposalForm extends Component<Props> {
     }
     this.props.onChangeProposal({
       ...proposal,
-      rules: { ...proposal.rules, byoYomiTime }
+      rules: { ...proposal.rules, byoYomiTime },
     });
   };
 
@@ -529,7 +529,7 @@ export default class ProposalForm extends Component<Props> {
     let byoYomiPeriods = Math.max(1, (proposal.rules.byoYomiPeriods || 5) - 1);
     this.props.onChangeProposal({
       ...proposal,
-      rules: { ...proposal.rules, byoYomiPeriods }
+      rules: { ...proposal.rules, byoYomiPeriods },
     });
   };
 
@@ -541,7 +541,7 @@ export default class ProposalForm extends Component<Props> {
     );
     this.props.onChangeProposal({
       ...proposal,
-      rules: { ...proposal.rules, byoYomiPeriods }
+      rules: { ...proposal.rules, byoYomiPeriods },
     });
   };
 
@@ -550,7 +550,7 @@ export default class ProposalForm extends Component<Props> {
     let byoYomiStones = Math.max(5, (proposal.rules.byoYomiStones || 25) - 5);
     this.props.onChangeProposal({
       ...proposal,
-      rules: { ...proposal.rules, byoYomiStones }
+      rules: { ...proposal.rules, byoYomiStones },
     });
   };
 
@@ -559,7 +559,7 @@ export default class ProposalForm extends Component<Props> {
     let byoYomiStones = Math.min(100, (proposal.rules.byoYomiStones || 25) + 5);
     this.props.onChangeProposal({
       ...proposal,
-      rules: { ...proposal.rules, byoYomiStones }
+      rules: { ...proposal.rules, byoYomiStones },
     });
   };
 }

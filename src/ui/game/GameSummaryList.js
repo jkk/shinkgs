@@ -11,7 +11,7 @@ import type { GameSummary } from "../../model";
 type Props = {
   game: GameSummary,
   player?: string,
-  onSelect: GameSummary => any
+  onSelect: GameSummary => any,
 };
 
 class GameSummaryListItem extends Component<Props> {
@@ -73,11 +73,11 @@ class GameSummaryListItem extends Component<Props> {
 type GameSummaryListProps = {
   games: Array<GameSummary>,
   player?: string,
-  onSelect: GameSummary => any
+  onSelect: GameSummary => any,
 };
 
 type State = {
-  fullRender: boolean
+  fullRender: boolean,
 };
 
 export default class GameSummaryList extends Component<
@@ -85,7 +85,7 @@ export default class GameSummaryList extends Component<
   State
 > {
   state = {
-    fullRender: false
+    fullRender: false,
   };
 
   componentDidMount() {

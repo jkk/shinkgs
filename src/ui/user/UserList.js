@@ -6,7 +6,7 @@ import type { User } from "../../model";
 
 type Props = {
   user: User,
-  onSelect: User => any
+  onSelect: User => any,
 };
 
 class UserListItem extends Component<Props> {
@@ -33,16 +33,16 @@ class UserListItem extends Component<Props> {
 
 type UserListProps = {
   users: Array<User>,
-  onSelectUser: User => any
+  onSelectUser: User => any,
 };
 
 type State = {
-  fullRender: boolean
+  fullRender: boolean,
 };
 
 export default class UserList extends Component<UserListProps, State> {
   state = {
-    fullRender: false
+    fullRender: false,
   };
 
   componentDidMount() {

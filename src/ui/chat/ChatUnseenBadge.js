@@ -5,7 +5,7 @@ import type { Conversation, ChannelMembership, Index } from "../../model";
 
 type Props = {
   conversationsById: Index<Conversation>,
-  channelMembership?: ChannelMembership
+  channelMembership?: ChannelMembership,
 };
 
 export default class ChatUnseenBadge extends Component<Props> {

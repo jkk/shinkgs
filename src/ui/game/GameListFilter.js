@@ -7,7 +7,7 @@ type Props = {
   games: Array<GameChannel>,
   roomsById: Index<Room>,
   filter: GameFilter,
-  onChange: GameFilter => any
+  onChange: GameFilter => any,
 };
 
 export default class GameListFilter extends Component<Props> {
@@ -20,7 +20,7 @@ export default class GameListFilter extends Component<Props> {
         gameRoomsById[g.roomId] = {
           id: g.roomId,
           name: roomsById[g.roomId] && roomsById[g.roomId].name,
-          count: 1
+          count: 1,
         };
       } else {
         gameRoomsById[g.roomId].count++;
@@ -85,7 +85,7 @@ export default class GameListFilter extends Component<Props> {
     this.props.onChange({
       ...this.props.filter,
       type,
-      excludeBots: !e.target.checked
+      excludeBots: !e.target.checked,
     });
   };
 

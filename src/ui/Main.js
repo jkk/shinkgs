@@ -14,7 +14,7 @@ import type { AppState, AppActions } from "../model";
 
 type Props = {
   appState: AppState,
-  actions: AppActions
+  actions: AppActions,
 };
 
 export default class Main extends Component<Props> {
@@ -31,7 +31,7 @@ export default class Main extends Component<Props> {
       logoutError,
       userDetailsRequest,
       showUnderConstruction,
-      showFeedbackModal
+      showFeedbackModal,
     } = appState;
     let screenProps = { ...appState, actions };
 

@@ -5,7 +5,7 @@ import { formatGameTimeSystem, getGameTimeSpeed } from "../../model/game";
 import type { GameRules } from "../../model";
 
 type Props = {
-  rules: GameRules
+  rules: GameRules,
 };
 
 export default class GameTimeSystem extends Component<Props> {

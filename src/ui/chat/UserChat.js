@@ -15,7 +15,7 @@ type Props = {
   onUserDetail: string => any,
   onSendChat: string => any,
   setMessagesDivRef: HTMLElement => any,
-  setMessageInputRef: HTMLElement => any
+  setMessageInputRef: HTMLElement => any,
 };
 
 export default class UserChat extends Component<Props> {
@@ -28,7 +28,7 @@ export default class UserChat extends Component<Props> {
       onUserDetail,
       onSendChat,
       setMessagesDivRef,
-      setMessageInputRef
+      setMessageInputRef,
     } = this.props;
     let info;
     if (conversation.chatsDisabled || (user.flags && !user.flags.connected)) {

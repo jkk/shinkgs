@@ -7,12 +7,12 @@ type Props = {
   user: User,
   details: UserDetails,
   onSave: (user: User, details: UserDetails, newPassword: string) => any,
-  onCancel: Function
+  onCancel: Function,
 };
 
 type State = {
   details: UserDetails,
-  newPassword: string
+  newPassword: string,
 };
 
 export default class UserDetailsEditForm extends Component<Props, State> {
@@ -24,9 +24,9 @@ export default class UserDetailsEditForm extends Component<Props, State> {
       rankWanted:
         this.props.user.rank === undefined || this.props.user.rank === null
           ? false
-          : true
+          : true,
     },
-    newPassword: ""
+    newPassword: "",
   };
 
   render() {
@@ -113,15 +113,15 @@ export default class UserDetailsEditForm extends Component<Props, State> {
         this.setState({
           details: {
             ...this.state.details,
-            [target.name]: target.value
-          }
+            [target.name]: target.value,
+          },
         });
       } else if (target.type === "checkbox") {
         this.setState({
           details: {
             ...this.state.details,
-            [target.name]: target.checked
-          }
+            [target.name]: target.checked,
+          },
         });
       }
     }

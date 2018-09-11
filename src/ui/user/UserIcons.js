@@ -5,7 +5,7 @@ import type { User } from "../../model";
 const EMPTY_FLAGS = {};
 
 type Props = {
-  user: User
+  user: User,
 };
 
 export default class UserIcons extends Component<Props> {

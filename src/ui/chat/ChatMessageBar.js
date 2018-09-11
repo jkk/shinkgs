@@ -5,7 +5,7 @@ import type { Conversation } from "../../model";
 
 type Props = {
   conversation: ?Conversation,
-  onSubmit: string => any
+  onSubmit: string => any,
 };
 
 export default class ChatMessageBar extends Component<Props> {

@@ -8,7 +8,7 @@ let Chartist;
 let ChartistGraph;
 
 type Props = {
-  graph: ?RankGraph
+  graph: ?RankGraph,
 };
 
 export default class UserRankGraph extends Component<Props> {
@@ -63,7 +63,7 @@ export default class UserRankGraph extends Component<Props> {
           } else {
             return null;
           }
-        }
+        },
       },
       axisX: {
         type: Chartist.FixedScaleAxis,
@@ -100,14 +100,14 @@ export default class UserRankGraph extends Component<Props> {
               ? dateFormat(d, format)
               : null;
           }
-        }
+        },
       },
       fullWidth: true,
       showPoint: false,
       chartPadding: {
         right: 40,
-        bottom: 10
-      }
+        bottom: 10,
+      },
     };
 
     const type = "Line";

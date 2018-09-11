@@ -10,14 +10,14 @@ import type {
   User,
   ConversationMessage,
   Index,
-  GameChannel
+  GameChannel,
 } from "../../model";
 
 type Props = {
   currentUser: User,
   message: ConversationMessage,
   sender: User | string,
-  onUserDetail: string => any
+  onUserDetail: string => any,
 };
 
 class ChatMessageItem extends Component<Props> {
@@ -69,7 +69,7 @@ class ChatMessageItem extends Component<Props> {
 
 type PropsChatGameLink = {
   game: GameChannel,
-  onSelect: GameChannel => any
+  onSelect: GameChannel => any,
 };
 
 class ChatGameLink extends Component<PropsChatGameLink> {
@@ -121,7 +121,7 @@ type PropsChatMessages = {
   games?: ?Array<GameChannel>,
   onUserDetail: string => any,
   onJoinGame?: (gameId: number | string) => any,
-  onSelectChallenge?: number => any
+  onSelectChallenge?: number => any,
 };
 
 export default class ChatMessages extends Component<PropsChatMessages> {
@@ -131,7 +131,7 @@ export default class ChatMessages extends Component<PropsChatMessages> {
       messages,
       usersByName,
       games,
-      onUserDetail
+      onUserDetail,
     } = this.props;
     let displayMessages;
     if (games && games.length) {
@@ -140,14 +140,14 @@ export default class ChatMessages extends Component<PropsChatMessages> {
         type: "message",
         id: itemId++,
         time: msg.date ? msg.date.getTime() : 0,
-        message: msg
+        message: msg,
       }));
       for (let game of games) {
         items.push({
           type: "game",
           id: itemId++,
           time: game.time || 0,
-          game: game
+          game: game,
         });
       }
       items.sort((a, b) => a.time - b.time);

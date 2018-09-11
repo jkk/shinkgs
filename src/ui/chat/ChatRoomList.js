@@ -14,12 +14,12 @@ const CAT_LABELS = {
   LESSONS: "Lessons",
   CLUBS: "Clubs",
   TEMPORARY: "New Rooms",
-  OTHER: "Other"
+  OTHER: "Other",
 };
 
 type Props = {
   room: Room,
-  onJoin: Room => any
+  onJoin: Room => any,
 };
 
 class ChatRoomListItem extends Component<Props> {
@@ -40,16 +40,16 @@ class ChatRoomListItem extends Component<Props> {
 
 type PropsChatRoomList = {
   roomsById: Index<Room>,
-  onJoinRoom: Room => any
+  onJoinRoom: Room => any,
 };
 
 type State = {
-  search: string
+  search: string,
 };
 
 export default class ChatRoomList extends Component<PropsChatRoomList, State> {
   state = {
-    search: ("": string)
+    search: ("": string),
   };
 
   render() {

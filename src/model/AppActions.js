@@ -17,7 +17,7 @@ import type {
   UserDetails,
   Room,
   Point,
-  PlayerColor
+  PlayerColor,
 } from "./types";
 import { distinct } from "../util/collection";
 
@@ -107,31 +107,31 @@ export class AppActions {
     // Auto-join game lists
     this._client.sendMessage({
       type: "GLOBAL_LIST_JOIN_REQUEST",
-      list: "ACTIVES"
+      list: "ACTIVES",
     });
     this._client.sendMessage({
       type: "GLOBAL_LIST_JOIN_REQUEST",
-      list: "CHALLENGES"
+      list: "CHALLENGES",
     });
 
     // Get own recent games list (mainly useful for showing unfinished games)
     if (state.currentUser) {
       this._client.sendMessage({
         type: "JOIN_ARCHIVE_REQUEST",
-        name: state.currentUser.name
+        name: state.currentUser.name,
       });
     }
   };
 
   onShowUnderConstruction = () => {
     this._store.dispatch({
-      type: "SHOW_UNDER_CONSTRUCTION"
+      type: "SHOW_UNDER_CONSTRUCTION",
     });
   };
 
   onHideUnderConstruction = () => {
     this._store.dispatch({
-      type: "HIDE_UNDER_CONSTRUCTION"
+      type: "HIDE_UNDER_CONSTRUCTION",
     });
   };
 
@@ -208,12 +208,12 @@ export class AppActions {
       // By channel id
       this._store.dispatch([
         { type: "GAME_JOIN", channelId: gameId },
-        { type: joinType, gameId }
+        { type: joinType, gameId },
       ]);
       if (!this._isOffline()) {
         this._client.sendMessage({
           type: "JOIN_REQUEST",
-          channelId: gameId
+          channelId: gameId,
         });
       }
     } else {
@@ -222,7 +222,7 @@ export class AppActions {
       if (!this._isOffline()) {
         this._client.sendMessage({
           type: "JOIN_GAME_BY_ID",
-          timestamp: gameId
+          timestamp: gameId,
         });
       }
     }
@@ -235,13 +235,13 @@ export class AppActions {
     if (state.playGameId === gameId) {
       msgs.push({
         type: "PLAY_GAME",
-        gameId: null
+        gameId: null,
       });
     }
     if (state.watchGameId === gameId) {
       msgs.push({
         type: "WATCH_GAME",
-        gameId: null
+        gameId: null,
       });
     }
     if (msgs.length) {
@@ -266,18 +266,18 @@ export class AppActions {
     }
     this._store.dispatch({
       type: "PLAY_CHALLENGE",
-      challengeId
+      challengeId,
     });
     this._client.sendMessage({
       type: "JOIN_REQUEST",
-      channelId: challengeId
+      channelId: challengeId,
     });
   };
 
   onCloseChallenge = (challengeId: number) => {
     this._store.dispatch({
       type: "CLOSE_CHALLENGE",
-      channelId: challengeId
+      channelId: challengeId,
     });
     this.onUnjoin(challengeId);
   };
@@ -286,12 +286,12 @@ export class AppActions {
     this._store.dispatch({
       type: "START_CHALLENGE_SUBMIT",
       channelId: challengeId,
-      proposal
+      proposal,
     });
     this._client.sendMessage({
       type: "CHALLENGE_SUBMIT",
       channelId: challengeId,
-      ...proposal
+      ...proposal,
     });
   };
 
@@ -304,8 +304,8 @@ export class AppActions {
     this._store.dispatch({
       type: "UPDATE_PREFERENCES",
       preferences: {
-        lastProposal: { proposal, visibility, notes }
-      }
+        lastProposal: { proposal, visibility, notes },
+      },
     });
     let finalProposal = { ...proposal, private: visibility === "private" };
     this._client.sendMessage({
@@ -314,7 +314,7 @@ export class AppActions {
       channelId: roomId,
       text: notes,
       global: visibility === "public",
-      callbackKey: 12345 // Note - we don't use this
+      callbackKey: 12345, // Note - we don't use this
     });
   };
 
@@ -326,12 +326,12 @@ export class AppActions {
         p = { ...p, name: p.user ? p.user.name : p.name };
         delete p.user;
         return p;
-      })
+      }),
     };
     this._client.sendMessage({
       type: "CHALLENGE_PROPOSAL",
       channelId: challengeId,
-      ...normProposal
+      ...normProposal,
     });
   };
 
@@ -339,12 +339,12 @@ export class AppActions {
     this._store.dispatch({
       type: "START_CHALLENGE_DECLINE",
       channelId: challengeId,
-      name
+      name,
     });
     this._client.sendMessage({
       type: "CHALLENGE_DECLINE",
       name,
-      channelId: challengeId
+      channelId: challengeId,
     });
   };
 
@@ -387,7 +387,7 @@ export class AppActions {
         this._client.sendMessage({
           type: "CHALLENGE_ACCEPT",
           channelId: challengeId,
-          ...sentProposal
+          ...sentProposal,
         });
       } else {
         // TODO - reset challenge, show to current user for review
@@ -462,14 +462,14 @@ export class AppActions {
   onRequestRankGraph = (channelId: number) => {
     this._client.sendMessage({
       type: "DETAILS_RANK_GRAPH_REQUEST",
-      channelId
+      channelId,
     });
   };
 
   onSelectConversation = (conversationId: number) => {
     let msgs = [
       { type: "SAW_CONVERSATION", conversationId },
-      { type: "CONVERSATION_CHANGE", conversationId }
+      { type: "CONVERSATION_CHANGE", conversationId },
     ];
     let activeConvId = this._store.getState().activeConversationId;
     if (activeConvId) {
@@ -512,12 +512,12 @@ export class AppActions {
       user,
       channelId,
       callbackKey,
-      joinNow: true
+      joinNow: true,
     });
     this._client.sendMessage({
       type: "CONVO_REQUEST",
       name: user.name,
-      callbackKey
+      callbackKey,
     });
   };
 
@@ -531,12 +531,12 @@ export class AppActions {
       sending: true,
       text: body,
       channelId: conversationId,
-      user: this._store.getState().currentUser
+      user: this._store.getState().currentUser,
     });
     this._client.sendMessage({
       type: "CHAT",
       text: body,
-      channelId: conversationId
+      channelId: conversationId,
     });
   };
 
@@ -553,7 +553,7 @@ export class AppActions {
     }
     this._store.dispatch([
       { type: "ROOM_JOIN", channelId: room.id },
-      { type: "CONVERSATION_CHANGE", conversationId: room.id }
+      { type: "CONVERSATION_CHANGE", conversationId: room.id },
     ]);
     this._client.sendMessage({ type: "JOIN_REQUEST", channelId: room.id });
     this._client.sendMessage({ type: "ROOM_DESC_REQUEST", channelId: room.id });
@@ -619,7 +619,7 @@ export class AppActions {
     this._store.dispatch({
       type: "SET_CURRENT_GAME_NODE",
       currentNode: nodeId,
-      channelId: game.id
+      channelId: game.id,
     });
   };
 
@@ -629,13 +629,13 @@ export class AppActions {
         type: "START_GAME_MOVE",
         channelId: game.id,
         loc,
-        color
+        color,
       });
     }
     this._client.sendMessage({
       type: "GAME_MOVE",
       channelId: game.id,
-      loc
+      loc,
     });
   };
 
@@ -645,7 +645,7 @@ export class AppActions {
       channelId: game.id,
       x: loc.x,
       y: loc.y,
-      alive
+      alive,
     });
   };
 
@@ -653,21 +653,21 @@ export class AppActions {
     this._client.sendMessage({
       type: "GAME_MOVE",
       channelId: game.id,
-      loc: "PASS"
+      loc: "PASS",
     });
   };
 
   onUndo = (game: GameChannel) => {
     this._client.sendMessage({
       type: "GAME_UNDO_REQUEST",
-      channelId: game.id
+      channelId: game.id,
     });
   };
 
   onResign = (game: GameChannel) => {
     this._client.sendMessage({
       type: "GAME_RESIGN",
-      channelId: game.id
+      channelId: game.id,
     });
   };
 
@@ -676,7 +676,7 @@ export class AppActions {
       type: "GAME_ADD_TIME",
       channelId: game.id,
       time: seconds,
-      role
+      role,
     });
   };
 
@@ -684,28 +684,28 @@ export class AppActions {
     this._client.sendMessage({
       type: "GAME_SCORING_DONE",
       channelId: game.id,
-      doneId: game.doneId
+      doneId: game.doneId,
     });
   };
 
   onAcceptUndo = (game: GameChannel) => {
     this._client.sendMessage({
       type: "GAME_UNDO_ACCEPT",
-      channelId: game.id
+      channelId: game.id,
     });
   };
 
   onDeclineUndo = (game: GameChannel) => {
     this._store.dispatch({
       type: "GAME_UNDO_DECLINE",
-      channelId: game.id
+      channelId: game.id,
     });
   };
 
   onGameTimeExpired = (gameId: number) => {
     this._client.sendMessage({
       type: "GAME_TIME_EXPIRED",
-      channelId: gameId
+      channelId: gameId,
     });
   };
 
@@ -722,7 +722,7 @@ export class AppActions {
       emailWanted: details.emailWanted,
       privateEmail: details.privateEmail,
       rankWanted: details.rankWanted,
-      authLevel: user.authLevel || "normal"
+      authLevel: user.authLevel || "normal",
     });
     // Force a refresh, since changing rankWanted doesn't get reflected in
     // DETAILS_UPDATE response
@@ -731,7 +731,7 @@ export class AppActions {
       // If we do it right away it doesn't always work
       this._client.sendMessage({
         type: "DETAILS_JOIN_REQUEST",
-        name: user.name
+        name: user.name,
       });
     }, 200);
   };
@@ -743,7 +743,7 @@ export class AppActions {
     this._client.sendMessage({
       type: "SET_PASSWORD",
       user: user.name,
-      password: newPassword
+      password: newPassword,
     });
   };
 

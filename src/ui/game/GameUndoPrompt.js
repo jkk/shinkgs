@@ -6,7 +6,7 @@ import type { GameRole } from "../../model";
 type Props = {
   role: GameRole,
   onAccept: Function,
-  onDecline: Function
+  onDecline: Function,
 };
 
 export default class GameUndoPrompt extends Component<Props> {

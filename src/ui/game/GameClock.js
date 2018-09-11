@@ -26,7 +26,7 @@ type TimeCountdownProps = {
   clock: ClockState,
   byoYomiTime: ?number,
   byoYomiPeriods: ?number,
-  byoYomiStones: ?number
+  byoYomiStones: ?number,
 };
 
 class TimeCountdown extends Component<TimeCountdownProps> {
@@ -39,7 +39,7 @@ class TimeCountdown extends Component<TimeCountdownProps> {
     this.state = {
       seconds: clock.time || 0,
       periods: clock.periodsLeft,
-      stones: clock.stonesLeft
+      stones: clock.stonesLeft,
     };
     this._startTime = new Date().getTime() - TIME_SKEW;
   }
@@ -59,7 +59,7 @@ class TimeCountdown extends Component<TimeCountdownProps> {
     this.setState({
       seconds: newClock.time || 0,
       periods: newClock.periodsLeft,
-      stones: newClock.stonesLeft
+      stones: newClock.stonesLeft,
     });
   }
 
@@ -146,7 +146,7 @@ type Props = {
   active: boolean,
   clock: ClockState,
   timeLeft: number,
-  gameRules?: ?GameRules
+  gameRules?: ?GameRules,
 };
 
 export default class GameClock extends Component<Props> {

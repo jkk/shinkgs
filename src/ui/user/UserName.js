@@ -6,7 +6,7 @@ import type { User } from "../../model";
 type Props = {
   user: ?User,
   prefixIcons?: boolean,
-  extraIcons?: boolean
+  extraIcons?: boolean,
 };
 
 const EMPTY_FLAGS = {};

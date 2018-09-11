@@ -4,7 +4,7 @@ import type {
   KgsMessage,
   Room,
   ChannelMembership,
-  Index
+  Index,
 } from "./types";
 
 export function getDefaultRoom(
@@ -35,7 +35,7 @@ function updateRoom(room: ?Room, values: Object): Room {
     "category",
     "private",
     "tournOnly",
-    "globalGamesOnly"
+    "globalGamesOnly",
   ]) {
     if (key in values) {
       newRoom[key] = values[key];
@@ -71,7 +71,7 @@ export function handleRoomMessage(
 
     // Channel membership
     let channelMembership: ChannelMembership = {
-      ...prevState.channelMembership
+      ...prevState.channelMembership,
     };
     channelMembership[chanId] = { type: "room", complete: false, stale: false };
 
@@ -102,7 +102,7 @@ export function handleRoomMessage(
     }
     roomsById[chanId] = {
       ...roomsById[chanId],
-      users: users.filter(name => name !== msg.user.name)
+      users: users.filter(name => name !== msg.user.name),
     };
     return { ...prevState, roomsById };
   } else if (
@@ -117,7 +117,7 @@ export function handleRoomMessage(
     }
     roomsById[chanId] = {
       ...roomsById[chanId],
-      users: [...users, msg.user.name]
+      users: [...users, msg.user.name],
     };
     return { ...prevState, roomsById };
   }

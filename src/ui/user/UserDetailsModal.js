@@ -19,7 +19,7 @@ import type {
   GameSummary,
   RankGraph,
   Index,
-  AppActions
+  AppActions,
 } from "../../model";
 
 const MAX_GAME_SUMMARIES = 500;
@@ -30,18 +30,18 @@ type Props = {
   usersByName: Index<User>,
   rankGraphsByChannelId: Index<RankGraph>,
   gameSummariesByUser: Index<Array<GameSummary>>,
-  actions: AppActions
+  actions: AppActions,
 };
 
 type State = {
   tab: "bio" | "games" | "rankGraph",
-  editing: boolean
+  editing: boolean,
 };
 
 export default class UserDetailsModal extends Component<Props, State> {
   state = {
     tab: "bio",
-    editing: false
+    editing: false,
   };
 
   _mainDiv: ?HTMLElement;
@@ -67,7 +67,7 @@ export default class UserDetailsModal extends Component<Props, State> {
       usersByName,
       gameSummariesByUser,
       rankGraphsByChannelId,
-      actions
+      actions,
     } = this.props;
     if (!currentUser || !userDetailsRequest) {
       throw new InvariantError("currentUser and userDetailsRequest required");

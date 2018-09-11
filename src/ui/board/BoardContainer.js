@@ -5,7 +5,7 @@ import type {
   GameChannel,
   Point,
   BoardPointMark,
-  PlayerColor
+  PlayerColor,
 } from "../../model/types";
 
 type Props = {
@@ -16,12 +16,12 @@ type Props = {
     loc: Point,
     color?: ?PlayerColor,
     mark?: ?BoardPointMark
-  ) => any
+  ) => any,
 };
 
 type State = {
   boardWidth: ?number,
-  marginTop: number
+  marginTop: number,
 };
 
 export default class BoardContainer extends Component<Props, State> {

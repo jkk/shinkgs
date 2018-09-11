@@ -4,7 +4,7 @@ import { Icon } from "../common";
 import type { User } from "../../model";
 
 type Props = {
-  user: ?User
+  user: ?User,
 };
 
 export default class UserAvatar extends Component<Props> {

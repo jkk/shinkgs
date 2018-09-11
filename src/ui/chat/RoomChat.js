@@ -13,7 +13,7 @@ import type {
   Conversation,
   Index,
   GameChannel,
-  GameFilter
+  GameFilter,
 } from "../../model";
 
 type Props = {
@@ -28,7 +28,7 @@ type Props = {
   onShowGames: (filter: GameFilter) => any,
   onSendChat: string => any,
   setMessagesDivRef: HTMLElement => any,
-  setMessageInputRef: HTMLElement => any
+  setMessageInputRef: HTMLElement => any,
 };
 
 export default class RoomChat extends Component<Props> {
@@ -44,7 +44,7 @@ export default class RoomChat extends Component<Props> {
       onJoinGame,
       onSelectChallenge,
       setMessagesDivRef,
-      setMessageInputRef
+      setMessageInputRef,
     } = this.props;
     let users;
     if (room.users) {
@@ -102,7 +102,8 @@ export default class RoomChat extends Component<Props> {
   _onShowGames = (games: Array<GameChannel>) => {
     let filter: GameFilter = {
       roomId: this.props.room.id,
-      type: games.length && games[0].type === "challenge" ? "challenge" : "game"
+      type:
+        games.length && games[0].type === "challenge" ? "challenge" : "game",
     };
     this.props.onShowGames(filter);
   };

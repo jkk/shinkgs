@@ -5,16 +5,16 @@ import type { User } from "../../model";
 
 type Props = {
   currentUser: ?User,
-  onClose: Function
+  onClose: Function,
 };
 
 type State = {
-  status: "pending" | "submitted" | "done"
+  status: "pending" | "submitted" | "done",
 };
 
 export default class FeedbackModal extends Component<Props, State> {
   state = {
-    status: "pending"
+    status: "pending",
   };
 
   render() {

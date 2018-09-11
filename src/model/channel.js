@@ -4,7 +4,7 @@ import type {
   KgsMessage,
   ChannelMembership,
   Index,
-  Conversation
+  Conversation,
 } from "./types";
 
 export function handleChannelMessage(
@@ -28,7 +28,7 @@ export function handleChannelMessage(
     }
     if (prevState.conversationsById[msg.channelId]) {
       let conversationsById: Index<Conversation> = {
-        ...prevState.conversationsById
+        ...prevState.conversationsById,
       };
       delete conversationsById[msg.channelId];
       nextState.conversationsById = conversationsById;

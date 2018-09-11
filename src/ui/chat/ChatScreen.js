@@ -17,7 +17,7 @@ import type {
   Index,
   ChannelMembership,
   GameChannel,
-  AppActions
+  AppActions,
 } from "../../model";
 
 type Props = {
@@ -26,7 +26,7 @@ type Props = {
   room?: ?Room,
   user?: ?User,
   onSelect: number => any,
-  onClose: number => any
+  onClose: number => any,
 };
 
 class ChatTab extends Component<Props> {
@@ -98,7 +98,7 @@ type ChatScreenBannerProps = {
   activeUser: ?User,
   onShowList: Function,
   onShowRoomUsers: Function,
-  onShowRoomChat: Function
+  onShowRoomChat: Function,
 };
 
 class ChatScreenBanner extends Component<ChatScreenBannerProps> {
@@ -110,7 +110,7 @@ class ChatScreenBanner extends Component<ChatScreenBannerProps> {
       activeUser,
       onShowList,
       onShowRoomUsers,
-      onShowRoomChat
+      onShowRoomChat,
     } = this.props;
     if (showingRoomUsers) {
       return (
@@ -183,7 +183,7 @@ type ChatScreenProps = {
   conversationsById: Index<Conversation>,
   gamesById: Index<GameChannel>,
   activeConversationId: ?number,
-  actions: AppActions
+  actions: AppActions,
 };
 
 type State = {
@@ -196,7 +196,7 @@ type State = {
   activeConversationId: ?number,
   showingList?: ?boolean,
   showingRoomUsers?: ?boolean,
-  showingRoomList?: ?boolean
+  showingRoomList?: ?boolean,
 };
 
 export default class ChatScreen extends Component<ChatScreenProps, State> {
@@ -212,7 +212,7 @@ export default class ChatScreen extends Component<ChatScreenProps, State> {
       conversationsById,
       roomsById,
       usersByName,
-      gamesById
+      gamesById,
     } = props;
     let roomConvs = [];
     let userConvs = [];
@@ -255,7 +255,7 @@ export default class ChatScreen extends Component<ChatScreenProps, State> {
       activeRoom,
       activeRoomGames,
       activeUser,
-      activeConversationId
+      activeConversationId,
     };
   }
 
@@ -309,7 +309,7 @@ export default class ChatScreen extends Component<ChatScreenProps, State> {
       currentUser,
       roomsById,
       usersByName,
-      actions
+      actions,
     } = this.props;
     let {
       roomConvs,
@@ -321,7 +321,7 @@ export default class ChatScreen extends Component<ChatScreenProps, State> {
       activeConversationId,
       showingList,
       showingRoomUsers,
-      showingRoomList
+      showingRoomList,
     } = this.state;
 
     if (!currentUser) {

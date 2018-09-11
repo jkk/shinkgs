@@ -5,7 +5,7 @@ import {
   isGamePlayer,
   isGamePlaying,
   computeGameNodeStates,
-  getGameLine
+  getGameLine,
 } from "./tree";
 import { sortGames } from "./display";
 import type {
@@ -15,7 +15,7 @@ import type {
   GameSummary,
   GameTree,
   Index,
-  ChannelMembership
+  ChannelMembership,
 } from "../types";
 
 function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
@@ -56,7 +56,7 @@ function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
         let gamesById: Index<GameChannel> = { ...prevState.gamesById };
         gamesById[msg.gameId] = {
           ...game,
-          deletedTime: Date.now()
+          deletedTime: Date.now(),
         };
         let playChallengeId =
           prevState.playChallengeId === msg.gameId
@@ -133,7 +133,7 @@ function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
     return { ...prevState, automatchPrefs: msg };
   } else if (msg.type === "ARCHIVE_JOIN" && chanId) {
     let gameSummariesByUser: Index<Array<GameSummary>> = {
-      ...prevState.gameSummariesByUser
+      ...prevState.gameSummariesByUser,
     };
     let name = msg.user.name;
     let summaries = msg.games.map(g => parseGameSummary(g));
@@ -151,7 +151,7 @@ function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
     // FIXME: hack - hardcoded to currentUser since the message doens't include
     // the user, and we only stay subscribed to archive for currentUser
     let gameSummariesByUser: Index<Array<GameSummary>> = {
-      ...prevState.gameSummariesByUser
+      ...prevState.gameSummariesByUser,
     };
     let name = prevState.currentUser ? prevState.currentUser.name : "FIXME";
     let summaries = msg.games.map(g => parseGameSummary(g));
@@ -179,7 +179,7 @@ function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
     // FIXME: hack - hardcoded to currentUser since the message doens't include
     // the user, and we only stay subscribed to archive for currentUser
     let gameSummariesByUser: Index<Array<GameSummary>> = {
-      ...prevState.gameSummariesByUser
+      ...prevState.gameSummariesByUser,
     };
     let name = prevState.currentUser ? prevState.currentUser.name : "FIXME";
     let oldSummaries = gameSummariesByUser[name];
@@ -194,14 +194,14 @@ function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
       ...prevState,
       watchFilter: prevState.watchFilter
         ? { ...prevState.watchFilter, ...msg.filter }
-        : msg.filter
+        : msg.filter,
     };
   } else if (msg.type === "PLAY_FILTER_CHANGE") {
     return {
       ...prevState,
       playFilter: prevState.playFilter
         ? { ...prevState.playFilter, ...msg.filter }
-        : msg.filter
+        : msg.filter,
     };
   } else if (msg.type === "WATCH_GAME") {
     return { ...prevState, watchGameId: msg.gameId, userDetailsRequest: null };
@@ -215,21 +215,21 @@ function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
       ...prevState,
       gamesById: {
         ...prevState.gamesById,
-        [chanId]: challenge
+        [chanId]: challenge,
       },
-      playChallengeId: null
+      playChallengeId: null,
     };
   } else if (msg.type === "CHALLENGE_DECLINE" && chanId) {
     let gamesById: Index<GameChannel> = { ...prevState.gamesById };
     let challenge = { ...prevState.gamesById[chanId] };
     challenge.sentProposal = {
       ...challenge.sentProposal,
-      status: "declined"
+      status: "declined",
     };
     gamesById[chanId] = challenge;
     return {
       ...prevState,
-      gamesById
+      gamesById,
     };
   } else if (msg.type === "START_CHALLENGE_DECLINE" && chanId) {
     let gamesById: Index<GameChannel> = { ...prevState.gamesById };
@@ -246,18 +246,18 @@ function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
     gamesById[chanId] = challenge;
     return {
       ...prevState,
-      gamesById
+      gamesById,
     };
   } else if (msg.type === "START_CHALLENGE_SUBMIT" && chanId) {
     let gamesById: Index<GameChannel> = { ...prevState.gamesById };
     let sentProposal = { ...msg.proposal, status: "pending" };
     gamesById[chanId] = {
       ...gamesById[chanId],
-      sentProposal
+      sentProposal,
     };
     return {
       ...prevState,
-      gamesById
+      gamesById,
     };
   } else if (msg.type === "CHALLENGE_SUBMIT" && chanId) {
     let gamesById: Index<GameChannel> = { ...prevState.gamesById };
@@ -267,11 +267,11 @@ function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
     receivedProposals.push(msg.proposal);
     gamesById[chanId] = {
       ...gamesById[chanId],
-      receivedProposals
+      receivedProposals,
     };
     return {
       ...prevState,
-      gamesById
+      gamesById,
     };
   } else if (msg.type === "CHALLENGE_FINAL") {
     let currentUser = prevState.currentUser;
@@ -317,7 +317,7 @@ function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
       tree.pendingMove = {
         nodeId: tree.activeNode,
         color: msg.color,
-        loc: msg.loc
+        loc: msg.loc,
       };
       tree.computedState = computeGameNodeStates(tree, tree.activeNode);
       gamesById[chanId].tree = tree;
@@ -335,7 +335,7 @@ function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
     }
     gamesById[chanId] = {
       ...gamesById[chanId],
-      users: users.filter(name => name !== msg.user.name)
+      users: users.filter(name => name !== msg.user.name),
     };
     let receivedProposals = gamesById[chanId].receivedProposals;
     if (receivedProposals) {
@@ -362,7 +362,7 @@ function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
     }
     gamesById[chanId] = {
       ...gamesById[chanId],
-      users: [...users, msg.user.name]
+      users: [...users, msg.user.name],
     };
     return { ...prevState, gamesById };
   } else if (msg.type === "CHANNEL_SUBSCRIBERS_ONLY" && chanId) {
@@ -370,8 +370,8 @@ function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
       ...prevState.gamesById,
       [chanId]: {
         ...prevState.gamesById[chanId],
-        accessDenied: "KGS Plus Subscribers Only"
-      }
+        accessDenied: "KGS Plus Subscribers Only",
+      },
     };
     return { ...prevState, gamesById };
   } else if (msg.type === "PRIVATE_KEEP_OUT" && chanId) {
@@ -383,8 +383,8 @@ function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
       ...prevState.gamesById,
       [chanId]: {
         ...prevState.gamesById[chanId],
-        accessDenied: "Private Game"
-      }
+        accessDenied: "Private Game",
+      },
     };
     return { ...prevState, gamesById };
   } else if (msg.type === "SET_CURRENT_GAME_NODE" && chanId) {
@@ -434,7 +434,7 @@ export function handleGameMessage(
         .filter(g => isGamePlayer(currentName, g.players) && isGamePlaying(g))
         .map(g => ({
           type: "channel",
-          game: g
+          game: g,
         }));
     }
 
@@ -450,12 +450,12 @@ export function handleGameMessage(
           .filter(summary => summary.score === "UNFINISHED" && summary.inPlay)
           .map(summary => ({
             type: "summary",
-            game: summary
+            game: summary,
           }))
       );
       nextState = {
         ...nextState,
-        unfinishedGames
+        unfinishedGames,
       };
     } else if (unfinishedGames) {
       nextState = { ...nextState, unfinishedGames };

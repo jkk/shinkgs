@@ -7,7 +7,7 @@ import type {
   BoardMarkup,
   BoardPointMark,
   PlayerColor,
-  Point
+  Point,
 } from "../../model/types";
 
 let xLabels = "ABCDEFGHJKLMNOPQRST".split("");
@@ -18,7 +18,7 @@ type Props = {
   color: ?PlayerColor,
   mark: ?BoardPointMark,
   label: ?string,
-  onClick: ?(loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => any
+  onClick: ?(loc: Point, color?: ?PlayerColor, mark?: ?BoardPointMark) => any,
 };
 
 class BoardStoneSlot extends Component<Props> {
@@ -51,7 +51,7 @@ type PropsBoard = {
     loc: Point,
     color?: ?PlayerColor,
     mark?: ?BoardPointMark
-  ) => any
+  ) => any,
 };
 
 export default class Board extends Component<PropsBoard> {

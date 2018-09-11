@@ -5,7 +5,7 @@ import { nl2br, escapeHtml } from "../../util/string";
 
 type Props = {
   content: ?string,
-  firstLineHeading?: ?boolean
+  firstLineHeading?: ?boolean,
 };
 
 export class RichContent extends Component<Props> {
@@ -21,7 +21,7 @@ export class RichContent extends Component<Props> {
       className: "RichContent-link",
       urls: true,
       email: true,
-      twitter: false
+      twitter: false,
     };
     let html = nl2br(Autolinker.link(escapeHtml(content), opts));
     if (firstLineHeading) {

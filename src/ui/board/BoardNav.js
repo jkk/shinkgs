@@ -6,7 +6,7 @@ import { A, Icon } from "../common";
 type Props = {
   nodeId: number,
   currentLine: Array<number>,
-  onChangeCurrentNode: number => any
+  onChangeCurrentNode: number => any,
 };
 
 export default class BoardNav extends Component<Props> {

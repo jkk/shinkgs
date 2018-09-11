@@ -8,7 +8,7 @@ type Props = {
   readonly?: boolean,
   hilited?: boolean,
   onMinus: Function,
-  onPlus: Function
+  onPlus: Function,
 };
 
 export default class ProposalFormInput extends Component<Props> {

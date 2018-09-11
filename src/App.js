@@ -8,14 +8,14 @@ import {
   isValidNav,
   AppStore,
   KgsClient,
-  AppActions
+  AppActions,
 } from "./model";
 import type { KgsClientState, NavOption, AppState } from "./model";
 
 type Props = {};
 
 type State = {
-  appState: AppState
+  appState: AppState,
 };
 
 class App extends Component<Props, State> {

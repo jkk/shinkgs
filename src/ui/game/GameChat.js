@@ -7,7 +7,7 @@ type Props = {
   currentUser: User,
   chatSections: Array<GameChatSection>,
   usersByName: Index<User>,
-  onUserDetail: string => any
+  onUserDetail: string => any,
 };
 
 export default class GameChat extends Component<Props> {

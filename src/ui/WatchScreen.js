@@ -10,7 +10,7 @@ import type {
   Room,
   User,
   Index,
-  AppActions
+  AppActions,
 } from "../model";
 
 type Props = {
@@ -21,7 +21,7 @@ type Props = {
   watchGameId: ?(number | string),
   roomsById: Index<Room>,
   usersByName: Index<User>,
-  actions: AppActions
+  actions: AppActions,
 };
 
 export default class WatchScreen extends Component<Props> {
@@ -51,7 +51,7 @@ export default class WatchScreen extends Component<Props> {
       watchGameId,
       roomsById,
       usersByName,
-      actions
+      actions,
     } = this.props;
     if (!currentUser) {
       throw new InvariantError("currentUser is required");

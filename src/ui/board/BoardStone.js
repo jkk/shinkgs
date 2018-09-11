@@ -3,7 +3,7 @@ import React, { PureComponent as Component } from "react";
 import type { PlayerColor } from "../../model";
 
 type Props = {
-  color: PlayerColor
+  color: PlayerColor,
 };
 
 export default class BoardStone extends Component<Props> {

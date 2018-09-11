@@ -6,7 +6,7 @@ import type {
   GameType,
   GameRuleSet,
   GameRole,
-  PlayerColor
+  PlayerColor,
 } from "../types";
 
 function compareGames(a: GameChannel, b: GameChannel) {
@@ -59,7 +59,7 @@ const GAME_RESULT_LABEL = {
   "B+FORFEIT": "B+Forfeit",
   "W+FORFEIT": "W+Forfeit",
   "B+TIME": "B+Time",
-  "W+TIME": "W+Time"
+  "W+TIME": "W+Time",
 };
 
 export function formatGameScore(score: GameScore) {
@@ -184,7 +184,7 @@ const GAME_TYPE_LABEL = {
   rengo: "Rengo",
   free: "Free",
   ranked: "Ranked",
-  tournament: "Tournament"
+  tournament: "Tournament",
 };
 
 export function formatGameType(type: GameType) {
@@ -195,7 +195,7 @@ const RULESET_LABEL = {
   japanese: "Japanese",
   chinese: "Chinese",
   aga: "AGA",
-  new_zealand: "New Zealand"
+  new_zealand: "New Zealand",
 };
 
 export function formatGameRuleset(ruleset: GameRuleSet) {
@@ -208,7 +208,7 @@ const ROLE_LABELS = {
   black_2: "Black 2",
   white_2: "White 2",
   challengeCreator: "Creator",
-  owner: "Owner"
+  owner: "Owner",
 };
 
 export function formatGameRole(role: GameRole) {

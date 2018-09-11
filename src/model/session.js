@@ -14,18 +14,18 @@ export function handleSessionMessage(
     nextState = {
       ...msg.appState,
       loginError: null,
-      logoutError: null
+      logoutError: null,
     };
     return nextState;
   case "APP_STATE_INITIALIZED":
     return {
       ...prevState,
-      initialized: true
+      initialized: true,
     };
   case "CLIENT_STATE_CHANGE":
     return {
       ...prevState,
-      clientState: msg.clientState
+      clientState: msg.clientState,
     };
   case "HELLO":
     return {
@@ -34,51 +34,51 @@ export function handleSessionMessage(
         jsonClientBuild: msg.jsonClientBuild,
         versionMajor: msg.versionMajor,
         versionMinor: msg.versionMinor,
-        versionBugfix: msg.versionBugfix
-      }
+        versionBugfix: msg.versionBugfix,
+      },
     };
   case "LOGIN_START":
     return {
       ...prevState,
       loginError: null,
-      logoutError: null
+      logoutError: null,
     };
   case "LOGIN_FAILED_MISSING_INFO":
     return {
       ...prevState,
-      loginError: "Enter username and password"
+      loginError: "Enter username and password",
     };
   case "LOGIN_FAILED_NO_SUCH_USER":
     return {
       ...prevState,
-      loginError: "Login failed - no such user"
+      loginError: "Login failed - no such user",
     };
   case "LOGIN_FAILED_KEEP_OUT":
     return {
       ...prevState,
-      loginError: msg.text || "Login failed - you are temporarily banned"
+      loginError: msg.text || "Login failed - you are temporarily banned",
     };
   case "LOGIN_FAILED_BAD_PASSWORD":
     return {
       ...prevState,
-      loginError: msg.text || "Login failed - bad password"
+      loginError: msg.text || "Login failed - bad password",
     };
   case "LOGIN_FAILED_USER_ALREADY_EXISTS":
     return {
       ...prevState,
-      loginError: msg.text || "Login failed - user already exists"
+      loginError: msg.text || "Login failed - user already exists",
     };
   case "LOGIN_SUCCESS":
     return {
       ...prevState,
       loginError: null,
       currentUser: parseUser(null, msg.you),
-      preferences: { ...prevState.preferences, username: msg.you.name }
+      preferences: { ...prevState.preferences, username: msg.you.name },
     };
   case "LOGOUT_START":
     return {
       ...prevState,
-      ...getEmptyServerState()
+      ...getEmptyServerState(),
     };
   case "LOGOUT":
     nextState = { ...prevState };
@@ -95,43 +95,43 @@ export function handleSessionMessage(
     return {
       ...prevState,
       logoutError:
-          "Automatically logged out because your account has been logged into another system"
+          "Automatically logged out because your account has been logged into another system",
     };
   case "SESSION_EXPIRED":
     return {
       ...prevState,
-      logoutError: "Previous session expired or became invalid"
+      logoutError: "Previous session expired or became invalid",
     };
   case "NAV_CHANGE":
     return {
       ...prevState,
       nav: msg.nav,
-      userDetailsRequest: null
+      userDetailsRequest: null,
     };
   case "SHOW_UNDER_CONSTRUCTION":
     return {
       ...prevState,
-      showUnderConstruction: true
+      showUnderConstruction: true,
     };
   case "HIDE_UNDER_CONSTRUCTION":
     return {
       ...prevState,
-      showUnderConstruction: false
+      showUnderConstruction: false,
     };
   case "SHOW_FEEDBACK_MODAL":
     return {
       ...prevState,
-      showFeedbackModal: true
+      showFeedbackModal: true,
     };
   case "HIDE_FEEDBACK_MODAL":
     return {
       ...prevState,
-      showFeedbackModal: false
+      showFeedbackModal: false,
     };
   case "UPDATE_PREFERENCES":
     return {
       ...prevState,
-      preferences: { ...prevState.preferences, ...msg.preferences }
+      preferences: { ...prevState.preferences, ...msg.preferences },
     };
   default:
     return prevState;

@@ -8,7 +8,7 @@ import type {
   Conversation,
   ChannelMembership,
   ConversationMessage,
-  Index
+  Index,
 } from "./types";
 
 function createConversation(msg: KgsMessage) {
@@ -18,7 +18,7 @@ function createConversation(msg: KgsMessage) {
   let convo: Conversation = {
     id: msg.channelId,
     messages: [],
-    status: isTempId(msg.channelId) ? "pending" : "created"
+    status: isTempId(msg.channelId) ? "pending" : "created",
   };
   if (msg.callbackKey) {
     convo.callbackKey = msg.callbackKey;
@@ -41,7 +41,7 @@ export function handleConversationMessage(
     chanId
   ) {
     let conversationsById: Index<Conversation> = {
-      ...prevState.conversationsById
+      ...prevState.conversationsById,
     };
     let convo = createConversation(msg);
 
@@ -87,7 +87,7 @@ export function handleConversationMessage(
     chanId
   ) {
     let conversationsById: Index<Conversation> = {
-      ...prevState.conversationsById
+      ...prevState.conversationsById,
     };
     if (!conversationsById[chanId]) {
       conversationsById[chanId] = createConversation(msg);
@@ -96,7 +96,7 @@ export function handleConversationMessage(
       id: uuidV4(),
       sender: msg.user.name,
       body: msg.text,
-      date: new Date()
+      date: new Date(),
     };
     if (msg.type === "ANNOUNCE") {
       convoMsg.announcement = true;
@@ -126,7 +126,7 @@ export function handleConversationMessage(
     messages.push(convoMsg);
     let newConvo: Conversation = {
       ...conversationsById[chanId],
-      messages
+      messages,
     };
     let isUnseen =
       prevState.nav !== "chat" ||
@@ -143,15 +143,15 @@ export function handleConversationMessage(
       sender: msg.user && msg.user.name,
       body: msg.text,
       date: new Date(),
-      announcement: true
+      announcement: true,
     };
     let conversationsById: Index<Conversation> = {
-      ...prevState.conversationsById
+      ...prevState.conversationsById,
     };
     for (let convoId of Object.keys(conversationsById)) {
       conversationsById[convoId] = {
         ...conversationsById[convoId],
-        messages: [...conversationsById[convoId].messages, convoMsg]
+        messages: [...conversationsById[convoId].messages, convoMsg],
       };
     }
     return { ...prevState, conversationsById };
@@ -160,12 +160,12 @@ export function handleConversationMessage(
   } else if (msg.type === "CLOSE_CONVERSATION") {
     let convoId = msg.conversationId;
     let conversationsById: Index<Conversation> = {
-      ...prevState.conversationsById
+      ...prevState.conversationsById,
     };
     if (conversationsById[convoId]) {
       conversationsById[convoId] = {
         ...conversationsById[convoId],
-        status: "closed"
+        status: "closed",
       };
       let nextState = { ...prevState, conversationsById };
       if (prevState.activeConversationId === convoId) {
@@ -176,18 +176,18 @@ export function handleConversationMessage(
   } else if (msg.type === "CONVERSATION_CHANGE") {
     return {
       ...prevState,
-      activeConversationId: msg.conversationId
+      activeConversationId: msg.conversationId,
     };
   } else if (msg.type === "SAW_CONVERSATION") {
     let convoId = msg.conversationId;
     let conversationsById: Index<Conversation> = {
-      ...prevState.conversationsById
+      ...prevState.conversationsById,
     };
     if (conversationsById[convoId]) {
       conversationsById[convoId] = {
         ...conversationsById[convoId],
         lastSeen: Date.now(),
-        unseenCount: 0
+        unseenCount: 0,
       };
       return { ...prevState, conversationsById };
     }

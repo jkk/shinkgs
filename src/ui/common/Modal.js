@@ -7,7 +7,7 @@ import { isAncestor } from "../../util/dom";
 type Props = {
   children?: any,
   title?: any,
-  onClose: Function
+  onClose: Function,
 };
 
 export class Modal extends Component<Props> {

@@ -20,7 +20,7 @@ type Props = {
   captures: number,
   timeLeft: number,
   gameActive: boolean,
-  onUserDetail: User => any
+  onUserDetail: User => any,
 };
 
 class GamePlayersInfoColor extends Component<Props> {
@@ -36,7 +36,7 @@ class GamePlayersInfoColor extends Component<Props> {
       gameRules,
       captures,
       timeLeft,
-      gameActive
+      gameActive,
     } = this.props;
     if (!player1 && !player2) {
       return null;
@@ -128,7 +128,7 @@ class GamePlayersInfoColor extends Component<Props> {
 
 type GamePlayersInfoProps = {
   game: GameChannel,
-  onUserDetail: User => any
+  onUserDetail: User => any,
 };
 
 export default class GamePlayersInfo extends Component<GamePlayersInfoProps> {

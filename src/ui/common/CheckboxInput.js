@@ -3,7 +3,7 @@ import React, { PureComponent as Component } from "react";
 
 type Props = {
   label: any,
-  checked: boolean
+  checked: boolean,
 };
 
 export class CheckboxInput extends Component<Props> {

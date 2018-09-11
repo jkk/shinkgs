@@ -8,7 +8,7 @@ import {
   getEvenProposal,
   getActionsForUser,
   createInitialProposal,
-  getOtherPlayerName
+  getOtherPlayerName,
 } from "../../model/game";
 import { InvariantError } from "../../util/error";
 import type {
@@ -21,7 +21,7 @@ import type {
   Conversation,
   Preferences,
   Index,
-  AppActions
+  AppActions,
 } from "../../model";
 
 type Props = {
@@ -33,7 +33,7 @@ type Props = {
   conversation: ?Conversation,
   preferences: Preferences,
   actions: AppActions,
-  onCancel: Function
+  onCancel: Function,
 };
 
 type State = {
@@ -42,7 +42,7 @@ type State = {
   visibility: ProposalVisibility,
   notes: string,
   selectedProposalIndex: number,
-  activeTab: string
+  activeTab: string,
 };
 
 export default class ChallengeEditor extends Component<Props, State> {
@@ -97,7 +97,7 @@ export default class ChallengeEditor extends Component<Props, State> {
       visibility,
       notes,
       selectedProposalIndex: 0,
-      activeTab: "proposal"
+      activeTab: "proposal",
     };
   }
 
@@ -150,7 +150,7 @@ export default class ChallengeEditor extends Component<Props, State> {
       roomsById,
       conversation,
       actions,
-      onCancel
+      onCancel,
     } = this.props;
     let {
       initialProposal,
@@ -158,7 +158,7 @@ export default class ChallengeEditor extends Component<Props, State> {
       visibility,
       notes,
       selectedProposalIndex,
-      activeTab
+      activeTab,
     } = this.state;
     // let sentProposal = challenge && challenge.sentProposal;
     let creator = challenge ? challenge.players.challengeCreator : currentUser;
@@ -346,7 +346,7 @@ export default class ChallengeEditor extends Component<Props, State> {
               onSelectTab={this._onSelectTab}
               tabs={[
                 { id: "proposal", label: "Proposal", content: proposalContent },
-                { id: "chat", label: chatLabel, content: chatContent }
+                { id: "chat", label: chatLabel, content: chatContent },
               ]}
             />
           </div>
@@ -371,13 +371,13 @@ export default class ChallengeEditor extends Component<Props, State> {
 
   _onPrevProposal = () => {
     this.setState(state => ({
-      selectedProposalIndex: state.selectedProposalIndex - 1
+      selectedProposalIndex: state.selectedProposalIndex - 1,
     }));
   };
 
   _onNextProposal = () => {
     this.setState(state => ({
-      selectedProposalIndex: state.selectedProposalIndex + 1
+      selectedProposalIndex: state.selectedProposalIndex + 1,
     }));
   };
 

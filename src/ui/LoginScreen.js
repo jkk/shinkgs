@@ -8,21 +8,21 @@ import type { KgsClientState, Preferences, AppActions } from "../model";
 type SavedLogin = {
   username: string | null,
   savePassword: boolean | null,
-  password: string | null
+  password: string | null,
 };
 
 type Props = {
   loginError: ?string,
   clientState: KgsClientState,
   preferences: Preferences,
-  actions: AppActions
+  actions: AppActions,
 };
 
 type State = {
   logoLoaded: boolean,
   username: string,
   savePassword: boolean,
-  password: string
+  password: string,
 };
 
 export default class LoginScreen extends Component<Props, State> {
@@ -30,7 +30,7 @@ export default class LoginScreen extends Component<Props, State> {
     logoLoaded: false,
     username: this.props.preferences.username || "",
     savePassword: false,
-    password: ""
+    password: "",
   };
 
   componentDidMount() {
@@ -185,7 +185,7 @@ export default class LoginScreen extends Component<Props, State> {
       let savedLogin: SavedLogin = {
         username,
         savePassword,
-        password: savePassword ? password : null
+        password: savePassword ? password : null,
       };
       set("savedLogin", savedLogin);
     }

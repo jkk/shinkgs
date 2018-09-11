@@ -13,7 +13,7 @@ import type {
   Conversation,
   ChannelMembership,
   GameChannel,
-  Index
+  Index,
 } from "../../model";
 
 type Props = {
@@ -22,16 +22,16 @@ type Props = {
   conversationsById: Index<Conversation>,
   channelMembership: ChannelMembership,
   activeChallenge: ?GameChannel,
-  actions: AppActions
+  actions: AppActions,
 };
 
 type State = {
-  showingMoreMenu: boolean
+  showingMoreMenu: boolean,
 };
 
 export default class Nav extends Component<Props, State> {
   state = {
-    showingMoreMenu: false
+    showingMoreMenu: false,
   };
 
   _moreEl: any;
@@ -59,7 +59,7 @@ export default class Nav extends Component<Props, State> {
       conversationsById,
       channelMembership,
       activeChallenge,
-      actions
+      actions,
     } = this.props;
     let { showingMoreMenu } = this.state;
     if (!currentUser) {

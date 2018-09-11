@@ -16,7 +16,7 @@ type Props = {
   prevNigiri: boolean | null,
   playerHilite?: boolean,
   onUserDetail: string => any,
-  onToggleRole: string => any
+  onToggleRole: string => any,
 };
 
 class ProposalPlayersItem extends Component<Props> {
@@ -28,7 +28,7 @@ class ProposalPlayersItem extends Component<Props> {
       user,
       nigiri,
       prevNigiri,
-      playerHilite
+      playerHilite,
     } = this.props;
     let icon;
     if (nigiri) {
@@ -99,7 +99,7 @@ type ProposalPlayersProps = {
   gameType: GameType,
   usersByName: Index<User>,
   onUserDetail: string => any,
-  onToggleRole: string => any
+  onToggleRole: string => any,
 };
 
 export default class ProposalPlayers extends Component<ProposalPlayersProps> {
@@ -112,7 +112,7 @@ export default class ProposalPlayers extends Component<ProposalPlayersProps> {
       prevNigiri,
       usersByName,
       onUserDetail,
-      onToggleRole
+      onToggleRole,
     } = this.props;
     return (
       <div className="ProposalPlayers">

@@ -3,7 +3,7 @@ import React, { PureComponent as Component } from "react";
 
 type Props = {
   majorCount?: number,
-  minorCount?: number
+  minorCount?: number,
 };
 
 export class UnseenBadge extends Component<Props> {

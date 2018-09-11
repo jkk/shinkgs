@@ -6,7 +6,7 @@ import type { User } from "../../model";
 
 type Props = {
   currentUser: ?User,
-  actions: AppActions
+  actions: AppActions,
 };
 
 export default class MoreMenu extends Component<Props> {

@@ -8,7 +8,7 @@ import type { User, AppActions } from "../../model";
 
 type Props = {
   currentUser: ?User,
-  actions: AppActions
+  actions: AppActions,
 };
 
 export default class MoreScreen extends Component<Props> {

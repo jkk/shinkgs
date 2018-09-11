@@ -2,7 +2,7 @@
 import React, { PureComponent as Component } from "react";
 
 type Props = {
-  name: string
+  name: string,
 };
 
 export class Icon extends Component<Props> {

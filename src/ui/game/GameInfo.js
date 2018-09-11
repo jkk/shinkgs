@@ -8,7 +8,7 @@ import type { GameChannel, Room, Index } from "../../model";
 type Props = {
   game: GameChannel,
   roomsById: Index<Room>,
-  children?: Children
+  children?: Children,
 };
 
 export default class GameInfo extends Component<Props> {

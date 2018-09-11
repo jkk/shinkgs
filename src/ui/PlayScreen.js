@@ -20,7 +20,7 @@ import type {
   Conversation,
   Preferences,
   Index,
-  AppActions
+  AppActions,
 } from "../model";
 
 type Props = {
@@ -36,17 +36,17 @@ type Props = {
   conversationsById: Index<Conversation>,
   usersByName: Index<User>,
   preferences: Preferences,
-  actions: AppActions
+  actions: AppActions,
 };
 
 type State = {
-  creatingChallenge: boolean
+  creatingChallenge: boolean,
 };
 
 export default class PlayScreen extends Component<Props, State> {
   static defaultProps: Props;
   state = {
-    creatingChallenge: false
+    creatingChallenge: false,
   };
 
   componentDidMount() {
@@ -86,7 +86,7 @@ export default class PlayScreen extends Component<Props, State> {
       conversationsById,
       usersByName,
       preferences,
-      actions
+      actions,
     } = this.props;
     let { creatingChallenge } = this.state;
     if (!currentUser) {

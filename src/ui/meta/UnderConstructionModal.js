@@ -3,7 +3,7 @@ import React, { PureComponent as Component } from "react";
 import { Modal, Button } from "../common";
 
 type Props = {
-  onClose: Function
+  onClose: Function,
 };
 
 export default class UnderConstructionModal extends Component<Props> {

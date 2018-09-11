@@ -7,7 +7,7 @@ type Props = {
   disabled?: boolean,
   onClick?: (e: Event) => void | Promise<any>,
   className?: string,
-  children?: any
+  children?: any,
 };
 
 export class A extends Component<Props> {

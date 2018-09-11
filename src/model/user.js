@@ -7,7 +7,7 @@ import type {
   UserFlags,
   Index,
   ChannelMembership,
-  RankGraph
+  RankGraph,
 } from "./types";
 
 export function userHasRank(user: User) {
@@ -167,12 +167,12 @@ export function parseRankGraph(data: Array<number>): RankGraph {
 
     return {
       x: d,
-      y: rank < maxRank && rank > minRank ? rank : null
+      y: rank < maxRank && rank > minRank ? rank : null,
     };
   });
 
   newRankGraph.data = {
-    series: [series]
+    series: [series],
   };
 
   // Create a list of the unique months present in the graph data for labeling
@@ -220,8 +220,8 @@ export function handleUserMessage(
       ...prevState,
       userDetailsRequest: {
         name: msg.name,
-        status: "pending"
-      }
+        status: "pending",
+      },
     };
   } else if (msg.type === "DETAILS_JOIN" && chanId) {
     let usersByName: Index<User> = { ...prevState.usersByName };
@@ -243,7 +243,7 @@ export function handleUserMessage(
     ) {
       nextState.userDetailsRequest = {
         name: prevState.userDetailsRequest.name,
-        status: "received"
+        status: "received",
       };
     }
 
@@ -259,7 +259,7 @@ export function handleUserMessage(
     return nextState;
   } else if (msg.type === "DETAILS_RANK_GRAPH") {
     let rankGraphsByChannelId: Index<RankGraph> = {
-      ...prevState.rankGraphsByChannelId
+      ...prevState.rankGraphsByChannelId,
     };
     let channelId: string = String(msg.channelId);
     let data: Array<number> = msg.data;
@@ -283,8 +283,8 @@ export function handleUserMessage(
       ...prevState,
       userDetailsRequest: {
         name: msg.name,
-        status: "nonexistant"
-      }
+        status: "nonexistant",
+      },
     };
   } else if (msg.type === "CLOSE_USER_DETAILS") {
     return { ...prevState, userDetailsRequest: null };

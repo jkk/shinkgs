@@ -19,7 +19,7 @@ export function formatLocaleDate(date: Date | number | string) {
   return date.toLocaleDateString(undefined, {
     year: "numeric",
     month: "short",
-    day: "numeric"
+    day: "numeric",
   });
 }
 
@@ -36,7 +36,7 @@ export function formatLocaleDateTime(date: Date | number | string) {
     day: "numeric",
     hour: "numeric",
     minute: "numeric",
-    second: undefined
+    second: undefined,
   });
 }
 
@@ -50,7 +50,7 @@ export function formatLocaleTime(date: Date | number | string) {
   return date.toLocaleTimeString(undefined, {
     hour: "numeric",
     minute: "numeric",
-    second: undefined
+    second: undefined,
   });
 }
 

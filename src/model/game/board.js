@@ -6,7 +6,7 @@ import type {
   SgfColor,
   GameRuleSet,
   BoardState,
-  Point
+  Point,
 } from "../types";
 
 export function createBoardState(size: number): BoardState {
@@ -30,7 +30,7 @@ type StoneGroup = {
   id: number,
   color: "white" | "black",
   points: Array<Point>,
-  liberties: number
+  liberties: number,
 };
 
 export function getStoneGroup(
@@ -100,7 +100,7 @@ export function getStoneGroup(
     id,
     color,
     points,
-    liberties
+    liberties,
   };
 }
 
@@ -180,7 +180,7 @@ function removeDeadStonesAround(board: BoardState, x: number, y: number) {
   return {
     blackCaptures: blackCaps,
     whiteCaptures: whiteCaps,
-    board: newBoard
+    board: newBoard,
   };
 }
 
@@ -220,6 +220,6 @@ export function applyPropsToBoard(
   return {
     blackCaptures: blackCaps,
     whiteCaptures: whiteCaps,
-    board: newBoard
+    board: newBoard,
   };
 }

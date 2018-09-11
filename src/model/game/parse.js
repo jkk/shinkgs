@@ -11,14 +11,14 @@ import type {
   SgfProp,
   SgfLoc,
   GameRuleSet,
-  ConversationMessage
+  ConversationMessage,
 } from "../types";
 import { GameNode } from "../types";
 
 export function parseGameSummary(values: Object): GameSummary {
   let rules: GameRules = {
     size: values.size,
-    komi: values.komi
+    komi: values.komi,
   };
   if (values.handicap) {
     rules.handicap = values.handicap;
@@ -27,7 +27,7 @@ export function parseGameSummary(values: Object): GameSummary {
     type: values.gameType,
     timestamp: values.timestamp,
     rules: rules,
-    players: values.players
+    players: values.players,
   };
   if (values.score) {
     summary.score = values.score;
@@ -73,7 +73,7 @@ function parseGameComments(
         id: uuidV4(),
         sender: username,
         body: body.trim(),
-        date: commentDate
+        date: commentDate,
       });
     }
     if (lineMsgs.length) {
@@ -99,12 +99,12 @@ function addPropsToNode(
   );
   tree.nodes = {
     ...tree.nodes,
-    [nodeId]: newNode
+    [nodeId]: newNode,
   };
   tree.computedState = computeGameNodeStates(tree, nodeId);
   tree.messages = {
     ...tree.messages,
-    [nodeId]: parseGameComments(newNode, commentDate)
+    [nodeId]: parseGameComments(newNode, commentDate),
   };
 }
 
@@ -126,7 +126,7 @@ function addNodeChild(
       newChildren,
       node ? node.parent : null
     ),
-    [childNodeId]: new GameNode([], [], nodeId)
+    [childNodeId]: new GameNode([], [], nodeId),
   };
 }
 
@@ -159,7 +159,7 @@ function removePropsFromNode(
   let newNode = new GameNode(newProps, node.children, node.parent);
   tree.nodes = {
     ...tree.nodes,
-    [nodeId]: newNode
+    [nodeId]: newNode,
   };
 }
 
@@ -171,7 +171,7 @@ function replaceNodeProp(tree: GameTree, nodeId: number, prop: SgfProp) {
   let newNode = new GameNode(newProps, node.children, node.parent);
   tree.nodes = {
     ...tree.nodes,
-    [nodeId]: newNode
+    [nodeId]: newNode,
   };
 }
 
@@ -186,7 +186,7 @@ function parseSgfEvents(prevTree: ?GameTree, events: Array<SgfEvent>) {
         rootNode: event.nodeId,
         activeNode: event.nodeId,
         currentNode: event.nodeId,
-        currentLine: [event.nodeId]
+        currentLine: [event.nodeId],
       };
     }
     if (event.type === "PROP_ADDED") {
@@ -206,7 +206,7 @@ function parseSgfEvents(prevTree: ?GameTree, events: Array<SgfEvent>) {
       let newNode = new GameNode(node.props, event.children, node.parent);
       tree.nodes = {
         ...tree.nodes,
-        [event.nodeId]: newNode
+        [event.nodeId]: newNode,
       };
       tree.currentLine = getGameLine(tree, tree.currentNode);
     } else if (event.type === "CHILD_ADDED") {
@@ -295,7 +295,7 @@ const GAME_CHAN_PROPS = [
   "blackDoneSent",
   "whiteScore",
   "blackScore",
-  "doneId"
+  "doneId",
 ];
 
 let gameTimes: { [gameTime: number]: true } = {};
@@ -332,7 +332,7 @@ export function parseGameChannel(
   if (!values.rules && values.size && values.komi) {
     let rules: GameRules = {
       size: values.size,
-      komi: values.komi
+      komi: values.komi,
     };
     if (values.handicap) {
       rules.handicap = values.handicap;

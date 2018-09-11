@@ -10,7 +10,7 @@ type MatchupInfo = {
   handicap: number,
   komi: number,
   nigiri: boolean,
-  unranked: boolean
+  unranked: boolean,
 };
 
 export function getMatchupInfo(
@@ -34,7 +34,7 @@ export function getMatchupInfo(
       handicap: 0,
       komi: initialKomi || DEFAULT_KOMI,
       nigiri: true,
-      unranked
+      unranked,
     };
   }
   rank1 = rank1 < 0 ? rank1 + 1 : rank1;
@@ -137,7 +137,7 @@ export function getEvenProposal(
     proposal.rules = {
       ...proposal.rules,
       handicap,
-      komi
+      komi,
     };
     proposal.nigiri = nigiri;
     if (unranked && proposal.gameType === "ranked") {
@@ -188,13 +188,13 @@ export function createInitialProposal(
       timeSystem: "byo_yomi",
       mainTime: 60 * 20,
       byoYomiPeriods: 5,
-      byoYomiTime: 30
+      byoYomiTime: 30,
     };
   let proposal = {
     gameType,
     players,
     rules,
-    nigiri: true
+    nigiri: true,
   };
   return proposal;
 }

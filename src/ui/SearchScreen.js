@@ -10,18 +10,18 @@ import type { User, Index, AppActions } from "../model";
 
 type Props = {
   usersByName: Index<User>,
-  actions: AppActions
+  actions: AppActions,
 };
 
 type State = {
-  query: string
+  query: string,
 };
 
 export default class SearchScreen extends Component<Props, State> {
   state: {
-    query: string
+    query: string,
   } = {
-    query: ""
+    query: "",
   };
 
   componentDidMount() {

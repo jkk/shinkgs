@@ -18,7 +18,7 @@ import {
   isGameScoring,
   getGameChatSections,
   getGamePlayerRole,
-  getGameRoleColor
+  getGameRoleColor,
 } from "../../model/game";
 import { sortUsers } from "../../model/user";
 import type {
@@ -30,7 +30,7 @@ import type {
   AppActions,
   Point,
   BoardPointMark,
-  PlayerColor
+  PlayerColor,
 } from "../../model";
 
 type Props = {
@@ -39,18 +39,18 @@ type Props = {
   usersByName: Index<User>,
   roomsById: Index<Room>,
   currentUser: User,
-  actions: AppActions
+  actions: AppActions,
 };
 
 type State = {
   tab: "chat" | "info" | "users",
-  chatSections: Array<GameChatSection>
+  chatSections: Array<GameChatSection>,
 };
 
 export default class GameScreen extends Component<Props, State> {
   state = {
     tab: "chat",
-    chatSections: getGameChatSections(this.props.game)
+    chatSections: getGameChatSections(this.props.game),
   };
 
   _chatScrollRef: ?HTMLElement;
@@ -107,7 +107,7 @@ export default class GameScreen extends Component<Props, State> {
       game,
       usersByName,
       roomsById,
-      actions
+      actions,
     } = this.props;
     let { tab, chatSections } = this.state;
     let users = game.users ? game.users.map(name => usersByName[name]) : [];
@@ -276,7 +276,7 @@ export default class GameScreen extends Component<Props, State> {
                   id: 0,
                   messages: [],
                   status: "created",
-                  chatsDisabled: !game.tree
+                  chatsDisabled: !game.tree,
                 }}
                 onSubmit={this._onChat}
               />

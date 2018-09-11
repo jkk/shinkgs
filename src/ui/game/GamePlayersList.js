@@ -5,7 +5,7 @@ import type { GamePlayers, PlayerColor } from "../../model";
 
 type Props = {
   players: ?GamePlayers,
-  winner?: ?PlayerColor
+  winner?: ?PlayerColor,
 };
 
 export default class GamePlayersList extends Component<Props> {

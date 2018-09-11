@@ -10,7 +10,7 @@ import type { GameChannel, GameFilter, Room, Index } from "../../model";
 type Props = {
   game: GameChannel,
   room: ?Room,
-  onSelect: number => any
+  onSelect: number => any,
 };
 
 class GameListItem extends Component<Props> {
@@ -87,16 +87,16 @@ type GameListProps = {
   games: Array<GameChannel>,
   filter?: GameFilter,
   roomsById?: Index<Room>,
-  onSelect: number => any
+  onSelect: number => any,
 };
 
 type State = {
-  fullRender: boolean
+  fullRender: boolean,
 };
 
 export default class GameList extends Component<GameListProps, State> {
   state = {
-    fullRender: false
+    fullRender: false,
   };
 
   componentDidMount() {
