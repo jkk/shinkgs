@@ -14,7 +14,7 @@ export default class UnderConstructionModal extends Component<Props> {
         <div className="UnderConstructionModal">
           <div className="UnderConstructionModal-title">Under Construction</div>
           <div className="UnderConstructionModal-desc">
-            <p>That feature isn't available yet.</p>
+            <p>That feature {"isn't"} available yet.</p>
             <p>
               Want to help? Send feedback to{" "}
               <a

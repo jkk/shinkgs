@@ -1,6 +1,7 @@
 import React, { PureComponent as Component } from "react";
 import dateFormat from "date-fns/format";
 import get from "lodash.get";
+/* @noflow */
 import type { RankGraph } from "./types";
 import { Spinner } from "../common";
 

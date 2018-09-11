@@ -220,6 +220,16 @@ export default class UserDetailsModal extends Component<Props, State> {
         <div className="UserDetailsModal-not-found">User not found</div>
       );
     }
+
+    let userDetailsModalMessage = (
+      <div className="UserDetailsModal-message">
+        <Button icon="comment" secondary onClick={this._onStartChat}>
+          {" "}
+          Message{" "}
+        </Button>
+      </div>
+    );
+
     return (
       <div className="UserDetailsModal" onClick={this._onMaybeClose}>
         <div className="UserDetailsModal-main" ref={this._setMainRef}>
@@ -257,21 +267,14 @@ export default class UserDetailsModal extends Component<Props, State> {
                 (user.name !== currentUser.name &&
                   user.flags &&
                   user.flags.connected) ? (
-                    <div className="UserDetailsModal-message">
-                      <Button
-                        icon="comment"
-                        secondary
-                        onClick={this._onStartChat}>
-                      Message
-                      </Button>
-                    </div>
-                  ) : user && user.name === currentUser.name ? (
-                    <div className="UserDetailsModal-edit-button">
-                      <Button icon="pencil" secondary onClick={this._onEdit}>
+                  userDetailsModalMessage
+                ) : user && user.name === currentUser.name ? (
+                  <div className="UserDetailsModal-edit-button">
+                    <Button icon="pencil" secondary onClick={this._onEdit}>
                       Edit Profile
-                      </Button>
-                    </div>
-                  ) : null}
+                    </Button>
+                  </div>
+                ) : null}
               </div>
             ) : null}
           </div>

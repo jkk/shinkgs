@@ -182,14 +182,14 @@ export function createInitialProposal(
   let rules: GameRules = lastProposal
     ? lastProposal.rules
     : {
-      komi: DEFAULT_KOMI,
-      size: 19,
-      rules: "japanese",
-      timeSystem: "byo_yomi",
-      mainTime: 60 * 20,
-      byoYomiPeriods: 5,
-      byoYomiTime: 30,
-    };
+        komi: DEFAULT_KOMI,
+        size: 19,
+        rules: "japanese",
+        timeSystem: "byo_yomi",
+        mainTime: 60 * 20,
+        byoYomiPeriods: 5,
+        byoYomiTime: 30,
+      };
   let proposal = {
     gameType,
     players,

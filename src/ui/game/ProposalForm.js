@@ -178,13 +178,13 @@ export default class ProposalForm extends Component<Props> {
                   ) : null}
                   {rules.timeSystem === "byo_yomi" ||
                   rules.timeSystem === "canadian" ? (
-                      <ProposalFormInput
-                        value={formatDuration(rules.byoYomiTime || 0)}
-                        label="overtime"
-                        onMinus={this._onByoYomiMinus}
-                        onPlus={this._onByoYomiPlus}
-                      />
-                    ) : null}
+                    <ProposalFormInput
+                      value={formatDuration(rules.byoYomiTime || 0)}
+                      label="overtime"
+                      onMinus={this._onByoYomiMinus}
+                      onPlus={this._onByoYomiPlus}
+                    />
+                  ) : null}
                   {rules.timeSystem === "byo_yomi" ? (
                     <ProposalFormInput
                       value={rules.byoYomiPeriods || 0}

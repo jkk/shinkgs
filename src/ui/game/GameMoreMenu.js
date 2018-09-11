@@ -115,7 +115,7 @@ export default class GameMoreMenu extends Component<Props, State> {
             <a
               className="GameMoreMenu-dropdown-item"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               href={gokibitzUrl}
               onClick={this._onToggleDropdown}>
               Open in GoKibitz
@@ -123,7 +123,7 @@ export default class GameMoreMenu extends Component<Props, State> {
             <a
               className="GameMoreMenu-dropdown-item"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               href={eidogoUrl}
               onClick={this._onToggleDropdown}>
               Open in EidoGo
