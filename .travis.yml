@@ -16,7 +16,7 @@ install:
 script:
   - yarn build
   - yarn lint
-  #- yarn flow
+  - yarn flow
   - yarn test
 
 # Install Now CLI on Travis
@@ -25,7 +25,7 @@ before_deploy: npm install now --no-save
 # Deploy on now.sh
 deploy:
   - provider: script
-    script: now rm --team shinkgs --token $NOW_TOKEN -y -s shinkgs && now --public --team shinkgs --token $NOW_TOKEN && now alias --team shinkgs --token $NOW_TOKEN shinkgs-$TRAVIS_BRANCH && echo "The current build is available at https://shinkgs-$TRAVIS_BRANCH.now.sh"
+    script: now rm --team shinkgs --token $NOW_TOKEN -y shinkgs || true && now --public --team shinkgs --token $NOW_TOKEN && now alias --team shinkgs --token $NOW_TOKEN shinkgs-$TRAVIS_BRANCH && echo "The current build is available at https://shinkgs-$TRAVIS_BRANCH.now.sh"
     skip_cleanup: true
     on:
       all_branches: true

@@ -130,15 +130,19 @@ export function computeGameNodeStates(
   let rootNode = tree.nodes[tree.rootNode];
   let rulesProp = rootNode.props.find(p => p.name === "RULES");
   let size =
+    // $FlowFixMe
     rulesProp && typeof rulesProp.size === "number" ? rulesProp.size : 19;
   let ruleset: GameRuleSet =
+    // $FlowFixMe
     rulesProp && typeof rulesProp.rules !== "undefined"
       ? validateRuleSet(rulesProp.rules)
       : "japanese";
   let mainTime =
+    // $FlowFixMe
     rulesProp && typeof rulesProp.mainTime === "number"
       ? rulesProp.mainTime
       : -1;
+  /*flow-enable*/
 
   // Don't redo already-computed state. Anything that happened before
   // the node we're looking at is still valid.

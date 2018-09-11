@@ -296,7 +296,7 @@ export default class GameScreen extends Component<Props, State> {
     );
   }
 
-  _setChatScrollRef = (ref: HTMLElement) => {
+  _setChatScrollRef = (ref: HTMLElement | null) => {
     this._chatScrollRef = ref;
   };
 
@@ -351,14 +351,14 @@ export default class GameScreen extends Component<Props, State> {
   _onAcceptUndo = () => {
     let { game } = this.props;
     if (game.undoRequest) {
-      this.props.actions.onAcceptUndo(game, game.undoRequest);
+      this.props.actions.onAcceptUndo(game);
     }
   };
 
   _onDeclineUndo = () => {
     let { game } = this.props;
     if (game.undoRequest) {
-      this.props.actions.onDeclineUndo(game, game.undoRequest);
+      this.props.actions.onDeclineUndo(game);
     }
   };
 }

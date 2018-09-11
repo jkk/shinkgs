@@ -132,7 +132,7 @@ export default class GameMoreMenu extends Component<Props, State> {
               className="GameMoreMenu-dropdown-item"
               style={{ cursor: "pointer" }}
               onClick={this._onToggleGameInfo}
-              href={eidogoUrl}>
+              href={this._onToggleGameInfo}>
               Game Info
             </a>
           </div>
@@ -146,11 +146,11 @@ export default class GameMoreMenu extends Component<Props, State> {
     );
   }
 
-  _setMoreEl = (ref: HTMLElement) => {
+  _setMoreEl = (ref: HTMLElement | null) => {
     this._moreEl = ref;
   };
 
-  _generateMoreInfo(rootNode: GameNode): React.Element<any>[] {
+  _generateMoreInfo(rootNode: GameNode) {
     let infoProps = rootNode.props.filter(prop => prop.name in MORE_INFO_PROPS);
 
     let rows = infoProps.map((prop: SgfProp) => {

@@ -200,10 +200,10 @@ type State = {
 };
 
 export default class ChatScreen extends Component<ChatScreenProps, State> {
-  state = this._getState(this.props);
+  state: State = this._getState(this.props);
 
-  _messagesDiv: ?HTMLElement;
-  _messageInput: ?HTMLElement;
+  _messagesDiv: ?(HTMLElement | null);
+  _messageInput: ?(HTMLElement | null);
 
   _getState(props: ChatScreenProps) {
     let {
@@ -328,7 +328,7 @@ export default class ChatScreen extends Component<ChatScreenProps, State> {
       throw new InvariantError("currentUser is required");
     }
 
-    let users;
+    let users = [];
     if (showingRoomUsers && activeRoom && activeRoom.users) {
       users = activeRoom.users.map(name => usersByName[name]).filter(u => u);
       sortUsers(users);
@@ -448,11 +448,11 @@ export default class ChatScreen extends Component<ChatScreenProps, State> {
     );
   }
 
-  _setMessagesDivRef = (ref: HTMLElement) => {
+  _setMessagesDivRef = (ref: HTMLElement | null) => {
     this._messagesDiv = ref;
   };
 
-  _setMessageInputRef = (ref: HTMLElement) => {
+  _setMessageInputRef = (ref: HTMLElement | null) => {
     this._messageInput = ref;
   };
 

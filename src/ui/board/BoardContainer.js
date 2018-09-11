@@ -97,7 +97,7 @@ export default class BoardContainer extends Component<Props, State> {
     );
   }
 
-  _setContainerRef = (ref: HTMLElement) => {
+  _setContainerRef = (ref: HTMLElement | null) => {
     this._containerRef = ref;
   };
 

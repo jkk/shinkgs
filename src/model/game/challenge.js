@@ -101,7 +101,7 @@ export function getEvenProposal(
   initialProposal: GameProposal,
   challengerName: string,
   usersByName: Index<User>
-) {
+): GameProposal {
   let proposal = { ...initialProposal };
   let players = [];
   let otherUser;

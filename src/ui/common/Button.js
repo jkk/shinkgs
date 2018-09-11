@@ -1,6 +1,7 @@
 // @flow
 import React, { PureComponent as Component } from "react";
 import { Icon } from "./Icon";
+
 type Props = {
   type?: "button" | "submit",
   onClick?: (e: Event) => any,
@@ -57,12 +58,15 @@ export class Button extends Component<Props> {
     if (!children) {
       className += " Button-no-label";
     }
-    let iconEl =
-      icon || loading ? (
-        <div className="Button-icon">
-          <Icon name={loading ? "spinner" : icon} />
-        </div>
-      ) : null;
+    let iconEl = null;
+    if (icon) {
+      iconEl =
+        icon || loading ? (
+          <div className="Button-icon">
+            <Icon name={loading ? "spinner" : icon} />
+          </div>
+        ) : null;
+    }
     if (href) {
       return (
         <a className={className} href={href} target={target}>

@@ -24,7 +24,7 @@ export class A extends Component<Props> {
     );
   }
 
-  _onClick = (e: Event) => {
+  _onClick = (e: KeyboardEvent) => {
     let { href, onClick } = this.props;
     if (href && (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey)) {
       // Opening in new tab/window or some other special user action

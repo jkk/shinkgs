@@ -14,8 +14,8 @@ type Props = {
   usersByName: Index<User>,
   onUserDetail: string => any,
   onSendChat: string => any,
-  setMessagesDivRef: HTMLElement => any,
-  setMessageInputRef: HTMLElement => any,
+  setMessagesDivRef: (HTMLElement | null) => any,
+  setMessageInputRef: (HTMLElement | null) => any,
 };
 
 export default class UserChat extends Component<Props> {

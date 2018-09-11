@@ -45,7 +45,7 @@ export default class ChatMessageBar extends Component<Props> {
     );
   }
 
-  _setInputRef = (ref: HTMLInputElement) => {
+  _setInputRef = (ref: HTMLInputElement | null) => {
     this._input = ref;
   };
 
