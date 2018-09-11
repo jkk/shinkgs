@@ -1,7 +1,10 @@
 // @flow
 
-export function distinctBy<T>(arr: Array<T>, f: (x: T) => string | number): Array<T> {
-  let seen: {[key: string | number]: boolean} = {};
+export function distinctBy<T>(
+  arr: Array<T>,
+  f: (x: T) => string | number
+): Array<T> {
+  let seen: { [key: string | number]: boolean } = {};
   let ret = [];
   for (let i = 0; i < arr.length; i++) {
     let k = f(arr[i]);
@@ -15,7 +18,7 @@ export function distinctBy<T>(arr: Array<T>, f: (x: T) => string | number): Arra
 }
 
 export function distinct(arr: Array<string | number>): Array<string | number> {
-  let seen: {[key: string | number]: boolean} = {};
+  let seen: { [key: string | number]: boolean } = {};
   let ret = [];
   for (let i = 0; i < arr.length; i++) {
     let v = arr[i];

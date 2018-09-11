@@ -1,15 +1,12 @@
 // @flow
-import type {
-  AppState,
-  KgsMessage
-} from './types';
+import type { AppState, KgsMessage } from "./types";
 
 export function handlePlaybackMessage(
   prevState: AppState,
   msg: KgsMessage
 ): AppState {
-  if (msg.type === 'PLAYBACK_ADD') {
-    return {...prevState, playbacks: msg.playbacks};
+  if (msg.type === "PLAYBACK_ADD") {
+    return { ...prevState, playbacks: msg.playbacks };
   }
   // TODO - PLAYBACK_DATA
   // TODO - PLAYBACK_SETUP

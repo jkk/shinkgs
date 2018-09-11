@@ -1,0 +1,32 @@
+language: node_js
+
+node_js:
+  - "8"
+
+cache:
+  yarn: true
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.9.4
+  - export PATH=$HOME/.yarn/bin:$PATH
+
+install:
+  - yarn install
+
+script:
+  - yarn build
+  - yarn lint
+  #- yarn flow
+  - yarn test
+
+# Install Now CLI on Travis
+before_deploy: npm install now --no-save
+
+# Deploy on now.sh
+deploy:
+  - provider: script
+    script: now --public --team shinkgs --token $NOW_TOKEN && now alias --token $NOW_TOKEN shinkgs-$TRAVIS_BRANCH && echo "The current build is available at https://shinkgs-$TRAVIS_BRANCH.now.sh"
+    skip_cleanup: true
+    on:
+      all_branches: true
+      master: true

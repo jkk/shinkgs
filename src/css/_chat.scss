@@ -1,4 +1,3 @@
-
 @media #{$nonmobile-query} {
   .ChatScreen {
     position: fixed;
@@ -10,6 +9,7 @@
     background-color: $content-bg;
     border: 1px solid $very-muted;
   }
+
   .ChatScreen-tabs {
     position: absolute;
     left: 0;
@@ -22,15 +22,18 @@
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
   }
+
   .ChatScreen-tab {
     &.ChatScreen-tab-active {
       background: $inverted-bg;
+
       .ChatScreen-tab-name {
         font-weight: bold;
         color: $inverted-fg;
       }
     }
   }
+
   .ChatScreen-active-chat {
     position: absolute;
     top: 0;
@@ -40,6 +43,7 @@
     background: $content-bg;
     overflow: hidden;
   }
+
   .RoomChat-messages-container {
     position: absolute;
     left: 0;
@@ -50,15 +54,18 @@
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
   }
+
   .RoomChat-messages {
     padding: 30px 20px;
   }
+
   .RoomChat-message-bar {
     position: absolute;
     left: 10px;
     bottom: 10px;
     right: 210px;
   }
+
   .RoomChat-sidebar {
     position: absolute;
     right: 0;
@@ -71,16 +78,20 @@
     -ms-overflow-style: -ms-autohiding-scrollbar;
     font-size: 15px;
     border-left: 1px solid $very-muted;
+
     .UserName {
       font-size: 14px;
     }
+
     .UserName-icons {
       font-size: 14px;
     }
+
     .UserIcons-icon {
       margin-right: 2px;
     }
   }
+
   .UserChat {
     position: absolute;
     left: 0;
@@ -88,6 +99,7 @@
     right: 0;
     bottom: 0;
   }
+
   .UserChat-messages {
     position: absolute;
     top: 60px;
@@ -98,6 +110,7 @@
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
   }
+
   .UserChat-message-bar {
     position: absolute;
     left: 10px;
@@ -123,14 +136,17 @@
   font-size: 14px;
   line-height: 1.4;
   position: relative;
+
   .ChatScreen-tab-info {
     font-size: 13px;
   }
+
   a.ChatScreen-tab-label {
     display: block;
     padding: 15px 20px;
     border: none;
   }
+
   a.ChatScreen-tab-close {
     padding: 15px;
     border: none;
@@ -140,6 +156,7 @@
     color: $muted;
     font-size: 16px;
   }
+
   &.ChatScreen-tab-join {
     a.ChatScreen-tab-label {
       color: $link-color;
@@ -151,14 +168,17 @@
   a.ChatScreen-tab-close {
     display: none;
   }
+
   &:hover {
     a.ChatScreen-tab-close {
       display: block;
     }
   }
+
   a.ChatScreen-tab-close:hover {
     color: $content-fg;
   }
+
   &.ChatScreen-tab-active {
     a.ChatScreen-tab-close:hover {
       color: $inverted-fg;
@@ -169,6 +189,7 @@
 .ChatScreen-tab-active {
   font-weight: normal;
 }
+
 .ChatScreen-tab-info {
   display: block;
   color: $muted;
@@ -235,6 +256,7 @@
   display: inline-block;
   vertical-align: middle;
   font-size: 16px;
+
   .UserIcons {
     margin-right: 10px;
   }
@@ -262,6 +284,7 @@ input.ChatMessageBar-input {
   padding: 10px 10px;
   border-radius: 4px;
   border: 2px solid $chat-message-bar-outline;
+
   &:focus {
     border: 2px solid $chat-message-bar-outline-focus;
   }
@@ -275,6 +298,7 @@ input.ChatMessageBar-input {
 .ChatMessages-item {
   margin: 0 0 7px 0;
   font-size: 14px;
+
   &.ChatMessages-item-announcement .ChatMessages-item-content {
     &:before {
       content: "Announcement";
@@ -282,13 +306,16 @@ input.ChatMessageBar-input {
       font-weight: bold;
       margin-right: 8px;
     }
+
     background: #fff8cc;
   }
+
   &:hover {
     .ChatMessages-item-time {
       opacity: 1;
     }
   }
+
   &.ChatMessages-item-self {
     .ChatMessages-item-content {
       background: #cff3e3;
@@ -310,18 +337,23 @@ input.ChatMessageBar-input {
   font-weight: bold;
   margin: 0 7px 0 0;
   display: inline-block;
+
   // font-size: 14px;
   // color: $muted;
-  a, div {
+  a,
+  div {
     // color: $link-color;
     display: inline;
   }
+
   .UserName-icons {
     display: inline-block;
+
     div {
       display: inline-block;
     }
   }
+
   .UserName-robot,
   .UserName-guest,
   .UserName-selfish {
@@ -338,6 +370,7 @@ input.ChatMessageBar-input {
 
 .ChatMessages-item-body {
   display: inline;
+
   div {
     display: inline;
   }
@@ -380,6 +413,7 @@ a.ChatMessages-game {
 
 a.ChatMessages-game-type-challenge {
   opacity: 1;
+
   .ChatMessages-game-players {
     font-weight: bold;
     color: $semi-muted;
@@ -391,6 +425,7 @@ a.ChatMessages-game-type-challenge {
     display: inline-block;
     vertical-align: middle;
   }
+
   .GamePlayersList-player2 {
     &:before {
       content: " vs ";
@@ -398,11 +433,13 @@ a.ChatMessages-game-type-challenge {
       vertical-align: middle;
       margin: 0 5px;
     }
+
     .UserName {
       display: inline-block;
       vertical-align: middle;
     }
   }
+
   .GamePlayersList-white2,
   .GamePlayersList-black2 {
     margin-left: 5px;
@@ -441,6 +478,7 @@ a.ChatMessages-game-deleted {
   display: inline-block;
   width: 49%;
   line-height: 38px;
+
   a {
     display: block;
     // background: $chat-message-bg;
@@ -454,10 +492,12 @@ a.ChatMessages-game-deleted {
     box-sizing: border-box;
     height: 38px;
     line-height: 1;
+
     &:active {
       border: 2px solid $muted;
     }
   }
+
   &:first-child {
     margin-right: 2%;
   }
@@ -478,11 +518,13 @@ a.ChatMessages-game-deleted {
   .RoomGameLink {
     display: block;
     width: auto;
+
     &:first-child {
       margin-right: 0;
     }
   }
-  .RoomGameLink + .RoomGameLink {
+
+  .RoomGameLink+.RoomGameLink {
     margin-top: 5px;
   }
 }
@@ -496,12 +538,15 @@ a.ChatMessages-game-deleted {
   .ChatScreen {
     padding-bottom: 30px;
   }
+
   .ChatScreen-tabs {
     display: none;
   }
+
   .ChatScreen-tab {
     font-size: 16px;
   }
+
   .ChatScreen-banner {
     display: block;
     position: fixed;
@@ -516,14 +561,17 @@ a.ChatMessages-game-deleted {
     border-bottom: 1px solid $very-muted;
     z-index: 1;
   }
+
   .ChatScreen-banner-title {
     display: inline-block;
     padding: 0 5px;
     font-weight: bold;
+
     div {
       display: inline-block;
     }
   }
+
   .ChatScreen-banner-info {
     display: block;
     font-size: 12px;
@@ -533,22 +581,26 @@ a.ChatMessages-game-deleted {
     top: 0;
     padding: 0 7px 0 5px;
   }
+
   .ChatScreen-back {
     display: block;
     position: absolute;
     left: 0;
     top: 0;
+
     a {
       display: block;
       color: $link-color;
     }
   }
+
   .ChatScreen-back-icon {
     display: inline-block;
     vertical-align: middle;
     font-size: 18px;
     padding: 0 5px;
   }
+
   .ChatScreen-back-label {
     display: inline-block;
     vertical-align: middle;
@@ -556,15 +608,18 @@ a.ChatMessages-game-deleted {
     padding-bottom: 1px;
     font-weight: bold;
   }
+
   .ChatScreen-back-badge {
     position: absolute;
     right: -15px;
     top: 3px;
   }
+
   .ChatMessageBar {
     padding: 10px 15px;
     border-radius: 0;
   }
+
   input.ChatMessageBar-input {
     padding: 10px;
     font-size: 16px;
@@ -574,29 +629,37 @@ a.ChatMessages-game-deleted {
   .UserChat-info {
     display: none;
   }
+
   .ChatScreen-room-users {
     margin: 50px 0 0 0;
     padding: 10px 20px;
     line-height: 1.4;
   }
+
   .UserChat {
     padding-top: 30px;
   }
+
   .UserChat-messages {
     padding: 30px 10px 20px 10px;
+
     .ChatMessages-item-content {
       max-width: 295px;
     }
   }
+
   .RoomChat-messages-container {
     padding: 35px 0 20px 0;
   }
+
   .RoomChat-messages {
     padding: 30px 10px;
+
     .ChatMessages-item-content {
       max-width: 295px;
     }
   }
+
   .RoomChat-sidebar {
     display: none;
   }
@@ -616,7 +679,9 @@ a.ChatMessages-game-deleted {
 
 .ChatRoomList-cat {
   padding: 20px 0;
-};
+}
+
+;
 
 .ChatRoomList-cat-title {
   font-weight: bold;

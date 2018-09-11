@@ -1,4 +1,3 @@
-
 .GameTypeIcon {
   position: relative;
   padding: 8px;
@@ -7,10 +6,10 @@
   border-radius: 16px;
   line-height: 8px;
   font-size: 12px;
-
   background: $gray-badge-bg;
   color: $gray-badge-fg;
   text-align: center;
+
   .Icon {
     line-height: 8px;
   }
@@ -75,6 +74,7 @@
   line-height: 1.4;
   background: $content-bg;
   overflow: hidden;
+
   &:active {
     background: $hover-bg;
     color: $content-fg;
@@ -83,7 +83,9 @@
 
 .no-touch .GameList-item,
 .no-touch .GameSummaryList-item {
-  &:hover, &:focus {
+
+  &:hover,
+  &:focus {
     background: $hover-bg;
     color: $content-fg;
   }
@@ -148,6 +150,7 @@
 }
 
 .GameList-item-active {
+
   .GameList-item-move,
   .GameList-item-result,
   .GameList-item-observers,
@@ -155,13 +158,16 @@
     display: inline-block;
     vertical-align: middle;
   }
+
   .GameList-item-move,
   .GameList-item-result {
     width: 80px;
   }
+
   .GameList-item-observers {
     width: 80px;
   }
+
   .GameRulesDisplay-time {
     display: none;
   }
@@ -170,16 +176,19 @@
 .GameList-item-challenge {
   padding-top: 10px;
   padding-bottom: 10px;
+
   .GameList-item-rules {
     width: 160px;
     display: inline-block;
     vertical-align: middle;
   }
+
   .GameList-item-name {
     max-width: 300px;
     display: inline-block;
     vertical-align: middle;
   }
+
   .GameTimeSystem-icon {
     display: block;
     margin: 0;
@@ -188,6 +197,7 @@
     padding-right: 15px;
     white-space: nowrap;
   }
+
   .GameList-item-room {
     display: none;
   }
@@ -196,6 +206,7 @@
 .GamePlayersList-winner {
   // font-weight: bold;
   position: relative;
+
   &:before {
     content: "";
     width: 6px;
@@ -211,6 +222,7 @@
 .GameSummaryList-item-won {
   .GameSummaryList-item-result {
     position: relative;
+
     &:before {
       content: "";
       width: 6px;
@@ -227,6 +239,7 @@
 .GameSummaryList-item-lost {
   .GameSummaryList-item-result {
     position: relative;
+
     &:before {
       content: "";
       width: 6px;
@@ -247,69 +260,81 @@
 
 // Uncomment for both players on one line
 @media #{$nonmobile-query} {
-//   .GameList-item-active {
-//     padding-top: 10px;
-//     padding-bottom: 10px;
-//     .GameList-item-players {
-//       width: 320px;
-//     }
-//     .GamePlayersList-player1,
-//     .GamePlayersList-player2,
-//     .GamePlayersList-white2,
-//     .GamePlayersList-black2 {
-//       display: inline-block;
-//       vertical-align: middle;
-//       width: 160px;
-//     }
-//   }
+  //   .GameList-item-active {
+  //     padding-top: 10px;
+  //     padding-bottom: 10px;
+  //     .GameList-item-players {
+  //       width: 320px;
+  //     }
+  //     .GamePlayersList-player1,
+  //     .GamePlayersList-player2,
+  //     .GamePlayersList-white2,
+  //     .GamePlayersList-black2 {
+  //       display: inline-block;
+  //       vertical-align: middle;
+  //       width: 160px;
+  //     }
+  //   }
 }
 
 @media #{$mobile-query} {
+
   .GameList-item,
   .GameSummaryList-item {
     padding: 5px;
   }
+
   .GameList-item-players,
   .GameSummaryList-item-players {
     font-size: 14px;
     width: 140px;
     padding-left: 10px;
   }
+
   .GameSummaryList-item-players {
     width: 125px;
   }
+
   .GameList-item-info,
   .GameSummaryList-item-info {
     font-size: 13px;
     width: 170px;
     color: $muted;
   }
+
   .GameSummaryList-item-result,
   .GameSummaryList-item-rules {
     display: inline-block;
     vertical-align: middle;
   }
+
   .GameSummaryList-item-result {
     margin-right: 10px;
   }
+
   .GameRulesDisplay-time {
     margin-right: 10px;
   }
+
   .GameRulesDisplay-time,
   .GameRulesDisplay-size,
   .GameRulesDisplay-handicap {
     display: inline-block;
     vertical-align: middle;
   }
+
   .GameList-item-active {
+
     .GameList-item-move,
     .GameList-item-result {
       width: 65px;
     }
+
     .GameList-item-observers {
       width: 50px;
     }
   }
+
   .GameList-item-challenge {
     .GameTimeSystem-icon {
       position: absolute;
@@ -318,16 +343,19 @@
       white-space: nowrap;
     }
   }
+
   .GameList-item-room {
     display: none;
   }
 }
 
 @media #{$narrow-mobile-query} {
+
   .GameList-item-info,
   .GameSummaryList-item-info {
     width: 115px;
   }
+
   .GameSummaryList-item-info {
     width: auto;
   }
@@ -337,14 +365,17 @@
   .GameSummaryList-item-players {
     font-size: 14px;
   }
+
   .GameSummaryList-item-info {
     font-size: 14px;
   }
+
   .GameSummaryList-item-result-rules,
   .GameSummaryList-item-date {
     display: inline-block;
     vertical-align: middle;
   }
+
   .GameSummaryList-item-result-rules {
     width: 100px;
   }
@@ -362,6 +393,7 @@
 .GameListFilter {
   padding: 15px 0;
   background: $off-white;
+
   select {
     font-size: 14px;
   }
@@ -382,9 +414,12 @@
 .GameListFilter-room-select {
   position: relative;
   width: 100%;
-  .SelectInput, select {
+
+  .SelectInput,
+  select {
     width: 100%;
   }
+
   .SelectInput-icon {
     color: $muted;
   }
@@ -400,9 +435,11 @@
     color: $inverted-fg;
     border-color: $link-color;
   }
+
   .SelectInput-icon {
     color: $inverted-fg;
   }
+
   a.GameListFilter-room-clear {
     display: block;
     position: absolute;
@@ -427,8 +464,10 @@
       font-size: 16px;
     }
   }
+
   .GameListFilter-bots {
     font-size: 16px;
+
     .CheckboxInput-label {
       margin-top: -1px;
     }

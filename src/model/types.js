@@ -1,13 +1,12 @@
 // @flow
 
-export type AuthLevel = (
-  'normal' |
-  'robot_ranked' |
-  'teacher' |
-  'jr_admin' |
-  'sr_admin' |
-  'super_admin'
-);
+export type AuthLevel =
+  | "normal"
+  | "robot_ranked"
+  | "teacher"
+  | "jr_admin"
+  | "sr_admin"
+  | "super_admin";
 
 export type UserFlags = {
   guest?: boolean,
@@ -23,7 +22,7 @@ export type UserFlags = {
   kgsPlus?: boolean,
   kgsMeijin?: boolean,
   canPlayRanked?: boolean,
-  selfish?: boolean
+  selfish?: boolean,
 };
 
 export type UserDetails = {
@@ -38,7 +37,7 @@ export type UserDetails = {
   personalInfo: string,
   locale: string,
   email?: string,
-  subscriptions?: string
+  subscriptions?: string,
 };
 
 export type User = {
@@ -47,27 +46,26 @@ export type User = {
   rank?: string,
   rankVal?: number,
   authLevel?: AuthLevel,
-  details?: UserDetails
+  details?: UserDetails,
 };
 
 export type UnparsedUser = {
   name: string,
   flags?: string,
   rank?: string,
-  authLevel?: AuthLevel
+  authLevel?: AuthLevel,
 };
 
-export type RoomCategory = (
-  'MAIN' |
-  'NATIONAL' |
-  'TOURNAMENT' |
-  'FRIENDLY' |
-  'SPECIAL' |
-  'LESSONS' |
-  'CLUBS' |
-  'TEMPORARY' |
-  'OTHER'
-);
+export type RoomCategory =
+  | "MAIN"
+  | "NATIONAL"
+  | "TOURNAMENT"
+  | "FRIENDLY"
+  | "SPECIAL"
+  | "LESSONS"
+  | "CLUBS"
+  | "TEMPORARY"
+  | "OTHER";
 
 export type Room = {
   id: number,
@@ -78,7 +76,7 @@ export type Room = {
   category: ?RoomCategory,
   private?: boolean,
   tournOnly?: boolean,
-  globalGamesOnly?: boolean
+  globalGamesOnly?: boolean,
 };
 
 export type ConversationMessage = {
@@ -88,7 +86,7 @@ export type ConversationMessage = {
   date: ?Date, // date received; server doesn't provide it
   sending?: boolean,
   announcement?: boolean,
-  moderated?: boolean
+  moderated?: boolean,
 };
 
 export type Conversation = {
@@ -99,59 +97,52 @@ export type Conversation = {
   chatsDisabled?: boolean,
   messages: Array<ConversationMessage>,
   callbackKey?: ?number,
-  status: 'pending' | 'created' | 'userNotFound' | 'closed'
+  status: "pending" | "created" | "userNotFound" | "closed",
 };
 
-export type GameType = (
-  'challenge' |
-  'demonstration' |
-  'review' |
-  'rengo_review' |
-  'teaching' |
-  'simul' |
-  'rengo' |
-  'free' |
-  'ranked' |
-  'tournament'
-);
+export type GameType =
+  | "challenge"
+  | "demonstration"
+  | "review"
+  | "rengo_review"
+  | "teaching"
+  | "simul"
+  | "rengo"
+  | "free"
+  | "ranked"
+  | "tournament";
 
-export type GameRuleSet = 'japanese' | 'chinese' | 'aga' | 'new_zealand';
+export type GameRuleSet = "japanese" | "chinese" | "aga" | "new_zealand";
 
 export type GameRules = {
   size: number, // 2 - 38
   komi: number, // multiple of 0.5
   handicap?: number,
   rules?: GameRuleSet,
-  timeSystem?: 'none' | 'absolute' | 'byo_yomi' | 'canadian',
+  timeSystem?: "none" | "absolute" | "byo_yomi" | "canadian",
   mainTime?: number, // seconds
   byoYomiTime?: number, // seconds
   byoYomiPeriods?: number,
-  byoYomiStones?: number
+  byoYomiStones?: number,
 };
 
-export type GameRole = (
-  'black' |
-  'white' |
-  'black_2' |
-  'white_2' |
-  'challengeCreator' |
-  'owner'
-);
+export type GameRole =
+  | "black"
+  | "white"
+  | "black_2"
+  | "white_2"
+  | "challengeCreator"
+  | "owner";
 
-export type PlayerColor = 'white' | 'black';
+export type PlayerColor = "white" | "black";
 
 export type GameProposalPlayer = {
   role: GameRole,
   user?: UnparsedUser,
-  name?: string
+  name?: string,
 };
 
-export type GameProposalStatus = (
-  'setup' |
-  'pending' |
-  'accepted' |
-  'declined'
-);
+export type GameProposalStatus = "setup" | "pending" | "accepted" | "declined";
 
 export type GameProposal = {
   gameType: GameType,
@@ -159,29 +150,28 @@ export type GameProposal = {
   nigiri: boolean,
   players: Array<GameProposalPlayer>,
   private?: boolean,
-  status?: GameProposalStatus
+  status?: GameProposalStatus,
 };
 
-export type ProposalVisibility = 'private' | 'roomOnly' | 'public';
+export type ProposalVisibility = "private" | "roomOnly" | "public";
 
-export type ProposalEditMode = 'creating' | 'negotiating' | 'waiting';
+export type ProposalEditMode = "creating" | "negotiating" | "waiting";
 
 // Scores may be a floating point number, or a string. Numbers indicate the
 // score difference (positive a black win, negative a white win).
-export type GameScore = (
-  number |
-  'UNKNOWN' |
-  'UNFINISHED' |
-  'NO_RESULT' |
-  'B+RESIGN' |
-  'W+RESIGN' |
-  'B+FORFEIT' |
-  'W+FORFEIT' |
-  'B+TIME' |
-  'W+TIME'
-);
+export type GameScore =
+  | number
+  | "UNKNOWN"
+  | "UNFINISHED"
+  | "NO_RESULT"
+  | "B+RESIGN"
+  | "W+RESIGN"
+  | "B+FORFEIT"
+  | "W+FORFEIT"
+  | "B+TIME"
+  | "W+TIME";
 
-export type GamePlayers = {[role: GameRole]: User};
+export type GamePlayers = { [role: GameRole]: User };
 
 export type GameSummary = {
   timestamp: string, // unique identifier
@@ -192,12 +182,12 @@ export type GameSummary = {
   revision?: string,
   tag?: string,
   private?: boolean,
-  inPlay?: boolean
+  inPlay?: boolean,
 };
 
 export type RankGraph = {
-  data: {series: Array<{x: Date, y: number}>},
-  months: Array<string>
+  data: { series: Array<{ x: Date, y: number }> },
+  months: Array<string>,
 };
 
 export type ClockState = {
@@ -205,28 +195,27 @@ export type ClockState = {
   running?: boolean,
   time?: number,
   periodsLeft?: number,
-  stonesLeft?: number
+  stonesLeft?: number,
 };
 
-export type GameAction = (
-  'MOVE' |
-  'EDIT' |
-  'SCORE' |
-  'CHALLENGE_CREATE' |
-  'CHALLENGE_SETUP' |
-  'CHALLENGE_WAIT' |
-  'CHALLENGE_ACCEPT' |
-  'CHALLENGE_SUBMITTED' |
-  'EDIT_DELAY'
-);
+export type GameAction =
+  | "MOVE"
+  | "EDIT"
+  | "SCORE"
+  | "CHALLENGE_CREATE"
+  | "CHALLENGE_SETUP"
+  | "CHALLENGE_WAIT"
+  | "CHALLENGE_ACCEPT"
+  | "CHALLENGE_SUBMITTED"
+  | "EDIT_DELAY";
 
-export type Point = {x: number, y: number};
+export type Point = { x: number, y: number };
 
 export type SgfEventType = string;
 
-export type SgfLoc = 'PASS' | Point;
+export type SgfLoc = "PASS" | Point;
 
-export type SgfColor = 'empty' | 'black' | 'white';
+export type SgfColor = "empty" | "black" | "white";
 
 export type SgfProp = {
   name: string,
@@ -235,41 +224,44 @@ export type SgfProp = {
   loc?: SgfLoc,
   loc2?: SgfLoc,
   float?: number,
-  int?: number
+  int?: number,
 };
 
-export type SgfEvent = (
-  {type: 'PROP_ADDED', nodeId: number, prop: SgfProp} |
-  {type: 'PROP_REMOVED', nodeId: number, prop: SgfProp} |
-  {type: 'PROP_CHANGED', nodeId: number, prop: SgfProp} |
-  {type: 'CHILDREN_REORDERED', nodeId: number, children: Array<number>} |
-  {type: 'CHILD_ADDED', nodeId: number, childNodeId: number, position?: number} |
-  {type: 'PROP_GROUP_ADDED', nodeId: number, props: Array<SgfProp>} |
-  {type: 'PROP_GROUP_REMOVED', nodeId: number, props: Array<SgfProp>} |
-  {type: 'ACTIVATED', nodeId: number, prevNodeId: number} |
-  {type: 'POINTER_MOVED', nodeId: number, x: number, y: number} |
-  {type: 'TIMESTAMP', nodeId: number, time: number} |
-  {type: 'SPEEX_FPP', nodeId: number, fpp: number} |
-  {type: 'SPEEX_MUTE_CHANGED', nodeId: number, mute: boolean} |
-  {type: 'SPEEX_DATA', nodeId: number, data: string}
-);
+export type SgfEvent =
+  | { type: "PROP_ADDED", nodeId: number, prop: SgfProp }
+  | { type: "PROP_REMOVED", nodeId: number, prop: SgfProp }
+  | { type: "PROP_CHANGED", nodeId: number, prop: SgfProp }
+  | { type: "CHILDREN_REORDERED", nodeId: number, children: Array<number> }
+  | {
+      type: "CHILD_ADDED",
+      nodeId: number,
+      childNodeId: number,
+      position?: number,
+    }
+  | { type: "PROP_GROUP_ADDED", nodeId: number, props: Array<SgfProp> }
+  | { type: "PROP_GROUP_REMOVED", nodeId: number, props: Array<SgfProp> }
+  | { type: "ACTIVATED", nodeId: number, prevNodeId: number }
+  | { type: "POINTER_MOVED", nodeId: number, x: number, y: number }
+  | { type: "TIMESTAMP", nodeId: number, time: number }
+  | { type: "SPEEX_FPP", nodeId: number, fpp: number }
+  | { type: "SPEEX_MUTE_CHANGED", nodeId: number, mute: boolean }
+  | { type: "SPEEX_DATA", nodeId: number, data: string };
 
-export type BoardPointMark = (
-  'whiteTerritory' |
-  'blackTerritory' |
-  'triangle' |
-  'square' |
-  'circle' |
-  'cross' |
-  'dead' |
-  'active' |
-  'pendingWhite' |
-  'pendingBlack'
-);
+export type BoardPointMark =
+  | "whiteTerritory"
+  | "blackTerritory"
+  | "triangle"
+  | "square"
+  | "circle"
+  | "cross"
+  | "dead"
+  | "active"
+  | "pendingWhite"
+  | "pendingBlack";
 
 export type BoardMarkup = {
-  marks: {[y: number]: {[x: number]: BoardPointMark}},
-  labels: {[y: number]: {[x: number]: ?string}}
+  marks: { [y: number]: { [x: number]: BoardPointMark } },
+  labels: { [y: number]: { [x: number]: ?string } },
 };
 
 export type BoardState = Array<Array<?PlayerColor>>; // y[x]
@@ -280,18 +272,14 @@ export type GameNodeComputedState = {
   blackTimeLeft: number,
   whiteTimeLeft: number,
   board: BoardState,
-  markup: BoardMarkup
+  markup: BoardMarkup,
 };
 
 export class GameNode {
   props: Array<SgfProp>;
   children: Array<number>;
   parent: ?number;
-  constructor(
-    props: Array<SgfProp>,
-    children: Array<number>,
-    parent: ?number
-  ) {
+  constructor(props: Array<SgfProp>, children: Array<number>, parent: ?number) {
     this.props = props;
     this.children = children;
     this.parent = parent;
@@ -301,24 +289,24 @@ export class GameNode {
 export type PendingMove = {
   nodeId: number,
   color: PlayerColor,
-  loc: Point
+  loc: Point,
 };
 
 export type GameTree = {
   nodes: {
-    [nodeId: number]: GameNode
+    [nodeId: number]: GameNode,
   },
   computedState: {
-    [nodeId: number]: GameNodeComputedState
+    [nodeId: number]: GameNodeComputedState,
   },
   messages: {
-    [nodeId: number]: Array<ConversationMessage>
+    [nodeId: number]: Array<ConversationMessage>,
   },
   rootNode: number,
   activeNode: number,
   currentNode: number,
   currentLine: Array<number>,
-  pendingMove?: PendingMove
+  pendingMove?: PendingMove,
 };
 
 export type GameChannel = {
@@ -336,8 +324,8 @@ export type GameChannel = {
   observers?: number,
   name?: string,
   score?: GameScore,
-  actions?: Array<{action: GameAction, user: UnparsedUser}>,
-  clocks?: {[role: GameRole]: ClockState},
+  actions?: Array<{ action: GameAction, user: UnparsedUser }>,
+  clocks?: { [role: GameRole]: ClockState },
   whiteDoneSent?: boolean,
   blackDoneSent?: boolean,
   whiteScore?: boolean,
@@ -359,38 +347,37 @@ export type GameChannel = {
   audio?: boolean,
   paused?: boolean,
   named?: boolean,
-  saved?: boolean
+  saved?: boolean,
 };
 
 export type GameFilter = {
-  type?: 'game' | 'challenge',
+  type?: "game" | "challenge",
   roomId?: ?number,
-  excludeBots?: boolean
+  excludeBots?: boolean,
 };
 
 export type GameChatSection = {
   nodeId: number,
   moveNum: number,
   actions: Array<string>,
-  messages: Array<ConversationMessage>
+  messages: Array<ConversationMessage>,
 };
 
-export type ChannelType = (
-  'room' |
-  'gameList' |
-  'game' |
-  'conversation' |
-  'challenge' |
-  'archive' |
-  'details'
-);
+export type ChannelType =
+  | "room"
+  | "gameList"
+  | "game"
+  | "conversation"
+  | "challenge"
+  | "archive"
+  | "details";
 
 export type ChannelMembership = {
   [channelId: string | number]: {
     type: ChannelType,
     complete: boolean,
-    stale: boolean
-  }
+    stale: boolean,
+  },
 };
 
 export type AutomatchPrefs = {
@@ -403,30 +390,30 @@ export type AutomatchPrefs = {
   mediumOk: boolean,
   rankedOk: boolean,
   robotOk: boolean,
-  unrankedOk: boolean
+  unrankedOk: boolean,
 };
 
 export type Playback = {
   dateStamp: string,
   gameSummary: GameSummary,
-  subscribersOnly: boolean
+  subscribersOnly: boolean,
 };
 
 export type Index<T> = {
-  [key: string | number]: T
+  [key: string | number]: T,
 };
 
-export type NavOption = 'watch' | 'play' | 'chat' | 'search' | 'more';
+export type NavOption = "watch" | "play" | "chat" | "search" | "more";
 
 export type UserDetailsRequest = {
   name: string,
-  status: 'pending' | 'nonexistant' | 'received'
+  status: "pending" | "nonexistant" | "received",
 };
 
 export type KgsClientState = {
-  status: 'loggedOut' | 'loggingIn' | 'loggedIn' | 'loggingOut',
-  network: 'online' | 'offline' | 'error',
-  retryTimes: number
+  status: "loggedOut" | "loggingIn" | "loggedIn" | "loggingOut",
+  network: "online" | "offline" | "error",
+  retryTimes: number,
 };
 
 export type Preferences = {
@@ -434,14 +421,14 @@ export type Preferences = {
   lastProposal?: {
     proposal: GameProposal,
     visibility: ProposalVisibility,
-    notes?: string
-  }
+    notes?: string,
+  },
 };
 
 // Some unfinished games we get from the archive, some from game lists
 export type UnfinishedGame =
-  {type: 'channel', game: GameChannel} |
-  {type: 'summary', game: GameSummary};
+  | { type: "channel", game: GameChannel }
+  | { type: "summary", game: GameSummary };
 
 export type AppState = {
   +clientState: KgsClientState,
@@ -473,10 +460,10 @@ export type AppState = {
   +activeConversationId: ?number,
   +userDetailsRequest: ?UserDetailsRequest,
   +showUnderConstruction: boolean,
-  +showFeedbackModal: boolean
+  +showFeedbackModal: boolean,
 };
 
-export type KgsMessage = (
+export type KgsMessage =
   // TODO - exhaustive types
   // {
   //   type: 'CHAT' | 'ANNOUNCE' | 'MODERATED_CHAT',
@@ -489,11 +476,10 @@ export type KgsMessage = (
   {
     type: string,
     channelId?: number,
-    [key: string]: any
-  }
-);
+    [key: string]: any,
+  };
 
 export type MessageDispatcher = (
   msgs: KgsMessage | Array<KgsMessage>,
-  callback?: AppState => any
+  callback?: (AppState) => any
 ) => any;

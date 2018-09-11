@@ -1,82 +1,60 @@
 $max-width: 1000px;
-
 $content-bg: #fff;
 $content-fg: #333;
 $off-white: #f8f8f8;
-
 $accent: #48c39c;
-
 $nav-bg: $content-bg;
-
 $shadow-bg: #000;
-
 $muted: #aaa;
 $very-muted: lighten($muted, 20%);
 $semi-muted: #888;
-
 $inverted-bg: #444;
 $inverted-bg-off: #666;
 $inverted-fg: #fff;
-
 $gray-badge-fg: $inverted-fg;
 $gray-badge-bg: $muted;
-
 $link-color: $accent;
 $hover-bg: #fffbe6;
-
 $med-line: #bbb;
-
 $chat-divider: #eee;
 $chat-message-bar-outline: $very-muted;
 $chat-message-bar-outline-focus: #aaa;
 $chat-message-bg: #f4f4f4;
 $chat-message-time: #ccc;
-
 $modal-shade: rgba(#444, 0.7);
 $modal-top-bar-bg: #000;
 $modal-top-bar-fg: #fff;
 $modal-close: #ccc;
 $modal-close-active: #fff;
-
 $input-border: $med-line;
 $input-bg: $content-bg;
 $input-fg: $content-fg;
 $input-placeholder: $muted;
 $input-focus: $link-color;
-
 $button-bg: $link-color;
 $button-fg: $inverted-fg;
 $button-disabled-bg: #ccc;
-
 $ranked-color: $link-color;
 $free-color: #4eb8d0;
 $rengo-color: #d2d171;
 $simul-color: #a28ce6;
 $demo-color: #c34897;
 $tournament-color: #ff9f28;
-
 $board-bg: hsl(42, 64%, 65%);
 $board-border: #a78a48; //darken($board-bg, 25%);
 $board-mark: #f3512c;
-
 $stone-white: #fff;
 $stone-black: #333;
-
 $won-color: #5c5;
 $lost-color: #d77;
-
 $error-bg: #d24d4d;
 $error-fg: $inverted-fg;
-
 $success-bg: #3fca8c;
 $success-fg: $inverted-fg;
-
 $warning-bg: #ffa500;
 $warning-fg: $inverted-fg;
-
 $unseen-badge-major: #d24d4d;
 $unseen-badge-minor: #bbb;
-
 $narrow-mobile-query: "only screen and (max-width: 374px)";
 $mobile-query: "only screen and (max-width: 736px)";
 $tablet-query: "only screen and (max-width: 1024px)";
@@ -111,6 +89,7 @@ a {
   text-decoration: none;
   outline: none;
   -webkit-tap-highlight-color: transparent;
+
   &:active {
     color: darken($link-color, 5%);
   }
@@ -137,7 +116,11 @@ ul {
   padding: 0;
 }
 
-input[type=text], input[type=email], input[type=password], textarea, select {
+input[type=text],
+input[type=email],
+input[type=password],
+textarea,
+select {
   font-size: 16px;
   padding: 10px;
   border-radius: 2px;
@@ -153,10 +136,12 @@ input[type=text], input[type=email], input[type=password], textarea, select {
   display: inline-block;
   margin: 0;
   line-height: 1.15;
+
   @include placeholder {
     color: $input-placeholder;
     opacity: 1;
   }
+
   &:focus {
     outline: 0;
     border: 1px solid $input-focus;
@@ -173,62 +158,81 @@ textarea {
 
 @keyframes spin {
   from {
-    transform:rotate(0deg);
+    transform: rotate(0deg);
   }
+
   to {
-    transform:rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
 .no-touch .Button {
-  &:hover, &:focus {
+
+  &:hover,
+  &:focus {
     background: darken($button-bg, 5%);
     border: 1px solid darken($button-bg, 5%);
     color: $button-fg;
     outline: 0;
   }
+
   &.Button-danger {
-    &:hover, &:focus {
+
+    &:hover,
+    &:focus {
       color: darken($error-bg, 10%);
       border: 1px solid darken($error-bg, 10%);
       outline: 0;
     }
   }
+
   &.Button-muted {
+
     // font-weight: 600;
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       color: darken($semi-muted, 10%);
       border: 1px solid darken($muted, 10%);
       outline: 0;
     }
   }
+
   &.Button-secondary {
     font-weight: 600;
-    &:hover, &:focus {
+
+    &:hover,
+    &:focus {
       color: darken($button-bg, 10%);
       border: 1px solid darken($button-bg, 10%);
       outline: 0;
     }
+
     &.Button-danger {
-      &:hover, &:focus {
+
+      &:hover,
+      &:focus {
         background: $error-bg;
         color: $error-fg;
         border: 1px solid $error-bg;
       }
     }
   }
+
   &.Button-warning {
     background: $warning-bg;
     color: $warning-fg;
     border: 1px solid $warning-bg;
-    &:hover, &:focus {
+
+    &:hover,
+    &:focus {
       background: darken($warning-bg, 10%);
       border: 1px solid darken($warning-bg, 10%);
     }
   }
 }
 
-.touch .Button, .no-touch .Button {
+.touch .Button,
+.no-touch .Button {
   display: inline-block;
   font-size: 16px;
   padding: 10px 20px;
@@ -243,57 +247,69 @@ textarea {
   -webkit-tap-highlight-color: transparent;
   margin: 0;
   cursor: pointer;
+
   &:active {
     background: darken($button-bg, 5%);
     border: 1px solid darken($button-bg, 5%);
     color: $button-fg;
     outline: 0;
   }
+
   &[disabled] {
     background: $button-disabled-bg;
     border: 1px solid $button-disabled-bg;
     cursor: default;
   }
+
   .Button-icon {
     display: inline-block;
     margin-right: 5px;
     line-height: 16px;
   }
+
   .Button-content {
     display: inline-block;
   }
+
   &.Button-danger {
     color: $error-bg;
     background: transparent;
     border: 1px solid $error-bg;
+
     &:active {
       color: darken($error-bg, 10%);
       border: 1px solid darken($error-bg, 10%);
     }
   }
+
   &.Button-muted {
     color: $semi-muted;
     background: transparent;
     border: 1px solid $muted;
+
     &:active {
       color: darken($semi-muted, 10%);
       border: 1px solid darken($muted, 10%);
     }
   }
+
   &.Button-secondary {
     background: transparent;
     color: $button-bg;
     border: 1px solid $button-bg;
+
     &:active {
       color: darken($button-bg, 10%);
       border: 1px solid darken($button-bg, 10%);
       outline: 0;
     }
+
     &[disabled] {
       color: $button-disabled-bg;
       border: 1px solid $button-disabled-bg;
       cursor: default;
     }
+
     &.Button-danger {
       &:active {
         background: $error-bg;
@@ -302,15 +318,18 @@ textarea {
       }
     }
   }
+
   &.Button-small {
     padding: 7px 15px 7px 15px;
     font-size: 14px;
   }
+
   &.Button-no-label {
     .Button-icon {
       margin-right: 0;
     }
   }
+
   &.Button-loading {
     .Button-icon {
       animation: spin 1s infinite linear;
@@ -323,6 +342,7 @@ textarea {
   display: inline-block;
   position: relative;
   max-width: 100%;
+
   select {
     padding-right: 35px;
   }
@@ -351,6 +371,7 @@ textarea {
     display: block;
     position: relative;
     cursor: pointer;
+
     &:before {
       content: "";
       position: absolute;
@@ -362,6 +383,7 @@ textarea {
       border: 1px solid $input-border;
       background: $input-bg;
     }
+
     &:after {
       content: "";
       border: solid;
@@ -375,11 +397,13 @@ textarea {
       transform: rotate(-45deg);
     }
   }
+
   .CheckboxInput-control {
     position: relative;
     width: 18px;
     height: 18px;
   }
+
   input[type=checkbox] {
     opacity: 0;
     position: absolute;
@@ -390,6 +414,7 @@ textarea {
     cursor: pointer;
     margin: 0;
   }
+
   &.CheckboxInput-unchecked {
     label:after {
       display: none;
@@ -556,12 +581,14 @@ form {
   padding: 5px 20px;
   font-size: 30px;
   color: $modal-close;
+
   &:active {
     color: $modal-close-active;
   }
 }
 
 .no-touch {
+
   .Modal-with-title .Modal-close:hover,
   .UserDetailsModal-close:hover,
   .ScreenModal-with-title .ScreenModal-close:hover {
@@ -594,6 +621,7 @@ form {
 .TabNav-tabs {
   text-align: center;
   border-bottom: 2px solid $very-muted;
+
   .TabNav-tab {
     min-width: 80px;
     text-align: center;
@@ -604,6 +632,7 @@ form {
     font-size: 15px;
     color: $semi-muted;
     border-bottom: 3px solid transparent;
+
     &.TabNav-tab-active {
       color: $content-fg;
       border-bottom: 3px solid $link-color;
@@ -616,18 +645,22 @@ form {
 }
 
 @media #{$mobile-query} {
+
   .Modal,
   .ScreenModal {
     padding: 10px;
   }
+
   .ScreenModal {
     top: 50px;
   }
+
   .Modal-main,
   .UserDetailsModal-main,
   .ScreenModal-main {
     margin: 0 auto 40px auto;
   }
+
   .UserDetailsModal-main {
     padding: 20px 10px 0 10px;
   }

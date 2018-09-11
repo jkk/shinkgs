@@ -1,5 +1,5 @@
 // @flow
-import type {AppState, KgsClientState} from './types';
+import type { AppState, KgsClientState } from "./types";
 
 // Resets on each login
 export function getEmptyServerState() {
@@ -16,7 +16,7 @@ export function getEmptyServerState() {
     watchGameId: null,
     playGameId: null,
     playChallengeId: null,
-    nav: 'chat',
+    nav: "chat",
     usersByName: {},
     conversationsById: {},
     channelMembership: {},
@@ -25,7 +25,7 @@ export function getEmptyServerState() {
     activeConversationId: null,
     userDetailsRequest: null,
     showUnderConstruction: false,
-    showFeedbackModal: false
+    showFeedbackModal: false,
   };
 }
 
@@ -39,7 +39,7 @@ export function getInitialState(clientState: KgsClientState): AppState {
     loginError: null,
     logoutError: null,
     clientState,
-    ...getEmptyServerState()
+    ...getEmptyServerState(),
   };
 }
 
@@ -51,7 +51,7 @@ export function prepareSavedAppState(appState: AppState): AppState {
     ...appState,
     clientState: {
       ...appState.clientState,
-      network: 'online'
-    }
+      network: "online",
+    },
   };
 }

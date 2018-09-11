@@ -1,14 +1,13 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
+import React, { PureComponent as Component } from "react";
 
-export class Icon extends Component {
+type Props = {
+  name: string,
+};
 
-  props: {
-    name: string
-  };
-
+export class Icon extends Component<Props> {
   render() {
-    let {name} = this.props;
-    return <i className={('Icon fa fa-' + name)} />;
+    let { name } = this.props;
+    return <i className={"Icon fa fa-" + name} />;
   }
 }

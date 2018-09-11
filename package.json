@@ -2,9 +2,14 @@
   "name": "shinkgs",
   "version": "0.1.0",
   "devDependencies": {
-    "flow-bin": "0.44.0",
-    "node-sass": "4.9.0",
-    "react-scripts": "0.9.0"
+    "eslint-config-prettier": "^3.0.1",
+    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-react": "^7.11.1",
+    "flow-bin": "0.80.0",
+    "node-sass": "4.9.3",
+    "prettier": "^1.14.2",
+    "react-scripts": "2.0.0-next.a671462c",
+    "serve": "^10.0.0"
   },
   "dependencies": {
     "autolinker.js": "0.7.0",
@@ -12,28 +17,42 @@
     "date-fns": "^1.28.5",
     "fastclick": "^1.0.6",
     "font-awesome": "4.7.0",
-    "history": "4.6.1",
-    "idb-keyval": "2.3.0",
+    "history": "4.7.2",
+    "idb-keyval": "3.1.0",
     "locale-string": "1.0.0",
     "lodash.get": "^4.4.2",
-    "rc-slider": "^7.0.1",
-    "react": "15.5.4",
+    "rc-slider": "^8.6.2",
+    "react": "^16.5.0",
     "react-chartist": "^0.13.0",
-    "react-dom": "15.5.4",
-    "uuid": "3.0.1"
+    "react-dom": "^16.5.0",
+    "uuid": "3.3.2"
   },
   "scripts": {
     "start": "yarn run build-sass && yarn run start-sass & HTTPS=true react-scripts start",
-    "start-sass": "node-sass --include-path='node_modules' --watch src/css -o src",
     "build": "yarn run build-sass && react-scripts build",
+    "start-sass": "node-sass --include-path='node_modules' --watch src/css -o src",
     "build-sass": "node-sass --include-path='node_modules' src/css/index.scss src/index.css",
-    "lint": "./node_modules/eslint/bin/eslint.js src; flow check",
+    "eject": "react-scripts eject",
     "test": "react-scripts test --env=jsdom",
-    "deploy-now": "yarn build && cp server/* build && now build",
-    "eject": "react-scripts eject"
+    "lint": "./node_modules/eslint/bin/eslint.js src/",
+    "flow": "flow check",
+    "now-deploy": "yarn build && now",
+    "now-start": "serve ./build --single"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "https://www.gokgs.com"
+  "proxy": "https://www.gokgs.com",
+  "browserslist": {
+    "development": [
+      "last 2 chrome versions",
+      "last 2 firefox versions",
+      "last 2 edge versions"
+    ],
+    "production": [
+      ">0.25%",
+      "not op_mini all",
+      "ie 11"
+    ]
+  }
 }

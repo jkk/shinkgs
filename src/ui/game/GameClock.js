@@ -1,21 +1,21 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
-import type {ClockState, GameRules} from '../../model';
+import React, { PureComponent as Component } from "react";
+import type { ClockState, GameRules } from "../../model";
 
 function formatTime(time: ?number) {
-  if (typeof time !== 'number') {
-    return '--';
+  if (typeof time !== "number") {
+    return "--";
   }
   if (time < 0) {
     time = 0;
   }
   let mins = Math.floor(time / 60);
-  let secs = Math.ceil(time - (mins * 60));
+  let secs = Math.ceil(time - mins * 60);
   if (secs === 60) {
     mins += 1;
     secs = 0;
   }
-  return '' + mins + ':' + (secs < 10 ? '0' : '') + secs;
+  return "" + mins + ":" + (secs < 10 ? "0" : "") + secs;
 }
 
 // Hacky compensation for network/rendering lag
@@ -26,34 +26,25 @@ type TimeCountdownProps = {
   clock: ClockState,
   byoYomiTime: ?number,
   byoYomiPeriods: ?number,
-  byoYomiStones: ?number
+  byoYomiStones: ?number,
 };
 
-class TimeCountdown extends Component {
-
-  props: TimeCountdownProps;
-
-  state: {
-    seconds: number,
-    periods: ?number,
-    stones: ?number
-  };
-
+class TimeCountdown extends Component<TimeCountdownProps> {
   _startTime: number;
   _interval: any;
 
   constructor(props: TimeCountdownProps, context: any) {
     super(props, context);
-    let {clock} = this.props;
+    let { clock } = this.props;
     this.state = {
       seconds: clock.time || 0,
       periods: clock.periodsLeft,
-      stones: clock.stonesLeft
+      stones: clock.stonesLeft,
     };
-    this._startTime = (new Date()).getTime() - TIME_SKEW;
+    this._startTime = new Date().getTime() - TIME_SKEW;
   }
 
-  componentWillReceiveProps(nextProps: TimeCountdownProps) {
+  componentDidUpdate(nextProps: TimeCountdownProps) {
     let oldClock = this.props.clock;
     let newClock = nextProps.clock;
     if (
@@ -64,18 +55,18 @@ class TimeCountdown extends Component {
     ) {
       return;
     }
-    this._startTime = (new Date()).getTime() - TIME_SKEW;
+    this._startTime = new Date().getTime() - TIME_SKEW;
     this.setState({
       seconds: newClock.time || 0,
       periods: newClock.periodsLeft,
-      stones: newClock.stonesLeft
+      stones: newClock.stonesLeft,
     });
   }
 
   componentDidMount() {
     this._interval = setInterval(() => {
-      let {clock, byoYomiTime, byoYomiPeriods, byoYomiStones} = this.props;
-      let secondsElapsed = ((Date.now() - this._startTime) / 1000);
+      let { clock, byoYomiTime, byoYomiPeriods, byoYomiStones } = this.props;
+      let secondsElapsed = (Date.now() - this._startTime) / 1000;
       let mainTime = (clock.time || 0) - secondsElapsed;
       let periods = clock.periodsLeft;
       let stones = clock.stonesLeft;
@@ -83,13 +74,16 @@ class TimeCountdown extends Component {
       if (mainTime > 0) {
         seconds = mainTime;
       } else if (mainTime < 0 && byoYomiTime) {
-        if (typeof periods === 'number' && byoYomiPeriods) {
+        if (typeof periods === "number" && byoYomiPeriods) {
           let periodsLeft = periods ? periods - 1 : byoYomiPeriods;
           // Byo yomi overtime
-          periods = Math.max(0, periodsLeft - Math.floor(-mainTime / byoYomiTime));
-          seconds = periods ?
-            byoYomiTime + mainTime + (byoYomiTime * (periodsLeft - periods)) :
-            0;
+          periods = Math.max(
+            0,
+            periodsLeft - Math.floor(-mainTime / byoYomiTime)
+          );
+          seconds = periods
+            ? byoYomiTime + mainTime + byoYomiTime * (periodsLeft - periods)
+            : 0;
         } else if (stones === 0 && byoYomiStones) {
           // Canadian overtime
           stones = byoYomiStones;
@@ -100,7 +94,7 @@ class TimeCountdown extends Component {
       } else {
         seconds = 0;
       }
-      this.setState({seconds, periods, stones});
+      this.setState({ seconds, periods, stones });
     }, 100);
   }
 
@@ -108,12 +102,12 @@ class TimeCountdown extends Component {
     clearInterval(this._interval);
   }
 
-  render () {
-    let {clock} = this.props;
+  render() {
+    let { clock } = this.props;
     let seconds;
     let periods;
     let stones;
-    if (clock.running && !clock.paused && typeof clock.time === 'number') {
+    if (clock.running && !clock.paused && typeof clock.time === "number") {
       seconds = this.state.seconds;
       periods = this.state.periods;
       stones = this.state.stones;
@@ -125,18 +119,20 @@ class TimeCountdown extends Component {
     let timeQualifier;
     let sd;
     if (periods !== undefined) {
-      timeQualifier = periods === 1 ? 'SD' : (periods ? ` (${periods})` : '');
+      timeQualifier = periods === 1 ? "SD" : periods ? ` (${periods})` : "";
       sd = periods === 1;
     } else if (stones) {
-      timeQualifier = ' / ' + stones;
+      timeQualifier = " / " + stones;
       sd = true;
     } else if (seconds && stones === undefined) {
-      timeQualifier = ' SD';
+      timeQualifier = " SD";
       sd = true;
     }
-    let className = 'TimeCountdown' + (
-      sd && typeof seconds === 'number' && seconds < 3 ? ' TimeCountdown-urgent' : ''
-    );
+    let className =
+      "TimeCountdown" +
+      (sd && typeof seconds === "number" && seconds < 3
+        ? " TimeCountdown-urgent"
+        : "");
     return (
       <div className={className}>
         {formatTime(seconds)} {timeQualifier}
@@ -145,23 +141,22 @@ class TimeCountdown extends Component {
   }
 }
 
-export default class GameClock extends Component {
+type Props = {
+  nodeId: ?number,
+  active: boolean,
+  clock: ClockState,
+  timeLeft: number,
+  gameRules?: ?GameRules,
+};
 
-  props: {
-    nodeId: ?number,
-    active: boolean,
-    clock: ClockState,
-    timeLeft: number,
-    gameRules?: ?GameRules
-  };
-
+export default class GameClock extends Component<Props> {
   render() {
-    let {nodeId, active, clock, timeLeft, gameRules} = this.props;
-    let className = 'GameClock ' + (
-      (active ? 'GameClock-active' : 'GameClock-inactive') +
-      (active && clock.running && !clock.paused ? ' GameClock-running' : '') +
-      (clock.paused ? ' GameClock-paused' : '')
-    );
+    let { nodeId, active, clock, timeLeft, gameRules } = this.props;
+    let className =
+      "GameClock " +
+      ((active ? "GameClock-active" : "GameClock-inactive") +
+        (active && clock.running && !clock.paused ? " GameClock-running" : "") +
+        (clock.paused ? " GameClock-paused" : ""));
 
     let byoYomiTime;
     let byoYomiPeriods;
@@ -174,17 +169,18 @@ export default class GameClock extends Component {
 
     return (
       <div className={className}>
-        <div className='GameClock-time'>
-          {active ?
+        <div className="GameClock-time">
+          {active ? (
             <TimeCountdown
               nodeId={nodeId}
               clock={clock}
               byoYomiTime={byoYomiTime}
               byoYomiPeriods={byoYomiPeriods}
-              byoYomiStones={byoYomiStones} /> :
-            <div className='GameClock-time-frozen'>
-              {formatTime(timeLeft)}
-            </div>}
+              byoYomiStones={byoYomiStones}
+            />
+          ) : (
+            <div className="GameClock-time-frozen">{formatTime(timeLeft)}</div>
+          )}
         </div>
       </div>
     );

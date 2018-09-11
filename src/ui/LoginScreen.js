@@ -1,39 +1,45 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
-import idbKeyval from 'idb-keyval';
-import {Button, CheckboxInput} from './common';
-import {isTouchDevice} from '../util/dom';
-import type {KgsClientState, Preferences, AppActions} from '../model';
+import React, { PureComponent as Component } from "react";
+import { get, set } from "idb-keyval";
+import { Button, CheckboxInput } from "./common";
+import { isTouchDevice } from "../util/dom";
+import type { KgsClientState, Preferences, AppActions } from "../model";
 
 type SavedLogin = {
   username: string | null,
   savePassword: boolean | null,
-  password: string | null
+  password: string | null,
 };
 
-export default class LoginScreen extends Component {
+type Props = {
+  loginError: ?string,
+  clientState: KgsClientState,
+  preferences: Preferences,
+  actions: AppActions,
+};
 
-  props: {
-    loginError: ?string,
-    clientState: KgsClientState,
-    preferences: Preferences,
-    actions: AppActions
-  };
-  
+type State = {
+  logoLoaded: boolean,
+  username: string,
+  savePassword: boolean,
+  password: string,
+};
+
+export default class LoginScreen extends Component<Props, State> {
   state = {
     logoLoaded: false,
-    username: this.props.preferences.username || '',
+    username: this.props.preferences.username || "",
     savePassword: false,
-    password: ''
+    password: "",
   };
 
   componentDidMount() {
     if (document.body) {
-      document.body.classList.add('LoginScreen-body');
+      document.body.classList.add("LoginScreen-body");
     }
     // We store password in component-local state to make it less likely
     // to show up in logs and such
-    idbKeyval.get('savedLogin').then((savedLogin: ?SavedLogin) => {
+    get("savedLogin").then((savedLogin: ?SavedLogin) => {
       if (savedLogin) {
         let nextState = {};
         if (savedLogin.savePassword !== null) {
@@ -54,94 +60,115 @@ export default class LoginScreen extends Component {
 
   componentWillUnmount() {
     if (document.body) {
-      document.body.classList.remove('LoginScreen-body');
+      document.body.classList.remove("LoginScreen-body");
     }
   }
 
   render() {
-    let {
-      loginError,
-      clientState
-    } = this.props;
-    let {logoLoaded, username, savePassword, password} = this.state;
-    let loggingIn = clientState.status === 'loggingIn';
-    let publicUrl = process.env.PUBLIC_URL || '';
+    let { loginError, clientState } = this.props;
+    let { logoLoaded, username, savePassword, password } = this.state;
+    let loggingIn = clientState.status === "loggingIn";
+    let publicUrl = process.env.PUBLIC_URL || "";
     let error = loginError;
-    if (!error && clientState.network !== 'online') {
-      error = 'Server unavailable. Try again or check your internet connection.';
+    if (!error && clientState.network !== "online") {
+      error =
+        "Server unavailable. Try again or check your internet connection.";
     }
     return (
-      <div className='LoginScreen'>
-        <div className='LoginScreen-header'>
-          <div className={'LoginScreen-title' + (logoLoaded ? ' LoginScreen-title-logo-loaded' : '')}>
-            <div className='LoginScreen-title-icon'>
+      <div className="LoginScreen">
+        <div className="LoginScreen-header">
+          <div
+            className={
+              "LoginScreen-title" +
+              (logoLoaded ? " LoginScreen-title-logo-loaded" : "")
+            }>
+            <div className="LoginScreen-title-icon">
               <img
-                  src={publicUrl + '/apple-touch-icon.png'}
-                  width={48}
-                  height={48}
-                  role='presentation'
-                  onLoad={this._onLogoLoad} />
+                src={publicUrl + "/apple-touch-icon.png"}
+                width={48}
+                height={48}
+                alt=""
+                onLoad={this._onLogoLoad}
+              />
             </div>
-            <div className='LoginScreen-title-text'>
+            <div className="LoginScreen-title-text">
               Shin KGS
-              <div className='LoginScreen-title-text-beta'>
-                Beta
-              </div>
+              <div className="LoginScreen-title-text-beta">Beta</div>
             </div>
           </div>
         </div>
-        <div className='LoginScreen-main'>
-          {error ?
-            <div className='LoginScreen-error'>{error}</div> :
-            null}
+        <div className="LoginScreen-main">
+          {error ? <div className="LoginScreen-error">{error}</div> : null}
           <form
-            className='LoginScreen-form'
-            action='#'
-            method='post'
+            className="LoginScreen-form"
+            action="#"
+            method="post"
             onSubmit={this._onLogin}>
-            <div className='LoginScreen-form-fields'>
+            <div className="LoginScreen-form-fields">
               <input
-                type='text'
-                placeholder='Username'
-                autoCorrect='off'
-                autoCapitalize='none'
+                type="text"
+                placeholder="Username"
+                autoCorrect="off"
+                autoCapitalize="none"
                 spellCheck={false}
                 autoFocus={!isTouchDevice()}
                 value={username}
-                onChange={this._onChangeUsername} />
+                onChange={this._onChangeUsername}
+              />
               <input
-                type='password'
-                placeholder='Password'
+                type="password"
+                placeholder="Password"
                 value={password}
-                onChange={this._onChangePassword} />
-              <div className='LoginScreen-save-password'>
+                onChange={this._onChangePassword}
+              />
+              <div className="LoginScreen-save-password">
                 <CheckboxInput
-                  label='Save password'
+                  label="Save password"
                   checked={savePassword}
-                  onChange={this._onChangeSavePassword} />
+                  onChange={this._onChangeSavePassword}
+                />
               </div>
             </div>
-            <div className='LoginScreen-form-button'>
-              <Button type='submit' loading={loggingIn} disabled={loggingIn}>
+            <div className="LoginScreen-form-button">
+              <Button type="submit" loading={loggingIn} disabled={loggingIn}>
                 Log In
               </Button>
             </div>
           </form>
-          <div className='LoginScreen-help'>
-            <a href='https://www.gokgs.com/' target='_blank' rel='noopener'>Sign up</a>
+          <div className="LoginScreen-help">
+            <a
+              href="https://www.gokgs.com/"
+              target="_blank"
+              rel="noopener noreferrer">
+              Sign up
+            </a>
             &nbsp;&nbsp;|&nbsp;&nbsp;
-            <a href='https://www.gokgs.com/password.jsp' target='_blank' rel='noopener'>Forgot password</a>
+            <a
+              href="https://www.gokgs.com/password.jsp"
+              target="_blank"
+              rel="noopener noreferrer">
+              Forgot password
+            </a>
           </div>
-          <div className='LoginScreen-footer'>
-            <a href='https://twitter.com/jkkramer' target='_blank' rel='noopener'>
+          <div className="LoginScreen-footer">
+            <a
+              href="https://twitter.com/jkkramer"
+              target="_blank"
+              rel="noopener noreferrer">
               By @jkkramer
             </a>
             &nbsp;&nbsp;|&nbsp;&nbsp;
-            <a href='https://github.com/jkk/shinkgs' target='_blank' rel='noopener'>
+            <a
+              href="https://github.com/jkk/shinkgs"
+              target="_blank"
+              rel="noopener noreferrer">
               GitHub
             </a>
             &nbsp;&nbsp;|&nbsp;&nbsp;
-            <a href='https://www.gokgs.com/' target='_blank' rel='noopener'>
+            <a
+              href="https://www.gokgs.com/"
+              target="_blank"
+              rel="noopener noreferrer">
               Official KGS
             </a>
           </div>
@@ -152,31 +179,31 @@ export default class LoginScreen extends Component {
 
   _onLogin = (event: Event) => {
     event.preventDefault();
-    let {username, savePassword, password} = this.state;
+    let { username, savePassword, password } = this.state;
     if (username && password) {
       this.props.actions.onLogin(username, password);
       let savedLogin: SavedLogin = {
         username,
         savePassword,
-        password: savePassword ? password : null
+        password: savePassword ? password : null,
       };
-      idbKeyval.set('savedLogin', savedLogin);
+      set("savedLogin", savedLogin);
     }
-  }
+  };
 
   _onLogoLoad = () => {
-    this.setState({logoLoaded: true});
-  }
+    this.setState({ logoLoaded: true });
+  };
 
   _onChangeUsername = (e: Object) => {
-    this.setState({username: e.target.value});
-  }
+    this.setState({ username: e.target.value });
+  };
 
   _onChangePassword = (e: Object) => {
-    this.setState({password: e.target.value});
-  }
+    this.setState({ password: e.target.value });
+  };
 
   _onChangeSavePassword = (e: Object) => {
-    this.setState({savePassword: e.target.checked});
-  }
+    this.setState({ savePassword: e.target.checked });
+  };
 }

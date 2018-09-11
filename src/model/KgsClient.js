@@ -1,7 +1,7 @@
 // @flow
-import type {KgsClientState, KgsMessage} from './types';
-import {isJsError} from '../util/error';
-import {escapeUnicode} from '../util/string';
+import type { KgsClientState, KgsMessage } from "./types";
+import { isJsError } from "../util/error";
+import { escapeUnicode } from "../util/string";
 
 export class ApiError extends Error {
   type: string;
@@ -14,25 +14,27 @@ export class ApiError extends Error {
 }
 
 const initialClientState = {
-  status: 'loggedOut',
-  network: 'online',
-  retryTimes: 0
+  status: "loggedOut",
+  network: "online",
+  retryTimes: 0,
 };
 
 type SendMessageOptions = {
-  sync?: boolean
+  sync?: boolean,
 };
 
-type StateChangeListener = (nextState: KgsClientState, prevState: KgsClientState) => any;
+type StateChangeListener = (
+  nextState: KgsClientState,
+  prevState: KgsClientState
+) => any;
 
 export class KgsClient {
-
   state: KgsClientState;
 
   _onChange: ?StateChangeListener = null;
   _onMessages: ?(messages: Array<KgsMessage>) => any;
 
-  _debug: boolean = process.env.NODE_ENV === 'development';
+  _debug: boolean = process.env.NODE_ENV === "development";
   _apiUrl: string;
 
   constructor(state?: KgsClientState = initialClientState) {
@@ -41,57 +43,65 @@ export class KgsClient {
     if (process.env.REACT_APP_API_URL) {
       this._apiUrl = process.env.REACT_APP_API_URL;
     } else {
-      let isProd = window.location.host.indexOf('gokgs.com') !== -1;
-      let isSafari = window.navigator.vendor && window.navigator.vendor.indexOf('Apple') > -1;
+      let isProd = window.location.host.indexOf("gokgs.com") !== -1;
+      let isSafari =
+        window.navigator.vendor &&
+        window.navigator.vendor.indexOf("Apple") > -1;
       if (isProd || !isSafari) {
-        this._apiUrl = 'https://www.gokgs.com/json-cors/access';
+        this._apiUrl = "https://www.gokgs.com/json-cors/access";
       } else {
         // Dev proxy for Safari
-        this._apiUrl = '/json/access';
+        this._apiUrl = "/json/access";
       }
     }
-    console.log('[KGS Client] Using endpoint ' + this._apiUrl);
+    console.log("[KGS Client] Using endpoint " + this._apiUrl);
   }
 
   setState = (nextState: KgsClientState) => {
-    let isSameState = (
+    let isSameState =
       nextState.status === this.state.status &&
       nextState.network === this.state.network &&
-      nextState.retryTimes === this.state.retryTimes
-    );
+      nextState.retryTimes === this.state.retryTimes;
     if (isSameState) {
       return;
     }
     let prevState = this.state;
     this.state = nextState;
     if (this._debug) {
-      console.log('[KGS Client] State changed', {state: this.state, prevState});
+      console.log("[KGS Client] State changed", {
+        state: this.state,
+        prevState,
+      });
     }
     if (this._onChange) {
       this._onChange(nextState, prevState);
     }
-  }
+  };
 
   setOnChange = (listener: ?StateChangeListener) => {
     this._onChange = listener;
-  }
+  };
 
   setOnMessages = (listener: ?(messages: Array<KgsMessage>) => any) => {
     this._onMessages = listener;
-  }
+  };
 
-  login = async (username: string, password: string, locale: string = 'en_US') => {
-    this.setState({...this.state, status: 'loggingIn'});
+  login = async (
+    username: string,
+    password: string,
+    locale: string = "en_US"
+  ) => {
+    this.setState({ ...this.state, status: "loggingIn" });
     try {
       await this.sendMessage({
-        type: 'LOGIN',
+        type: "LOGIN",
         name: username,
         password,
-        locale
+        locale,
       });
       setTimeout(() => {
         if (this._debug) {
-          console.log('[KGS Client] Starting polling');
+          console.log("[KGS Client] Starting polling");
         }
         this.poll();
       }, 0);
@@ -99,7 +109,7 @@ export class KgsClient {
       // Any login errors are available to callers via client state
       console.warn(err);
     }
-  }
+  };
 
   logout = (opts?: SendMessageOptions = {}) => {
     // Sometimes network failure happens due to device sleeping or swiching
@@ -108,41 +118,41 @@ export class KgsClient {
     // will put us back into that state.
     this.setState({
       ...this.state,
-      network: 'online',
-      status: 'loggingOut'
+      network: "online",
+      status: "loggingOut",
     });
-    return this.sendMessage({type: 'LOGOUT'}, opts);
-  }
+    return this.sendMessage({ type: "LOGOUT" }, opts);
+  };
 
   sendMessage = async (msg: KgsMessage, opts: SendMessageOptions = {}) => {
     if (this._debug) {
       console.log(
-        '[KGS Client] >> ' + msg.type,
-        msg.type === 'LOGIN' ? {...msg, password: '...'} : msg
+        "[KGS Client] >> " + msg.type,
+        msg.type === "LOGIN" ? { ...msg, password: "..." } : msg
       );
     }
     try {
       await this._sendMessage(msg, opts);
-      this.setState({...this.state, network: 'online', retryTimes: 0});
+      this.setState({ ...this.state, network: "online", retryTimes: 0 });
     } catch (err) {
-      if (isJsError(err) || err.name === 'InvariantError') {
+      if (isJsError(err) || err.name === "InvariantError") {
         // Likely an error in the app, not with network or client
         throw err;
       }
 
-      let nextState = {...this.state};
-      if (err && err.type === 'noClient') {
-        nextState.status = 'loggedOut';
-        nextState.network = 'online';
+      let nextState = { ...this.state };
+      if (err && err.type === "noClient") {
+        nextState.status = "loggedOut";
+        nextState.network = "online";
         nextState.retryTimes = 0;
       } else {
         // TODO - detect bad request, don't change state
-        nextState.network = 'error';
-        if (this.state.status === 'loggingIn') {
-          nextState.status = 'loggedOut';
-        } else if (this.state.status === 'loggingOut') {
+        nextState.network = "error";
+        if (this.state.status === "loggingIn") {
+          nextState.status = "loggedOut";
+        } else if (this.state.status === "loggingOut") {
           // Log out failed - just pretend it worked
-          nextState.status = 'loggedOut';
+          nextState.status = "loggedOut";
         }
       }
       this.setState(nextState);
@@ -150,7 +160,7 @@ export class KgsClient {
       // Propogate anyway, so errors can be handled by appropriate UI
       throw err;
     }
-  }
+  };
 
   poll = async () => {
     let messages;
@@ -158,65 +168,68 @@ export class KgsClient {
       messages = await this._receiveMessages();
       if (this.state.retryTimes) {
         // Reconnected
-        if (messages[messages.length - 1].type === 'LOGOUT') {
+        if (messages[messages.length - 1].type === "LOGOUT") {
           // We reconnected only to be immediately logged out. Ensure an
           // appropriate error is shown to the user
-          messages.push({type: 'SESSION_EXPIRED'});
+          messages.push({ type: "SESSION_EXPIRED" });
         }
       }
 
-      let nextState = {...this.state, network: 'online', retryTimes: 0};
-      if (messages.find(msg => msg.type === 'LOGOUT')) {
-        nextState.status = 'loggedOut';
-      } else if (messages.find(msg => msg.type === 'LOGIN_SUCCESS')) {
-        nextState.status = 'loggedIn';
+      let nextState = { ...this.state, network: "online", retryTimes: 0 };
+      if (messages.find(msg => msg.type === "LOGOUT")) {
+        nextState.status = "loggedOut";
+      } else if (messages.find(msg => msg.type === "LOGIN_SUCCESS")) {
+        nextState.status = "loggedIn";
       }
       this.setState(nextState);
 
       if (this._debug) {
-        console.log('[KGS Client] << ', messages);
+        console.log("[KGS Client] << ", messages);
       }
       if (this._onMessages) {
         this._onMessages(messages);
       }
 
-      if (nextState.status !== 'loggedOut') {
+      if (nextState.status !== "loggedOut") {
         setTimeout(() => {
           this.poll();
         }, 0);
       } else if (this._debug) {
-        console.log('[KGS Client] Stopped polling');
+        console.log("[KGS Client] Stopped polling");
       }
     } catch (err) {
-      if (isJsError(err) || err.name === 'InvariantError') {
+      if (isJsError(err) || err.name === "InvariantError") {
         // Likely an error in the app, not with network or client
         throw err;
       }
 
-      let nextState = {...this.state};
-      if (err && err.type === 'noClient') {
-        nextState.status = 'loggedOut';
-        nextState.network = 'online';
+      let nextState = { ...this.state };
+      if (err && err.type === "noClient") {
+        nextState.status = "loggedOut";
+        nextState.network = "online";
         nextState.retryTimes = 0;
       } else {
-        let {retryTimes} = this.state;
-        if (retryTimes < 10 && this.state.status !== 'loggedOut') {
+        let { retryTimes } = this.state;
+        if (retryTimes < 10 && this.state.status !== "loggedOut") {
           nextState.retryTimes = retryTimes + 1;
-          nextState.network = 'error';
+          nextState.network = "error";
           if (this._debug) {
-            console.log('[KGS Client] Poll failed - retry', nextState.retryTimes);
+            console.log(
+              "[KGS Client] Poll failed - retry",
+              nextState.retryTimes
+            );
           }
           setTimeout(() => {
             this.poll();
           }, 3000);
         } else {
-          nextState.network = 'error';
+          nextState.network = "error";
           nextState.retryTimes = 0;
-          if (this.state.status === 'loggingIn') {
-            nextState.status = 'loggedOut';
-          } else if (this.state.status === 'loggingOut') {
+          if (this.state.status === "loggingIn") {
+            nextState.status = "loggedOut";
+          } else if (this.state.status === "loggingOut") {
             // Log out failed - just pretend it worked
-            nextState.status = 'loggedOut';
+            nextState.status = "loggedOut";
           }
         }
       }
@@ -224,14 +237,14 @@ export class KgsClient {
 
       console.warn(err);
     }
-  }
+  };
 
   _receiveMessages = (): Promise<Array<KgsMessage>> => {
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
       let onError = () => {
-        let errorType = xhr.status ? 'noClient' : 'networkError';
-        let err = new ApiError('Receive failed', errorType, xhr);
+        let errorType = xhr.status ? "noClient" : "networkError";
+        let err = new ApiError("Receive failed", errorType, xhr);
         reject(err);
       };
       xhr.onreadystatechange = function() {
@@ -244,22 +257,22 @@ export class KgsClient {
           }
         }
       };
-      xhr.addEventListener('error', onError);
-      xhr.addEventListener('abort', onError);
-      xhr.addEventListener('timeout', onError);
-      xhr.open('GET', this._apiUrl, true);
-      xhr.setRequestHeader('Accept', 'application/json;charset=UTF-8');
+      xhr.addEventListener("error", onError);
+      xhr.addEventListener("abort", onError);
+      xhr.addEventListener("timeout", onError);
+      xhr.open("GET", this._apiUrl, true);
+      xhr.setRequestHeader("Accept", "application/json;charset=UTF-8");
       xhr.withCredentials = true;
       xhr.send();
     });
-  }
+  };
 
   _sendMessage = (msg: KgsMessage, opts: SendMessageOptions = {}) => {
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
       let onError = () => {
-        let errorType = xhr.status ? 'noClient' : 'networkError';
-        let err = new ApiError('Send failed', errorType, xhr);
+        let errorType = xhr.status ? "noClient" : "networkError";
+        let err = new ApiError("Send failed", errorType, xhr);
         reject(err);
       };
       xhr.onreadystatechange = function() {
@@ -271,14 +284,17 @@ export class KgsClient {
           }
         }
       };
-      xhr.addEventListener('error', onError);
-      xhr.addEventListener('abort', onError);
-      xhr.addEventListener('timeout', onError);
-      xhr.open('POST', this._apiUrl, opts.sync === undefined ? true : opts.sync);
+      xhr.addEventListener("error", onError);
+      xhr.addEventListener("abort", onError);
+      xhr.addEventListener("timeout", onError);
+      xhr.open(
+        "POST",
+        this._apiUrl,
+        opts.sync === undefined ? true : opts.sync
+      );
       xhr.withCredentials = true;
-      xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+      xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
       xhr.send(escapeUnicode(JSON.stringify(msg)));
     });
-  }
-
+  };
 }

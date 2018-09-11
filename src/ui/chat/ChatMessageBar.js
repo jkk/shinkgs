@@ -1,17 +1,15 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
-import {isTouchDevice} from '../../util/dom';
-import type {Conversation} from '../../model';
+import React, { PureComponent as Component } from "react";
+import { isTouchDevice } from "../../util/dom";
+import type { Conversation } from "../../model";
 
 type Props = {
   conversation: ?Conversation,
-  onSubmit: string => any;
+  onSubmit: string => any,
 };
 
-export default class ChatMessageBar extends Component {
-
-  props: Props;
-
+export default class ChatMessageBar extends Component<Props> {
+  static defaultProps: Props;
   _input: ?HTMLInputElement;
 
   componentDidUpdate(prevProps: Props) {
@@ -23,23 +21,24 @@ export default class ChatMessageBar extends Component {
   }
 
   render() {
-    let {conversation} = this.props;
+    let { conversation } = this.props;
     let placeholder;
     if (!conversation || conversation.chatsDisabled) {
-      placeholder = '[Chats disabled]';
+      placeholder = "[Chats disabled]";
     } else {
-      placeholder = 'Type a message...';
+      placeholder = "Type a message...";
     }
     return (
-      <div className='ChatMessageBar'>
-        <div className='ChatMessageBar-inner'>
-          <form action='#' method='post' onSubmit={this._onSubmit}>
+      <div className="ChatMessageBar">
+        <div className="ChatMessageBar-inner">
+          <form action="#" method="post" onSubmit={this._onSubmit}>
             <input
               ref={this._setInputRef}
-              className='ChatMessageBar-input'
-              type='text'
+              className="ChatMessageBar-input"
+              type="text"
               placeholder={placeholder}
-              autoFocus={!isTouchDevice()} />
+              autoFocus={!isTouchDevice()}
+            />
           </form>
         </div>
       </div>
@@ -48,12 +47,16 @@ export default class ChatMessageBar extends Component {
 
   _setInputRef = (ref: HTMLInputElement) => {
     this._input = ref;
-  }
+  };
 
   _onSubmit = (e: Object) => {
     e.preventDefault();
-    let {conversation} = this.props;
-    if (!conversation || conversation.chatsDisabled || conversation.status !== 'created') {
+    let { conversation } = this.props;
+    if (
+      !conversation ||
+      conversation.chatsDisabled ||
+      conversation.status !== "created"
+    ) {
       return;
     }
     let input = this._input;
@@ -64,7 +67,7 @@ export default class ChatMessageBar extends Component {
     if (!body) {
       return;
     }
-    input.value = '';
+    input.value = "";
     this.props.onSubmit(body);
-  }
+  };
 }

@@ -1,10 +1,7 @@
 // @flow
-import {
-  createBoardState,
-  applyPropsToBoard
-} from './board';
-import {formatGameScore} from './display';
-import {InvariantError} from '../../util/error';
+import { createBoardState, applyPropsToBoard } from "./board";
+import { formatGameScore } from "./display";
+import { InvariantError } from "../../util/error";
 import type {
   GameChannel,
   GameSummary,
@@ -20,22 +17,22 @@ import type {
   BoardMarkup,
   SgfProp,
   PendingMove,
-  PlayerColor
-} from '../types';
+  PlayerColor,
+} from "../types";
 
 export function getGameLine(tree: GameTree, nodeId: number): Array<number> {
   let node = tree.nodes[nodeId];
   if (!node) {
-    throw new InvariantError('No node with id ' + nodeId);
+    throw new InvariantError("No node with id " + nodeId);
   }
 
   // Go to end of line first
   let child = node.children[0];
-  while (typeof child === 'number') {
+  while (typeof child === "number") {
     nodeId = child;
     node = tree.nodes[child];
     if (!node) {
-      throw new InvariantError('No node with id ' + nodeId);
+      throw new InvariantError("No node with id " + nodeId);
     }
     child = node.children[0];
   }
@@ -43,7 +40,7 @@ export function getGameLine(tree: GameTree, nodeId: number): Array<number> {
   // Now traverse back to root
   let line = [nodeId];
   let parent = node.parent;
-  while (typeof parent === 'number') {
+  while (typeof parent === "number") {
     line.push(parent);
     node = tree.nodes[parent];
     parent = node.parent;
@@ -54,52 +51,51 @@ export function getGameLine(tree: GameTree, nodeId: number): Array<number> {
 
 export function validateRuleSet(ruleset: mixed): GameRuleSet {
   if (
-    ruleset === 'japanese' ||
-    ruleset === 'chinese' ||
-    ruleset === 'aga' ||
-    ruleset === 'new_zealand'
+    ruleset === "japanese" ||
+    ruleset === "chinese" ||
+    ruleset === "aga" ||
+    ruleset === "new_zealand"
   ) {
     return ruleset;
   }
-  throw new InvariantError('Invalid ruleset ' + String(ruleset));
+  throw new InvariantError("Invalid ruleset " + String(ruleset));
 }
 
-
 const BOARD_MARKS = {
-  'CIRCLE': 'circle',
-  'TRIANGLE': 'triangle',
-  'SQUARE': 'square',
-  'CROSS': 'cross',
-  'DEAD': 'dead'
+  CIRCLE: "circle",
+  TRIANGLE: "triangle",
+  SQUARE: "square",
+  CROSS: "cross",
+  DEAD: "dead",
 };
 
 export function getMarkupForProps(props: Array<SgfProp>): BoardMarkup {
   let markup: BoardMarkup = {
     marks: {},
-    labels: {}
+    labels: {},
   };
   for (let prop of props) {
     let loc = prop.loc;
-    if (!loc || loc === 'PASS') {
+    if (!loc || loc === "PASS") {
       continue;
     }
-    if (prop.name === 'MOVE') {
+    if (prop.name === "MOVE") {
       if (!markup.marks[loc.y]) {
         markup.marks[loc.y] = {};
       }
-      markup.marks[loc.y][loc.x] = 'active';
+      markup.marks[loc.y][loc.x] = "active";
     } else {
       let mark = BOARD_MARKS[prop.name];
-      if (!mark && prop.name === 'TERRITORY') {
-        mark = prop.color === 'black' ? 'blackTerritory' : 'whiteTerritory';
+      if (!mark && prop.name === "TERRITORY") {
+        mark = prop.color === "black" ? "blackTerritory" : "whiteTerritory";
       }
       if (mark) {
         if (!markup.marks[loc.y]) {
           markup.marks[loc.y] = {};
         }
         markup.marks[loc.y][loc.x] = mark;
-      } else if (prop.name === 'LABEL') {
-        let label = typeof prop.text === 'string' ? prop.text : null;
+      } else if (prop.name === "LABEL") {
+        let label = typeof prop.text === "string" ? prop.text : null;
         if (label) {
           if (!markup.labels[loc.y]) {
             markup.labels[loc.y] = {};
@@ -113,34 +109,42 @@ export function getMarkupForProps(props: Array<SgfProp>): BoardMarkup {
 }
 
 function addPendingMoveMarkup(markup: BoardMarkup, pendingMove: PendingMove) {
-  let {x, y} = pendingMove.loc;
+  let { x, y } = pendingMove.loc;
   if (!markup.marks[y]) {
     markup.marks[y] = {};
   }
-  markup.marks[y][x] = pendingMove.color === 'white' ?
-    'pendingWhite' : 'pendingBlack';
+  markup.marks[y][x] =
+    pendingMove.color === "white" ? "pendingWhite" : "pendingBlack";
 }
 
 export function computeGameNodeStates(
   tree: GameTree,
   nodeId: number
-): {[nodeId: number]: GameNodeComputedState} {
+): { [nodeId: number]: GameNodeComputedState } {
   let line = getGameLine(tree, nodeId);
   if (!line.length) {
-    throw new InvariantError('Unexpected empty game line');
+    throw new InvariantError("Unexpected empty game line");
   }
 
   // Determine rules to use
   let rootNode = tree.nodes[tree.rootNode];
-  let rulesProp = rootNode.props.find(p => p.name === 'RULES');
-  let size = rulesProp && typeof rulesProp.size === 'number' ? rulesProp.size : 19;
-  let ruleset: GameRuleSet = rulesProp && typeof rulesProp.rules !== 'undefined' ?
-    validateRuleSet(rulesProp.rules) : 'japanese';
-  let mainTime = rulesProp && typeof rulesProp.mainTime === 'number' ? rulesProp.mainTime : -1;
+  let rulesProp = rootNode.props.find(p => p.name === "RULES");
+  let size =
+    rulesProp && typeof rulesProp.size === "number" ? rulesProp.size : 19;
+  let ruleset: GameRuleSet =
+    rulesProp && typeof rulesProp.rules !== "undefined"
+      ? validateRuleSet(rulesProp.rules)
+      : "japanese";
+  let mainTime =
+    rulesProp && typeof rulesProp.mainTime === "number"
+      ? rulesProp.mainTime
+      : -1;
 
   // Don't redo already-computed state. Anything that happened before
   // the node we're looking at is still valid.
-  let computedState: {[nodeId: number]: GameNodeComputedState} = {...tree.computedState};
+  let computedState: { [nodeId: number]: GameNodeComputedState } = {
+    ...tree.computedState,
+  };
   let startIdx = line.indexOf(nodeId);
   let blackCaps;
   let whiteCaps;
@@ -175,8 +179,8 @@ export function computeGameNodeStates(
     blackCaps += ret.blackCaptures;
     whiteCaps += ret.whiteCaptures;
     for (let prop of node.props) {
-      if (prop.name === 'TIMELEFT' && prop.float) {
-        if (prop.color === 'black') {
+      if (prop.name === "TIMELEFT" && prop.float) {
+        if (prop.color === "black") {
           blackTimeLeft = prop.float;
         } else {
           whiteTimeLeft = prop.float;
@@ -189,7 +193,7 @@ export function computeGameNodeStates(
       blackTimeLeft,
       whiteTimeLeft,
       board,
-      markup
+      markup,
     };
   }
   return computedState;
@@ -204,23 +208,22 @@ export function isGameOverNode(game: GameChannel, nodeId: number) {
     // Last node in the branch
     !tree.nodes[nodeId].children.length &&
     // Game being played - i.e., not a review
-    (
-      game.type === 'free' ||
-      game.type === 'ranked' ||
-      game.type === 'simul' ||
-      game.type === 'rengo' ||
-      game.type === 'tournament'
-    )
+    (game.type === "free" ||
+      game.type === "ranked" ||
+      game.type === "simul" ||
+      game.type === "rengo" ||
+      game.type === "tournament")
   );
 }
 
 export function isGamePlaying(game: GameChannel) {
-  return !game.over && (
-    game.type === 'free' ||
-    game.type === 'ranked' ||
-    game.type === 'simul' ||
-    game.type === 'rengo' ||
-    game.type === 'tournament'
+  return (
+    !game.over &&
+    (game.type === "free" ||
+      game.type === "ranked" ||
+      game.type === "simul" ||
+      game.type === "rengo" ||
+      game.type === "tournament")
   );
 }
 
@@ -229,12 +232,12 @@ function getGameNodeActions(game: GameChannel, nodeId: number) {
   if (!game.tree) {
     return actions;
   }
-  let passProp = game.tree.nodes[nodeId].props.find(p => p.loc === 'PASS');
+  let passProp = game.tree.nodes[nodeId].props.find(p => p.loc === "PASS");
   if (passProp) {
-    actions.push((passProp.color === 'black' ? 'Black' : 'White') + ' passed');
+    actions.push((passProp.color === "black" ? "Black" : "White") + " passed");
   }
   if (isGameOverNode(game, nodeId) && game.score) {
-    actions.push('Game Over: ' + formatGameScore(game.score));
+    actions.push("Game Over: " + formatGameScore(game.score));
   }
   return actions;
 }
@@ -251,20 +254,22 @@ export function getGameChatSections(game: GameChannel): Array<GameChatSection> {
     let messages = tree.messages[nodeId];
     let actions = getGameNodeActions(game, nodeId);
     if ((messages && messages.length) || actions.length) {
-      sections.push({nodeId, moveNum: i, actions, messages});
+      sections.push({ nodeId, moveNum: i, actions, messages });
     }
   }
   return sections;
 }
 
 export function isGameProposalPlayer(name: string, proposal: GameProposal) {
-  return !!proposal.players.find(p =>
-    p.name === name ||
-    (p.user && p.user.name === name)
+  return !!proposal.players.find(
+    p => p.name === name || (p.user && p.user.name === name)
   );
 }
 
-export function getGamePlayerRole(name: string, players: GamePlayers): ?GameRole {
+export function getGamePlayerRole(
+  name: string,
+  players: GamePlayers
+): ?GameRole {
   for (let role of Object.keys(players)) {
     if (players[(role: any)].name === name) {
       return (role: any);
@@ -282,11 +287,14 @@ export function isPlayerMove(game: GameChannel, name: string) {
   if (!actions) {
     return false;
   }
-  let moveAction = actions.find(a => a.action === 'MOVE');
+  let moveAction = actions.find(a => a.action === "MOVE");
   return !!(moveAction && moveAction.user.name === name);
 }
 
-export function getGamePlayerOtherRole(name: string, players: GamePlayers): ?GameRole {
+export function getGamePlayerOtherRole(
+  name: string,
+  players: GamePlayers
+): ?GameRole {
   for (let role of Object.keys(players)) {
     if (players[(role: any)].name !== name) {
       return (role: any);
@@ -299,47 +307,51 @@ export function isGameScoring(game: GameChannel) {
   if (game.over || !game.actions) {
     return false;
   }
-  return !!game.actions.find(a => a.action === 'SCORE');
+  return !!game.actions.find(a => a.action === "SCORE");
 }
 
 export function getGameRoleColor(role: GameRole): ?PlayerColor {
-  if (role === 'white' || role === 'white_2') {
-    return 'white';
+  if (role === "white" || role === "white_2") {
+    return "white";
   }
-  if (role === 'black' || role === 'black_2') {
-    return 'black';
+  if (role === "black" || role === "black_2") {
+    return "black";
   }
   return null;
 }
 
 export function getKgsSgfUrl(summary: GameSummary) {
-  let [y, m, d] = summary.timestamp.split('-');
+  let [y, m, d] = summary.timestamp.split("-");
   let player1 = summary.players.white || summary.players.owner;
   let black = summary.players.black;
-  let url = 'http://files.gokgs.com/games/' +
-    y + '/' +
-    parseInt(m, 10) + '/' +
-    parseInt(d, 10) + '/' +
+  let url =
+    "http://files.gokgs.com/games/" +
+    y +
+    "/" +
+    parseInt(m, 10) +
+    "/" +
+    parseInt(d, 10) +
+    "/" +
     player1.name;
   if (
-    summary.type !== 'demonstration' &&
-    summary.type !== 'review' &&
-    summary.type !== 'rengo_review' &&
+    summary.type !== "demonstration" &&
+    summary.type !== "review" &&
+    summary.type !== "rengo_review" &&
     black
   ) {
-    url += '-' + black.name;
+    url += "-" + black.name;
   }
   if (summary.revision) {
-    url += '-' + (parseInt(summary.revision, 10) + 1);
+    url += "-" + (parseInt(summary.revision, 10) + 1);
   }
-  url += '.sgf';
+  url += ".sgf";
   return url;
 }
 
 export function getActionsForUser(
-  actions: ?Array<{action: GameAction, user: UnparsedUser}>,
+  actions: ?Array<{ action: GameAction, user: UnparsedUser }>,
   name: string
-): {[action: GameAction]: true} {
+): { [action: GameAction]: true } {
   let ret = {};
   if (!actions) {
     return ret;

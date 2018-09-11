@@ -1,31 +1,40 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
-import {Modal, Button} from '../common';
+import React, { PureComponent as Component } from "react";
+import { Modal, Button } from "../common";
 
-export default class UnderConstructionModal extends Component {
+type Props = {
+  onClose: Function,
+};
 
-  props: {
-    onClose: Function
-  };
-
+export default class UnderConstructionModal extends Component<Props> {
   render() {
-    let {onClose} = this.props;
+    let { onClose } = this.props;
     return (
       <Modal onClose={onClose}>
-        <div className='UnderConstructionModal'>
-          <div className='UnderConstructionModal-title'>
-            Under Construction
-          </div>
-          <div className='UnderConstructionModal-desc'>
+        <div className="UnderConstructionModal">
+          <div className="UnderConstructionModal-title">Under Construction</div>
+          <div className="UnderConstructionModal-desc">
+            <p>That feature {"isn't"} available yet.</p>
             <p>
-              That feature isn't available yet.
+              Want to help? Send feedback to{" "}
+              <a
+                href="https://twitter.com/jkkramer"
+                target="_blank"
+                rel="noopener noreferrer">
+                @jkkramer
+              </a>{" "}
+              or visit the{" "}
+              <a
+                href="https://github.com/jkk/shinkgs"
+                target="_blank"
+                rel="noopener noreferrer">
+                GitHub project
+              </a>{" "}
+              find out how to contribute.
             </p>
-            <p>
-              Want to help? Send feedback to <a href='https://twitter.com/jkkramer' target='_blank' rel='noopener'>@jkkramer</a>
-              {' '}
-              or visit the <a href='https://github.com/jkk/shinkgs' target='_blank' rel='noopener'>GitHub project</a> find out how to contribute.
-            </p>
-            <Button primary onClick={onClose}>OK</Button>
+            <Button primary onClick={onClose}>
+              OK
+            </Button>
           </div>
         </div>
       </Modal>

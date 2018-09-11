@@ -13,9 +13,9 @@ export function isAncestor(target: HTMLElement, ancestor: HTMLElement) {
 
 export function isTouchDevice() {
   return (
-    ('ontouchstart' in window) ||
-    ((navigator: Object).MaxTouchPoints > 0) ||
-    ((navigator: Object).msMaxTouchPoints > 0)
+    "ontouchstart" in window ||
+    (navigator: Object).MaxTouchPoints > 0 ||
+    (navigator: Object).msMaxTouchPoints > 0
   );
 }
 

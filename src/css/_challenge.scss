@@ -53,9 +53,11 @@ $diff-muted: #bb9c1d;
   margin: 0 0 0 5px;
   border: 1px solid $link-color;
   border-radius: 4px;
+
   &:active {
     opacity: 0.5;
   }
+
   &[disabled] {
     opacity: 0.4;
     cursor: default;
@@ -91,7 +93,10 @@ $diff-muted: #bb9c1d;
   padding: 20px;
   background: $content-bg;
   color: $content-fg;
-  .SelectInput, select, input {
+
+  .SelectInput,
+  select,
+  input {
     width: 100%;
   }
 }
@@ -134,6 +139,7 @@ $diff-muted: #bb9c1d;
   display: inline;
   color: $semi-muted;
   font-size: 14px;
+
   &:before {
     content: " - ";
   }
@@ -161,11 +167,13 @@ $diff-muted: #bb9c1d;
   border-radius: 4px;
   display: flex;
   flex-direction: column;
+
   &.ProposalPlayers-item-player-hilite {
     .ProposalPlayers-player-button {
       background-color: $diff-hilite;
     }
   }
+
   &.ProposalPlayers-item-role-hilite {
     .ProposalPlayers-role-name {
       background-color: $diff-hilite;
@@ -185,6 +193,7 @@ $diff-muted: #bb9c1d;
     border-bottom-left-radius: 4px;
     border-right: 1px solid #ddd;
   }
+
   .ProposalPlayers-role {
     border-top-left-radius: 4px;
     border-right: 1px solid #555;
@@ -195,6 +204,7 @@ $diff-muted: #bb9c1d;
   .ProposalPlayers-player-button {
     border-bottom-right-radius: 4px;
   }
+
   .ProposalPlayers-role {
     border-top-right-radius: 4px;
   }
@@ -259,6 +269,7 @@ $diff-muted: #bb9c1d;
   line-height: 1.15;
   vertical-align: middle;
   flex: 1;
+
   &:focus {
     outline: 0;
     border: 1px solid $input-focus;
@@ -294,12 +305,14 @@ $diff-muted: #bb9c1d;
   margin: 0 0 0 10px;
   font-size: 20px;
   font-weight: bold;
+
   &:active {
     opacity: 0.5;
   }
 }
 
 .ProposalForm-input-readonly {
+
   .ProposalForm-input-minus,
   .ProposalForm-input-plus {
     color: $muted;
@@ -312,9 +325,11 @@ $diff-muted: #bb9c1d;
   .ProposalPlayers-role:hover {
     background-color: #555;
   }
+
   .ProposalPlayers-player-button:hover {
     background-color: #ddd;
   }
+
   .ProposalPlayers-item {
     &.ProposalPlayers-item-player-hilite {
       .ProposalPlayers-player-button:hover {
@@ -322,6 +337,7 @@ $diff-muted: #bb9c1d;
       }
     }
   }
+
   .ProposalForm-input-minus,
   .ProposalForm-input-plus {
     &:hover {
@@ -329,7 +345,9 @@ $diff-muted: #bb9c1d;
       border: 1px solid darken($link-color, 5%);
     }
   }
+
   .ProposalForm-input-readonly {
+
     .ProposalForm-input-minus,
     .ProposalForm-input-plus {
       color: $muted;
@@ -371,6 +389,7 @@ $diff-muted: #bb9c1d;
 
 .ProposalForm-rules-readonly {
   margin: 0 0 0 5px;
+
   .ProposalForm-field-label {
     display: inline-block;
     vertical-align: middle;
@@ -378,6 +397,7 @@ $diff-muted: #bb9c1d;
     margin: 0 0 0 5px;
     font-size: 15px;
   }
+
   .ProposalForm-field-content {
     display: inline-block;
     vertical-align: middle;
@@ -388,28 +408,36 @@ $diff-muted: #bb9c1d;
   .ChallengeEditor-header {
     padding: 10px;
   }
+
   .ChallengeEditor-chat {
     padding: 0;
   }
+
   .ChallengeEditor-chat-messages {
     padding: 10px;
   }
+
   .ProposalForm {
     padding: 10px 10px 0 10px;
   }
+
   .ChallengeEditor-buttons {
     padding: 10px;
   }
+
   .ChallengeEditor-prevnext {
     right: 10px;
     bottom: 10px;
   }
+
   .ProposalForm-input-value-label {
     display: block;
     // font-size: 12px;
   }
+
   .ProposalForm-rules-readonly {
     margin: 0 0 0 5px;
+
     .ProposalForm-field-label {
       display: block;
       margin: 0;
@@ -421,7 +449,9 @@ $diff-muted: #bb9c1d;
   .ProposalForm-input-minus {
     margin-left: 0;
   }
-  .touch, .no-touch {
+
+  .touch,
+  .no-touch {
     .ChallengeEditor-buttons-decision {
       .Button {
         padding-left: 15px;

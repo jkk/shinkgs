@@ -2,15 +2,16 @@
 // https://github.com/react-bootstrap/react-bootstrap/blob/master/src/Portal.js
 // @flow
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from "react";
+import ReactDOM from "react-dom";
 
 function getOwnerDocument(componentOrElement) {
   let elem = ReactDOM.findDOMNode(componentOrElement);
   return (elem && elem.ownerDocument) || document;
 }
 
-export class Portal extends React.PureComponent {
+export class Portal extends React.PureComponent<> {
+  static defaultProps: $FlowFixMeProps;
 
   _isMounted = false;
   _overlayTarget: any;
@@ -33,7 +34,7 @@ export class Portal extends React.PureComponent {
 
   _mountOverlayTarget() {
     if (!this._overlayTarget) {
-      this._overlayTarget = document.createElement('div');
+      this._overlayTarget = document.createElement("div");
       let container = this.getContainerDOMNode();
       if (container) {
         container.appendChild(this._overlayTarget);
@@ -52,10 +53,9 @@ export class Portal extends React.PureComponent {
   }
 
   _renderOverlay() {
-
     let overlay = !this.props.children
-    ? null
-    : React.Children.only(this.props.children);
+      ? null
+      : React.Children.only(this.props.children);
 
     // Save reference for future access.
     if (overlay !== null) {
@@ -81,7 +81,9 @@ export class Portal extends React.PureComponent {
 
   getOverlayDOMNode() {
     if (!this._isMounted) {
-      throw new Error('getOverlayDOMNode(): A component must be mounted to have a DOM node.');
+      throw new Error(
+        "getOverlayDOMNode(): A component must be mounted to have a DOM node."
+      );
     }
 
     if (this._overlayInstance) {
@@ -96,6 +98,8 @@ export class Portal extends React.PureComponent {
   }
 
   getContainerDOMNode() {
-    return ReactDOM.findDOMNode(this.props.container) || getOwnerDocument(this).body;
+    return (
+      ReactDOM.findDOMNode(this.props.container) || getOwnerDocument(this).body
+    );
   }
 }

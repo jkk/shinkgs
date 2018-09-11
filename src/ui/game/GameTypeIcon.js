@@ -1,51 +1,45 @@
 // @flow
-import React, {PureComponent as Component} from 'react';
-import {Icon} from '../common';
-import type {
-  GameType
-} from '../../model';
+import React, { PureComponent as Component } from "react";
+import { Icon } from "../common";
+import type { GameType } from "../../model";
 
 const GAME_TYPE_CODE = {
-  'challenge': 'C',
-  'demonstration': 'D',
-  'review': 'D',
-  'rengo_review': 'D',
-  'teaching': 'T',
-  'simul': 'S',
-  'rengo': '2',
-  'free': 'F',
-  'ranked': 'R',
-  'tournament': '🏆'
+  challenge: "C",
+  demonstration: "D",
+  review: "D",
+  rengo_review: "D",
+  teaching: "T",
+  simul: "S",
+  rengo: "2",
+  free: "F",
+  ranked: "R",
+  tournament: "🏆",
 };
 
-export default class GameTypeIcon extends Component {
+type Props = {
+  type: GameType,
+  subscribersOnly?: boolean,
+  isPrivate?: boolean,
+};
 
-  props: {
-    type: GameType,
-    subscribersOnly?: boolean,
-    isPrivate?: boolean
-  };
-
+export default class GameTypeIcon extends Component<Props> {
   render() {
-    let {type, subscribersOnly, isPrivate} = this.props;
-    let typeClassName = 'GameTypeIcon GameTypeIcon-' + (
-      isPrivate ? 'private' : type
-    );
+    let { type, subscribersOnly, isPrivate } = this.props;
+    let typeClassName =
+      "GameTypeIcon GameTypeIcon-" + (isPrivate ? "private" : type);
     let code;
     if (subscribersOnly) {
-      code = '🎩';
+      code = "🎩";
     } else if (isPrivate) {
-      code = <Icon name='lock' />;
-    } else if (type === 'tournament') {
-      code = <Icon name='trophy' />;
+      code = <Icon name="lock" />;
+    } else if (type === "tournament") {
+      code = <Icon name="trophy" />;
     } else {
       code = GAME_TYPE_CODE[type];
     }
     return (
       <div className={typeClassName}>
-        <div className='GameTypeIcon-code'>
-          {code}
-        </div>
+        <div className="GameTypeIcon-code">{code}</div>
       </div>
     );
   }

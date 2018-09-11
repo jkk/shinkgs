@@ -1,4 +1,5 @@
 # Shin KGS
+[![Build Status](https://travis-ci.com/jkk/shinkgs.svg?branch=master)](https://travis-ci.com/jkk/shinkgs)
 
 An unofficial JavaScript client for [KGS Go Server](http://www.gokgs.com/).
 
@@ -72,15 +73,24 @@ If you don't have eslint or flow in your editor, you can check for errors with:
 
 ```
 yarn lint
+yarn flow
 ```
 
-## Deploying the Web App
+## Deployment
 
-The easiest way to deploy the app is to use the [▲now service](https://zeit.co/now):
+The official and stable build lives at https://shin.gokgs.com. Each commits is also build and deployed on now.sh on:
+
+```
+https://shinkgs-BRANCH.now.sh
+```
+
+With `BRANCH` being one of the Git branches of this repository. For example, a live version of master is always available at https://shinkgs-master.now.sh. **Warning**: the `master` branch should always work but is certainly not bullet-proof and bug-free. Use the [official build](https://shin.gokgs.com) for any sensitive games (such as tournaments).
+
+If you are developing the app and want to deploy in the could, use the [now.sh service](https://zeit.co/now):
 
 ```
 yarn global add now
-yarn deploy-now
+yarn now-deploy
 ```
 
 This builds the app then pushes it out to the cloud with a unique URL.
