@@ -48,7 +48,7 @@ type State = {
 };
 
 export default class ChatRoomList extends Component<PropsChatRoomList, State> {
-  state = {
+  state: State = {
     search: ("": string),
   };
 
