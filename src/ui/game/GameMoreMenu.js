@@ -132,7 +132,7 @@ export default class GameMoreMenu extends Component<Props, State> {
               className="GameMoreMenu-dropdown-item"
               style={{ cursor: "pointer" }}
               onClick={this._onToggleGameInfo}
-              href={eidogoUrl}>
+              href={this._onToggleGameInfo}>
               Game Info
             </a>
           </div>
