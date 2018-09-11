@@ -267,7 +267,10 @@ export class KgsClient {
     });
   };
 
-  _sendMessage = (msg: KgsMessage, opts: SendMessageOptions = {}) => {
+  _sendMessage = (
+    msg: KgsMessage,
+    opts: SendMessageOptions = {}
+  ): Promise<any> => {
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
       let onError = () => {
