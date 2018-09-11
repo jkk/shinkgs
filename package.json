@@ -36,7 +36,7 @@
     "test": "react-scripts test --env=jsdom",
     "lint": "./node_modules/eslint/bin/eslint.js src/",
     "flow": "flow check",
-    "now-deploy": "yarn build && now",
+    "now-deploy": "yarn build && cp server/* build && now",
     "now-start": "serve ./build --single"
   },
   "eslintConfig": {
