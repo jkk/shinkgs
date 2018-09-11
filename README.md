@@ -3,9 +3,12 @@
 
 An unofficial JavaScript client for [KGS Go Server](http://www.gokgs.com/).
 
-Available at https://shin.gokgs.com/
+- The **official stable version** is available at https://shin.gokgs.com.
+- A development version (less stable) is available at https://shinkgs-master.now.sh.
 
-<img src="https://s3.amazonaws.com/shinkgs.com/assets/screenshot-ios-safari.png" alt="Screenshot - iOS Safari" width="375" height="667">
+## Screenshot
+
+<img src="./design/screenshot.png" alt="Screenshot - iOS Safari" width="375" height="667">
 
 ## Goals
 
