@@ -11,11 +11,13 @@ import {
   AppActions,
 } from "./model";
 import type { KgsClientState, NavOption, AppState } from "./model";
+import Preferences from "./model/Preferences";
 
 type Props = {};
 
 type State = {
   appState: AppState,
+  prefs: Preferences,
 };
 
 class App extends Component<Props, State> {
@@ -39,9 +41,18 @@ class App extends Component<Props, State> {
       handleMessage,
       getInitialState(this._client.state)
     );
-    this._actions = new AppActions(this._store, this._client, this._history);
 
-    this.state = { appState: this._store.getState() };
+    this.state = {
+      appState: this._store.getState(),
+      prefs: new Preferences(),
+    };
+
+    this._actions = new AppActions(
+      this._store,
+      this._client,
+      this._history,
+      this.state.prefs
+    );
 
     if (process.env.NODE_ENV === "development") {
       window.App = this;

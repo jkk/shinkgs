@@ -20,6 +20,7 @@ import type {
   PlayerColor,
 } from "./types";
 import { distinct } from "../util/collection";
+import Preferences from "./Preferences";
 
 const APP_STATE_SAVE_KEY = "savedAppState";
 
@@ -27,11 +28,18 @@ export class AppActions {
   _store: AppStore;
   _client: KgsClient;
   _history: Object;
+  prefs: Preferences;
 
-  constructor(store: AppStore, client: KgsClient, history: Object) {
+  constructor(
+    store: AppStore,
+    client: KgsClient,
+    history: Object,
+    prefs: Preferences
+  ) {
     this._store = store;
     this._client = client;
     this._history = history;
+    this.prefs = prefs;
   }
 
   _isOffline = () => {
@@ -120,6 +128,7 @@ export class AppActions {
         type: "JOIN_ARCHIVE_REQUEST",
         name: state.currentUser.name,
       });
+      this.prefs.initUserPrefs(state.currentUser);
     }
   };
 
@@ -403,15 +412,19 @@ export class AppActions {
   onReceiveChallengeSubmit = (challengeId: number) => {
     let { playChallengeId } = this._store.getState();
     if (playChallengeId === challengeId) {
-      // Received a challenge proposal submission
-      SOUNDS.CHALLENGE_PROPOSAL_RECEIVED.play();
+      if (this.prefs.values.enableSounds) {
+        // Received a challenge proposal submission
+        SOUNDS.CHALLENGE_PROPOSAL_RECEIVED.play();
+      }
     }
   };
 
   onReceiveDirectMessage = (channelId: number) => {
     let { conversationsById } = this._store.getState();
     if (conversationsById[channelId] && conversationsById[channelId].user) {
-      SOUNDS.DIRECT_MESSAGE_RECEIVED.play();
+      if (this.prefs.values.enableSounds) {
+        SOUNDS.DIRECT_MESSAGE_RECEIVED.play();
+      }
     }
   };
 
