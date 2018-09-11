@@ -4,8 +4,9 @@
   "devDependencies": {
     "flow-bin": "0.80.0",
     "node-sass": "4.9.3",
+    "prettier": "1.14.2",
     "react-scripts": "2.0.0-next.a671462c",
-    "serve": "^10.0.0" 
+    "serve": "^10.0.0"
   },
   "dependencies": {
     "autolinker.js": "0.7.0",
