@@ -1,105 +1,90 @@
-// Implementation from React BootStrap:
-// https://github.com/react-bootstrap/react-bootstrap/blob/master/src/Portal.js
-// @flow
+import canUseDom from "dom-helpers/util/inDOM";
+import ownerDocument from "dom-helpers/ownerDocument";
 
-import * as React from "react";
+import PropTypes from "prop-types";
+import componentOrElement from "prop-types-extra/lib/componentOrElement";
+import React from "react";
 import ReactDOM from "react-dom";
 
-function getOwnerDocument(componentOrElement) {
-  let elem = ReactDOM.findDOMNode(componentOrElement);
-  return (elem && elem.ownerDocument) || document;
+function getContainer(container, defaultContainer) {
+  container = typeof container === "function" ? container() : container;
+  return ReactDOM.findDOMNode(container) || defaultContainer;
 }
 
-export class Portal extends React.PureComponent<> {
-  static defaultProps: $FlowFixMeProps;
+function ownerDocument2(componentOrElement2) {
+  return ownerDocument(ReactDOM.findDOMNode(componentOrElement2));
+}
 
-  _isMounted = false;
-  _overlayTarget: any;
-  _overlayInstance: any;
+/**
+ * The `<Portal/>` component renders its children into a new "subtree" outside of current component hierarchy.
+ * You can think of it as a declarative `appendChild()`, or jQuery's `$.fn.appendTo()`.
+ * The children of `<Portal/>` component will be appended to the `container` specified.
+ */
+export class Portal extends React.Component {
+  static displayName = "Portal";
 
-  componentDidMount() {
-    this._isMounted = true;
-    this._renderOverlay();
+  static propTypes = {
+    /**
+     * A Node, Component instance, or function that returns either. The `container` will have the Portal children
+     * appended to it.
+     */
+    container: PropTypes.oneOfType([componentOrElement, PropTypes.func]),
+
+    onRendered: PropTypes.func,
+  };
+
+  UNSAFE_componentWillMount() {
+    if (!canUseDom) {
+      return;
+    }
+
+    let { container } = this.props;
+    if (typeof container === "function") {
+      container = container();
+    }
+
+    if (container && !ReactDOM.findDOMNode(container)) {
+      // The container is a React component that has not yet been rendered.
+      // Don't set the container node yet.
+      return;
+    }
+
+    this.setContainer(container);
   }
 
-  componentDidUpdate() {
-    this._renderOverlay();
+  componentDidMount() {
+    if (!this._portalContainerNode) {
+      this.setContainer(this.props.container);
+      this.forceUpdate(this.props.onRendered);
+    } else if (this.props.onRendered) {
+      this.props.onRendered();
+    }
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.container !== this.props.container) {
+      this.setContainer(nextProps.container);
+    }
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
-    this._unrenderOverlay();
-    this._unmountOverlayTarget();
+    this._portalContainerNode = null;
   }
 
-  _mountOverlayTarget() {
-    if (!this._overlayTarget) {
-      this._overlayTarget = document.createElement("div");
-      let container = this.getContainerDOMNode();
-      if (container) {
-        container.appendChild(this._overlayTarget);
-      }
-    }
-  }
-
-  _unmountOverlayTarget() {
-    if (this._overlayTarget) {
-      let container = this.getContainerDOMNode();
-      if (container) {
-        container.removeChild(this._overlayTarget);
-      }
-      this._overlayTarget = null;
-    }
-  }
-
-  _renderOverlay() {
-    let overlay = !this.props.children
-      ? null
-      : React.Children.only(this.props.children);
-
-    // Save reference for future access.
-    if (overlay !== null) {
-      this._mountOverlayTarget();
-      this._overlayInstance = ReactDOM.render(overlay, this._overlayTarget);
-    } else {
-      // Unrender if the component is null for transitions to null
-      this._unrenderOverlay();
-      this._unmountOverlayTarget();
-    }
-  }
-
-  _unrenderOverlay() {
-    if (this._overlayTarget) {
-      ReactDOM.unmountComponentAtNode(this._overlayTarget);
-      this._overlayInstance = null;
-    }
+  setContainer(container) {
+    this._portalContainerNode = getContainer(
+      container,
+      ownerDocument2(this).body
+    );
   }
 
   render() {
-    return null;
+    return this.props.children && this._portalContainerNode
+      ? ReactDOM.createPortal(this.props.children, this._portalContainerNode)
+      : null;
   }
 
-  getOverlayDOMNode() {
-    if (!this._isMounted) {
-      throw new Error(
-        "getOverlayDOMNode(): A component must be mounted to have a DOM node."
-      );
-    }
-
-    if (this._overlayInstance) {
-      if (this._overlayInstance.getWrappedDOMNode) {
-        return this._overlayInstance.getWrappedDOMNode();
-      } else {
-        return ReactDOM.findDOMNode(this._overlayInstance);
-      }
-    }
-
-    return null;
-  }
-
-  getContainerDOMNode() {
-    return (
-      ReactDOM.findDOMNode(this.props.container) || getOwnerDocument(this).body
-    );
-  }
+  getMountNode = () => {
+    return this._portalContainerNode;
+  };
 }
