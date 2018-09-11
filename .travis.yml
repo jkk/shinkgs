@@ -16,7 +16,7 @@ install:
 script:
   - yarn build
   - yarn lint
-  #- yarn flow
+  - yarn flow
   - yarn test
 
 # Install Now CLI on Travis
