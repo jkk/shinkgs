@@ -41,7 +41,7 @@ More detail: [Version 1 Milestone](https://github.com/jkk/shinkgs/milestone/1)
 
 Contributions welcome. Please check the [Version 1 Milestone](https://github.com/jkk/shinkgs/milestone/1) and [Issues](https://github.com/jkk/shinkgs/issues) to help coordinate efforts. Feel free to create an issue if there isn't one already for what you have in mind.
 
-Issues with the ["difficulty: starter"](https://github.com/jkk/shinkgs/issues?q=is%3Aopen+is%3Aissue+label%3A%22difficulty%3A+starter%22) label are good tasks to get started on. Reach out if you need any guidance!
+Issues with the ["difficulty-easy"](https://github.com/jkk/shinkgs/issues?q=is%3Aopen+is%3Aissue+label%3Adifficulty-easy) label are good tasks to get started on. Reach out if you need any guidance!
 
 Discord chat group for anyone interested in helping: https://discord.gg/vwzxdVr
 
