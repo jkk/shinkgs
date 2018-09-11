@@ -76,7 +76,7 @@ export class AppActions {
       } else if (msg.type === "CHALLENGE_PROPOSAL" && msg.channelId) {
         this.onReceiveChallengeProposal(msg.channelId, msg.proposal);
       } else if (msg.type === "CHALLENGE_SUBMIT" && msg.channelId) {
-        this.onReceiveChallengeSubmit(msg.channelId, msg.proposal);
+        this.onReceiveChallengeSubmit(msg.channelId);
       } else if (msg.type === "CHAT" && msg.channelId && msg.user) {
         this.onReceiveDirectMessage(msg.channelId);
       } else if (msg.type === "ARCHIVE_JOIN" && msg.channelId) {
