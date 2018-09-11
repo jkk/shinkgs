@@ -3,6 +3,7 @@ import React, { PureComponent as Component } from "react";
 import { A } from "../common";
 import { AppActions } from "../../model";
 import type { User } from "../../model";
+import packageJson from "../../../package.json";
 
 type Props = {
   currentUser: ?User,
@@ -22,7 +23,10 @@ export default class MoreMenu extends Component<Props> {
         </A>
 
         <div className="MoreMenu-about">
-          <div className="MoreMenu-about-title">Shin KGS</div>
+          <div className="MoreMenu-about-title">
+            Shin KGS
+            <span>v{packageJson.version}</span>
+          </div>
           <div className="MoreMenu-about-links">
             <A className="MoreMenu-item" onClick={this._onFeedback}>
               Send Feedback

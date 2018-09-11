@@ -4,6 +4,7 @@ import { get, set } from "idb-keyval";
 import { Button, CheckboxInput } from "./common";
 import { isTouchDevice } from "../util/dom";
 import type { KgsClientState, Preferences, AppActions } from "../model";
+import packageJson from "../../package.json";
 
 type SavedLogin = {
   username: string | null,
@@ -94,6 +95,9 @@ export default class LoginScreen extends Component<Props, State> {
             <div className="LoginScreen-title-text">
               Shin KGS
               <div className="LoginScreen-title-text-beta">Beta</div>
+              <div className="LoginScreen-title-text-version">
+                v{packageJson.version}
+              </div>
             </div>
           </div>
         </div>
