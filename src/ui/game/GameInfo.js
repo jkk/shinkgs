@@ -1,6 +1,5 @@
 // @flow
 import React, { PureComponent as Component } from "react";
-import typeof { Children } from "react";
 import GameTimeSystem from "./GameTimeSystem";
 import { formatGameType, formatGameRuleset } from "../../model/game";
 import type { GameChannel, Room, Index } from "../../model";
@@ -8,7 +7,7 @@ import type { GameChannel, Room, Index } from "../../model";
 type Props = {
   game: GameChannel,
   roomsById: Index<Room>,
-  children?: Children,
+  children?: any,
 };
 
 export default class GameInfo extends Component<Props> {
