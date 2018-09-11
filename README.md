@@ -98,28 +98,6 @@ yarn now-deploy
 
 This builds the app then pushes it out to the cloud with a unique URL.
 
-## Running an API Server
-
-This project depends on the new JSON-based KGS API.
-
-The official API is available at https://www.gokgs.com/json/. Obsolete older versions are (at least for now) [available for download](https://www.gokgs.com/help/protocol.html).
-
-There's a `Dockerfile` in the `kgs-api` directory that makes running the older API on your local machine easy. To use it, install [Docker](https://www.docker.com/), then:
-
-```
-cd kgs-api
-docker build -t kgs-api .
-docker run -p 8080:8080 kgs-api
-```
-
-This will start a server at http://localhost:8080
-
-To deploy to [now.sh](https://zeit.co/now) using their `Dockerfile` support:
-
-```
-now kgs-api
-```
-
 ## References
 
 * [KGS API Docs](https://www.gokgs.com/json/protocol.html)
