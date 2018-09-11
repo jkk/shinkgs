@@ -80,7 +80,7 @@ export default class UserDetailsModal extends Component<Props, State> {
     let details = user && user.details;
     let channelId = details && details.channelId;
 
-    if (editing && user && user.details) {
+    if (editing && user && user.details && details) {
       return (
         <Modal title="Edit Profile" onClose={this._onDoneEditing}>
           <UserDetailsEditForm
