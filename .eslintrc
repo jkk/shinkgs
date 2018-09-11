@@ -12,10 +12,12 @@
   },
   "plugins": [
     "flowtype",
-    "react"
+    "react",
+    "prettier"
   ],
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended",
+    "prettier"
   ],
   "rules": {
     "flowtype/define-flow-type": 1,
@@ -32,8 +34,10 @@
     "react/wrap-multilines": 0,
     "react/self-closing-comp": 0,
     "jsx-quotes": ["error", "prefer-double"],
-    // overrides
-    "quotes": [2, "double", {"avoidEscape": true, "allowTemplateLiterals": true}],
+    "quotes": [2, "double", {
+      "avoidEscape": true,
+      "allowTemplateLiterals": true
+    }],
     "indent": ["error", 2],
     "semi": 2,
     "curly": 2,
@@ -49,6 +53,15 @@
     "no-unreachable": 2,
     "no-useless-constructor": 2,
     "no-console": 0,
-    "no-use-before-define": 2
+    "no-use-before-define": 2,
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": false,
+        "trailingComma": "es5",
+        "jsxBracketSameLine": true,
+        "bracketSpacing": true
+      }
+    ]
   }
 }
