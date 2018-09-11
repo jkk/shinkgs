@@ -27,8 +27,8 @@ type Props = {
   onSelectChallenge: number => any,
   onShowGames: (filter: GameFilter) => any,
   onSendChat: string => any,
-  setMessagesDivRef: HTMLElement => any,
-  setMessageInputRef: HTMLElement => any,
+  setMessagesDivRef: (HTMLElement | null) => any,
+  setMessageInputRef: (HTMLElement | null) => any,
 };
 
 export default class RoomChat extends Component<Props> {

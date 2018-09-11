@@ -202,8 +202,8 @@ type State = {
 export default class ChatScreen extends Component<ChatScreenProps, State> {
   state: State = this._getState(this.props);
 
-  _messagesDiv: ?HTMLElement;
-  _messageInput: ?HTMLElement;
+  _messagesDiv: ?(HTMLElement | null);
+  _messageInput: ?(HTMLElement | null);
 
   _getState(props: ChatScreenProps) {
     let {
@@ -448,11 +448,11 @@ export default class ChatScreen extends Component<ChatScreenProps, State> {
     );
   }
 
-  _setMessagesDivRef = (ref: HTMLElement) => {
+  _setMessagesDivRef = (ref: HTMLElement | null) => {
     this._messagesDiv = ref;
   };
 
-  _setMessageInputRef = (ref: HTMLElement) => {
+  _setMessageInputRef = (ref: HTMLElement | null) => {
     this._messageInput = ref;
   };
 
