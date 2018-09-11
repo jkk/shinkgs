@@ -115,7 +115,7 @@ export default class GamePlayActions extends Component<Props, State> {
     );
   }
 
-  _setMoreEl = (ref: HTMLElement) => {
+  _setMoreEl = (ref: HTMLElement | null) => {
     this._moreEl = ref;
   };
 

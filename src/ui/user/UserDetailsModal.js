@@ -293,7 +293,7 @@ export default class UserDetailsModal extends Component<Props, State> {
     );
   }
 
-  _setMainRef = (ref: HTMLElement) => {
+  _setMainRef = (ref: HTMLElement | null) => {
     this._mainDiv = ref;
   };
 

@@ -209,7 +209,7 @@ export default class Nav extends Component<Props, State> {
   _onNavSearch = () => this.props.actions.onChangeNav("search");
   _onNavMore = () => this.props.actions.onChangeNav("more");
 
-  _setMoreEl = (el: HTMLElement) => {
+  _setMoreEl = (el: HTMLElement | null) => {
     this._moreEl = el;
   };
 

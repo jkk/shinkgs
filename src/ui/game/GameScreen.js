@@ -296,7 +296,7 @@ export default class GameScreen extends Component<Props, State> {
     );
   }
 
-  _setChatScrollRef = (ref: HTMLElement) => {
+  _setChatScrollRef = (ref: HTMLElement | null) => {
     this._chatScrollRef = ref;
   };
 

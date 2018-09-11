@@ -43,7 +43,7 @@ export class ScreenModal extends Component<Props> {
     );
   }
 
-  _setMainRef = (ref: HTMLElement) => {
+  _setMainRef = (ref: HTMLElement | null) => {
     this._mainDiv = ref;
   };
 
