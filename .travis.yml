@@ -25,13 +25,10 @@ before_deploy: npm install now --no-save
 # Deploy on now.sh
 deploy:
   - provider: script
-    script: now --public --token $NOW_TOKEN
+    script:
+      - now --public --token $NOW_TOKEN && now alias --token $NOW_TOKEN shinkgs-$TRAVIS_BRANCH
+      - echo "The current build is available at https://shinkgs-$TRAVIS_BRANCH.now.sh"
     skip_cleanup: true
     on:
       all_branches: true
-      master: false
-  - provider: script
-    script: now --public --token $NOW_TOKEN && now alias --public --token $NOW_TOKEN
-    skip_cleanup: true
-    on:
       master: true

@@ -4,7 +4,8 @@
   "devDependencies": {
     "flow-bin": "0.80.0",
     "node-sass": "4.9.3",
-    "react-scripts": "2.0.0-next.a671462c"
+    "react-scripts": "2.0.0-next.a671462c",
+    "serve": "^10.0.0" 
   },
   "dependencies": {
     "autolinker.js": "0.7.0",
@@ -27,11 +28,12 @@
     "build": "yarn run build-sass && react-scripts build",
     "start-sass": "node-sass --include-path='node_modules' --watch src/css -o src",
     "build-sass": "node-sass --include-path='node_modules' src/css/index.scss src/index.css",
+    "eject": "react-scripts eject",
+    "test": "react-scripts test --env=jsdom",
     "lint": "./node_modules/eslint/bin/eslint.js src/",
     "flow": "flow check",
-    "test": "react-scripts test --env=jsdom",
-    "deploy-now": "yarn build && cp server/* build && now build",
-    "eject": "react-scripts eject"
+    "now-deploy": "yarn build && cp server/* build && now build",
+    "now-start": "serve ./build --single"
   },
   "eslintConfig": {
     "extends": "react-app"
