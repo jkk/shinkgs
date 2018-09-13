@@ -66,7 +66,7 @@ Note: the dev server will use HTTPS, which is required to interact with the KGS 
 
 Requests are sent to the official KGS API by default. At the moment it's not possible to use a dev KGS API server.
 
-We use Travis as a continuous integration service. The [Travis job](.travis.yml) will run `yarn lint` and `yarn flow` and fails if those failed. So make sure to use it locally.
+We use Travis as a continuous integration service. The [Travis job](.travis.yml) will run `yarn lint` and `yarn flow` and fails if those fail. So make sure to use those commands locally before pushing.
 
 ## Deployment
 
