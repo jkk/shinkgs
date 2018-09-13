@@ -35,11 +35,11 @@ An unofficial JavaScript client for [KGS Go Server](http://www.gokgs.com/).
 - [ ] Admin/moderation tools
 - [ ] Everything else
 
-More detail: [Version 1 Milestone](https://github.com/jkk/shinkgs/milestone/1)
+For more details, look at [the milestones](https://github.com/jkk/shinkgs/milestones)
 
 ## Contributing
 
-Contributions welcome. Please check the [Version 1 Milestone](https://github.com/jkk/shinkgs/milestone/1) and [Issues](https://github.com/jkk/shinkgs/issues) to help coordinate efforts. Feel free to create an issue if there isn't one already for what you have in mind.
+Contributions welcome. Please check the [milestones](https://github.com/jkk/shinkgs/milestones) and the [issues](https://github.com/jkk/shinkgs/issues) to help coordinate efforts. Feel free to create an issue if there isn't one already for what you have in mind.
 
 Issues with the ["difficulty-easy"](https://github.com/jkk/shinkgs/issues?q=is%3Aopen+is%3Aissue+label%3Adifficulty-easy) label are good tasks to get started on. Reach out if you need any guidance!
 
