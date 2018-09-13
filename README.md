@@ -58,26 +58,15 @@ You'll need [Node.js](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/en/
 To install and start a local dev server, run:
 
 ```
-yarn
+yarn install
 yarn start
 ```
 
 Note: the dev server will use HTTPS, which is required to interact with the KGS API. You will have to trust the self-signed certificate.
 
-Requests are sent to the official KGS API by default. To use a custom API endpoint:
+Requests are sent to the official KGS API by default. At the moment it's not possible to use a dev KGS API server.
 
-```
-REACT_APP_API_URL=https://example.com/api/access yarn start
-```
-
-(Note: Safari does not allow cookies from unvisited third-party domains, so in development mode requests will be proxied through a local server.)
-
-If you don't have eslint or flow in your editor, you can check for errors with:
-
-```
-yarn lint
-yarn flow
-```
+We use Travis as a continuous integration service. The [Travis job](.travis.yml) will run `yarn lint` and `yarn flow` and fails if those failed. So make sure to use it locally.
 
 ## Deployment
 
