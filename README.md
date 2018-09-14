@@ -1,4 +1,4 @@
-# Shin KGS
+# <img src="./design/logo.svg" width="28"> Shin KGS
 [![Build Status](https://travis-ci.com/jkk/shinkgs.svg?branch=master)](https://travis-ci.com/jkk/shinkgs)
 
 An unofficial JavaScript client for [KGS Go Server](http://www.gokgs.com/).
