@@ -434,7 +434,11 @@ export class AppActions {
     this._store.dispatch(msgs);
   };
 
-  onLoadGame = (timestamp: string, channelId: number, loadPrivate: boolean) => {
+  onLoadGame = (
+    timestamp: string,
+    channelId: number = 13, // Defaults to English Game Room
+    loadPrivate: boolean = true
+  ) => {
     this._client.sendMessage({
       type: "ROOM_LOAD_GAME",
       private: loadPrivate,
