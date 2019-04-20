@@ -43,6 +43,7 @@ type State = {
   notes: string,
   selectedProposalIndex: number,
   activeTab: string,
+  roomId: number
 };
 
 export default class ChallengeEditor extends Component<Props, State> {
@@ -50,7 +51,7 @@ export default class ChallengeEditor extends Component<Props, State> {
   state: State = this._getInitialState(this.props);
 
   _getInitialState(props: Props): State {
-    let { challenge, currentUser, usersByName, preferences } = props;
+    let { challenge, currentUser, usersByName, preferences, initialRoomId } = props;
     let proposal: GameProposal;
     let visibility;
     let notes;
@@ -82,6 +83,7 @@ export default class ChallengeEditor extends Component<Props, State> {
           ? "public"
           : "roomOnly";
       notes = challenge.name || "";
+      initialRoomId = challenge.roomId;
     } else {
       let lastProposal = preferences.lastProposal;
       proposal = createInitialProposal(
@@ -98,6 +100,7 @@ export default class ChallengeEditor extends Component<Props, State> {
       notes,
       selectedProposalIndex: 0,
       activeTab: "proposal",
+      roomId: initialRoomId
     };
   }
 
@@ -145,7 +148,6 @@ export default class ChallengeEditor extends Component<Props, State> {
     let {
       currentUser,
       challenge,
-      initialRoomId,
       usersByName,
       roomsById,
       conversation,
@@ -159,12 +161,13 @@ export default class ChallengeEditor extends Component<Props, State> {
       notes,
       selectedProposalIndex,
       activeTab,
+      roomId,
     } = this.state;
     // let sentProposal = challenge && challenge.sentProposal;
     let creator = challenge ? challenge.players.challengeCreator : currentUser;
     let isCreator = creator && creator.name === currentUser.name;
     let { status } = proposal;
-    let roomId = challenge ? challenge.roomId : initialRoomId;
+    
     let room = roomId && roomsById[roomId];
 
     if (!room) {
@@ -259,9 +262,12 @@ export default class ChallengeEditor extends Component<Props, State> {
           visibility={visibility}
           notes={notes}
           usersByName={usersByName}
+          roomsById={roomsById}
+          room={room}
           onUserDetail={actions.onUserDetail}
           onChangeProposal={this._onChangeProposal}
           onChangeNotes={this._onChangeNotes}
+          onChangeRoomId={this._onChangeRoomId}
           onChangeVisibility={this._onChangeVisibility}
         />
         <div className="ChallengeEditor-buttons">
@@ -325,9 +331,6 @@ export default class ChallengeEditor extends Component<Props, State> {
       <div className="ChallengeEditor">
         <div className="ChallengeEditor-header">
           {isCreator ? "Create Challenge" : "Challenge"}
-          {room && room.name ? (
-            <div className="ChallengeEditor-room-name">{room.name}</div>
-          ) : null}
         </div>
         {status === "declined" ? (
           <div className="ChallengeEditor-declined">
@@ -364,10 +367,14 @@ export default class ChallengeEditor extends Component<Props, State> {
   _onChangeNotes = (notes: string) => {
     this.setState({ notes });
   };
-
+  
   _onChangeVisibility = (visibility: ProposalVisibility) => {
     this.setState({ visibility });
   };
+
+  _onChangeRoomId = (roomId: number) => {
+    this.setState({roomId});
+  }
 
   _onPrevProposal = () => {
     this.setState(state => ({
@@ -390,14 +397,14 @@ export default class ChallengeEditor extends Component<Props, State> {
   };
 
   _onCreateChallenge = () => {
-    let { challenge, initialRoomId } = this.props;
-    let { proposal, visibility, notes } = this.state;
+    let { challenge } = this.props;
+    let { proposal, visibility, notes, roomId } = this.state;
     if (!challenge) {
       // Creating a challenge - we have no app state for it yet, so just
       // set the status here
       this.setState({ proposal: { ...proposal, status: "pending" } });
     }
-    let roomId = challenge ? challenge.roomId : initialRoomId;
+    
     if (roomId) {
       this.props.actions.onCreateChallenge(proposal, roomId, visibility, notes);
     }
