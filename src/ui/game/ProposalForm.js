@@ -80,7 +80,7 @@ export default class ProposalForm extends Component<Props> {
     let { players, nigiri, rules } = proposal;
     let ruleset = rules.rules || "japanese";
     let rooms = Object.keys(roomsById).map(id => roomsById[id]).filter(g => g.name);
-    rooms.sort((a, b) => (((b.users ? b.users.length : 0) - (a.users ? a.users.length : 0)) || a.name.localeCompare(b.name)));
+    rooms.sort((a, b) => (((b.users ? b.users.length : 0) - (a.users ? a.users.length : 0)) || (a.name ? a.name.localeCompare(b.name || "") : 0)));
     return (
       <div className="ProposalForm">
         {editMode !== "creating" ? (
