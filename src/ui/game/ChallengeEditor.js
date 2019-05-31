@@ -43,7 +43,7 @@ type State = {
   notes: string,
   selectedProposalIndex: number,
   activeTab: string,
-  roomId: number
+  roomId: number,
 };
 
 export default class ChallengeEditor extends Component<Props, State> {
@@ -100,7 +100,7 @@ export default class ChallengeEditor extends Component<Props, State> {
       notes,
       selectedProposalIndex: 0,
       activeTab: "proposal",
-      roomId: initialRoomId
+      roomId: initialRoomId,
     };
   }
 
@@ -404,7 +404,7 @@ export default class ChallengeEditor extends Component<Props, State> {
       // set the status here
       this.setState({ proposal: { ...proposal, status: "pending" } });
     }
-    
+
     if (roomId) {
       this.props.actions.onCreateChallenge(proposal, roomId, visibility, notes);
     }
