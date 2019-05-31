@@ -27,7 +27,7 @@ import type {
 type Props = {
   currentUser: User,
   challenge: ?GameChannel,
-  initialRoomId?: ?number,
+  initialRoomId: number,
   usersByName: Index<User>,
   roomsById: Index<Room>,
   conversation: ?Conversation,
