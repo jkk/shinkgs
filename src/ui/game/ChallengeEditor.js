@@ -51,7 +51,13 @@ export default class ChallengeEditor extends Component<Props, State> {
   state: State = this._getInitialState(this.props);
 
   _getInitialState(props: Props): State {
-    let { challenge, currentUser, usersByName, preferences, initialRoomId } = props;
+    let {
+      challenge,
+      currentUser,
+      usersByName,
+      preferences,
+      initialRoomId,
+    } = props;
     let proposal: GameProposal;
     let visibility;
     let notes;
@@ -167,7 +173,7 @@ export default class ChallengeEditor extends Component<Props, State> {
     let creator = challenge ? challenge.players.challengeCreator : currentUser;
     let isCreator = creator && creator.name === currentUser.name;
     let { status } = proposal;
-    
+
     let room = roomId && roomsById[roomId];
 
     if (!room) {
@@ -367,14 +373,14 @@ export default class ChallengeEditor extends Component<Props, State> {
   _onChangeNotes = (notes: string) => {
     this.setState({ notes });
   };
-  
+
   _onChangeVisibility = (visibility: ProposalVisibility) => {
     this.setState({ visibility });
   };
 
   _onChangeRoomId = (roomId: number) => {
-    this.setState({roomId});
-  }
+    this.setState({ roomId });
+  };
 
   _onPrevProposal = () => {
     this.setState(state => ({

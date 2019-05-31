@@ -79,8 +79,14 @@ export default class ProposalForm extends Component<Props> {
     } = this.props;
     let { players, nigiri, rules } = proposal;
     let ruleset = rules.rules || "japanese";
-    let rooms = Object.keys(roomsById).map(id => roomsById[id]).filter(g => g.name);
-    rooms.sort((a, b) => (((b.users ? b.users.length : 0) - (a.users ? a.users.length : 0)) || (a.name ? a.name.localeCompare(b.name || "") : 0)));
+    let rooms = Object.keys(roomsById)
+      .map(id => roomsById[id])
+      .filter(g => g.name);
+    rooms.sort(
+      (a, b) =>
+        (b.users ? b.users.length : 0) - (a.users ? a.users.length : 0) ||
+        (a.name ? a.name.localeCompare(b.name || "") : 0)
+    );
     return (
       <div className="ProposalForm">
         {editMode !== "creating" ? (
@@ -98,20 +104,22 @@ export default class ProposalForm extends Component<Props> {
             />
           </div>
         ) : null}
-        {editMode === 'creating' ?
-          <div className='ProposalForm-field'>
-            <div className='ProposalForm-field-content'>
+        {editMode === "creating" ? (
+          <div className="ProposalForm-field">
+            <div className="ProposalForm-field-content">
               <SelectInput value={room.id} onChange={this._onChangeRoomId}>
-                {rooms.map(room =>
-                  <option key={room.id} value={room.id}>{room.name}</option>
-                )}
+                {rooms.map(r => (
+                  <option key={r.id} value={r.id}>
+                    {r.name}
+                  </option>
+                ))}
               </SelectInput>
             </div>
-          </div> : null}
-        {editMode !== 'creating' ?
-          <div className='ProposalForm-type-room'>
-            {room.name}
-          </div> : null}
+          </div>
+        ) : null}
+        {editMode !== "creating" ? (
+          <div className="ProposalForm-type-room">{room.name}</div>
+        ) : null}
         {editMode === "creating" ? (
           <div className="ProposalForm-field">
             <div className="ProposalForm-field-content">
@@ -330,7 +338,7 @@ export default class ProposalForm extends Component<Props> {
 
   _onChangeRoomId = (e: Object) => {
     this.props.onChangeRoomId(e.target.value);
-  }
+  };
 
   _onChangeRuleset = (e: Object) => {
     let proposal = this.props.proposal;
