@@ -15,7 +15,7 @@ export default class UserAvatar extends Component<Props> {
         {user ? (
           user.flags && user.flags.avatar ? (
             <img
-              src={`http://goserver.gokgs.com/avatars/${user.name}.jpg`}
+              src={`https://files.gokgs.com/avatars/${user.name}.jpg`}
               alt=""
             />
           ) : (

@@ -329,7 +329,7 @@ export function getKgsSgfUrl(summary: GameSummary) {
   let player1 = summary.players.white || summary.players.owner;
   let black = summary.players.black;
   let url =
-    "http://files.gokgs.com/games/" +
+    "https://files.gokgs.com/games/" +
     y +
     "/" +
     parseInt(m, 10) +
