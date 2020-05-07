@@ -1,7 +1,7 @@
 # <img src="./design/logo.svg" width="28"> Shin KGS
 [![Build Status](https://travis-ci.com/jkk/shinkgs.svg?branch=master)](https://travis-ci.com/jkk/shinkgs)
 
-An unofficial JavaScript client for [KGS Go Server](http://www.gokgs.com/).
+A semi-official JavaScript client for [KGS Go Server](http://www.gokgs.com/).
 
 - The **official stable version** is available at https://shin.gokgs.com.
 - A development version (less stable) is available at https://shinkgs-master.now.sh.
@@ -65,6 +65,20 @@ yarn start
 Note: the dev server will use HTTPS, which is required to interact with the KGS API. You will have to trust the self-signed certificate.
 
 Requests are sent to the official KGS API by default. At the moment it's not possible to use a dev KGS API server.
+
+For setting up a standalone web server you can generate just the optimized production code with ```yarn build```.  This creates a build folder which can be run locally with ```serve -s build``` or you can copy the tree to another server and run them from there.  The production/beta service is currently served by nginx with a simple config like this:
+
+```
+server {
+  server_name shin.gokgs.com;
+  listen [::]:80; # if you want to allow unsecure access, o/w redirect 
+  location / {
+    root /var/www/shinkgs/;
+    add_header  X-nginx-rule 80-shinkgs always;
+    try_files $uri $uri/ /;
+  }
+  # add letsencrypt config here for https
+```
 
 We use Travis as a continuous integration service. The [Travis job](.travis.yml) will run `yarn lint` and `yarn flow` and fails if those fail. So make sure to use those commands locally before pushing.
 
