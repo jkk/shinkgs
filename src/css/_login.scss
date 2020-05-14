@@ -1,6 +1,6 @@
 .LoginScreen {
   margin: 0 auto;
-  max-width: 300px;
+  max-width: 400px;
   text-align: center;
 }
 
@@ -23,6 +23,13 @@
   opacity: 0;
   transition: all 0.4s;
   transform: translateY(5px);
+}
+.LoginScreen-download-link {
+    .Button {
+        border: 5px;
+        margin: 5px;
+        padding: 5px;
+    }
 }
 
 .LoginScreen-title-text-beta {
@@ -67,7 +74,11 @@
     transform: scale(1);
   }
 }
-
+.LoginScreen-main {
+    margin: 50px;
+    max-width: 300px;
+    text-align: center;
+}
 .LoginScreen-form {
   position: relative;
   text-align: left;
