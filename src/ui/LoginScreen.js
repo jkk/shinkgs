@@ -156,39 +156,49 @@ export default class LoginScreen extends Component<Props, State> {
           </div>
         </div>
         <div className="LoginScreen-kgs-clients">
-          For a complete user experience download the KGS client desktop software from one of these links:
-          <p/>
+          For a complete user experience download the KGS client desktop
+          software from one of these links:
+          <p />
           <div className="LoginScreen-download-link">
-          <a href="https://files.gokgs.com/javaBin/cgoban.exe">
-            <Button type="button" className="LoginScreen-download-link">Windows Client</Button></a>
-          <a href="https://files.gokgs.com/javaBin/cgoban.dmg">
-            <Button type="button" className="LoginScreen-download-link">Mac Client</Button></a>
-          <a href="https://files.gokgs.com/javaBin/cgoban.jar">
-            <Button type="button" className="LoginScreen-download-link">Java JAR file</Button></a>
+            <a href="https://files.gokgs.com/javaBin/cgoban.exe">
+              <Button type="button" className="LoginScreen-download-link">
+                Windows Client
+              </Button>
+            </a>
+            <a href="https://files.gokgs.com/javaBin/cgoban.dmg">
+              <Button type="button" className="LoginScreen-download-link">
+                Mac Client
+              </Button>
+            </a>
+            <a href="https://files.gokgs.com/javaBin/cgoban.jar">
+              <Button type="button" className="LoginScreen-download-link">
+                Java JAR file
+              </Button>
+            </a>
           </div>
         </div>
-          <div className="LoginScreen-footer">
-            <a
-              href="https://twitter.com/jkkramer"
-              target="_blank"
-              rel="noopener noreferrer">
-              By @jkkramer
-            </a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;
-            <a
-              href="https://github.com/jkk/shinkgs"
-              target="_blank"
-              rel="noopener noreferrer">
-              GitHub
-            </a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;
-            <a
-              href="https://www.gokgs.com/"
-              target="_blank"
-              rel="noopener noreferrer">
-              Official KGS
-            </a>
-          </div>
+        <div className="LoginScreen-footer">
+          <a
+            href="https://twitter.com/jkkramer"
+            target="_blank"
+            rel="noopener noreferrer">
+            By @jkkramer
+          </a>
+          &nbsp;&nbsp;|&nbsp;&nbsp;
+          <a
+            href="https://github.com/jkk/shinkgs"
+            target="_blank"
+            rel="noopener noreferrer">
+            GitHub
+          </a>
+          &nbsp;&nbsp;|&nbsp;&nbsp;
+          <a
+            href="https://www.gokgs.com/"
+            target="_blank"
+            rel="noopener noreferrer">
+            Official KGS
+          </a>
+        </div>
       </div>
     );
   }
