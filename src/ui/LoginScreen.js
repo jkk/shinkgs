@@ -141,7 +141,7 @@ export default class LoginScreen extends Component<Props, State> {
           </form>
           <div className="LoginScreen-help">
             <a
-              href="https://www.gokgs.com/"
+              href="https://www.gokgs.com/register"
               target="_blank"
               rel="noopener noreferrer">
               Sign up
@@ -154,6 +154,19 @@ export default class LoginScreen extends Component<Props, State> {
               Forgot password
             </a>
           </div>
+        </div>
+        <div className="LoginScreen-kgs-clients">
+          For a complete user experience download the KGS client desktop software from one of these links:
+          <p/>
+          <div className="LoginScreen-download-link">
+          <a href="https://files.gokgs.com/javaBin/cgoban.exe">
+            <Button type="button" className="LoginScreen-download-link">Windows Client</Button></a>
+          <a href="https://files.gokgs.com/javaBin/cgoban.dmg">
+            <Button type="button" className="LoginScreen-download-link">Mac Client</Button></a>
+          <a href="https://files.gokgs.com/javaBin/cgoban.jar">
+            <Button type="button" className="LoginScreen-download-link">Java JAR file</Button></a>
+          </div>
+        </div>
           <div className="LoginScreen-footer">
             <a
               href="https://twitter.com/jkkramer"
@@ -176,7 +189,6 @@ export default class LoginScreen extends Component<Props, State> {
               Official KGS
             </a>
           </div>
-        </div>
       </div>
     );
   }
