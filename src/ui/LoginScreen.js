@@ -175,6 +175,12 @@ export default class LoginScreen extends Component<Props, State> {
               rel="noopener noreferrer">
               Official KGS
             </a>
+            <a href="https://play.google.com/store/apps/details?id=com.gokgs.client.android">
+              <Button type="button" className="LoginScreen-download-link">
+                Android Client
+              </Button>
+            </a>
+
           </div>
         </div>
       </div>
