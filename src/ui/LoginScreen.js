@@ -180,7 +180,6 @@ export default class LoginScreen extends Component<Props, State> {
                 Android Client
               </Button>
             </a>
-
           </div>
         </div>
         <div className="LoginScreen-footer">
