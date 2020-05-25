@@ -16,6 +16,7 @@ import type {
   ProposalEditMode,
   User,
   Index,
+  Room,
 } from "../../model";
 
 type Props = {
@@ -26,10 +27,13 @@ type Props = {
   notes: string,
   visibility: ProposalVisibility,
   usersByName: Index<User>,
+  roomsById: Index<Room>,
+  room: Room,
   onUserDetail: string => any,
   onChangeProposal: GameProposal => any,
   onChangeNotes: string => any,
   onChangeVisibility: ProposalVisibility => any,
+  onChangeRoomId: number => any,
 };
 
 const visibilityOptions = [
@@ -69,10 +73,20 @@ export default class ProposalForm extends Component<Props> {
       notes,
       visibility,
       usersByName,
+      roomsById,
+      room,
       onUserDetail,
     } = this.props;
     let { players, nigiri, rules } = proposal;
     let ruleset = rules.rules || "japanese";
+    let rooms = Object.keys(roomsById)
+      .map(id => roomsById[id])
+      .filter(g => g.name);
+    rooms.sort(
+      (a, b) =>
+        (b.users ? b.users.length : 0) - (a.users ? a.users.length : 0) ||
+        (a.name ? a.name.localeCompare(b.name || "") : 0)
+    );
     return (
       <div className="ProposalForm">
         {editMode !== "creating" ? (
@@ -89,6 +103,22 @@ export default class ProposalForm extends Component<Props> {
               onToggleRole={this._onToggleRole}
             />
           </div>
+        ) : null}
+        {editMode === "creating" ? (
+          <div className="ProposalForm-field">
+            <div className="ProposalForm-field-content">
+              <SelectInput value={room.id} onChange={this._onChangeRoomId}>
+                {rooms.map(r => (
+                  <option key={r.id} value={r.id}>
+                    {r.name}
+                  </option>
+                ))}
+              </SelectInput>
+            </div>
+          </div>
+        ) : null}
+        {editMode !== "creating" ? (
+          <div className="ProposalForm-type-room">{room.name}</div>
         ) : null}
         {editMode === "creating" ? (
           <div className="ProposalForm-field">
@@ -304,6 +334,10 @@ export default class ProposalForm extends Component<Props> {
 
   _onChangeNotes = (e: Object) => {
     this.props.onChangeNotes(e.target.value);
+  };
+
+  _onChangeRoomId = (e: Object) => {
+    this.props.onChangeRoomId(e.target.value);
   };
 
   _onChangeRuleset = (e: Object) => {
