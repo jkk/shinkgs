@@ -64,14 +64,21 @@ yarn start
 
 Note: the dev server will use HTTPS, which is required to interact with the KGS API. You will have to trust the self-signed certificate.
 
-Requests are sent to the official KGS API by default. At the moment it's not possible to use a dev KGS API server.
+Requests are sent to the official KGS API by default, however CORS
+prevents the authentication from working. The beta server is
+configured to allow requests from https://localhost:3000.  Set
+REACT_APP_API_URL='https://beta.gokgs.com/json-cors/access' before you
+build the server in order to connect to the beta.gokgs.com host.  if
+you're password from the regular kgs doesn't work (or you want another
+account to test with) you can create a new one at
+https://beta.gokgs.com/register/index.html.
 
-For setting up a standalone web server you can generate just the optimized production code with ```yarn build```.  This creates a build folder which can be run locally with ```serve -s build``` or you can copy the tree to another server and run them from there.  The production/beta service is currently served by nginx with a simple config like this:
+For setting up a standalone web server you can generate just the optimized production code with ```yarn build```.  This creates a build folder which can be run locally with ```yarn start``` or you can copy the tree to another server and run them from there.  The production/beta service is currently served by nginx with a simple config like this:
 
 ```
 server {
   server_name shin.gokgs.com;
-  listen [::]:80; # if you want to allow unsecure access, o/w redirect 
+  listen [::]:80; # if you want to allow unsecure access, o/w redirect
   location / {
     root /var/www/shinkgs/;
     add_header  X-nginx-rule 80-shinkgs always;
