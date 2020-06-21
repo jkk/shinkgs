@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import Fastclick from "fastclick";
 import App from "./App";
 import { isTouchDevice } from "./util/dom";
-import "./index.css";
+import "./css/index.scss";
 import "font-awesome/css/font-awesome.css";
 
 if (document.body) {

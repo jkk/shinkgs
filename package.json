@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "autolinker.js": "0.7.0",
+    "axios": "^0.19.2",
     "chartist": "^0.11.0",
     "date-fns": "^1.28.5",
     "dom-helpers": "^3.3.1",
@@ -31,10 +32,10 @@
     "uuid": "3.3.2"
   },
   "scripts": {
-    "start": "yarn run build-sass && yarn run start-sass & HTTPS=true react-scripts start",
-    "build": "yarn run build-sass && react-scripts build",
-    "start-sass": "node-sass --include-path='node_modules' --watch src/css -o src",
-    "build-sass": "node-sass --include-path='node_modules' src/css/index.scss src/index.css",
+    "start": "REACT_APP_API_URL=\"/json-cors/access\"  react-scripts start",
+    "start:beta": "REACT_APP_API_URL=\"https://beta.gokgs.com/json-cors/access\" HTTPS=true react-scripts start",
+    "start:server": "serve ./build --single",
+    "build": "react-scripts build",
     "eject": "react-scripts eject",
     "test": "react-scripts test --env=jsdom",
     "lint": "./node_modules/eslint/bin/eslint.js src/",
