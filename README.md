@@ -53,7 +53,7 @@ State is managed with a Redux-like pattern: there is a single, primary source of
 
 ## Development Setup
 
-You'll need [Node.js](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/en/).
+You'll need [Node.js](https://nodejs.org/en/) and [Yarn V1](https://classic.yarnpkg.com/en/).
 
 To install and start a local dev server, run:
 
@@ -110,7 +110,17 @@ yarn global add vercel
 vercel
 ```
 
-This builds the app then pushes it out to the cloud.
+This builds the app then pushes it out to the cloud. If you have not used Vercel before, you will be prompted to log-in using your email before deploying.
+
+## Troubleshooting
+
+### Installing Node.js on Windows
+
+It is highly recommended that you install the [Chocalety package manager](https://chocolatey.org/) before installing Node.js on Windows. After Cholatey is installed, make sure to check the 'Automatically install the necessary tools' checkbox when prompted during the Node.js installation. These tools are needed to build some ShinKGS dependencies.
+
+### Vercel is not recognized
+
+If your system does not recognize `vercel` as a command after running `yarn global add vercel`, make sure that the Yarn `bin` directory is a part of your `path` environment variable. For MacOS/Linux, this directory is usually `~/.yarn/bin`. For Windows, it will be something like `C:\Users\username\AppData\Local\Yarn\bin`. Most of the time this directory should get added to your path automatically when installing Yarn.
 
 ## References
 
