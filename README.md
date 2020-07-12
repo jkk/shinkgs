@@ -53,7 +53,7 @@ State is managed with a Redux-like pattern: there is a single, primary source of
 
 ## Development Setup
 
-You'll need [Node.js](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/en/).
+You'll need [Node.js](https://nodejs.org/en/) and [Yarn V1](https://classic.yarnpkg.com/en/).
 
 To install and start a local dev server, run:
 
@@ -62,18 +62,19 @@ yarn install
 yarn start
 ```
 
-Note: the dev server will use HTTPS, which is required to interact with the KGS API. You will have to trust the self-signed certificate.
+Requests are sent to the official KGS API by default and are proxied through the Webpack development server. If you would prefer to send requests to the KGS beta server, use the alternative `start:beta` script:
 
-Requests are sent to the official KGS API by default, however CORS
-prevents the authentication from working. The beta server is
-configured to allow requests from https://localhost:3000.  Set
-REACT_APP_API_URL='https://beta.gokgs.com/json-cors/access' before you
-build the server in order to connect to the beta.gokgs.com host.  if
-you're password from the regular kgs doesn't work (or you want another
+```
+yarn start:beta
+```
+
+Making requests to the beta server will require HTTPS, so you will need to tell your browser to accept the self-signed certificate in order to access the page.
+
+If you're password from the regular KGS server doesn't work (or you want another
 account to test with) you can create a new one at
 https://beta.gokgs.com/register/index.html.
 
-For setting up a standalone web server you can generate just the optimized production code with ```yarn build```.  This creates a build folder which can be run locally with ```yarn start``` or you can copy the tree to another server and run them from there.  The production/beta service is currently served by nginx with a simple config like this:
+For setting up a standalone web server you can generate just the optimized production code with ```yarn build```.  This creates a build folder which can be run locally with ```yarn start:server``` or you can copy the tree to another server and run them from there.  The production/beta service is currently served by nginx with a simple config like this:
 
 ```
 server {
@@ -91,7 +92,7 @@ We use Travis as a continuous integration service. The [Travis job](.travis.yml)
 
 ## Deployment
 
-The official and stable build lives at https://shin.gokgs.com. Each commits is also build and deployed on now.sh on:
+The official and stable build lives at https://shin.gokgs.com. Each commit is also built and deployed using [Vercel](https://www.vercel.com) (previosly called *Now*) on:
 
 ```
 https://shinkgs-BRANCH.now.sh
@@ -99,14 +100,27 @@ https://shinkgs-BRANCH.now.sh
 
 With `BRANCH` being one of the Git branches of this repository. For example, a live version of master is always available at https://shinkgs-master.now.sh. **Warning**: the `master` branch should always work but is certainly not bullet-proof and bug-free. Use the [official build](https://shin.gokgs.com) for any sensitive games (such as tournaments).
 
-If you are developing the app and want to deploy in the could, use the [now.sh service](https://zeit.co/now):
+If you are developing the app and want to deploy in the cloud, use the [Vercel service](https://www.vercel.com):
 
 ```
-yarn global add now
-yarn now-deploy
+# Install `vercel` globally
+yarn global add vercel 
+
+# Deploy the project.
+vercel
 ```
 
-This builds the app then pushes it out to the cloud with a unique URL.
+This builds the app then pushes it out to the cloud. If you have not used Vercel before, you will be prompted to log-in using your email before deploying.
+
+## Troubleshooting
+
+### Installing Node.js on Windows
+
+It is highly recommended that you install the [Chocolatey package manager](https://chocolatey.org/) before installing Node.js on Windows. After Chocolatey is installed, make sure to check the 'Automatically install the necessary tools' checkbox when prompted during the Node.js installation. These tools are needed to build some ShinKGS dependencies.
+
+### Vercel is not recognized
+
+If your system does not recognize `vercel` as a command after running `yarn global add vercel`, make sure that the Yarn `bin` directory is a part of your `path` environment variable. For MacOS/Linux, this directory is usually `~/.yarn/bin`. For Windows, it will be something like `C:\Users\username\AppData\Local\Yarn\bin`. Most of the time this directory should get added to your path automatically when installing Yarn.
 
 ## References
 

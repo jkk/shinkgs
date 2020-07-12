@@ -47,8 +47,10 @@ export class KgsClient {
       let isSafari =
         window.navigator.vendor &&
         window.navigator.vendor.indexOf("Apple") > -1;
-      if (isProd || !isSafari) {
+      if (isProd) {
         this._apiUrl = "https://www.gokgs.com/json-cors/access";
+      } else if (!isSafari) {
+        this._apiUrl = "/api/json-cors/access";
       } else {
         // Dev proxy for Safari
         this._apiUrl = "/json/access";
