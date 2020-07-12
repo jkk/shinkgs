@@ -116,7 +116,7 @@ This builds the app then pushes it out to the cloud. If you have not used Vercel
 
 ### Installing Node.js on Windows
 
-It is highly recommended that you install the [Chocalety package manager](https://chocolatey.org/) before installing Node.js on Windows. After Cholatey is installed, make sure to check the 'Automatically install the necessary tools' checkbox when prompted during the Node.js installation. These tools are needed to build some ShinKGS dependencies.
+It is highly recommended that you install the [Chocolatey package manager](https://chocolatey.org/) before installing Node.js on Windows. After Chocolatey is installed, make sure to check the 'Automatically install the necessary tools' checkbox when prompted during the Node.js installation. These tools are needed to build some ShinKGS dependencies.
 
 ### Vercel is not recognized
 
