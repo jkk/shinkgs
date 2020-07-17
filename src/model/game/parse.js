@@ -1,5 +1,5 @@
 // @flow
-import uuidV4 from "uuid/v4";
+import { v4 as uuidV4 } from "uuid";
 import { computeGameNodeStates, validateRuleSet, getGameLine } from "./tree";
 import { parseUser } from "../user";
 import type {
@@ -154,7 +154,7 @@ function removePropsFromNode(
 ) {
   let node = tree.nodes[nodeId];
   let newProps = node.props.filter(
-    nprop => !props.find(prop => propMatches(prop, nprop))
+    (nprop) => !props.find((prop) => propMatches(prop, nprop))
   );
   let newNode = new GameNode(newProps, node.children, node.parent);
   tree.nodes = {
@@ -165,8 +165,8 @@ function removePropsFromNode(
 
 function replaceNodeProp(tree: GameTree, nodeId: number, prop: SgfProp) {
   let node = tree.nodes[nodeId];
-  let newProps = node.props.filter(
-    nprop => (propMatches(prop, nprop) ? prop : nprop)
+  let newProps = node.props.filter((nprop) =>
+    propMatches(prop, nprop) ? prop : nprop
   );
   let newNode = new GameNode(newProps, node.children, node.parent);
   tree.nodes = {
@@ -234,7 +234,7 @@ function parseGameRulesFromTree(tree: GameTree): ?GameRules {
   if (!rootNode) {
     return null;
   }
-  let rulesProp: ?Object = rootNode.props.find(p => p.name === "RULES");
+  let rulesProp: ?Object = rootNode.props.find((p) => p.name === "RULES");
   if (!rulesProp) {
     return null;
   }
@@ -251,7 +251,12 @@ function parseGameRulesFromTree(tree: GameTree): ?GameRules {
   if (typeof rulesProp.handicap === "number") {
     rules.handicap = rulesProp.handicap;
   }
-  if (typeof rulesProp.timeSystem === "string") {
+  if (
+    rulesProp.timeSystem === "none" ||
+    rulesProp.timeSystem === "absolute" ||
+    rulesProp.timeSystem === "byo_yomi" ||
+    rulesProp.timeSystem === "canadian"
+  ) {
     rules.timeSystem = rulesProp.timeSystem;
   }
   if (typeof rulesProp.mainTime === "number") {
@@ -340,7 +345,7 @@ export function parseGameChannel(
     newChan.rules = newChan.rules ? { ...newChan.rules, ...rules } : rules;
   }
   if (values.users) {
-    newChan.users = values.users.map(u => u.name);
+    newChan.users = values.users.map((u) => u.name);
   }
   if (values.sgfEvents) {
     let prevTree =

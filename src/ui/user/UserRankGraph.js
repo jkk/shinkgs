@@ -30,7 +30,7 @@ export default class UserRankGraph extends Component<Props> {
     const series = get(this.props.graph, "data.series[0]", []);
     const months = get(this.props.graph, "months", []);
 
-    const yValues = series.map(point => point.y).filter(y => y !== null);
+    const yValues = series.map((point) => point.y).filter((y) => y !== null);
 
     const min = Math.min.apply(null, yValues);
     const max = Math.max.apply(null, yValues);
@@ -50,7 +50,7 @@ export default class UserRankGraph extends Component<Props> {
         low: yMin,
         high: yMax,
         ticks: yTicks,
-        labelInterpolationFnc: function(value) {
+        labelInterpolationFnc: function (value) {
           let label = value < 0 ? "k" : "d";
           let rank = Math.abs(value / 100);
           // Because there's no rank between 1 kyu and 1 dan, dan ranks
@@ -69,7 +69,7 @@ export default class UserRankGraph extends Component<Props> {
       axisX: {
         type: Chartist.FixedScaleAxis,
         divisor: series.length,
-        labelInterpolationFnc: function(value, index) {
+        labelInterpolationFnc: function (value, index) {
           const d = new Date(value);
           const day = dateFormat(d, "DD");
           const month = dateFormat(d, "MMM");

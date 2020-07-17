@@ -5,7 +5,7 @@ import { A } from "./A";
 type Props = {
   tab: { id: string, label: any, content: any },
   active: boolean,
-  onSelect: string => any,
+  onSelect: (string) => any,
 };
 
 class TabNavTab extends Component<Props> {
@@ -33,7 +33,7 @@ type TabNavProps = {
     content: any,
   }>,
   activeTabId?: string,
-  onSelectTab?: string => any,
+  onSelectTab?: (string) => any,
 };
 
 type State = {
@@ -48,12 +48,12 @@ export class TabNav extends Component<TabNavProps, State> {
   render() {
     let { tabs, onSelectTab } = this.props;
     let activeTabId = this.props.activeTabId || this.state.activeTabId;
-    let activeTab = tabs.find(t => t.id === activeTabId);
+    let activeTab = tabs.find((t) => t.id === activeTabId);
     return (
       <div className="TabNav">
         <div className="TabNav-tabs">
           <div className="TabNav-tabs-inner">
-            {tabs.map(tab => (
+            {tabs.map((tab) => (
               <TabNavTab
                 key={tab.id}
                 tab={tab}

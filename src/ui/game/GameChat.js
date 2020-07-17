@@ -7,7 +7,7 @@ type Props = {
   currentUser: User,
   chatSections: Array<GameChatSection>,
   usersByName: Index<User>,
-  onUserDetail: string => any,
+  onUserDetail: (string) => any,
 };
 
 export default class GameChat extends Component<Props> {
@@ -21,7 +21,7 @@ export default class GameChat extends Component<Props> {
               {moveNum === 0 ? "Game Start" : `Move ${moveNum}`}
             </div>
             <div className="GameChat-section-actions">
-              {actions.map(action => (
+              {actions.map((action) => (
                 <div className="GameChat-section-actions-item" key={action}>
                   {action}
                 </div>

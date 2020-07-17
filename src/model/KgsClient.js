@@ -178,9 +178,9 @@ export class KgsClient {
       }
 
       let nextState = { ...this.state, network: "online", retryTimes: 0 };
-      if (messages.find(msg => msg.type === "LOGOUT")) {
+      if (messages.find((msg) => msg.type === "LOGOUT")) {
         nextState.status = "loggedOut";
-      } else if (messages.find(msg => msg.type === "LOGIN_SUCCESS")) {
+      } else if (messages.find((msg) => msg.type === "LOGIN_SUCCESS")) {
         nextState.status = "loggedIn";
       }
       this.setState(nextState);
@@ -249,7 +249,7 @@ export class KgsClient {
         let err = new ApiError("Receive failed", errorType, xhr);
         reject(err);
       };
-      xhr.onreadystatechange = function() {
+      xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
             let resp = JSON.parse(xhr.responseText);
@@ -280,7 +280,7 @@ export class KgsClient {
         let err = new ApiError("Send failed", errorType, xhr);
         reject(err);
       };
-      xhr.onreadystatechange = function() {
+      xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
             resolve();

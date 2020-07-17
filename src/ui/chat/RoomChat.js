@@ -22,11 +22,11 @@ type Props = {
   conversation: Conversation,
   usersByName: Index<User>,
   games?: ?Array<GameChannel>,
-  onUserDetail: string => any,
+  onUserDetail: (string) => any,
   onJoinGame: (gameId: number | string) => any,
-  onSelectChallenge: number => any,
+  onSelectChallenge: (number) => any,
   onShowGames: (filter: GameFilter) => any,
-  onSendChat: string => any,
+  onSendChat: (string) => any,
   setMessagesDivRef: (HTMLElement | null) => any,
   setMessageInputRef: (HTMLElement | null) => any,
 };
@@ -48,7 +48,7 @@ export default class RoomChat extends Component<Props> {
     } = this.props;
     let users;
     if (room.users) {
-      users = room.users.map(name => usersByName[name]).filter(u => u);
+      users = room.users.map((name) => usersByName[name]).filter((u) => u);
       sortUsers(users);
     }
     return (

@@ -7,7 +7,7 @@ type Props = {
   games: Array<GameChannel>,
   roomsById: Index<Room>,
   filter: GameFilter,
-  onChange: GameFilter => any,
+  onChange: (GameFilter) => any,
 };
 
 export default class GameListFilter extends Component<Props> {
@@ -27,8 +27,8 @@ export default class GameListFilter extends Component<Props> {
       }
     }
     let rooms = Object.keys(gameRoomsById)
-      .map(id => gameRoomsById[id])
-      .filter(g => g.name);
+      .map((id) => gameRoomsById[id])
+      .filter((g) => g.name);
     rooms.sort((a, b) => b.count - a.count);
 
     let roomSelectClass =
@@ -46,7 +46,7 @@ export default class GameListFilter extends Component<Props> {
               onChange={this._onChangeRoom}
               value={filter.roomId || ""}>
               <option value="">All {gameTypeLabel}</option>
-              {rooms.map(room => (
+              {rooms.map((room) => (
                 <option key={room.id} value={room.id}>
                   {room.name}
                 </option>

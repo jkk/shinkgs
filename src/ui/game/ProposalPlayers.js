@@ -15,8 +15,8 @@ type Props = {
   nigiri: boolean,
   prevNigiri: boolean | null,
   playerHilite?: boolean,
-  onUserDetail: string => any,
-  onToggleRole: string => any,
+  onUserDetail: (string) => any,
+  onToggleRole: (string) => any,
 };
 
 class ProposalPlayersItem extends Component<Props> {
@@ -98,8 +98,8 @@ type ProposalPlayersProps = {
   prevNigiri: boolean | null,
   gameType: GameType,
   usersByName: Index<User>,
-  onUserDetail: string => any,
-  onToggleRole: string => any,
+  onUserDetail: (string) => any,
+  onToggleRole: (string) => any,
 };
 
 export default class ProposalPlayers extends Component<ProposalPlayersProps> {

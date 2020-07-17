@@ -1,5 +1,6 @@
 // @flow
 import React, { PureComponent as Component } from "react";
+import type { Node } from "react";
 import { A, Icon } from "../common";
 import { getKgsSgfUrl, formatGameScore } from "../../model/game";
 import { isAncestor } from "../../util/dom";
@@ -151,9 +152,11 @@ export default class GameMoreMenu extends Component<Props, State> {
   };
 
   _generateMoreInfo(rootNode: GameNode) {
-    let infoProps = rootNode.props.filter(prop => prop.name in MORE_INFO_PROPS);
+    let infoProps = rootNode.props.filter(
+      (prop) => prop.name in MORE_INFO_PROPS
+    );
 
-    let rows = infoProps.map((prop: SgfProp) => {
+    let rows = infoProps.map<Node>((prop: SgfProp) => {
       let color = prop.color ? `${prop.color[0].toUpperCase()} ` : "";
       let propName = MORE_INFO_PROPS[prop.name];
       return (

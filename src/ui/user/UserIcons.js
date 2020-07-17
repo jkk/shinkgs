@@ -43,7 +43,7 @@ export default class UserIcons extends Component<Props> {
     }
     return (
       <div className="UserIcons">
-        {icons.map(icon => (
+        {icons.map((icon) => (
           <div key={icon} className="UserIcons-icon">
             {icon}
           </div>

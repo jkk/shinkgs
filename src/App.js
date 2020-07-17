@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from "react";
-import createHistory from "history/createBrowserHistory";
+import { createBrowserHistory } from "history";
 import LoginScreen from "./ui/LoginScreen";
 import {
   getInitialState,
@@ -32,7 +32,7 @@ class App extends Component<Props, State> {
   constructor(props: any, context: any) {
     super(props, context);
 
-    this._history = createHistory();
+    this._history = createBrowserHistory();
 
     this._client = new KgsClient();
     this._store = new AppStore(
@@ -75,7 +75,7 @@ class App extends Component<Props, State> {
   };
 
   _onHistoryChange = (loc: Object, action: string) => {
-    let path: NavOption = loc.pathname.substring(1);
+    let path: NavOption = loc.location.pathname.substring(1);
     if (action === "POP") {
       this._actions.onChangeNav(path, { push: false });
     }

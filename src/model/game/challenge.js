@@ -177,8 +177,8 @@ export function createInitialProposal(
   let gameType = lastProposal
     ? lastProposal.gameType
     : canPlayRanked
-      ? "ranked"
-      : "free";
+    ? "ranked"
+    : "free";
   let rules: GameRules = lastProposal
     ? lastProposal.rules
     : {

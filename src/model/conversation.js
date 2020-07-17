@@ -1,5 +1,5 @@
 // @flow
-import uuidV4 from "uuid/v4";
+import { v4 as uuidV4 } from "uuid";
 import { isTempId } from "./tempId";
 import { InvariantError } from "../util/error";
 import type {
@@ -48,7 +48,7 @@ export function handleConversationMessage(
     let tempConvoId;
     if (msg.callbackKey) {
       tempConvoId = Object.keys(conversationsById).find(
-        cid =>
+        (cid) =>
           isTempId(conversationsById[cid].id) &&
           conversationsById[cid].callbackKey === msg.callbackKey
       );
@@ -110,13 +110,13 @@ export function handleConversationMessage(
       messages = [...conversationsById[chanId].messages];
     } else {
       let matchingMsg = conversationsById[chanId].messages.find(
-        m =>
+        (m) =>
           m.sending && m.body === convoMsg.body && m.sender === convoMsg.sender
       );
       if (matchingMsg) {
         let matchingId = matchingMsg.id;
         messages = conversationsById[chanId].messages.filter(
-          m => m.id !== matchingId
+          (m) => m.id !== matchingId
         );
         convoMsg.date = matchingMsg.date;
       } else {

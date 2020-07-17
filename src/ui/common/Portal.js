@@ -1,4 +1,4 @@
-import canUseDom from "dom-helpers/util/inDOM";
+import canUseDom from "dom-helpers/canUseDOM";
 import ownerDocument from "dom-helpers/ownerDocument";
 
 import PropTypes from "prop-types";

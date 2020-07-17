@@ -26,7 +26,7 @@ export function handleChannelMessage(
     if (prevState.activeConversationId === msg.channelId) {
       nextState.activeConversationId = null;
     }
-    if (prevState.conversationsById[msg.channelId]) {
+    if (msg.channelId && prevState.conversationsById[msg.channelId]) {
       let conversationsById: Index<Conversation> = {
         ...prevState.conversationsById,
       };

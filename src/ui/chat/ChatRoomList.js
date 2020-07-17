@@ -19,7 +19,7 @@ const CAT_LABELS = {
 
 type Props = {
   room: Room,
-  onJoin: Room => any,
+  onJoin: (Room) => any,
 };
 
 class ChatRoomListItem extends Component<Props> {
@@ -40,7 +40,7 @@ class ChatRoomListItem extends Component<Props> {
 
 type PropsChatRoomList = {
   roomsById: Index<Room>,
-  onJoinRoom: Room => any,
+  onJoinRoom: (Room) => any,
 };
 
 type State = {
@@ -85,13 +85,13 @@ export default class ChatRoomList extends Component<PropsChatRoomList, State> {
             onChange={this._onSearch}
           />
         </div>
-        {Object.keys(roomsByCat).map(catId => (
+        {Object.keys(roomsByCat).map((catId) => (
           <div className="ChatRoomList-cat" key={catId}>
             <div className="ChatRoomList-cat-title">
               {CAT_LABELS[catId] || "Other"}
             </div>
             <div className="ChatRoomList-rooms">
-              {roomsByCat[catId].map(room => (
+              {roomsByCat[catId].map((room) => (
                 <ChatRoomListItem
                   key={room.id}
                   room={room}
