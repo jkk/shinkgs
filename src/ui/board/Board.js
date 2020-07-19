@@ -69,18 +69,18 @@ export default class Board extends Component<PropsBoard> {
         <div className="Board-inner">
           <div className="Board-grid">
             <div className="Board-grid-lines-y">
-              {sizeRange.map(y => (
+              {sizeRange.map((y) => (
                 <div key={y} className="Board-grid-line-y" />
               ))}
             </div>
             <div className="Board-grid-lines-x">
-              {sizeRange.map(x => (
+              {sizeRange.map((x) => (
                 <div key={x} className="Board-grid-line-x" />
               ))}
             </div>
           </div>
           <div className="Board-star-points">
-            {range(0, 9).map(i => (
+            {range(0, 9).map((i) => (
               <div
                 key={i}
                 className={"Board-star-point Board-star-point-" + i}
@@ -89,28 +89,28 @@ export default class Board extends Component<PropsBoard> {
           </div>
           <div className="Board-coords">
             <div className="Board-coords-top">
-              {sizeRange.map(x => (
+              {sizeRange.map((x) => (
                 <div key={x} className="Board-coord-label">
                   {xLabels[x]}
                 </div>
               ))}
             </div>
             <div className="Board-coords-bottom">
-              {sizeRange.map(x => (
+              {sizeRange.map((x) => (
                 <div key={x} className="Board-coord-label">
                   {xLabels[x]}
                 </div>
               ))}
             </div>
             <div className="Board-coords-left">
-              {sizeRange.map(y => (
+              {sizeRange.map((y) => (
                 <div key={y} className="Board-coord-label">
                   {size - y}
                 </div>
               ))}
             </div>
             <div className="Board-coords-right">
-              {sizeRange.map(y => (
+              {sizeRange.map((y) => (
                 <div key={y} className="Board-coord-label">
                   {size - y}
                 </div>
@@ -118,9 +118,9 @@ export default class Board extends Component<PropsBoard> {
             </div>
           </div>
           <div className="Board-stones">
-            {range(size).map(y => (
+            {range(size).map((y) => (
               <div key={y} className="Board-stones-line">
-                {range(size).map(x => {
+                {range(size).map((x) => {
                   let color = board[y][x];
                   let mark = markup.marks[y] && markup.marks[y][x];
                   let label = markup.labels[y] && markup.labels[y][x];

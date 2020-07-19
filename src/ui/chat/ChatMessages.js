@@ -17,7 +17,7 @@ type Props = {
   currentUser: User,
   message: ConversationMessage,
   sender: User | string,
-  onUserDetail: string => any,
+  onUserDetail: (string) => any,
 };
 
 class ChatMessageItem extends Component<Props> {
@@ -69,7 +69,7 @@ class ChatMessageItem extends Component<Props> {
 
 type PropsChatGameLink = {
   game: GameChannel,
-  onSelect: GameChannel => any,
+  onSelect: (GameChannel) => any,
 };
 
 class ChatGameLink extends Component<PropsChatGameLink> {
@@ -119,9 +119,9 @@ type PropsChatMessages = {
   messages: Array<ConversationMessage>,
   usersByName: Index<User>,
   games?: ?Array<GameChannel>,
-  onUserDetail: string => any,
+  onUserDetail: (string) => any,
   onJoinGame?: (gameId: number | string) => any,
-  onSelectChallenge?: number => any,
+  onSelectChallenge?: (number) => any,
 };
 
 export default class ChatMessages extends Component<PropsChatMessages> {
@@ -136,7 +136,7 @@ export default class ChatMessages extends Component<PropsChatMessages> {
     let displayMessages;
     if (games && games.length) {
       let itemId = 1;
-      let items: Array<ChatItem> = messages.map(msg => ({
+      let items: Array<ChatItem> = messages.map((msg) => ({
         type: "message",
         id: itemId++,
         time: msg.date ? msg.date.getTime() : 0,
@@ -174,7 +174,7 @@ export default class ChatMessages extends Component<PropsChatMessages> {
         }
       }
     } else {
-      displayMessages = messages.map(msg => (
+      displayMessages = messages.map((msg) => (
         <ChatMessageItem
           currentUser={currentUser}
           key={msg.id}

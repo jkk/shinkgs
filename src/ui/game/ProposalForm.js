@@ -29,11 +29,11 @@ type Props = {
   usersByName: Index<User>,
   roomsById: Index<Room>,
   room: Room,
-  onUserDetail: string => any,
-  onChangeProposal: GameProposal => any,
-  onChangeNotes: string => any,
-  onChangeVisibility: ProposalVisibility => any,
-  onChangeRoomId: number => any,
+  onUserDetail: (string) => any,
+  onChangeProposal: (GameProposal) => any,
+  onChangeNotes: (string) => any,
+  onChangeVisibility: (ProposalVisibility) => any,
+  onChangeRoomId: (number) => any,
 };
 
 const visibilityOptions = [
@@ -80,8 +80,8 @@ export default class ProposalForm extends Component<Props> {
     let { players, nigiri, rules } = proposal;
     let ruleset = rules.rules || "japanese";
     let rooms = Object.keys(roomsById)
-      .map(id => roomsById[id])
-      .filter(g => g.name);
+      .map((id) => roomsById[id])
+      .filter((g) => g.name);
     rooms.sort(
       (a, b) =>
         (b.users ? b.users.length : 0) - (a.users ? a.users.length : 0) ||
@@ -108,7 +108,7 @@ export default class ProposalForm extends Component<Props> {
           <div className="ProposalForm-field">
             <div className="ProposalForm-field-content">
               <SelectInput value={room.id} onChange={this._onChangeRoomId}>
-                {rooms.map(r => (
+                {rooms.map((r) => (
                   <option key={r.id} value={r.id}>
                     {r.name}
                   </option>
@@ -159,7 +159,7 @@ export default class ProposalForm extends Component<Props> {
                   <SelectInput
                     value={proposal.gameType}
                     onChange={this._onChangeGameType}>
-                    {gameTypeOptions.map(opt => (
+                    {gameTypeOptions.map((opt) => (
                       <option key={opt.value} value={opt.value}>
                         {opt.label}
                       </option>
@@ -170,7 +170,7 @@ export default class ProposalForm extends Component<Props> {
                   <SelectInput
                     value={visibility}
                     onChange={this._onChangeVisibility}>
-                    {visibilityOptions.map(opt => (
+                    {visibilityOptions.map((opt) => (
                       <option key={opt.value} value={opt.value}>
                         {opt.label}
                       </option>
@@ -191,7 +191,7 @@ export default class ProposalForm extends Component<Props> {
                     <SelectInput
                       value={rules.timeSystem}
                       onChange={this._onChangeTimeSystem}>
-                      {timeSystemOptions.map(opt => (
+                      {timeSystemOptions.map((opt) => (
                         <option key={opt.value} value={opt.value}>
                           {opt.label}
                         </option>
@@ -242,7 +242,7 @@ export default class ProposalForm extends Component<Props> {
                     <SelectInput
                       value={ruleset}
                       onChange={this._onChangeRuleset}>
-                      {rulesetOptions.map(opt => (
+                      {rulesetOptions.map((opt) => (
                         <option key={opt.value} value={opt.value}>
                           {opt.label}
                         </option>
@@ -368,8 +368,8 @@ export default class ProposalForm extends Component<Props> {
     if (editMode !== "negotiating" || proposal.players.length !== 2) {
       return;
     }
-    let thisPlayerOld = proposal.players.find(p => p.name === name);
-    let otherPlayerOld = proposal.players.find(p => p.name !== name);
+    let thisPlayerOld = proposal.players.find((p) => p.name === name);
+    let otherPlayerOld = proposal.players.find((p) => p.name !== name);
     if (!thisPlayerOld || !otherPlayerOld) {
       return;
     }
@@ -388,8 +388,8 @@ export default class ProposalForm extends Component<Props> {
       otherPlayer.role = "black";
     }
     // Maintain order for the sake of KGS API
-    newProposal.players = proposal.players.map(
-      p => (p.name === thisPlayer.name ? thisPlayer : otherPlayer)
+    newProposal.players = proposal.players.map((p) =>
+      p.name === thisPlayer.name ? thisPlayer : otherPlayer
     );
     this.props.onChangeProposal(newProposal);
   };

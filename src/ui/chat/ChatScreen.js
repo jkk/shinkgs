@@ -25,8 +25,8 @@ type Props = {
   active: boolean,
   room?: ?Room,
   user?: ?User,
-  onSelect: number => any,
-  onClose: number => any,
+  onSelect: (number) => any,
+  onClose: (number) => any,
 };
 
 class ChatTab extends Component<Props> {
@@ -330,12 +330,14 @@ export default class ChatScreen extends Component<ChatScreenProps, State> {
 
     let users = [];
     if (showingRoomUsers && activeRoom && activeRoom.users) {
-      users = activeRoom.users.map(name => usersByName[name]).filter(u => u);
+      users = activeRoom.users
+        .map((name) => usersByName[name])
+        .filter((u) => u);
       sortUsers(users);
     }
 
     let tabs = roomConvs
-      .map(conv => (
+      .map((conv) => (
         <ChatTab
           key={conv.id}
           conversation={conv}
@@ -346,7 +348,7 @@ export default class ChatScreen extends Component<ChatScreenProps, State> {
         />
       ))
       .concat(
-        userConvs.map(conv => (
+        userConvs.map((conv) => (
           <ChatTab
             key={conv.id}
             conversation={conv}

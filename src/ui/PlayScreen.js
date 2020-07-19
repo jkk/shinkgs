@@ -148,13 +148,13 @@ export default class PlayScreen extends Component<Props, State> {
                 </div>
                 <GameList
                   games={unfinishedGames
-                    .filter(ug => ug.type === "channel")
+                    .filter((ug) => ug.type === "channel")
                     .map((ug: Object) => ug.game)}
                   onSelect={this._onSelectGameChannel}
                 />
                 <GameSummaryList
                   games={unfinishedGames
-                    .filter(ug => ug.type === "summary")
+                    .filter((ug) => ug.type === "summary")
                     .map((ug: Object) => ug.game)}
                   player={currentUser.name}
                   onSelect={this._onSelectGameSummary}

@@ -264,9 +264,9 @@ export default class UserDetailsModal extends Component<Props, State> {
                   </label>
                 </div>
                 {user &&
-                (user.name !== currentUser.name &&
-                  user.flags &&
-                  user.flags.connected) ? (
+                user.name !== currentUser.name &&
+                user.flags &&
+                user.flags.connected ? (
                   userDetailsModalMessage
                 ) : user && user.name === currentUser.name ? (
                   <div className="UserDetailsModal-edit-button">

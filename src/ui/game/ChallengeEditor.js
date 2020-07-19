@@ -86,8 +86,8 @@ export default class ChallengeEditor extends Component<Props, State> {
       visibility = proposal.private
         ? "private"
         : challenge.global
-          ? "public"
-          : "roomOnly";
+        ? "public"
+        : "roomOnly";
       notes = challenge.name || "";
       initialRoomId = challenge.roomId;
     } else {
@@ -118,7 +118,11 @@ export default class ChallengeEditor extends Component<Props, State> {
     if (sentProposal && sentProposal.status !== proposal.status) {
       // Challenge sending
       newProposal = { ...proposal, status: sentProposal.status };
-    } else if (challenge && !this.props.challenge) {
+    } else if (
+      challenge &&
+      challenge.initialProposal &&
+      !this.props.challenge
+    ) {
       // Challenge created
       newProposal = { ...challenge.initialProposal, status: "pending" };
     }
@@ -383,13 +387,13 @@ export default class ChallengeEditor extends Component<Props, State> {
   };
 
   _onPrevProposal = () => {
-    this.setState(state => ({
+    this.setState((state) => ({
       selectedProposalIndex: state.selectedProposalIndex - 1,
     }));
   };
 
   _onNextProposal = () => {
-    this.setState(state => ({
+    this.setState((state) => ({
       selectedProposalIndex: state.selectedProposalIndex + 1,
     }));
   };

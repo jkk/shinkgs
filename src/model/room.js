@@ -12,10 +12,10 @@ export function getDefaultRoom(
   roomsById: Index<Room>
 ) {
   let rooms = Object.keys(channelMembership)
-    .filter(id => channelMembership[id].type === "room" && roomsById[id])
-    .map(id => roomsById[id]);
+    .filter((id) => channelMembership[id].type === "room" && roomsById[id])
+    .map((id) => roomsById[id]);
   // TODO - hack
-  return rooms.find(r => r.name === "English Game Room") || rooms[0];
+  return rooms.find((r) => r.name === "English Game Room") || rooms[0];
 }
 
 function updateRoom(room: ?Room, values: Object): Room {
@@ -24,10 +24,10 @@ function updateRoom(room: ?Room, values: Object): Room {
     newRoom.id = values.channelId;
   }
   if (values.owners) {
-    newRoom.owners = values.owners.map(o => o.name);
+    newRoom.owners = values.owners.map((o) => o.name);
   }
   if (values.users) {
-    newRoom.users = values.users.map(u => u.name);
+    newRoom.users = values.users.map((u) => u.name);
   }
   for (let key of [
     "name",
@@ -102,7 +102,7 @@ export function handleRoomMessage(
     }
     roomsById[chanId] = {
       ...roomsById[chanId],
-      users: users.filter(name => name !== msg.user.name),
+      users: users.filter((name) => name !== msg.user.name),
     };
     return { ...prevState, roomsById };
   } else if (
@@ -112,7 +112,7 @@ export function handleRoomMessage(
   ) {
     let roomsById: Index<Room> = { ...prevState.roomsById };
     let users = roomsById[chanId].users;
-    if (!users || users.find(name => name === msg.user.name)) {
+    if (!users || users.find((name) => name === msg.user.name)) {
       return prevState;
     }
     roomsById[chanId] = {

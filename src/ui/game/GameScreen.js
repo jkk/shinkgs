@@ -110,7 +110,7 @@ export default class GameScreen extends Component<Props, State> {
       actions,
     } = this.props;
     let { tab, chatSections } = this.state;
-    let users = game.users ? game.users.map(name => usersByName[name]) : [];
+    let users = game.users ? game.users.map((name) => usersByName[name]) : [];
     sortUsers(users);
     let tree = game.tree;
     let moveNum;

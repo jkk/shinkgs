@@ -12,8 +12,8 @@ type Props = {
   user: User,
   conversation: Conversation,
   usersByName: Index<User>,
-  onUserDetail: string => any,
-  onSendChat: string => any,
+  onUserDetail: (string) => any,
+  onSendChat: (string) => any,
   setMessagesDivRef: (HTMLElement | null) => any,
   setMessageInputRef: (HTMLElement | null) => any,
 };

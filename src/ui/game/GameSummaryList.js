@@ -11,7 +11,7 @@ import type { GameSummary } from "../../model";
 type Props = {
   game: GameSummary,
   player?: string,
-  onSelect: GameSummary => any,
+  onSelect: (GameSummary) => any,
 };
 
 class GameSummaryListItem extends Component<Props> {
@@ -27,8 +27,8 @@ class GameSummaryListItem extends Component<Props> {
       (won
         ? " GameSummaryList-item-won"
         : player && winningColor
-          ? " GameSummaryList-item-lost"
-          : "");
+        ? " GameSummaryList-item-lost"
+        : "");
     let playingNow = game.inPlay && !winningColor;
     return (
       <A className={className} onClick={this._onSelect}>
@@ -73,7 +73,7 @@ class GameSummaryListItem extends Component<Props> {
 type GameSummaryListProps = {
   games: Array<GameSummary>,
   player?: string,
-  onSelect: GameSummary => any,
+  onSelect: (GameSummary) => any,
 };
 
 type State = {
@@ -105,7 +105,7 @@ export default class GameSummaryList extends Component<
     }
     return (
       <div className="GameSummaryList">
-        {games.map(game => (
+        {games.map((game) => (
           <GameSummaryListItem
             key={game.timestamp}
             game={game}

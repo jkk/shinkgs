@@ -44,7 +44,7 @@ export class AppActions {
   };
 
   onRestoreAppState = () => {
-    this._store.restoreSavedState(APP_STATE_SAVE_KEY, appState => {
+    this._store.restoreSavedState(APP_STATE_SAVE_KEY, (appState) => {
       this._client.setState(appState.clientState);
       this._store.dispatch({ type: "APP_STATE_INITIALIZED" });
       let clientStatus = appState.clientState.status;
@@ -188,7 +188,7 @@ export class AppActions {
     } else {
       let gameSummaries = state.gameSummariesByUser[currentUser.name];
       let gameSummary = gameSummaries
-        ? gameSummaries.find(g => g.timestamp === gameId)
+        ? gameSummaries.find((g) => g.timestamp === gameId)
         : null;
       if (gameSummary) {
         players = gameSummary.players;
@@ -289,9 +289,9 @@ export class AppActions {
       proposal,
     });
     this._client.sendMessage({
+      ...proposal,
       type: "CHALLENGE_SUBMIT",
       channelId: challengeId,
-      ...proposal,
     });
   };
 
@@ -322,16 +322,16 @@ export class AppActions {
     // Users must be name-only
     let normProposal = {
       ...proposal,
-      players: proposal.players.map(p => {
+      players: proposal.players.map((p) => {
         p = { ...p, name: p.user ? p.user.name : p.name };
         delete p.user;
         return p;
       }),
     };
     this._client.sendMessage({
+      ...normProposal,
       type: "CHALLENGE_PROPOSAL",
       channelId: challengeId,
-      ...normProposal,
     });
   };
 
@@ -385,9 +385,9 @@ export class AppActions {
       let acceptable = proposalsEqual(sentProposal, proposal);
       if (acceptable) {
         this._client.sendMessage({
+          ...sentProposal,
           type: "CHALLENGE_ACCEPT",
           channelId: challengeId,
-          ...sentProposal,
         });
       } else {
         // TODO - reset challenge, show to current user for review
@@ -499,7 +499,7 @@ export class AppActions {
     this.onChangeNav("chat");
     let { conversationsById } = this._store.getState();
     let userConvo = Object.keys(conversationsById).find(
-      cid => conversationsById[cid].user === user.name
+      (cid) => conversationsById[cid].user === user.name
     );
     if (userConvo) {
       this.onSelectConversation(parseInt(userConvo, 10));
@@ -564,7 +564,7 @@ export class AppActions {
     // Only fetch rooms whose name we don't know yet
     let roomIds = distinct(
       Object.keys(roomsById).filter(
-        id => typeof roomsById[id].name !== "string"
+        (id) => typeof roomsById[id].name !== "string"
       )
     );
     if (roomIds.length) {
@@ -584,12 +584,12 @@ export class AppActions {
     let roomIds = distinct(
       games
         .filter(
-          g =>
+          (g) =>
             g.roomId &&
             (!roomsById[g.roomId] ||
               typeof roomsById[g.roomId].name !== "string")
         )
-        .map(g => g.roomId)
+        .map((g) => g.roomId)
     );
     if (roomIds.length) {
       this._client.sendMessage({ type: "ROOM_NAMES_REQUEST", rooms: roomIds });

@@ -10,12 +10,12 @@ type Props = {
   game: GameChannel,
   isOurMove: boolean,
   scoring: boolean,
-  onPass: GameChannel => any,
-  onUndo: GameChannel => any,
-  onResign: GameChannel => any,
+  onPass: (GameChannel) => any,
+  onUndo: (GameChannel) => any,
+  onResign: (GameChannel) => any,
   onLeaveGame: Function,
   onAddTime: (game: GameChannel, role: GameRole, seconds: number) => any,
-  onDoneScoring: GameChannel => any,
+  onDoneScoring: (GameChannel) => any,
 };
 
 type State = {

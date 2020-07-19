@@ -6,7 +6,7 @@ import type { User } from "../../model";
 
 type Props = {
   user: User,
-  onSelect: User => any,
+  onSelect: (User) => any,
 };
 
 class UserListItem extends Component<Props> {
@@ -33,7 +33,7 @@ class UserListItem extends Component<Props> {
 
 type UserListProps = {
   users: Array<User>,
-  onSelectUser: User => any,
+  onSelectUser: (User) => any,
 };
 
 type State = {
@@ -60,7 +60,7 @@ export default class UserList extends Component<UserListProps, State> {
     let users = fullRender ? allUsers : allUsers.slice(0, 40);
     return (
       <div className="UserList">
-        {users.map(user => (
+        {users.map((user) => (
           <UserListItem key={user.name} user={user} onSelect={onSelectUser} />
         ))}
       </div>

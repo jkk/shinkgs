@@ -57,7 +57,7 @@ export class AppStore {
     return this._state.appState;
   };
 
-  saveState = (saveKey: string, prepareSavedState?: AppState => AppState) => {
+  saveState = (saveKey: string, prepareSavedState?: (AppState) => AppState) => {
     let saveState = { ...this.getState(), savedAt: new Date() };
     if (prepareSavedState) {
       saveState = prepareSavedState(saveState);
@@ -68,10 +68,10 @@ export class AppStore {
     set(saveKey, saveState);
   };
 
-  restoreSavedState = (saveKey: string, done: AppState => any) => {
+  restoreSavedState = (saveKey: string, done: (AppState) => any) => {
     let prevState = this.getState();
     get(saveKey)
-      .then(savedAppState => {
+      .then((savedAppState) => {
         if (this._debug) {
           console.log("Restoring saved app state...", savedAppState);
         }
@@ -80,7 +80,7 @@ export class AppStore {
         }
         done(this.getState());
       })
-      .catch(err => {
+      .catch((err) => {
         if (!navigator.userAgent.includes("jsdom")) {
           console.warn("Unable to restore saved app state: ", err);
           // Revert everything, just in case we errored out in a sync render due

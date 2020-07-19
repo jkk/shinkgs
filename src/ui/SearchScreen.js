@@ -33,9 +33,9 @@ export default class SearchScreen extends Component<Props, State> {
     let { query } = this.state;
     let queryRe = new RegExp(quoteRegExpPattern(query), "i");
     let users = Object.keys(usersByName)
-      .filter(name => queryRe.test(name))
-      .map(name => usersByName[name]);
-    users = distinctBy(users, u => u.name);
+      .filter((name) => queryRe.test(name))
+      .map((name) => usersByName[name]);
+    users = distinctBy(users, (u) => u.name);
     sortUsers(users);
     return (
       <div className="SearchScreen">

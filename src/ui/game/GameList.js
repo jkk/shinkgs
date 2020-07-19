@@ -10,7 +10,7 @@ import type { GameChannel, GameFilter, Room, Index } from "../../model";
 type Props = {
   game: GameChannel,
   room: ?Room,
-  onSelect: number => any,
+  onSelect: (number) => any,
 };
 
 class GameListItem extends Component<Props> {
@@ -87,7 +87,7 @@ type GameListProps = {
   games: Array<GameChannel>,
   filter?: GameFilter,
   roomsById?: Index<Room>,
-  onSelect: number => any,
+  onSelect: (number) => any,
 };
 
 type State = {
@@ -113,14 +113,14 @@ export default class GameList extends Component<GameListProps, State> {
     let { fullRender } = this.state;
     let displayGames;
     if (filter && Object.keys(filter).length) {
-      displayGames = games.filter(game => {
+      displayGames = games.filter((game) => {
         if (filter.roomId && game.roomId !== filter.roomId) {
           return false;
         }
         if (filter.excludeBots) {
           let hasBot = Object.keys(game.players)
             .map((role: any) => game.players[role])
-            .find(user => user && user.flags && user.flags.robot);
+            .find((user) => user && user.flags && user.flags.robot);
           return !hasBot;
         }
         return true;
@@ -136,7 +136,7 @@ export default class GameList extends Component<GameListProps, State> {
     return (
       <div className="GameList">
         {displayGames.length ? (
-          displayGames.map(game => (
+          displayGames.map((game) => (
             <GameListItem
               key={game.id}
               game={game}

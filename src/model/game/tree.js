@@ -128,7 +128,7 @@ export function computeGameNodeStates(
 
   // Determine rules to use
   let rootNode = tree.nodes[tree.rootNode];
-  let rulesProp = rootNode.props.find(p => p.name === "RULES");
+  let rulesProp = rootNode.props.find((p) => p.name === "RULES");
   let size =
     // $FlowFixMe
     rulesProp && typeof rulesProp.size === "number" ? rulesProp.size : 19;
@@ -236,7 +236,7 @@ function getGameNodeActions(game: GameChannel, nodeId: number) {
   if (!game.tree) {
     return actions;
   }
-  let passProp = game.tree.nodes[nodeId].props.find(p => p.loc === "PASS");
+  let passProp = game.tree.nodes[nodeId].props.find((p) => p.loc === "PASS");
   if (passProp) {
     actions.push((passProp.color === "black" ? "Black" : "White") + " passed");
   }
@@ -266,7 +266,7 @@ export function getGameChatSections(game: GameChannel): Array<GameChatSection> {
 
 export function isGameProposalPlayer(name: string, proposal: GameProposal) {
   return !!proposal.players.find(
-    p => p.name === name || (p.user && p.user.name === name)
+    (p) => p.name === name || (p.user && p.user.name === name)
   );
 }
 
@@ -291,7 +291,7 @@ export function isPlayerMove(game: GameChannel, name: string) {
   if (!actions) {
     return false;
   }
-  let moveAction = actions.find(a => a.action === "MOVE");
+  let moveAction = actions.find((a) => a.action === "MOVE");
   return !!(moveAction && moveAction.user.name === name);
 }
 
@@ -311,7 +311,7 @@ export function isGameScoring(game: GameChannel) {
   if (game.over || !game.actions) {
     return false;
   }
-  return !!game.actions.find(a => a.action === "SCORE");
+  return !!game.actions.find((a) => a.action === "SCORE");
 }
 
 export function getGameRoleColor(role: GameRole): ?PlayerColor {
