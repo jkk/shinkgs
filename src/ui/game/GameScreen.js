@@ -48,16 +48,24 @@ type State = {
 };
 
 export default class GameScreen extends Component<Props, State> {
+  static getDerivedStateFromProps(props: Props, state: State) {
+    let { chatSections } = state;
+    let { game } = props;
+    let currentChatSections = getGameChatSections(game);
+
+    if (chatSections.length !== currentChatSections.length) {
+      return { ...state, chatSections: currentChatSections };
+    }
+
+    return null;
+  }
+
   state = {
     tab: "chat",
-    chatSections: getGameChatSections(this.props.game),
+    chatSections: [],
   };
 
   _chatScrollRef: ?HTMLElement;
-
-  /*  componentWillReceiveProps(nextProps: Props) {
-      this.setState({chatSections: getGameChatSections(nextProps.game)});
-    }*/
 
   _setChatScroll = () => {
     setTimeout(() => {
