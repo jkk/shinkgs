@@ -53,7 +53,7 @@ export default function UserGameSummary(props: Props) {
       onJoinGame(reviewGameId);
       onCloseUserDetail();
     }
-  }, [reviewGameId, reviewGameIdRef.current]);
+  }, [reviewGameId, onLeaveGame, onJoinGame, onCloseUserDetail]);
 
   return (
     <div className="UserGameSummary">
