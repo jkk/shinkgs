@@ -26,6 +26,7 @@ export function getEmptyServerState() {
     userDetailsRequest: null,
     showUnderConstruction: false,
     showFeedbackModal: false,
+    reviewGameId: null,
   };
 }
 

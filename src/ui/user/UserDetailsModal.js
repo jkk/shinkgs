@@ -6,6 +6,7 @@ import { A, Button, Spinner, RichContent, Modal } from "../common";
 import UserName from "./UserName";
 import UserAvatar from "./UserAvatar";
 import UserDetailsEditForm from "./UserDetailsEditForm";
+import UserGameSummary from "./UserGameSummary";
 import GameSummaryList from "../game/GameSummaryList";
 import UserRankGraph from "./UserRankGraph";
 import { getUserStatusText, getUserAuthName } from "../../model/user";
@@ -20,6 +21,8 @@ import type {
   RankGraph,
   Index,
   AppActions,
+  Conversation,
+  Room,
 } from "../../model";
 
 const MAX_GAME_SUMMARIES = 500;
@@ -31,17 +34,25 @@ type Props = {
   rankGraphsByChannelId: Index<RankGraph>,
   gameSummariesByUser: Index<Array<GameSummary>>,
   actions: AppActions,
+  conversationsById: Index<Conversation>,
+  roomsById: Index<Room>,
+  activeConversationId: ?number,
+  reviewGameId: ?number,
 };
 
 type State = {
   tab: "bio" | "games" | "rankGraph",
   editing: boolean,
+  showGameSummaryModal: boolean,
+  gameToLoad?: GameSummary,
 };
 
 export default class UserDetailsModal extends Component<Props, State> {
   state = {
     tab: "bio",
     editing: false,
+    showGameSummaryModal: false,
+    gameToLoad: undefined,
   };
 
   _mainDiv: ?HTMLElement;
@@ -68,11 +79,15 @@ export default class UserDetailsModal extends Component<Props, State> {
       gameSummariesByUser,
       rankGraphsByChannelId,
       actions,
+      conversationsById,
+      roomsById,
+      activeConversationId,
+      reviewGameId,
     } = this.props;
     if (!currentUser || !userDetailsRequest) {
       throw new InvariantError("currentUser and userDetailsRequest required");
     }
-    let { tab, editing } = this.state;
+    let { tab, editing, showGameSummaryModal, gameToLoad } = this.state;
     let content;
     let offline;
     let user = usersByName[userDetailsRequest.name];
@@ -88,6 +103,28 @@ export default class UserDetailsModal extends Component<Props, State> {
             details={details}
             onSave={this._onSaveUserDetails}
             onCancel={this._onDoneEditing}
+          />
+        </Modal>
+      );
+    }
+
+    if (showGameSummaryModal && gameToLoad) {
+      let rooms = Object.keys(conversationsById).map(
+        (roomId) => roomsById[roomId]
+      );
+
+      return (
+        <Modal title="Game Summary" onClose={this._onCloseGameLoadModal}>
+          <UserGameSummary
+            activeConversationId={activeConversationId}
+            game={gameToLoad}
+            onLoadGame={this.props.actions.onLoadGame}
+            onCloseUserDetail={this.props.actions.onCloseUserDetail}
+            onJoin
+            onJoinGame={this.props.actions.onJoinGame}
+            onLeaveGame={this.props.actions.onLeaveGame}
+            reviewGameId={reviewGameId}
+            rooms={rooms}
           />
         </Modal>
       );
@@ -334,11 +371,16 @@ export default class UserDetailsModal extends Component<Props, State> {
   };
 
   _onSelectGame = (game: GameSummary) => {
-    this.props.actions.onCloseUserDetail();
     if (game.inPlay) {
-      this.props.actions.onJoinGame(game.timestamp);
+      this.props.actions.onCloseUserDetail();
+
+      if (game.type === "review" && this.props.reviewGameId) {
+        this.props.actions.onJoinGame(this.props.reviewGameId);
+      } else {
+        this.props.actions.onJoinGame(game.timestamp);
+      }
     } else {
-      this.props.actions.onLoadGame(game.timestamp);
+      this.setState({ showGameSummaryModal: true, gameToLoad: game });
     }
   };
 
@@ -370,5 +412,9 @@ export default class UserDetailsModal extends Component<Props, State> {
       this.props.actions.onUpdatePassword(user, newPassword);
     }
     this._onDoneEditing();
+  };
+
+  _onCloseGameLoadModal = () => {
+    this.setState({ showGameSummaryModal: false });
   };
 }
