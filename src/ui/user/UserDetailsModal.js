@@ -120,7 +120,6 @@ export default class UserDetailsModal extends Component<Props, State> {
             game={gameToLoad}
             onLoadGame={this.props.actions.onLoadGame}
             onCloseUserDetail={this.props.actions.onCloseUserDetail}
-            onJoin
             onJoinGame={this.props.actions.onJoinGame}
             onLeaveGame={this.props.actions.onLeaveGame}
             reviewGameId={reviewGameId}
