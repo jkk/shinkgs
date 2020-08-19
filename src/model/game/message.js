@@ -103,6 +103,10 @@ function _handleGameMessage(prevState: AppState, msg: KgsMessage): AppState {
       ) {
         nextState.playGameId = chanId;
       }
+
+      if (summary && summary.type === "review") {
+        nextState.reviewGameId = chanId;
+      }
     }
 
     // Created a challenge

@@ -40,7 +40,9 @@ class GameSummaryListItem extends Component<Props> {
         </div>
         <div className="GameSummaryList-item-info">
           {playingNow ? (
-            <div className="GameSummaryList-item-date-now">Playing now</div>
+            <div className="GameSummaryList-item-date-now">
+              {game.type === "review" ? "Reviewing" : "Playing now"}
+            </div>
           ) : (
             <div>
               <div className="GameSummaryList-item-result-rules">

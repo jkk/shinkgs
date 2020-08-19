@@ -434,9 +434,13 @@ export class AppActions {
     this._store.dispatch(msgs);
   };
 
-  onLoadGame = (timestamp: string) => {
-    console.log("TODO - Ask for room/private, then load game", timestamp);
-    this.onShowUnderConstruction();
+  onLoadGame = (timestamp: string, channelId: number, privateGame: boolean) => {
+    this._client.sendMessage({
+      type: "ROOM_LOAD_GAME",
+      channelId,
+      private: privateGame,
+      timestamp,
+    });
   };
 
   onUserDetail = (name: string) => {

@@ -461,6 +461,7 @@ export type AppState = {
   +userDetailsRequest: ?UserDetailsRequest,
   +showUnderConstruction: boolean,
   +showFeedbackModal: boolean,
+  +reviewGameId: ?number,
 };
 
 export type KgsMessage =

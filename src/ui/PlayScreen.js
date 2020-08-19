@@ -196,7 +196,7 @@ export default class PlayScreen extends Component<Props, State> {
     if (game.inPlay) {
       this.props.actions.onJoinGame(game.timestamp);
     } else {
-      this.props.actions.onLoadGame(game.timestamp);
+      this.props.actions.onShowUnderConstruction();
     }
   };
 }
