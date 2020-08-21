@@ -71,14 +71,14 @@ export default class UserRankGraph extends Component<Props> {
         divisor: series.length,
         labelInterpolationFnc: function (value, index) {
           const d = new Date(value);
-          const day = dateFormat(d, "DD");
+          const day = dateFormat(d, "dd");
           const month = dateFormat(d, "MMM");
 
           // When we have multiple months of rank data
           if (months.length > 2) {
             // Only show the year for January and the first month on
             // the graph
-            const format = index < 31 || month === "Jan" ? "MMM YYYY" : "MMM";
+            const format = index < 31 || month === "Jan" ? "MMM yyy" : "MMM";
 
             // Show the label only on the first day of the month
             return day === "01" ? dateFormat(d, format) : null;
@@ -89,12 +89,12 @@ export default class UserRankGraph extends Component<Props> {
             let ratio = series.length / ticks;
 
             if (index === 0) {
-              format = "MMM D, YYYY";
+              format = "MMM d, yyyy";
             } else {
               if (day === "01") {
-                format = "MMM D";
+                format = "MMM d";
               } else {
-                format = "MMM D";
+                format = "MMM d";
               }
             }
             return Math.floor(index % ratio) === 0
