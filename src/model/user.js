@@ -178,7 +178,7 @@ export function parseRankGraph(data: Array<number>): RankGraph {
   // Create a list of the unique months present in the graph data for labeling
   newRankGraph.months = [];
   series.forEach((d) => {
-    let str = dateFormat(d.x, "MMMM YYYY");
+    let str = dateFormat(d.x, "MMMM yyyy");
     if (newRankGraph.months.indexOf(str) === -1) {
       newRankGraph.months.push(str);
     }
