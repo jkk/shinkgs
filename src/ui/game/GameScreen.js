@@ -47,13 +47,36 @@ type State = {
   chatSections: Array<GameChatSection>,
 };
 
+/**
+ * Helper function that compares the current chat sections with the previous
+ * chat sections and returns `true` if the chat has been updated.
+ */
+function chatHasUpdated(
+  chatSections: Array<GameChatSection>,
+  prevChatSections: Array<GameChatSection>
+) {
+  let lastSection = chatSections.length
+    ? chatSections[chatSections.length - 1]
+    : null;
+  let prevLastSection = prevChatSections.length
+    ? prevChatSections[prevChatSections.length - 1]
+    : null;
+  return (
+    chatSections.length > prevChatSections.length ||
+    (lastSection &&
+      prevLastSection &&
+      (lastSection.messages.length > prevLastSection.messages.length ||
+        lastSection.actions.length > prevLastSection.actions.length))
+  );
+}
+
 export default class GameScreen extends Component<Props, State> {
   static getDerivedStateFromProps(props: Props, state: State) {
     let { chatSections } = state;
     let { game } = props;
     let currentChatSections = getGameChatSections(game);
 
-    if (chatSections.length !== currentChatSections.length) {
+    if (chatHasUpdated(currentChatSections, chatSections)) {
       return { ...state, chatSections: currentChatSections };
     }
 
@@ -85,19 +108,7 @@ export default class GameScreen extends Component<Props, State> {
   componentDidUpdate(prevProps: Props, prevState: State) {
     let { chatSections } = this.state;
     let { chatSections: prevChatSections } = prevState;
-    let lastSection = chatSections.length
-      ? chatSections[chatSections.length - 1]
-      : null;
-    let prevLastSection = prevChatSections.length
-      ? prevChatSections[prevChatSections.length - 1]
-      : null;
-    if (
-      chatSections.length > prevChatSections.length ||
-      (lastSection &&
-        prevLastSection &&
-        (lastSection.messages.length > prevLastSection.messages.length ||
-          lastSection.actions.length > prevLastSection.actions.length))
-    ) {
+    if (chatHasUpdated(chatSections, prevChatSections)) {
       this._setChatScroll();
     }
   }
