@@ -467,27 +467,25 @@ a.ChatMessages-game-deleted {
 }
 
 .RoomGameLinks {
-  // background: $chat-message-bg;
-  margin: 20px 0 0 0;
-  // margin-bottom: 20px;
-  // border-bottom: 2px solid $chat-divider;
-  // padding-bottom: 20px;
+  display: flex;
+  margin: 20px 0 -10px -10px;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .RoomGameLink {
-  display: inline-block;
-  width: 49%;
+  display: block;
+  flex: 1 1 auto;
+  padding-left: 10px;
+  padding-bottom: 10px;
   line-height: 38px;
 
   a {
     display: block;
-    // background: $chat-message-bg;
-    // color: $link-color;
     border: 2px solid $very-muted;
     padding: 7px 10px 7px 10px;
     background: $content-bg;
     border-radius: 15px;
-    // max-width: 400px;
     font-size: 14px;
     box-sizing: border-box;
     height: 38px;
@@ -496,10 +494,6 @@ a.ChatMessages-game-deleted {
     &:active {
       border: 2px solid $muted;
     }
-  }
-
-  &:first-child {
-    margin-right: 2%;
   }
 }
 
@@ -512,21 +506,6 @@ a.ChatMessages-game-deleted {
   vertical-align: middle;
   font-size: 18px;
   margin: 0 10px 0 5px;
-}
-
-@media #{$mobile-query} {
-  .RoomGameLink {
-    display: block;
-    width: auto;
-
-    &:first-child {
-      margin-right: 0;
-    }
-  }
-
-  .RoomGameLink+.RoomGameLink {
-    margin-top: 5px;
-  }
 }
 
 .RoomGameLink-label {
