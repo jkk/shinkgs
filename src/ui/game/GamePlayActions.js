@@ -107,6 +107,10 @@ export default class GamePlayActions extends Component<Props, State> {
                   onClick={this._onLeaveGame}>
                   Leave Game
                 </A>
+                <A
+                  className="GamePlayActions-more-item GamePlayActions-report"
+                  onClick={this._onReportUser}
+                >Report User</A>
               </div>
             ) : null}
           </div>
@@ -159,6 +163,10 @@ export default class GamePlayActions extends Component<Props, State> {
     this._onToggleMore();
     this.props.onLeaveGame();
   };
+
+  _onReportUser = () => {
+    window.location.href = "mailto:admin@gokgs.com?subject=[Report%20User%20or%20Issue]";
+  }
 
   _onDone = () => {
     this.props.onDoneScoring(this.props.game);
