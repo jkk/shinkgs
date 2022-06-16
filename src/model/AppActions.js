@@ -412,8 +412,11 @@ export class AppActions {
     let { conversationsById } = this._store.getState();
     if (conversationsById[channelId] && conversationsById[channelId].user) {
       // Don't play message sound if it's your own message
-      let messagesLength: number = conversationsById[channelId].messages.length
-      if (conversationsById[channelId].messages[messagesLength - 1].sender === conversationsById[channelId].user) {
+      let messagesLength: number = conversationsById[channelId].messages.length;
+      if (
+        conversationsById[channelId].messages[messagesLength - 1].sender ===
+        conversationsById[channelId].user
+      ) {
         SOUNDS.DIRECT_MESSAGE_RECEIVED.play();
       }
     }
