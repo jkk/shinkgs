@@ -120,7 +120,10 @@ export default class GameList extends Component<GameListProps, State> {
         if (filter.excludeBots) {
           let hasBot = Object.keys(game.players)
             .map((role: any) => game.players[role])
-            .find((user) => user && user.flags && user.flags.robot);
+            .find(
+              (user) =>
+                user && user.authLevel && user.authLevel === "robot_ranked"
+            );
           return !hasBot;
         }
         return true;
