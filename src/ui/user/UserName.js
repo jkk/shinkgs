@@ -26,7 +26,7 @@ export default class UserName extends Component<Props> {
     let icons = (
       <div className="UserName-icons">
         {flags.robot ? (
-          <span role="img" className="UserName-robot" aria-labelledby="robot">
+          <span role="img" className="UserName-robot" title="robot">
             {" "}
             🤖
           </span>
@@ -35,17 +35,17 @@ export default class UserName extends Component<Props> {
           <span
             role="img"
             className="UserName-selfish"
-            aria-labelledby="selfish">
+            title="selfish">
             <span
               role="img"
               className="UserName-selfish-icon"
-              aria-labelledby="selfish">
+              title="selfish">
               ~
             </span>
           </span>
         ) : null}
         {flags.guest ? (
-          <span role="img" className="UserName-guest" aria-labelledby="guest">
+          <span role="img" className="UserName-guest" title="guest">
             {" "}
             👤
           </span>
